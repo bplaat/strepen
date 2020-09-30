@@ -1,0 +1,10 @@
+{
+  "name": "strepen-server",
+  "version": "0.1.0",
+  "description": "Het nieuwe super deluxe strepen systeem voor de Stam Eureka",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon ."
+  }
+}
