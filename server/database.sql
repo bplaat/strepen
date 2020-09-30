@@ -47,3 +47,14 @@ CREATE TABLE `user_debt` (
     FOREIGN KEY (`user_id`) REFERENCES `users`(`id`),
     FOREIGN KEY (`product_id`) REFERENCES `products`(`id`)
 );
+
+CREATE TABLE `news` (
+    `id` INT UNSIGNED AUTO_INCREMENT,
+    `user_id` INT UNSIGNED NOT NULL,
+    `subject` VARCHAR(255) NOT NULL,
+    `body` TEXT NOT NULL,
+    `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
+);

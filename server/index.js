@@ -18,6 +18,84 @@ const server = http.createServer(function (req, res) {
         return;
     }
 
+    // Auth routes
+    if (pathname == '/auth/login') {
+
+    }
+
+    // Users
+    if (pathname == '/users') {
+
+    }
+
+    if (pathname == '/users/create') {
+
+    }
+
+    if (pathname == '/users/{user_id}') {
+
+    }
+
+    if (pathname == '/users/{user_id}/edit') {
+
+    }
+
+    if (pathname == '/users/{user_id}/delete') {
+
+    }
+
+    // Products
+    if (pathname == '/products') {
+
+    }
+
+    if (pathname == '/products/create') {
+
+    }
+
+    if (pathname == '/products/{product_id}') {
+
+    }
+
+    if (pathname == '/products/{product_id}/edit') {
+
+    }
+
+    if (pathname == '/products/{product_id}/delete') {
+
+    }
+
+    // Add debt
+    if (pathname == '/users/{user_id}/debt/{product_id}?amount=100') {
+
+    }
+
+    // Add stock
+    if (pathname == '/products/{product_id}/stock?user_id=?&amount=100') {
+
+    }
+
+    // News
+    if (pathname == '/news') {
+
+    }
+
+    if (pathname == '/news/create') {
+
+    }
+
+    if (pathname == '/news/{news_id}') {
+
+    }
+
+    if (pathname == '/news/{news_id}/edit') {
+
+    }
+
+    if (pathname == '/news/{news_id}/delete') {
+
+    }
+
     // 404 Not Found
     res.writeHead(404, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({
