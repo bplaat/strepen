@@ -7,7 +7,7 @@ Voor alle documentatie over de backend REST API ga naar het [`docs/api.md`](docs
 ## Design:
 - Server / Backend (Bastiaan)
     - Node.js platform
-    - REST API with custom router
+    - REST API express
     - MySQL database
 
 - Client / Frontend (Vincent)
