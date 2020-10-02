@@ -3,6 +3,7 @@
 -- Create users table
 CREATE TABLE `users` (
     `id` INT UNSIGNED AUTO_INCREMENT,
+    `user_id` INT UNSIGNED NOT NULL,
 
     `firstname` VARCHAR(32) NOT NULL,
     `lastname` VARCHAR(64) NOT NULL,
@@ -15,12 +16,13 @@ CREATE TABLE `users` (
     `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     PRIMARY KEY (`id`),
+    FOREIGN KEY (`user_id`) REFERENCES `users`(`id`),
     UNIQUE (`email`)
 );
 
 -- Insert Bastiaan admin user
-INSERT INTO `users` (`firstname`, `lastname`, `email`, `password`, `admin`) VALUES
-    ('Bastiaan', 'van der Plaat', 'bastiaan.v.d.plaat@gmail.com', '$2b$10$ayELeGjJHHjsDCCBs7d75u1U.14xi2PIiRQS50ibni.XEiszd3gwi', TRUE);
+INSERT INTO `users` (`user_id`, `firstname`, `lastname`, `email`, `password`, `admin`) VALUES
+    (1, 'Bastiaan', 'van der Plaat', 'bastiaan.v.d.plaat@gmail.com', '$2b$10$ayELeGjJHHjsDCCBs7d75u1U.14xi2PIiRQS50ibni.XEiszd3gwi', TRUE);
 
 -- Create sessions table
 CREATE TABLE `sessions` (
@@ -98,6 +100,7 @@ CREATE TABLE `keys` (
 
     `name` VARCHAR(32) NOT NULL,
     `key` CHAR(32) NOT NULL,
+    `active` BOOLEAN NOT NULL DEFAULT TRUE,
 
     `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
