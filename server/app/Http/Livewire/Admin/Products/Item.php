@@ -1,23 +1,20 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Admin\Products;
 
 use Livewire\Component;
 
-class ProductItem extends Component
+class Item extends Component
 {
     public $product;
     public $isEditing = false;
+    public $isDeleting = false;
 
     public $rules = [
         'product.name' => 'required|min:2|max:48',
         'product.price' => 'required|numeric',
         'product.description' => 'nullable'
     ];
-
-    public function editProduct() {
-        $this->isEditing = true;
-    }
 
     public function updateProduct() {
         $this->validate();
@@ -26,12 +23,13 @@ class ProductItem extends Component
     }
 
     public function deleteProduct() {
+        $this->isDeleting = false;
         $this->product->delete();
         $this->emitUp('updateProducts');
     }
 
     public function render()
     {
-        return view('livewire.product-item');
+        return view('livewire.admin.products.item');
     }
 }

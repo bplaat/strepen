@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Admin\Products;
 
 use App\Models\Product;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class ProductCrud extends Component
+class Crud extends Component
 {
     use WithPagination;
 
@@ -18,6 +18,7 @@ class ProductCrud extends Component
     public $q;
     public $queryString = ['q'];
 
+    public $isCreating = false;
     public $productName;
     public $productPrice;
     public $productDescription;
@@ -34,16 +35,12 @@ class ProductCrud extends Component
         $this->resetPage();
     }
 
-    public function _previousPage($do) {
-        if ($do) {
-            $this->previousPage();
-        }
+    public function _previousPage($disabled) {
+        if (!$disabled) $this->previousPage();
     }
 
-    public function _nextPage($do) {
-        if ($do) {
-            $this->nextPage();
-        }
+    public function _nextPage($disabled) {
+        if (!$disabled) $this->nextPage();
     }
 
     public function createProduct() {
@@ -57,6 +54,7 @@ class ProductCrud extends Component
         ]);
 
         $this->q = null;
+        $this->isCreating = false;
         $this->productName = null;
         $this->productPrice = null;
         $this->productDescription = null;
@@ -64,7 +62,7 @@ class ProductCrud extends Component
 
     public function render()
     {
-        return view('livewire.product-crud', [
+        return view('livewire.admin.products.crud', [
             'products' => Product::search($this->q)->get()
                 ->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE)
                 ->paginate(6)->withQueryString()

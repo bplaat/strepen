@@ -24,6 +24,21 @@
                     @auth
                         <div class="navbar-start">
                             <a class="navbar-item" href="#">TODO</a>
+                            <a class="navbar-item" href="#">TODO</a>
+                            <a class="navbar-item" href="#">TODO</a>
+
+                            @if (Auth::user()->role == App\Models\User::ROLE_ADMIN)
+                                <div class="navbar-item has-dropdown is-hoverable">
+                                    <a class="navbar-link is-arrowless" href="{{ route('admin.home') }}">@lang('layout.header.admin_home')</a>
+                                    <div class="navbar-dropdown">
+                                        <a class="navbar-item" href="{{ route('admin.users.index') }}">@lang('layout.header.admin_users')</a>
+                                        <a class="navbar-item" href="{{ route('admin.posts.index') }}">@lang('layout.header.admin_posts')</a>
+                                        <a class="navbar-item" href="{{ route('admin.products.index') }}">@lang('layout.header.admin_products')</a>
+                                        <a class="navbar-item" href="{{ route('admin.inventories.index') }}">@lang('layout.header.admin_inventories')</a>
+                                        <a class="navbar-item" href="{{ route('admin.transactions.index') }}">@lang('layout.header.admin_transactions')</a>
+                                    </div>
+                                </div>
+                            @endif
                         </div>
 
                         <div class="navbar-end">
