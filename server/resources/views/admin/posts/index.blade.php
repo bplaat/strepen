@@ -3,5 +3,5 @@
 @section('title', __('admin/posts.index.title'))
 
 @section('content')
-    TODO
+    @livewire('admin.posts.crud')
 @endsection

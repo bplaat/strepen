@@ -65,7 +65,7 @@ class Crud extends Component
         return view('livewire.admin.products.crud', [
             'products' => Product::search($this->q)->get()
                 ->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE)
-                ->paginate(6)->withQueryString()
+                ->paginate(config('pagination.web.limit'))->withQueryString()
         ]);
     }
 }
