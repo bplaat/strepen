@@ -97,7 +97,6 @@ GET /api/posts/{post}/delete ADMIN
 - Create database tables
 
     ```
-    cd server
     php artisan migrate
     ```
 - Goto http://strepen.local/ and you're done! 🎉
@@ -204,7 +203,6 @@ TODO
 - Create database tables
 
     ```
-    cd server
     php artisan migrate
     ```
 - Goto http://strepen.local/ and you're done! 🎉

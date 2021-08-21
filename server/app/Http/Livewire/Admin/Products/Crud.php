@@ -29,21 +29,25 @@ class Crud extends Component
         'productDescription' => 'nullable'
     ];
 
-    public $listeners = [ 'updateProducts' => '$refresh' ];
+    public $listeners = [ 'refresh' => '$refresh' ];
 
-    public function searchProduct() {
+    public function searchProduct()
+    {
         $this->resetPage();
     }
 
-    public function _previousPage($disabled) {
+    public function _previousPage($disabled)
+    {
         if (!$disabled) $this->previousPage();
     }
 
-    public function _nextPage($disabled) {
+    public function _nextPage($disabled)
+    {
         if (!$disabled) $this->nextPage();
     }
 
-    public function createProduct() {
+    public function createProduct()
+    {
         $this->validate();
 
         Product::create([
@@ -66,6 +70,6 @@ class Crud extends Component
             'products' => Product::search($this->q)->get()
                 ->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE)
                 ->paginate(config('pagination.web.limit'))->withQueryString()
-        ]);
+        ])->layout('layouts.livewire', ['title' => __('admin/products.crud.title')]);
     }
 }

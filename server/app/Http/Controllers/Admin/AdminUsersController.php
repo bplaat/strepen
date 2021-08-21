@@ -11,9 +11,4 @@ class AdminUsersController extends Controller
     {
         return view('admin.users.index');
     }
-
-    public function show(User $user)
-    {
-        return view('admin.users.show', ['user' => $user]);
-    }
 }

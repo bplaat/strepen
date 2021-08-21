@@ -1,12 +1,12 @@
 <div class="column is-one-third">
     <div class="box content" style="height: 100%;">
         <h3 class="is-3">{{ $post->title }}</h3>
-        <p><i>Written by {{ $post->user->name }} on {{ $post->created_at->format('Y-m-d H:i') }}</i></p>
+        <p><i>@lang('admin/posts.item.written_by', ['user.name' => $post->user->name, 'post.created_at' => $post->created_at->format('Y-m-d H:i')])</i></p>
         <pre>{{  Str::limit($post->body, 320) }}</pre>
 
         <div class="buttons">
-            <button type="button" class="button is-link" wire:click="$set('isEditing', true)">Edit</button>
-            <button type="button" class="button is-danger" wire:click="$set('isDeleting', true)">Delete</button>
+            <button type="button" class="button is-link" wire:click="$set('isEditing', true)">@lang('admin/posts.item.edit')</button>
+            <button type="button" class="button is-danger" wire:click="$set('isDeleting', true)">@lang('admin/posts.item.delete')</button>
         </div>
     </div>
 
@@ -14,35 +14,35 @@
         <div class="modal is-active">
             <div class="modal-background" wire:click="$set('isEditing', false)"></div>
 
-            <form wire:submit.prevent="updatePost" class="modal-card">
+            <form wire:submit.prevent="editPost" class="modal-card">
                 <header class="modal-card-head">
-                    <p class="modal-card-title">Update post</p>
+                    <p class="modal-card-title">@lang('admin/posts.item.edit_post')</p>
                     <button type="button" class="delete" wire:click="$set('isEditing', false)"></button>
                 </header>
 
                 <section class="modal-card-body">
                     <div class="field">
-                        <label class="label" for="postTitle">Title</label>
+                        <label class="label" for="postTitle">@lang('admin/posts.item._title')</label>
                         <div class="control">
                             <input class="input @error('post.title') is-danger @enderror" type="text" id="postTitle"
-                                wire:model.defer="post.title" required>
+                                wire:model.defer="post.title" tabindex="1" required>
                         </div>
                         @error('post.title') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="field">
-                        <label class="label" for="postBody">Body (support <a href="https://en.wikipedia.org/wiki/Markdown#Example" target="_blank">Markdown</a>)</label>
+                        <label class="label" for="postBody">@lang('admin/posts.item.body', ['markdown_link' => '<a href="https://en.wikipedia.org/wiki/Markdown#Example" target="_blank" tabindex="3">Markdown</a>'])</label>
                         <div class="control">
                             <textarea class="textarea has-fixed-size @error('post.body') is-danger @enderror" id="postBody"
-                                wire:model.defer="post.body" rows="12" required></textarea>
+                                wire:model.defer="post.body" rows="12" tabindex="2" required></textarea>
                         </div>
                         @error('post.body') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
                 </section>
 
                 <footer class="modal-card-foot">
-                    <button type="submit" class="button is-link">Update post</button>
-                    <button type="button" class="button" wire:click="$set('isEditing', false)">Cancel</button>
+                    <button type="submit" class="button is-link">@lang('admin/posts.item.edit_post')</button>
+                    <button type="button" class="button" wire:click="$set('isEditing', false)">@lang('admin/posts.item.cancel')</button>
                 </footer>
             </form>
         </div>
@@ -54,17 +54,17 @@
 
             <div class="modal-card">
                 <header class="modal-card-head">
-                    <p class="modal-card-title">Delete post confirmation</p>
+                    <p class="modal-card-title">@lang('admin/posts.item.delete_post')</p>
                     <button type="button" class="delete" wire:click="$set('isDeleting', false)"></button>
                 </header>
 
                 <section class="modal-card-body">
-                    <p>Are you sure you want to delete this post?</p>
+                    <p>@lang('admin/posts.item.delete_description')</p>
                 </section>
 
                 <footer class="modal-card-foot">
-                    <button class="button is-danger" wire:click="deletePost()">Delete post</button>
-                    <button class="button" wire:click="$set('isDeleting', false)">Cancel</button>
+                    <button class="button is-danger" wire:click="deletePost()">@lang('admin/posts.item.delete_post')</button>
+                    <button class="button" wire:click="$set('isDeleting', false)">@lang('admin/posts.item.cancel')</button>
                 </footer>
             </div>
         </div>

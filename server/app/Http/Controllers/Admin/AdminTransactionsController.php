@@ -11,9 +11,4 @@ class AdminTransactionsController extends Controller
     {
         return view('admin.transactions.index');
     }
-
-    public function show(Transaction $transaction)
-    {
-        return view('admin.transactions.show', ['transaction' => $transaction]);
-    }
 }

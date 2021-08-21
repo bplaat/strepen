@@ -16,16 +16,18 @@ class Item extends Component
         'product.description' => 'nullable'
     ];
 
-    public function updateProduct() {
+    public function editProduct()
+    {
         $this->validate();
         $this->isEditing = false;
         $this->product->save();
     }
 
-    public function deleteProduct() {
+    public function deleteProduct()
+    {
         $this->isDeleting = false;
         $this->product->delete();
-        $this->emitUp('updateProducts');
+        $this->emitUp('refresh');
     }
 
     public function render()

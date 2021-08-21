@@ -4,11 +4,11 @@
         @if ($product->description != null)
             <p><i>{{ $product->description }}</i></p>
         @endif
-        <p><b>Amount in stock: {{ $product->amount }}</b></p>
+        <p><b>@lang('admin/products.item.amount', ['amount' => $product->amount])</b></p>
 
         <div class="buttons">
-            <button type="button" class="button is-link" wire:click="$set('isEditing', true)">Edit</button>
-            <button type="button" class="button is-danger" wire:click="$set('isDeleting', true)">Delete</button>
+            <button type="button" class="button is-link" wire:click="$set('isEditing', true)">@lang('admin/products.item.edit')</button>
+            <button type="button" class="button is-danger" wire:click="$set('isDeleting', true)">@lang('admin/products.item.delete')</button>
         </div>
     </div>
 
@@ -18,13 +18,13 @@
 
             <form wire:submit.prevent="updateProduct" class="modal-card">
                 <header class="modal-card-head">
-                    <p class="modal-card-title">Update product</p>
+                    <p class="modal-card-title">@lang('admin/products.item.edit_product')</p>
                     <button type="button" class="delete" wire:click="$set('isEditing', false)"></button>
                 </header>
 
                 <section class="modal-card-body">
                     <div class="field">
-                        <label class="label" for="productName">Name</label>
+                        <label class="label" for="productName">@lang('admin/products.item.name')</label>
                         <div class="control">
                             <input class="input @error('product.name') is-danger @enderror" type="text" id="productName"
                                 wire:model.defer="product.name" required>
@@ -33,7 +33,7 @@
                     </div>
 
                     <div class="field">
-                        <label class="label" for="productPrice">Price</label>
+                        <label class="label" for="productPrice">@lang('admin/products.item.price')</label>
                         <p class="control has-icons-left">
                         <input class="input @error('product.price') is-danger @enderror" type="number" step="0.01" id="productPrice"
                             wire:model.defer="product.price" required>
@@ -45,7 +45,7 @@
                     </div>
 
                     <div class="field">
-                        <label class="label" for="productDescription">Description</label>
+                        <label class="label" for="productDescription">@lang('admin/products.item.description')</label>
                         <div class="control">
                             <textarea class="textarea has-fixed-size @error('product.description') is-danger @enderror" id="productDescription"
                                 wire:model.defer="product.description"></textarea>
@@ -55,8 +55,8 @@
                 </section>
 
                 <footer class="modal-card-foot">
-                    <button type="submit" class="button is-link">Update product</button>
-                    <button type="button" class="button" wire:click="$set('isEditing', false)">Cancel</button>
+                    <button type="submit" class="button is-link">@lang('admin/products.item.edit_product')</button>
+                    <button type="button" class="button" wire:click="$set('isEditing', false)">@lang('admin/products.item.cancel')</button>
                 </footer>
             </form>
         </div>
@@ -68,17 +68,17 @@
 
             <div class="modal-card">
                 <header class="modal-card-head">
-                    <p class="modal-card-title">Delete product confirmation</p>
+                    <p class="modal-card-title">@lang('admin/products.item.delete_product')</p>
                     <button type="button" class="delete" wire:click="$set('isDeleting', false)"></button>
                 </header>
 
                 <section class="modal-card-body">
-                    <p>Are you sure you want to delete this product?</p>
+                    <p>@lang('admin/products.item.delete_description')</p>
                 </section>
 
                 <footer class="modal-card-foot">
-                    <button class="button is-danger" wire:click="deleteProduct()">Delete product</button>
-                    <button class="button" wire:click="$set('isDeleting', false)">Cancel</button>
+                    <button class="button is-danger" wire:click="deleteProduct()">@lang('admin/products.item.delete_product')</button>
+                    <button class="button" wire:click="$set('isDeleting', false)">@lang('admin/products.item.cancel')</button>
                 </footer>
             </div>
         </div>

@@ -1,17 +1,17 @@
 <?php
 
 return [
-    // Layout header
-    'header.avatar_alt' => ':user.name\'s avatar',
-    'header.admin_home' => 'Admin',
-    'header.admin_users' => 'Users',
-    'header.admin_posts' => 'Posts',
-    'header.admin_products' => 'Products',
-    'header.admin_inventories' => 'Inventories',
-    'header.admin_transactions' => 'Transactions',
-    'header.settings' => 'Settings',
-    'header.logout' => 'Logout',
-    'header.login' => 'Login',
+    // Layout navbar
+    'navbar.avatar_alt' => ':user.name\'s avatar',
+    'navbar.admin_home' => 'Admin',
+    'navbar.admin_users' => 'Users',
+    'navbar.admin_posts' => 'Posts',
+    'navbar.admin_products' => 'Products',
+    'navbar.admin_inventories' => 'Inventories',
+    'navbar.admin_transactions' => 'Transactions',
+    'navbar.settings' => 'Settings',
+    'navbar.logout' => 'Logout',
+    'navbar.login' => 'Login',
 
     // Layout footer
     'footer.authors' => 'Made by <a href="https://bastiaan.ml/" target="_blank" rel="noreferrer">Bastiaan van der Plaat</a>',

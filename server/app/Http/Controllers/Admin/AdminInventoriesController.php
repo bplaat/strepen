@@ -11,9 +11,4 @@ class AdminInventoriesController extends Controller
     {
         return view('admin.inventories.index');
     }
-
-    public function show(Inventories $inventories)
-    {
-        return view('admin.inventories.show', ['inventories' => $inventories]);
-    }
 }

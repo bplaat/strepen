@@ -15,16 +15,18 @@ class Item extends Component
         'post.body' => 'required|min:2'
     ];
 
-    public function updatePost() {
+    public function editPost()
+    {
         $this->validate();
         $this->isEditing = false;
         $this->post->save();
     }
 
-    public function deletePost() {
+    public function deletePost()
+    {
         $this->isDeleting = false;
         $this->post->delete();
-        $this->emitUp('updatePosts');
+        $this->emitUp('refresh');
     }
 
     public function render()

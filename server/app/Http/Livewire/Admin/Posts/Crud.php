@@ -28,21 +28,25 @@ class Crud extends Component
         'postBody' => 'required|min:2'
     ];
 
-    public $listeners = [ 'updatePosts' => '$refresh' ];
+    public $listeners = [ 'refresh' => '$refresh' ];
 
-    public function searchPost() {
+    public function searchPost()
+    {
         $this->resetPage();
     }
 
-    public function _previousPage($disabled) {
+    public function _previousPage($disabled)
+    {
         if (!$disabled) $this->previousPage();
     }
 
-    public function _nextPage($disabled) {
+    public function _nextPage($disabled)
+    {
         if (!$disabled) $this->nextPage();
     }
 
-    public function createPost() {
+    public function createPost()
+    {
         $this->validate();
 
         Post::create([
@@ -63,6 +67,6 @@ class Crud extends Component
             'posts' => Post::search($this->q)->get()
                 ->sortBy('title', SORT_NATURAL | SORT_FLAG_CASE)
                 ->paginate(config('pagination.web.limit'))->withQueryString()
-        ]);
+        ])->layout('layouts.livewire', ['title' => __('admin/posts.crud.title')]);
     }
 }
