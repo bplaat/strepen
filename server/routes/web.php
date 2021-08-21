@@ -4,7 +4,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\Admin\AdminInventoriesController;
 use App\Http\Controllers\Admin\AdminTransactionsController;
-use App\Http\Controllers\Admin\AdminUsersController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PagesController::class, 'home'])->name('home');
@@ -20,7 +19,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware('admin')->group(function () {
     Route::view('/admin', 'admin.home')->name('admin.home');
 
-    Route::get('/admin/users', [AdminUsersController::class, 'index'])->name('admin.users.index');
+    Route::get('/admin/users', App\Http\Livewire\Admin\Users\Crud::class)->name('admin.users.index');
 
     Route::get('/admin/posts', App\Http\Livewire\Admin\Posts\Crud::class)->name('admin.posts.index');
 
@@ -33,5 +32,5 @@ Route::middleware('admin')->group(function () {
 
 // Guest routes
 Route::middleware('guest')->group(function () {
-    Route::view('/auth/login', 'auth.login')->name('auth.login');
+    Route::get('/auth/login', App\Http\Livewire\Auth\Login::class)->name('auth.login');
 });

@@ -1,7 +1,7 @@
 <?php
 
 return [
-    // Admin products crud livewire compontent
+    // Admin products crud livewire component
     'crud.title' => 'Products - Admin',
     'crud.header' => 'Products',
     'crud.create_product' => 'Create new product',
@@ -13,7 +13,7 @@ return [
     'crud.description' => 'Description',
     'crud.cancel' => 'Cancel',
 
-    // Admin products item livewire compontent
+    // Admin products item livewire component
     'item.amount' => 'Amount in stock: :amount',
     'item.edit' => 'Edit',
     'item.delete' => 'Delete',

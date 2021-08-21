@@ -9,7 +9,7 @@
         </div>
 
         <div class="column">
-            <form wire:submit.prevent="searchPost">
+            <form wire:submit.prevent="refresh">
                 <div class="field has-addons">
                     <div class="control" style="width: 100%;">
                         <input class="input" type="text" id="q" wire:model.defer="q" placeholder="@lang('admin/posts.crud.query')">
@@ -48,21 +48,21 @@
 
                 <section class="modal-card-body">
                     <div class="field">
-                        <label class="label" for="postTitle">@lang('admin/posts.crud._title')</label>
+                        <label class="label" for="title">@lang('admin/posts.crud._title')</label>
                         <div class="control">
-                            <input class="input @error('postTitle') is-danger @enderror" type="text" id="postTitle"
-                                wire:model.defer="postTitle" tabindex="1" required>
+                            <input class="input @error('post.title') is-danger @enderror" type="text" id="title"
+                                wire:model.defer="post.title" tabindex="1" required>
                         </div>
-                        @error('postTitle') <p class="help is-danger">{{ $message }}</p> @enderror
+                        @error('post.title') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="field">
-                        <label class="label" for="postBody">@lang('admin/posts.crud.body', ['markdown_link' => '<a href="https://en.wikipedia.org/wiki/Markdown#Example" target="_blank" tabindex="3">Markdown</a>'])</label>
+                        <label class="label" for="body">@lang('admin/posts.crud.body', ['markdown_link' => '<a href="https://en.wikipedia.org/wiki/Markdown#Example" target="_blank" tabindex="3">Markdown</a>'])</label>
                         <div class="control">
-                            <textarea class="textarea has-fixed-size @error('postBody') is-danger @enderror" id="postBody"
-                                wire:model.defer="postBody" rows="12" tabindex="2" required></textarea>
+                            <textarea class="textarea has-fixed-size @error('post.body') is-danger @enderror" id="body"
+                                wire:model.defer="post.body" rows="12" tabindex="2" required></textarea>
                         </div>
-                        @error('postBody') <p class="help is-danger">{{ $message }}</p> @enderror
+                        @error('post.body') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
                 </section>
 

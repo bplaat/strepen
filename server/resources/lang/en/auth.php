@@ -7,6 +7,6 @@ return [
     'login.header' => 'Login',
     'login.email' => 'Email address',
     'login.password' => 'Password',
-    'login.login_button' => 'Login',
-    'login.error_message' => 'Incorrect email or password'
+    'login.login' => 'Login',
+    'login.error' => 'Incorrect email or password'
 ];

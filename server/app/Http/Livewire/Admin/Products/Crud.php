@@ -2,66 +2,31 @@
 
 namespace App\Http\Livewire\Admin\Products;
 
+use App\Http\Livewire\PaginationComponent;
 use App\Models\Product;
-use Livewire\Component;
-use Livewire\WithPagination;
 
-class Crud extends Component
+class Crud extends PaginationComponent
 {
-    use WithPagination;
-
-    public function paginationView()
-    {
-        return 'pagination';
-    }
-
-    public $q;
-    public $queryString = ['q'];
-
+    public $product;
     public $isCreating = false;
-    public $productName;
-    public $productPrice;
-    public $productDescription;
 
     public $rules = [
-        'productName' => 'required|min:2|max:48',
-        'productPrice' => 'required|numeric',
-        'productDescription' => 'nullable'
+        'product.name' => 'required|min:2|max:48',
+        'product.price' => 'required|numeric',
+        'product.description' => 'nullable'
     ];
 
-    public $listeners = [ 'refresh' => '$refresh' ];
-
-    public function searchProduct()
+    public function mount()
     {
-        $this->resetPage();
-    }
-
-    public function _previousPage($disabled)
-    {
-        if (!$disabled) $this->previousPage();
-    }
-
-    public function _nextPage($disabled)
-    {
-        if (!$disabled) $this->nextPage();
+        $this->product = new Product();
     }
 
     public function createProduct()
     {
         $this->validate();
-
-        Product::create([
-            'name' => $this->productName,
-            'description' => $this->productDescription,
-            'price' => $this->productPrice,
-            'amount' => 0
-        ]);
-
-        $this->q = null;
-        $this->isCreating = false;
-        $this->productName = null;
-        $this->productPrice = null;
-        $this->productDescription = null;
+        $this->product->amount = 0;
+        $this->product->save();
+        $this->reset();
     }
 
     public function render()

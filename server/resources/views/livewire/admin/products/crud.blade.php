@@ -9,7 +9,7 @@
         </div>
 
         <div class="column">
-            <form wire:submit.prevent="searchProduct">
+            <form wire:submit.prevent="refresh">
                 <div class="field has-addons">
                     <div class="control" style="width: 100%;">
                         <input class="input" type="text" id="q" wire:model.defer="q" placeholder="@lang('admin/products.crud.query')">
@@ -48,33 +48,31 @@
 
                 <section class="modal-card-body">
                     <div class="field">
-                        <label class="label" for="productName">@lang('admin/products.crud.name')</label>
+                        <label class="label" for="name">@lang('admin/products.crud.name')</label>
                         <div class="control">
-                            <input class="input @error('productName') is-danger @enderror" type="text" id="productName"
-                                wire:model.defer="productName" required>
+                            <input class="input @error('product.name') is-danger @enderror" type="text" id="name"
+                                wire:model.defer="product.name" required>
                         </div>
-                        @error('productName') <p class="help is-danger">{{ $message }}</p> @enderror
+                        @error('product.name') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="field">
-                        <label class="label" for="productPrice">@lang('admin/products.crud.price')</label>
+                        <label class="label" for="price">@lang('admin/products.crud.price')</label>
                         <p class="control has-icons-left">
-                        <input class="input @error('productPrice') is-danger @enderror" type="number" step="0.01" id="productPrice"
-                            wire:model.defer="productPrice" required>
-                            <span class="icon is-small is-left">
-                                &euro;
-                            </span>
+                            <input class="input @error('product.price') is-danger @enderror" type="number" step="0.01" id="price"
+                                wire:model.defer="product.price" required>
+                            <span class="icon is-small is-left">&euro;</span>
                         </p>
-                        @error('productPrice') <p class="help is-danger">{{ $message }}</p> @enderror
+                        @error('product.price') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="field">
-                        <label class="label" for="productDescription">@lang('admin/products.crud.description')</label>
+                        <label class="label" for="description">@lang('admin/products.crud.description')</label>
                         <div class="control">
-                            <textarea class="textarea has-fixed-size @error('productDescription') is-danger @enderror" id="productDescription"
-                                wire:model.defer="productDescription"></textarea>
+                            <textarea class="textarea has-fixed-size @error('product.description') is-danger @enderror" id="description"
+                                wire:model.defer="product.description"></textarea>
                         </div>
-                        @error('productDescription') <p class="help is-danger">{{ $message }}</p> @enderror
+                        @error('product.description') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
                 </section>
 

@@ -1,7 +1,7 @@
 <?php
 
 return [
-    // Admin posts crud livewire compontent
+    // Admin posts crud livewire component
     'crud.title' => 'Posts - Admin',
     'crud.header' => 'Posts',
     'crud.create_post' => 'Create new post',
@@ -12,7 +12,7 @@ return [
     'crud.body' => 'Body (supports :markdown_link)',
     'crud.cancel' => 'Cancel',
 
-    // Admin posts item livewire compontent
+    // Admin posts item livewire component
     'item.written_by' => 'Written by :user.name on :post.created_at',
     'item.edit' => 'Edit',
     'item.delete' => 'Delete',

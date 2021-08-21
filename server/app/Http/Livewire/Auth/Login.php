@@ -23,12 +23,12 @@ class Login extends Component
             return redirect()->route('home');
         }
 
-        $this->addError('email', __('auth.login.error_message'));
+        $this->addError('email', __('auth.login.error'));
         $this->addError('password', 'null');
     }
 
     public function render()
     {
-        return view('livewire.auth.login');
+        return view('livewire.auth.login')->layout('layouts.livewire', ['title' => __('auth.login.title')]);
     }
 }

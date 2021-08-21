@@ -22,18 +22,18 @@
 
                 <section class="modal-card-body">
                     <div class="field">
-                        <label class="label" for="postTitle">@lang('admin/posts.item._title')</label>
+                        <label class="label" for="title">@lang('admin/posts.item._title')</label>
                         <div class="control">
-                            <input class="input @error('post.title') is-danger @enderror" type="text" id="postTitle"
+                            <input class="input @error('post.title') is-danger @enderror" type="text" id="title"
                                 wire:model.defer="post.title" tabindex="1" required>
                         </div>
                         @error('post.title') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="field">
-                        <label class="label" for="postBody">@lang('admin/posts.item.body', ['markdown_link' => '<a href="https://en.wikipedia.org/wiki/Markdown#Example" target="_blank" tabindex="3">Markdown</a>'])</label>
+                        <label class="label" for="body">@lang('admin/posts.item.body', ['markdown_link' => '<a href="https://en.wikipedia.org/wiki/Markdown#Example" target="_blank" tabindex="3">Markdown</a>'])</label>
                         <div class="control">
-                            <textarea class="textarea has-fixed-size @error('post.body') is-danger @enderror" id="postBody"
+                            <textarea class="textarea has-fixed-size @error('post.body') is-danger @enderror" id="body"
                                 wire:model.defer="post.body" rows="12" tabindex="2" required></textarea>
                         </div>
                         @error('post.body') <p class="help is-danger">{{ $message }}</p> @enderror

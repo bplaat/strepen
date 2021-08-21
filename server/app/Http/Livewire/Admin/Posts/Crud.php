@@ -2,63 +2,31 @@
 
 namespace App\Http\Livewire\Admin\Posts;
 
+use App\Http\Livewire\PaginationComponent;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Component;
-use Livewire\WithPagination;
 
-class Crud extends Component
+class Crud extends PaginationComponent
 {
-    use WithPagination;
-
-    public function paginationView()
-    {
-        return 'pagination';
-    }
-
-    public $q;
-    public $queryString = ['q'];
-
+    public $post;
     public $isCreating = false;
-    public $postTitle;
-    public $postBody;
 
     public $rules = [
-        'postTitle' => 'required|min:2|max:48',
-        'postBody' => 'required|min:2'
+        'post.title' => 'required|min:2|max:48',
+        'post.body' => 'required|min:2'
     ];
 
-    public $listeners = [ 'refresh' => '$refresh' ];
-
-    public function searchPost()
+    public function mount()
     {
-        $this->resetPage();
-    }
-
-    public function _previousPage($disabled)
-    {
-        if (!$disabled) $this->previousPage();
-    }
-
-    public function _nextPage($disabled)
-    {
-        if (!$disabled) $this->nextPage();
+        $this->post = new Post();
     }
 
     public function createPost()
     {
         $this->validate();
-
-        Post::create([
-            'user_id' => Auth::id(),
-            'title' => $this->postTitle,
-            'body' => $this->postBody
-        ]);
-
-        $this->q = null;
-        $this->isCreating = false;
-        $this->postTitle = null;
-        $this->postBody = null;
+        $this->post->user_id = Auth::id();
+        $this->post->save();
+        $this->reset();
     }
 
     public function render()
