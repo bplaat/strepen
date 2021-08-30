@@ -1,5 +1,5 @@
 <div class="column is-one-third">
-    <div class="box content" style="height: 100%;">
+    <div class="box content" style="height: 100%; margin-bottom: 0;">
         <h3 class="is-3">
             {{ $user->name }}
 
@@ -145,6 +145,32 @@
                                     <input class="input @error('user.city') is-danger @enderror" type="text" id="city" wire:model.defer="user.city">
                                 </div>
                                 @error('user.city') <p class="help is-danger">{{ $message }}</p> @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label" for="password">@lang('admin/users.item.password')</label>
+                                <div class="control">
+                                    <input class="input @error('newPassword') is-danger @enderror" type="password" id="password" wire:model.defer="newPassword">
+                                </div>
+                                @error('newPassword')
+                                    <p class="help is-danger">{{ $message }}</p>
+                                @else
+                                    <p class="help">@lang('admin/users.item.password_hint')</p>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="column">
+                            <div class="field">
+                                <label class="label" for="password_confirmation">@lang('admin/users.item.password_confirmation')</label>
+                                <div class="control">
+                                    <input class="input @error('newPasswordConfirmation') is-danger @enderror" type="password" id="password_confirmation" wire:model.defer="newPasswordConfirmation">
+                                </div>
+                                @error('newPasswordConfirmation') <p class="help is-danger">{{ $message }}</p> @enderror
                             </div>
                         </div>
                     </div>

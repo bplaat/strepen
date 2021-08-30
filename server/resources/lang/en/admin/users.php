@@ -49,9 +49,12 @@ return [
     'item.postcode' => 'Postcode',
     'item.city' => 'City',
     'item.role' => 'Role',
+    'item.password' => 'Password',
+    'item.password_hint' => 'Leave empty to not change',
+    'item.password_confirmation' => 'Password confirmation',
     'item.role_normal' => 'Normal',
     'item.role_admin' => 'Admin',
     'item.cancel' => 'Cancel',
     'item.delete_user' => 'Delete user',
-    'item.delete_description' => 'Are you sure you want to delete this user?'
+    'item.delete_description' => 'Are you sure you want to delete this user and all it\'s history?'
 ];

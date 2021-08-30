@@ -1,5 +1,5 @@
 <div class="column is-one-third">
-    <div class="box content" style="height: 100%;">
+    <div class="box content" style="height: 100%; margin-bottom: 0;">
         <h3 class="is-3">{{ $post->title }}</h3>
         <p><i>@lang('admin/posts.item.written_by', ['user.name' => $post->user->name, 'post.created_at' => $post->created_at->format('Y-m-d H:i')])</i></p>
         <pre>{{  Str::limit($post->body, 320) }}</pre>
@@ -33,7 +33,7 @@
                     <div class="field">
                         <label class="label" for="body">@lang('admin/posts.item.body', ['markdown_link' => '<a href="https://en.wikipedia.org/wiki/Markdown#Example" target="_blank" tabindex="3">Markdown</a>'])</label>
                         <div class="control">
-                            <textarea class="textarea has-fixed-size @error('post.body') is-danger @enderror" id="body"
+                            <textarea class="textarea has-fixed-size @error('post.body') is-danger @enderror" id="postBody"
                                 wire:model.defer="post.body" rows="12" tabindex="2" required></textarea>
                         </div>
                         @error('post.body') <p class="help is-danger">{{ $message }}</p> @enderror

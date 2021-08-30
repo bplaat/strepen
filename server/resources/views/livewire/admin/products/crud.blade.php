@@ -1,4 +1,4 @@
-<div class="container">
+<div>
     <h2 class="title is-4">@lang('admin/products.crud.header')</h2>
 
     <div class="columns">

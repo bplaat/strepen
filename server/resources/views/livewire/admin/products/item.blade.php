@@ -1,5 +1,5 @@
 <div class="column is-one-third">
-    <div class="box content" style="height: 100%;">
+    <div class="box content" style="height: 100%; margin-bottom: 0;">
         <h3 class="is-3">{{ $product->name }}: &euro; {{ $product->price }}</h3>
         @if ($product->description != null)
             <p><i>{{ $product->description }}</i></p>

@@ -4,11 +4,14 @@ namespace App\Http\Livewire\Admin\Users;
 
 use App\Models\User;
 use Livewire\Component;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
 class Item extends Component
 {
     public $user;
+    public $newPassword;
+    public $newPasswordConfirmation;
     public $isEditing = false;
     public $isDeleting = false;
 
@@ -31,7 +34,8 @@ class Item extends Component
             'user.address' => 'nullable|min:2|max:255',
             'user.postcode' => 'nullable|min:2|max:32',
             'user.city' => 'nullable|min:2|max:255',
-            // TODO: password
+            'newPassword' => 'nullable|min:6',
+            'newPasswordConfirmation' => $this->newPassword != null ? ['required', 'same:newPassword'] : [],
             'user.role' => 'required|integer|digits_between:' . User::ROLE_NORMAL . ',' . User::ROLE_ADMIN
         ];
     }
@@ -43,7 +47,12 @@ class Item extends Component
         $this->isEditing = false;
         if ($this->user->gender == '') $this->user->gender = null;
         if ($this->user->birthday == '') $this->user->birthday = null;
+        if ($this->newPassword != null) {
+            $this->user->password = Hash::make($this->newPassword);
+        }
         $this->user->save();
+        $this->newPassword = null;
+        $this->newPasswordConfirmation = null;
     }
 
     public function deleteUser()

@@ -1,4 +1,4 @@
-<div style="margin: 1.5em 0;">
+<div>
     @if (session()->has('change_password_message'))
         <div class="notification is-success">
             <button class="delete" onclick="this.parentNode.parentNode.removeChild(this.parentNode);"></button>
