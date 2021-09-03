@@ -16,7 +16,8 @@ return [
     'crud.cancel' => 'Cancel',
 
     // Admin inventories item livewire component
-    'item.created_by' => 'Done by :user.name on :inventory.created_at',
+    'item.created_by' => 'Created by :user.name on :inventory.created_at',
+    'item.price' => 'Price',
     'item.edit' => 'Edit',
     'item.delete' => 'Delete',
     'item.edit_inventory' => 'Edit inventory',

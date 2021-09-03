@@ -84,15 +84,17 @@
                     </div>
 
                     @foreach ($inventoryProducts as $index => $inventoryProduct)
-                        <label class="label" for="amount{{ $index }}">
-                            {{ $inventoryProduct['product']['name'] }} (&euro; {{ $inventoryProduct['product']['price'] }}) @lang('admin/inventories.crud.amount')
-                            <button type="button" class="delete is-pulled-right" wire:click="deleteProduct({{ $inventoryProduct['product_id'] }})"></button>
-                        </label>
-                        <div class="control">
-                            <input form="createInventory" class="input @error('inventoryProducts.{{ $index }}.amount') is-danger @enderror" type="number" min="1"
-                                id="amount{{ $index }}" wire:model="inventoryProducts.{{ $index }}.amount" required>
+                        <div class="field">
+                            <label class="label" for="amount{{ $index }}">
+                                {{ $inventoryProduct['product']['name'] }} (&euro; {{ $inventoryProduct['product']['price'] }}) @lang('admin/inventories.crud.amount')
+                                <button type="button" class="delete is-pulled-right" wire:click="deleteProduct({{ $inventoryProduct['product_id'] }})"></button>
+                            </label>
+                            <div class="control">
+                                <input form="createInventory" class="input @error('inventoryProducts.{{ $index }}.amount') is-danger @enderror" type="number" min="1"
+                                    id="amount{{ $index }}" wire:model="inventoryProducts.{{ $index }}.amount" required>
+                            </div>
+                            @error('inventoryProducts.{{ $index }}.amount') <p class="help is-danger">{{ $message }}</p> @enderror
                         </div>
-                        @error('inventoryProducts.{{ $index }}.amount') <p class="help is-danger">{{ $message }}</p> @enderror
                     @endforeach
                 </section>
 

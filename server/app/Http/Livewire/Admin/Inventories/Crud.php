@@ -44,8 +44,10 @@ class Crud extends PaginationComponent
                 $this->inventory->products()->attach($inventoryProduct['product_id'], [
                     'amount' => $inventoryProduct['amount']
                 ]);
+                $this->inventory->price += $inventoryProduct['product']['price'] * $inventoryProduct['amount'];
             }
         }
+        $this->inventory->save();
 
         $this->mount();
     }

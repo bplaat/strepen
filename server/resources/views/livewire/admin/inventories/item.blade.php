@@ -3,6 +3,7 @@
         <div class="card-content content" style="flex: 1; margin-bottom: 0;">
             <h3 class="is-3">{{ $inventory->name }}</h3>
             <p><i>@lang('admin/inventories.item.created_by', ['user.name' => $inventory->user->name, 'inventory.created_at' => $inventory->created_at->format('Y-m-d H:i')])</i></p>
+            <p><strong>@lang('admin/inventories.item.price')</strong>: &euro; {{ number_format($inventory->price, 2, ',', '.') }}</p>
             <ul>
                 @foreach ($inventory->products as $product)
                     <li><strong>{{ $product->name }}</strong>: {{ number_format($product->pivot->amount, 0, ',', '.') }}</li>
