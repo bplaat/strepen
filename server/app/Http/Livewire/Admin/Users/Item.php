@@ -3,15 +3,21 @@
 namespace App\Http\Livewire\Admin\Users;
 
 use App\Models\User;
-use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
+use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Item extends Component
 {
+    use WithFileUploads;
+
     public $user;
     public $newPassword;
     public $newPasswordConfirmation;
+    public $userAvatar;
     public $isEditing = false;
     public $isDeleting = false;
 
@@ -21,7 +27,6 @@ class Item extends Component
             'user.firstname' => 'required|min:2|max:48',
             'user.insertion' => 'nullable|max:16',
             'user.lastname' => 'required|min:2|max:48',
-            // TODO: avatar
             'user.gender' => 'nullable|integer|digits_between:' . User::GENDER_MALE . ',' . User::GENDER_OTHER,
             'user.birthday' => 'nullable|date',
             'user.email' => [
@@ -36,7 +41,8 @@ class Item extends Component
             'user.city' => 'nullable|min:2|max:255',
             'newPassword' => 'nullable|min:6',
             'newPasswordConfirmation' => $this->newPassword != null ? ['required', 'same:newPassword'] : [],
-            'user.role' => 'required|integer|digits_between:' . User::ROLE_NORMAL . ',' . User::ROLE_ADMIN
+            'userAvatar' => 'nullable|image|max:1024',
+            'user.role' => 'required|integer|digits_between:' . User::ROLE_NORMAL . ',' . User::ROLE_ADMIN,
         ];
     }
 
@@ -44,19 +50,50 @@ class Item extends Component
     public function editUser()
     {
         $this->validate();
-        $this->isEditing = false;
+
         if ($this->user->gender == '') $this->user->gender = null;
         if ($this->user->birthday == '') $this->user->birthday = null;
+
         if ($this->newPassword != null) {
             $this->user->password = Hash::make($this->newPassword);
         }
+
+        if ($this->userAvatar != null) {
+            $avatarName = User::generateAvatarName($this->userAvatar->extension());
+            $this->userAvatar->storeAs('public/avatars', $avatarName);
+
+            if ($this->user->avatar != null) {
+                Storage::delete('public/avatars/' . $this->user->avatar);
+            }
+            $this->user->avatar = $avatarName;
+        }
+
+        $this->isEditing = false;
         $this->user->save();
         $this->newPassword = null;
         $this->newPasswordConfirmation = null;
     }
 
+    public function hijackUser()
+    {
+        Auth::login($this->user, true);
+        return redirect()->route('home');
+    }
+
+    public function deleteAvatar()
+    {
+        if ($this->user->avatar != null) {
+            Storage::delete('public/avatars/' . $this->user->avatar);
+        }
+        $this->user->avatar = null;
+        $this->user->save();
+    }
+
     public function deleteUser()
     {
+        if ($this->user->avatar != null) {
+            Storage::delete('public/avatars/' . $this->user->avatar);
+        }
         $this->isDeleting = false;
         $this->user->delete();
         $this->emitUp('refresh');

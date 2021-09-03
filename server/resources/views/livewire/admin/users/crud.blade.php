@@ -172,7 +172,8 @@
                             <div class="field">
                                 <label class="label" for="password">@lang('admin/users.crud.password')</label>
                                 <div class="control">
-                                    <input class="input @error('user.password') is-danger @enderror" type="password" id="password" wire:model.defer="user.password">
+                                    <input class="input @error('user.password') is-danger @enderror" type="password" id="password"
+                                        wire:model.defer="user.password" required>
                                 </div>
                                 @error('user.password')
                                     <p class="help is-danger">{{ $message }}</p>
@@ -184,11 +185,25 @@
                             <div class="field">
                                 <label class="label" for="password_confirmation">@lang('admin/users.crud.password_confirmation')</label>
                                 <div class="control">
-                                    <input class="input @error('user.password_confirmation') is-danger @enderror" type="password" id="password_confirmation" wire:model.defer="user.password_confirmation">
+                                    <input class="input @error('user.password_confirmation') is-danger @enderror" type="password" id="password_confirmation"
+                                        wire:model.defer="user.password_confirmation" required>
                                 </div>
                                 @error('user.password_confirmation') <p class="help is-danger">{{ $message }}</p> @enderror
                             </div>
                         </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label" for="avatar">@lang('admin/users.crud.avatar')</label>
+                        <div class="control">
+                            <input class="input @error('userAvatar') is-danger @enderror" type="file" accept=".jpg,.jpeg,.png"
+                                id="avatar" wire:model="userAvatar">
+                        </div>
+                        @error('userAvatar')
+                            <p class="help is-danger">{{ $message }}</p>
+                        @else
+                            <p class="help">@lang('admin/users.crud.avatar_help')</p>
+                        @enderror
                     </div>
 
                     <div class="field">

@@ -1,12 +1,14 @@
 <div class="column is-one-third">
-    <div class="box content" style="height: 100%; margin-bottom: 0;">
-        <h3 class="is-3">{{ $post->title }}</h3>
-        <p><i>@lang('admin/posts.item.written_by', ['user.name' => $post->user->name, 'post.created_at' => $post->created_at->format('Y-m-d H:i')])</i></p>
-        <pre>{{  Str::limit($post->body, 320) }}</pre>
+    <div class="card" style="display: flex; flex-direction: column; height: 100%; margin-bottom: 0; overflow: hidden;">
+        <div class="card-content content" style="flex: 1; margin-bottom: 0;">
+            <h3 class="is-3">{{ $post->title }}</h3>
+            <p><i>@lang('admin/posts.item.written_by', ['user.name' => $post->user->name, 'post.created_at' => $post->created_at->format('Y-m-d H:i')])</i></p>
+            <pre>{{  Str::limit($post->body, 320) }}</pre>
+        </div>
 
-        <div class="buttons">
-            <button type="button" class="button is-link" wire:click="$set('isEditing', true)">@lang('admin/posts.item.edit')</button>
-            <button type="button" class="button is-danger" wire:click="$set('isDeleting', true)">@lang('admin/posts.item.delete')</button>
+        <div class="card-footer">
+            <a href="#" class="card-footer-item" wire:click.prevent="$set('isEditing', true)">@lang('admin/posts.item.edit')</a>
+            <a href="#" class="card-footer-item has-text-danger" wire:click.prevent="$set('isDeleting', true)">@lang('admin/posts.item.delete')</a>
         </div>
     </div>
 

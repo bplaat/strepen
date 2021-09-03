@@ -1,20 +1,26 @@
 <div class="column is-one-third">
-    <div class="box content" style="height: 100%; margin-bottom: 0;">
-        <h3 class="is-3">
-            {{ $user->name }}
+    <div class="card" style="display: flex; flex-direction: column; height: 100%; margin-bottom: 0; overflow: hidden;">
+        <div class="card-content content" style="flex: 1; margin-bottom: 0;">
+            <h3 class="is-3">
+                {{ $user->name }}
 
-            @if ($user->role == App\Models\User::ROLE_NORMAL)
-                <span class="tag is-pulled-right is-success">{{ Str::upper(__('admin/users.item.role_normal')) }}</span>
+                @if ($user->role == App\Models\User::ROLE_NORMAL)
+                    <span class="tag is-pulled-right is-success">{{ Str::upper(__('admin/users.item.role_normal')) }}</span>
+                @endif
+
+                @if ($user->role == App\Models\User::ROLE_ADMIN)
+                    <span class="tag is-pulled-right is-danger">{{ Str::upper(__('admin/users.item.role_admin')) }}</span>
+                @endif
+            </h3>
+            <p>TODO</p>
+        </div>
+
+        <div class="card-footer">
+            @if ($user->id != Auth::id())
+                <a href="#" class="card-footer-item has-text-black" wire:click.prevent="hijackUser">@lang('admin/users.item.hijack')</a>
             @endif
-
-            @if ($user->role == App\Models\User::ROLE_ADMIN)
-                <span class="tag is-pulled-right is-danger">{{ Str::upper(__('admin/users.item.role_admin')) }}</span>
-            @endif
-        </h3>
-
-        <div class="buttons">
-            <button type="button" class="button is-link" wire:click="$set('isEditing', true)">@lang('admin/users.item.edit')</button>
-            <button type="button" class="button is-danger" wire:click="$set('isDeleting', true)">@lang('admin/users.item.delete')</button>
+            <a href="#" class="card-footer-item" wire:click.prevent="$set('isEditing', true)">@lang('admin/users.item.edit')</a>
+            <a href="#" class="card-footer-item has-text-danger" wire:click.prevent="$set('isDeleting', true)">@lang('admin/users.item.delete')</a>
         </div>
     </div>
 
@@ -173,6 +179,41 @@
                                 @error('newPasswordConfirmation') <p class="help is-danger">{{ $message }}</p> @enderror
                             </div>
                         </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label" for="avatar">@lang('admin/users.item.avatar')</label>
+                        @if ($user->avatar != null)
+                            <div class="box" style="background-color: #ccc; width: 50%;">
+                                <div style="background-image: url(/storage/avatars/{{ $user->avatar }}); background-size: cover; background-position: center center; padding-top: 100%;"></div>
+                            </div>
+                        @endif
+                    </div>
+
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <div class="control">
+                                    <input class="input @error('userAvatar') is-danger @enderror" type="file" accept=".jpg,.jpeg,.png"
+                                        id="avatar" wire:model="userAvatar">
+                                </div>
+                                @error('userAvatar')
+                                    <p class="help is-danger">{{ $message }}</p>
+                                @else
+                                    <p class="help">@lang('admin/users.item.avatar_help')</p>
+                                @enderror
+                            </div>
+                        </div>
+
+                        @if ($user->avatar != null)
+                            <div class="column">
+                                <div class="field">
+                                    <div class="control">
+                                        <button type="button" class="button is-danger" wire:click="deleteAvatar">@lang('admin/users.item.delete_avatar')</button>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                     </div>
 
                     <div class="field">

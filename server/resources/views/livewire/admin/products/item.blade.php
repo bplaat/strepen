@@ -1,10 +1,10 @@
 <div class="column is-one-quarter">
     <div class="card" style="display: flex; flex-direction: column; height: 100%; margin-bottom: 0; overflow: hidden;">
         <div class="card-image">
-            <div class="image" style="background-image: url(/storage/products/{{ $product->image }}); background-size: cover; background-position: center center; padding-top: 100%;"></div>
+            <div class="image" style="background-image: url(/storage/products/{{ $product->image }}); background-color: #ddd; background-size: cover; background-position: center center; padding-top: 100%;"></div>
         </div>
 
-        <div class="card-content content" style="flex: 1;">
+        <div class="card-content content" style="flex: 1; margin-bottom: 0;">
             <h3 class="is-3">{{ $product->name }}: &euro; {{ number_format($product->price, 2, ',', '.') }}</h3>
             @if ($product->description != null)
                 <p><i>{{ $product->description }}</i></p>
@@ -64,25 +64,33 @@
                                 <div style="background-image: url(/storage/products/{{ $product->image }}); background-size: cover; background-position: center center; padding-top: 100%;"></div>
                             </div>
                         @endif
-
-                        <div class="control">
-                            <input class="input @error('productImage') is-danger @enderror" type="file" accept=".jpg,.jpeg,.png"
-                                id="image" wire:model="productImage">
-                        </div>
-                        @error('productImage')
-                            <p class="help is-danger">{{ $message }}</p>
-                        @else
-                            <p class="help">@lang('admin/products.item.image_help')</p>
-                        @enderror
                     </div>
 
-                    @if ($product->image != null)
-                        <div class="field">
-                            <div class="control">
-                                <button type="button" class="button is-danger" wire:click="deleteImage">@lang('admin/products.item.delete_image')</button>
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <div class="control">
+                                    <input class="input @error('productImage') is-danger @enderror" type="file" accept=".jpg,.jpeg,.png"
+                                        id="image" wire:model="productImage">
+                                </div>
+                                @error('productImage')
+                                    <p class="help is-danger">{{ $message }}</p>
+                                @else
+                                    <p class="help">@lang('admin/products.item.image_help')</p>
+                                @enderror
                             </div>
                         </div>
-                    @endif
+
+                        @if ($product->image != null)
+                            <div class="column">
+                                <div class="field">
+                                    <div class="control">
+                                        <button type="button" class="button is-danger" wire:click="deleteImage">@lang('admin/products.item.delete_image')</button>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
                 </section>
 
                 <footer class="modal-card-foot">

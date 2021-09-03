@@ -24,6 +24,8 @@ return [
     'crud.city' => 'City',
     'crud.password' => 'Password',
     'crud.password_confirmation' => 'Password confirmation',
+    'crud.avatar' => 'Avatar',
+    'crud.avatar_help' => 'You can upload an squared .jpg or .png avatar',
     'crud.role' => 'Role',
     'crud.role_normal' => 'Normal',
     'crud.role_admin' => 'Admin',
@@ -31,6 +33,7 @@ return [
 
     // Admin users item livewire component
     'item.written_by' => 'Written by :user.name on :user.created_at',
+    'item.hijack' => 'Hijack',
     'item.edit' => 'Edit',
     'item.delete' => 'Delete',
     'item.edit_user' => 'Edit user',
@@ -52,6 +55,9 @@ return [
     'item.password' => 'Password',
     'item.password_hint' => 'Leave empty to not change',
     'item.password_confirmation' => 'Password confirmation',
+    'item.avatar' => 'Avatar',
+    'item.avatar_help' => 'You can upload an squared .jpg or .png avatar',
+    'item.delete_avatar' => 'Delete product avatar',
     'item.role_normal' => 'Normal',
     'item.role_admin' => 'Admin',
     'item.cancel' => 'Cancel',
