@@ -24,7 +24,7 @@
 
                 <section class="modal-card-body">
                     <div class="field">
-                        <label class="label" for="title">@lang('admin/posts.item._title')</label>
+                        <label class="label" for="title">@lang('admin/posts.item.title')</label>
                         <div class="control">
                             <input class="input @error('post.title') is-danger @enderror" type="text" id="title"
                                 wire:model.defer="post.title" tabindex="1" required>

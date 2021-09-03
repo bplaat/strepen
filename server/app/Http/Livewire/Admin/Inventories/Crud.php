@@ -6,59 +6,61 @@ use App\Http\Livewire\PaginationComponent;
 use App\Models\Inventory;
 use App\Models\Product;
 use App\Models\InventoryProduct;
+use Illuminate\Support\Facades\Auth;
 
 class Crud extends PaginationComponent
 {
-    public $inventory;
-    public $isCreating = false;
-
     public $products;
+    public $inventory;
     public $productId;
-    public $productAmount;
     public $inventoryProducts;
+    public $isCreating;
 
-    // public $rules = [
-    //     'productId' => 'integer|unique:product,id',
-    //     'productAmount' => 'required|integer|min:1',
-    //     'inventory.user_id' => 'required|integer|unique:users,id',
-    //     'inventory.name' => 'required|min:2|max:48',
-    // ];
+    public $rules = [
+        // 'inventory.user_id' => 'required|integer|unique:users,id',
+        'inventory.name' => 'required|min:2|max:48',
+        'productId' => 'required|integer|exists:products,id'
+    ];
 
     public function mount()
     {
-        $this->inventory = new Inventory();
         $this->products = Product::all();
+        $this->inventory = new Inventory();
+        $this->productId = null;
         $this->inventoryProducts = collect();
+        $this->isCreating = false;
     }
 
     public function createInventory()
     {
-        // $this->validate();
-        // $this->inventory->save();
-        // $this->reset();
+        $this->validateOnly('inventory.name');
+
+        $this->inventory->user_id = Auth::id();
+        $this->inventory->price = 0;
+        $this->inventory->save();
+
+        foreach ($this->inventoryProducts as $inventoryProduct) {
+            if ($inventoryProduct['amount'] > 0) {
+                $this->inventory->products()->attach($inventoryProduct['product_id'], [
+                    'amount' => $inventoryProduct['amount']
+                ]);
+            }
+        }
+
+        $this->mount();
     }
 
     public function addProduct()
     {
-        $inventoryProduct = new InventoryProduct();
-        $inventoryProduct->product_id = $this->productId;
-        $inventoryProduct->amount = 0;
-        $this->inventoryProducts->push($inventoryProduct);
-        // if ($this->inventoryProducts->count() > 1) {
-        //     dd($this->inventoryProducts);
-        // }
-        $this->productId = null;
-    }
+        if ($this->productId != null) {
+            $this->validateOnly('productId');
 
-    public function updateProduct($productId)
-    {
-        foreach ($this->inventoryProducts as $inventoryProduct) {
-            if ($inventoryProduct->product_id == $productId) {
-                $inventoryProduct->amount = $this->productAmount;
-                break;
-            }
+            $inventoryProduct = new InventoryProduct();
+            $inventoryProduct->product_id = $this->productId;
+            $inventoryProduct->amount = 0;
+            $this->inventoryProducts->push($inventoryProduct);
+            $this->productId = null;
         }
-        $this->productAmount = null;
     }
 
     public function deleteProduct($productId)

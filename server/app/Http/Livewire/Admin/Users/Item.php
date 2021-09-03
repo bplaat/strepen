@@ -46,7 +46,6 @@ class Item extends Component
         ];
     }
 
-
     public function editUser()
     {
         $this->validate();

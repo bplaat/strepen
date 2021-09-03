@@ -17,7 +17,7 @@ return [
     'item.edit' => 'Edit',
     'item.delete' => 'Delete',
     'item.edit_post' => 'Edit post',
-    'item._title' => 'Title',
+    'item.title' => 'Title',
     'item.body' => 'Body (supports :markdown_link)',
     'item.cancel' => 'Cancel',
     'item.delete_post' => 'Delete post',

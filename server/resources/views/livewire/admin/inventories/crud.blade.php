@@ -27,7 +27,7 @@
 
         <div class="columns is-multiline">
             @foreach ($inventories as $inventory)
-                <!-- @livewire('admin.inventories.item', ['inventory' => $inventory], key($inventory->id)) -->
+                @livewire('admin.inventories.item', ['inventory' => $inventory], key($inventory->id))
             @endforeach
         </div>
 
@@ -66,9 +66,9 @@
                                     <div class="control" style="width: 100%;">
                                         <div class="select is-fullwidth">
                                             <select id="productId" wire:model.defer="productId">
-                                                <option value="null" disabled selected>Select a product...</option>
+                                                <option value="null" disabled selected>@lang('admin/inventories.crud.select_product')</option>
                                                 @foreach ($products as $product)
-                                                    @if (!$inventoryProducts->pluck('id')->contains($product->id))
+                                                    @if (!$inventoryProducts->pluck('product_id')->contains($product->id))
                                                         <option value="{{ $product->id }}">{{ $product->name }} (&euro; {{ $product->price }})</option>
                                                     @endif
                                                 @endforeach
@@ -83,17 +83,16 @@
                         </div>
                     </div>
 
-                    @foreach ($inventoryProducts as $inventoryProduct)
-                        <form wire:submit.prevent="updateProduct({{ $inventoryProduct->product->id }})" class="field">
-                            <label class="label" for="amount">
-                                {{ $inventoryProduct->product->name }} (&euro; {{ $inventoryProduct->product->price }}) @lang('admin/inventories.crud.amount')
-                                <button type="button" class="delete is-pulled-right" wire:click="deleteProduct({{ $inventoryProduct->product->id }})"></button>
-                            </label>
-                            <div class="control">
-                                <input class="input @error('productAmount') is-danger @enderror" type="text" id="amount" wire:model.defer="productAmount" required>
-                            </div>
-                            @error('productAmount') <p class="help is-danger">{{ $message }}</p> @enderror
-                        </form>
+                    @foreach ($inventoryProducts as $index => $inventoryProduct)
+                        <label class="label" for="amount{{ $index }}">
+                            {{ $inventoryProduct['product']['name'] }} (&euro; {{ $inventoryProduct['product']['price'] }}) @lang('admin/inventories.crud.amount')
+                            <button type="button" class="delete is-pulled-right" wire:click="deleteProduct({{ $inventoryProduct['product_id'] }})"></button>
+                        </label>
+                        <div class="control">
+                            <input form="createInventory" class="input @error('inventoryProducts.{{ $index }}.amount') is-danger @enderror" type="number" min="1"
+                                id="amount{{ $index }}" wire:model="inventoryProducts.{{ $index }}.amount" required>
+                        </div>
+                        @error('inventoryProducts.{{ $index }}.amount') <p class="help is-danger">{{ $message }}</p> @enderror
                     @endforeach
                 </section>
 

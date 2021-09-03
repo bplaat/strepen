@@ -12,6 +12,12 @@ class Inventory extends Model
         'price'
     ];
 
+    // A inventory belongs to a user
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     // A inventory belongs to many products
     public function products()
     {
