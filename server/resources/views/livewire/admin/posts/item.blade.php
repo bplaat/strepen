@@ -24,19 +24,57 @@
 
                 <section class="modal-card-body">
                     <div class="field">
+                        <label class="label" for="user_id">@lang('admin/posts.item.user')</label>
+                        <div class="control">
+                            <div class="select is-fullwidth @error('post.user_id') is-danger @enderror">
+                                <select id="user_id" wire:model.defer="post.user_id" tabindex="1">
+                                    @foreach ($users as $user)
+                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        @error('post.user_id') <p class="help is-danger">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div class="field">
                         <label class="label" for="title">@lang('admin/posts.item.title')</label>
                         <div class="control">
                             <input class="input @error('post.title') is-danger @enderror" type="text" id="title"
-                                wire:model.defer="post.title" tabindex="1" required>
+                                wire:model.defer="post.title" tabindex="2" required>
                         </div>
                         @error('post.title') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
 
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label" for="created_at_date">@lang('admin/posts.item.created_at_date')</label>
+                                <div class="control">
+                                    <input class="input @error('postCreatedAtDate') is-danger @enderror" type="date" id="created_at_date"
+                                        wire:model.defer="postCreatedAtDate" tabindex="3" required>
+                                </div>
+                                @error('postCreatedAtDate') <p class="help is-danger">{{ $message }}</p> @enderror
+                            </div>
+                        </div>
+
+                        <div class="column">
+                            <div class="field">
+                                <label class="label" for="created_at_time">@lang('admin/posts.item.created_at_time')</label>
+                                <div class="control">
+                                    <input class="input @error('postCreatedAtTime') is-danger @enderror" type="time" step="1" id="created_at_time"
+                                        wire:model.defer="postCreatedAtTime" tabindex="4" required>
+                                </div>
+                                @error('postCreatedAtTime') <p class="help is-danger">{{ $message }}</p> @enderror
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="field">
-                        <label class="label" for="body">@lang('admin/posts.item.body', ['markdown_link' => '<a href="https://en.wikipedia.org/wiki/Markdown#Example" target="_blank" tabindex="3">Markdown</a>'])</label>
+                        <label class="label" for="body">@lang('admin/posts.item.body', ['markdown_link' => '<a href="https://en.wikipedia.org/wiki/Markdown#Example" target="_blank" tabindex="6">Markdown</a>'])</label>
                         <div class="control">
                             <textarea class="textarea has-fixed-size @error('post.body') is-danger @enderror" id="postBody"
-                                wire:model.defer="post.body" rows="12" tabindex="2" required></textarea>
+                                wire:model.defer="post.body" rows="12" tabindex="5" required></textarea>
                         </div>
                         @error('post.body') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>

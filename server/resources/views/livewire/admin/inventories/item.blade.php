@@ -28,12 +28,50 @@
 
                 <section class="modal-card-body">
                     <div class="field">
+                        <label class="label" for="user_id">@lang('admin/inventories.item.user')</label>
+                        <div class="control">
+                            <div class="select is-fullwidth @error('inventory.user_id') is-danger @enderror">
+                                <select id="user_id" wire:model.defer="inventory.user_id">
+                                    @foreach ($users as $user)
+                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        @error('inventory.user_id') <p class="help is-danger">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div class="field">
                         <label class="label" for="name">@lang('admin/inventories.item.name')</label>
                         <div class="control">
                             <input class="input @error('inventory.name') is-danger @enderror" type="text" id="name"
                                 wire:model.defer="inventory.name" required>
                         </div>
                         @error('inventory.name') <p class="help is-danger">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label" for="created_at_date">@lang('admin/inventories.item.created_at_date')</label>
+                                <div class="control">
+                                    <input class="input @error('inventoryCreatedAtDate') is-danger @enderror" type="date" id="created_at_date"
+                                        wire:model.defer="inventoryCreatedAtDate" required>
+                                </div>
+                                @error('inventoryCreatedAtDate') <p class="help is-danger">{{ $message }}</p> @enderror
+                            </div>
+                        </div>
+
+                        <div class="column">
+                            <div class="field">
+                                <label class="label" for="created_at_time">@lang('admin/inventories.item.created_at_time')</label>
+                                <div class="control">
+                                    <input class="input @error('inventoryCreatedAtTime') is-danger @enderror" type="time" step="1" id="created_at_time"
+                                        wire:model.defer="inventoryCreatedAtTime" required>
+                                </div>
+                                @error('inventoryCreatedAtTime') <p class="help is-danger">{{ $message }}</p> @enderror
+                            </div>
+                        </div>
                     </div>
                 </section>
 

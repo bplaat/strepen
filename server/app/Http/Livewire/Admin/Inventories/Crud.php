@@ -24,7 +24,7 @@ class Crud extends PaginationComponent
 
     public function mount()
     {
-        $this->products = Product::all();
+        $this->products = Product::all()->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE);
         $this->inventory = new Inventory();
         $this->productId = null;
         $this->inventoryProducts = collect();
