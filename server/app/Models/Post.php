@@ -28,9 +28,9 @@ class Post extends Model
     // Search collection by a query
     public static function searchCollection($collection, $query)
     {
-        return $collection->filter(function ($user) use ($query) {
-            return Str::contains(strtolower($user->title), strtolower($query)) ||
-                Str::contains(strtolower($user->body), strtolower($query));
+        return $collection->filter(function ($post) use ($query) {
+            return Str::contains(strtolower($post->title), strtolower($query)) ||
+                Str::contains(strtolower($post->body), strtolower($query));
         });
     }
 }

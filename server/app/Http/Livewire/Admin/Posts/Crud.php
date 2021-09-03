@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class Crud extends PaginationComponent
 {
     public $post;
-    public $isCreating = false;
+    public $isCreating;
 
     public $rules = [
         'post.title' => 'required|min:2|max:48',
@@ -19,6 +19,7 @@ class Crud extends PaginationComponent
     public function mount()
     {
         $this->post = new Post();
+        $this->isCreating = false;
     }
 
     public function createPost()
@@ -26,7 +27,7 @@ class Crud extends PaginationComponent
         $this->validate();
         $this->post->user_id = Auth::id();
         $this->post->save();
-        $this->reset();
+        $this->mount();
     }
 
     public function render()

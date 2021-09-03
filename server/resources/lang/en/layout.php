@@ -2,7 +2,6 @@
 
 return [
     // Layout navbar
-    'navbar.avatar_alt' => ':user.name\'s avatar',
     'navbar.admin_home' => 'Admin',
     'navbar.admin_users' => 'Users',
     'navbar.admin_posts' => 'Posts',

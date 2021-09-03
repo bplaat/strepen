@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Product extends Model
 {
@@ -43,9 +44,9 @@ class Product extends Model
     // Search collection by a query
     public static function searchCollection($collection, $query)
     {
-        return $collection->filter(function ($user) use ($query) {
-            return Str::contains(strtolower($user->name), strtolower($query)) ||
-                Str::contains(strtolower($user->description), strtolower($query));
+        return $collection->filter(function ($product) use ($query) {
+            return Str::contains(strtolower($product->name), strtolower($query)) ||
+                Str::contains(strtolower($product->description), strtolower($query));
         });
     }
 }

@@ -74,6 +74,19 @@
                         </div>
                         @error('product.description') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
+
+                    <div class="field">
+                        <label class="label" for="image">@lang('admin/products.crud.image')</label>
+                        <div class="control">
+                            <input class="input @error('productImage') is-danger @enderror" type="file" accept=".jpg,.jpeg,.png"
+                                id="image" wire:model="productImage">
+                        </div>
+                        @error('productImage')
+                            <p class="help is-danger">{{ $message }}</p>
+                        @else
+                            <p class="help">@lang('admin/products.crud.image_help')</p>
+                        @enderror
+                    </div>
                 </section>
 
                 <footer class="modal-card-foot">

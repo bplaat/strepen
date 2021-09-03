@@ -11,4 +11,10 @@ class InventoryProduct extends Model
         'product_id',
         'amount'
     ];
+
+    // A inventory product belongs to a products
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }

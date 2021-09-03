@@ -17,6 +17,13 @@ class ChangePassword extends Component
         'password' => 'required|min:6|confirmed'
     ];
 
+    public function mount()
+    {
+        $this->current_password = null;
+        $this->password = null;
+        $this->password_confirmation = null;
+    }
+
     public function changePassword()
     {
         $this->validate();
@@ -26,7 +33,7 @@ class ChangePassword extends Component
         ]);
 
         session()->flash('change_password_message', __('settings.change_password.success_message'));
-        $this->reset();
+        $this->mount();
     }
 
     public function render()

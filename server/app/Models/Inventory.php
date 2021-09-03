@@ -17,4 +17,18 @@ class Inventory extends Model
     {
         return $this->belongsToMany(Product::class)->withPivot('amount')->withTimestamps();
     }
+
+    // Search by a query
+    public static function search($query)
+    {
+        return static::where('name', 'LIKE', '%' . $query . '%');
+    }
+
+    // Search collection by a query
+    public static function searchCollection($collection, $query)
+    {
+        return $collection->filter(function ($inventory) use ($query) {
+            return Str::contains(strtolower($inventory->name), strtolower($query));
+        });
+    }
 }

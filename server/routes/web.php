@@ -25,7 +25,7 @@ Route::middleware('admin')->group(function () {
 
     Route::get('/admin/products', App\Http\Livewire\Admin\Products\Crud::class)->name('admin.products.index');
 
-    Route::get('/admin/inventories', [AdminInventoriesController::class, 'index'])->name('admin.inventories.index');
+    Route::get('/admin/inventories', App\Http\Livewire\Admin\Inventories\Crud::class)->name('admin.inventories.index');
 
     Route::get('/admin/transactions', [AdminTransactionsController::class, 'index'])->name('admin.transactions.index');
 });

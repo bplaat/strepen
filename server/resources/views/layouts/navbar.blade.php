@@ -33,9 +33,8 @@
 
                 <div class="navbar-end">
                     <div class="navbar-item" style="display: flex; align-items: center;">
-                        <img style="width: 28px; height: 28px; border-radius: 50%; margin-right: 10px;"
-                            src="{{ Auth::user()->avatar != null ? '/storage/avatars/' . Auth::user()->avatar : '/images/avatars/mp.jpg' }}"
-                            alt="@lang('layout.navbar.avatar_alt', [ 'user.name' => Auth::user()->name ])">
+                        <div style="width: 28px; height: 28px; border-radius: 50%; margin-right: 10px; background-size: cover; background-position: center center;
+                            background-image: url({{ Auth::user()->avatar != null ? '/storage/avatars/' . Auth::user()->avatar : '/images/avatars/mp.jpg' }});"></div>
                         <span style="margin-right: 8px;">{{ Auth::user()->name }}</span>
                         <strong @if (Auth::user()->money < 0) class="has-text-danger" @endif>&euro; {{ number_format(Auth::user()->money, 2, ',', '.') }}</strong>
                     </div>

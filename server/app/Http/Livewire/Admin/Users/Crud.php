@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 class Crud extends PaginationComponent
 {
     public $user;
-    public $isCreating = false;
+    public $isCreating;
 
     public $rules = [
         'user.firstname' => 'required|min:2|max:48',
@@ -31,6 +31,7 @@ class Crud extends PaginationComponent
     public function mount()
     {
         $this->user = new User();
+        $this->isCreating = false;
     }
 
     public function createUser()
@@ -41,7 +42,7 @@ class Crud extends PaginationComponent
         if ($this->user->role == '') $this->user->role = User::ROLE_NORMAL;
         $this->user->money = 0;
         $this->user->save();
-        $this->reset();
+        $this->mount();
     }
 
     public function render()

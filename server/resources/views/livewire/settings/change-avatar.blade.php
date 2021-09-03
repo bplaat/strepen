@@ -14,8 +14,8 @@
                 <p>@lang('settings.change_avatar.has_avatar')</p>
             </div>
 
-            <div class="box" style="display: inline-block; background-color: #ccc;">
-                <img src="/storage/avatars/{{ Auth::user()->avatar }}" alt="@lang('settings.change_avatar.avatar_alt', [ 'user.name' => Auth::user()->name ])">
+            <div class="box" style="background-color: #ccc; width: 50%;">
+                <div style="background-image: url(/storage/avatars/{{ Auth::user()->avatar }}); background-size: cover; background-position: center center; padding-top: 100%;"></div>
             </div>
         @else
             <div class="field">

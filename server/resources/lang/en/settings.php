@@ -28,7 +28,6 @@ return [
     'change_avatar.header' => 'Change avatar',
     'change_avatar.has_avatar' => 'You have uploaded an avatar:',
     'change_avatar.no_avatar' => 'You have not uploaded an avatar',
-    'change_avatar.avatar_alt' => ':user.name\'s avatar',
     'change_avatar.avatar' => 'Avatar image',
     'change_avatar.avatar_help' => 'You can upload an squared .jpg or .png image',
     'change_avatar.change_button' => 'Change avatar',

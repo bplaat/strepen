@@ -1,14 +1,20 @@
-<div class="column is-one-third">
-    <div class="box content" style="height: 100%; margin-bottom: 0;">
-        <h3 class="is-3">{{ $product->name }}: &euro; {{ $product->price }}</h3>
-        @if ($product->description != null)
-            <p><i>{{ $product->description }}</i></p>
-        @endif
-        <p><b>@lang('admin/products.item.amount', ['amount' => $product->amount])</b></p>
+<div class="column is-one-quarter">
+    <div class="card" style="display: flex; flex-direction: column; height: 100%; margin-bottom: 0; overflow: hidden;">
+        <div class="card-image">
+            <div class="image" style="background-image: url(/storage/products/{{ $product->image }}); background-size: cover; background-position: center center; padding-top: 100%;"></div>
+        </div>
 
-        <div class="buttons">
-            <button type="button" class="button is-link" wire:click="$set('isEditing', true)">@lang('admin/products.item.edit')</button>
-            <button type="button" class="button is-danger" wire:click="$set('isDeleting', true)">@lang('admin/products.item.delete')</button>
+        <div class="card-content content" style="flex: 1;">
+            <h3 class="is-3">{{ $product->name }}: &euro; {{ number_format($product->price, 2, ',', '.') }}</h3>
+            @if ($product->description != null)
+                <p><i>{{ $product->description }}</i></p>
+            @endif
+            <p><b>@lang('admin/products.item.amount', ['amount' => $product->amount])</b></p>
+        </div>
+
+        <div class="card-footer">
+            <a href="#" class="card-footer-item" wire:click.prevent="$set('isEditing', true)">@lang('admin/products.item.edit')</a>
+            <a href="#" class="card-footer-item has-text-danger" wire:click.prevent="$set('isDeleting', true)">@lang('admin/products.item.delete')</a>
         </div>
     </div>
 
@@ -50,6 +56,33 @@
                         </div>
                         @error('product.description') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
+
+                    <div class="field">
+                        <label class="label" for="image">@lang('admin/products.item.image')</label>
+                        @if ($product->image != null)
+                            <div class="box" style="background-color: #ccc; width: 50%;">
+                                <div style="background-image: url(/storage/products/{{ $product->image }}); background-size: cover; background-position: center center; padding-top: 100%;"></div>
+                            </div>
+                        @endif
+
+                        <div class="control">
+                            <input class="input @error('productImage') is-danger @enderror" type="file" accept=".jpg,.jpeg,.png"
+                                id="image" wire:model="productImage">
+                        </div>
+                        @error('productImage')
+                            <p class="help is-danger">{{ $message }}</p>
+                        @else
+                            <p class="help">@lang('admin/products.item.image_help')</p>
+                        @enderror
+                    </div>
+
+                    @if ($product->image != null)
+                        <div class="field">
+                            <div class="control">
+                                <button type="button" class="button is-danger" wire:click="deleteImage">@lang('admin/products.item.delete_image')</button>
+                            </div>
+                        </div>
+                    @endif
                 </section>
 
                 <footer class="modal-card-foot">
