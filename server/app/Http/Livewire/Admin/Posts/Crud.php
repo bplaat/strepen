@@ -36,6 +36,6 @@ class Crud extends PaginationComponent
             'posts' => Post::search($this->q)
                 ->sortBy('title', SORT_NATURAL | SORT_FLAG_CASE)
                 ->paginate(config('pagination.web.limit'))->withQueryString()
-        ])->layout('layouts.livewire', ['title' => __('admin/posts.crud.title')]);
+        ])->layout('layouts.app', ['title' => __('admin/posts.crud.title')]);
     }
 }

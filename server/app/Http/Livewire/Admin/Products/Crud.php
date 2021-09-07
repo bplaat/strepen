@@ -50,6 +50,6 @@ class Crud extends PaginationComponent
             'products' => Product::search($this->q)
                 ->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE)
                 ->paginate(config('pagination.web.limit'))->withQueryString()
-        ])->layout('layouts.livewire', ['title' => __('admin/products.crud.title')]);
+        ])->layout('layouts.app', ['title' => __('admin/products.crud.title')]);
     }
 }

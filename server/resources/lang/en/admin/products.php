@@ -16,7 +16,7 @@ return [
     'crud.cancel' => 'Cancel',
 
     // Admin products item livewire component
-    'item.amount' => 'Amount in stock: :amount',
+    'item.amount' => 'Amount in stock: :product.amount',
     'item.edit' => 'Edit',
     'item.delete' => 'Delete',
     'item.edit_product' => 'Edit product',

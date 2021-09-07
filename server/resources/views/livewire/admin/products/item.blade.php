@@ -9,7 +9,7 @@
             @if ($product->description != null)
                 <p><i>{{ $product->description }}</i></p>
             @endif
-            <p><b>@lang('admin/products.item.amount', ['amount' => $product->amount])</b></p>
+            <p><b>@lang('admin/products.item.amount', ['product.amount' => $product->amount])</b></p>
         </div>
 
         <div class="card-footer">

@@ -1,8 +1,6 @@
-@extends('layouts.app')
+@component('layouts.app')
+    @slot('title', __('admin/home.title'))
 
-@section('title', __('admin/home.title'))
-
-@section('content')
     <h1 class="title">@lang('admin/home.header')</h1>
 
     <div class="buttons">
@@ -12,4 +10,4 @@
         <a class="button" href="{{ route('admin.inventories.index') }}">@lang('admin/home.inventories')</a>
         <a class="button" href="{{route('admin.transactions.index')}}">@lang('admin/home.transactions')</a>
     </div>
-@endsection
+@endcomponent

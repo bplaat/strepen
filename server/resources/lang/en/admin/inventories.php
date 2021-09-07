@@ -32,5 +32,5 @@ return [
     'item.amount' => 'Amount',
     'item.cancel' => 'Cancel',
     'item.delete_inventory' => 'Delete inventory',
-    'item.delete_description' => 'Are you sure you want to delete this inventory?'
+    'item.delete_description' => 'Are you sure you want to delete this inventory and all it\'s history?'
 ];

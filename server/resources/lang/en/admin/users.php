@@ -33,6 +33,7 @@ return [
 
     // Admin users item livewire component
     'item.written_by' => 'Written by :user.name on :user.created_at',
+    'item.balance' => 'Balance',
     'item.hijack' => 'Hijack',
     'item.edit' => 'Edit',
     'item.delete' => 'Delete',

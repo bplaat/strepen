@@ -1,8 +1,6 @@
-@extends('layouts.app')
+@component('layouts.app')
+    @slot('title', __('home.title'))
 
-@section('title', __('home.title'))
-
-@section('content')
     @auth
         <h1 class="title">@lang('home.header_auth', ['user.firstname' => Auth::user()->firstname])</h1>
     @else
@@ -18,4 +16,4 @@
             {!! (new Parsedown())->text($post->body) !!}
         </div>
     @endforeach
-@endsection
+@endcomponent

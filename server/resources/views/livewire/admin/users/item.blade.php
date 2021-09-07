@@ -12,7 +12,8 @@
                     <span class="tag is-pulled-right is-danger">{{ Str::upper(__('admin/users.item.role_admin')) }}</span>
                 @endif
             </h3>
-            <p>TODO</p>
+
+            <p>@lang('admin/users.item.balance'): <strong @if ($user->money < 0) class="has-text-danger" @endif>&euro; {{ number_format($user->money, 2, ',', '.') }}</strong></p>
         </div>
 
         <div class="card-footer">

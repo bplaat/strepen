@@ -80,6 +80,6 @@ class Crud extends PaginationComponent
             'inventories' => Inventory::search($this->q)
                 ->sortByDesc('created_at')
                 ->paginate(config('pagination.web.limit'))->withQueryString()
-        ])->layout('layouts.livewire', ['title' => __('admin/inventories.crud.title')]);
+        ])->layout('layouts.app', ['title' => __('admin/inventories.crud.title')]);
     }
 }

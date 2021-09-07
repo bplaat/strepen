@@ -2,8 +2,6 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PagesController;
-use App\Http\Controllers\Admin\AdminInventoriesController;
-use App\Http\Controllers\Admin\AdminTransactionsController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PagesController::class, 'home'])->name('home');
@@ -27,7 +25,7 @@ Route::middleware('admin')->group(function () {
 
     Route::get('/admin/inventories', App\Http\Livewire\Admin\Inventories\Crud::class)->name('admin.inventories.index');
 
-    Route::get('/admin/transactions', [AdminTransactionsController::class, 'index'])->name('admin.transactions.index');
+    Route::get('/admin/transactions', App\Http\Livewire\Admin\Transactions\Crud::class)->name('admin.transactions.index');
 });
 
 // Guest routes
