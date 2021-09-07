@@ -9,7 +9,7 @@
         </div>
 
         <div class="column">
-            <form wire:submit.prevent="refresh">
+            <form wire:submit.prevent="$refresh">
                 <div class="field has-addons">
                     <div class="control" style="width: 100%;">
                         <input class="input" type="text" id="q" wire:model.defer="q" placeholder="@lang('admin/products.crud.query')">
@@ -78,10 +78,10 @@
                     <div class="field">
                         <label class="label" for="image">@lang('admin/products.crud.image')</label>
                         <div class="control">
-                            <input class="input @error('productImage') is-danger @enderror" type="file" accept=".jpg,.jpeg,.png"
-                                id="image" wire:model="productImage">
+                            <input class="input @error('image') is-danger @enderror" type="file" accept=".jpg,.jpeg,.png"
+                                id="image" wire:model="image">
                         </div>
-                        @error('productImage')
+                        @error('image')
                             <p class="help is-danger">{{ $message }}</p>
                         @else
                             <p class="help">@lang('admin/products.crud.image_help')</p>

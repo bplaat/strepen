@@ -17,7 +17,7 @@ class Item extends Component
     public $user;
     public $newPassword;
     public $newPasswordConfirmation;
-    public $userAvatar;
+    public $avatar;
     public $isEditing = false;
     public $isDeleting = false;
 
@@ -41,7 +41,7 @@ class Item extends Component
             'user.city' => 'nullable|min:2|max:255',
             'newPassword' => 'nullable|min:6',
             'newPasswordConfirmation' => $this->newPassword != null ? ['required', 'same:newPassword'] : [],
-            'userAvatar' => 'nullable|image|max:1024',
+            'avatar' => 'nullable|image|max:1024',
             'user.role' => 'required|integer|digits_between:' . User::ROLE_NORMAL . ',' . User::ROLE_ADMIN,
         ];
     }
@@ -57,9 +57,9 @@ class Item extends Component
             $this->user->password = Hash::make($this->newPassword);
         }
 
-        if ($this->userAvatar != null) {
-            $avatarName = User::generateAvatarName($this->userAvatar->extension());
-            $this->userAvatar->storeAs('public/avatars', $avatarName);
+        if ($this->avatar != null) {
+            $avatarName = User::generateAvatarName($this->avatar->extension());
+            $this->avatar->storeAs('public/avatars', $avatarName);
 
             if ($this->user->avatar != null) {
                 Storage::delete('public/avatars/' . $this->user->avatar);

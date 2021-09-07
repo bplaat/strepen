@@ -10,12 +10,12 @@
         <h2 class="title is-4">@lang('settings.change_password.header')</h2>
 
         <div class="field">
-            <label class="label" for="current_password">@lang('settings.change_password.current_password')</label>
+            <label class="label" for="currentPassword">@lang('settings.change_password.current_password')</label>
             <div class="control">
-                <input class="input @error('current_password') is-danger @enderror" type="password" id="current_password"
-                    wire:model.defer="current_password" required>
+                <input class="input @error('currentPassword') is-danger @enderror" type="password" id="currentPassword"
+                    wire:model.defer="currentPassword" required>
             </div>
-            @error('current_password') <p class="help is-danger">{{ $message }}</p> @enderror
+            @error('currentPassword') <p class="help is-danger">{{ $message }}</p> @enderror
         </div>
 
         <div class="field">
@@ -28,10 +28,10 @@
         </div>
 
         <div class="field">
-            <label class="label" for="password_confirmation">@lang('settings.change_password.password_confirmation')</label>
+            <label class="label" for="passwordConfirmation">@lang('settings.change_password.password_confirmation')</label>
             <div class="control">
-                <input class="input @error('password') is-danger @enderror" type="password" id="password_confirmation"
-                    wire:model.defer="password_confirmation" required>
+                <input class="input @error('password') is-danger @enderror" type="password" id="passwordConfirmation"
+                    wire:model.defer="passwordConfirmation" required>
             </div>
         </div>
 

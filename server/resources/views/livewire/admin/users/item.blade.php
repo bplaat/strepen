@@ -194,10 +194,10 @@
                         <div class="column">
                             <div class="field">
                                 <div class="control">
-                                    <input class="input @error('userAvatar') is-danger @enderror" type="file" accept=".jpg,.jpeg,.png"
-                                        id="avatar" wire:model="userAvatar">
+                                    <input class="input @error('avatar') is-danger @enderror" type="file" accept=".jpg,.jpeg,.png"
+                                        id="avatar" wire:model="avatar">
                                 </div>
-                                @error('userAvatar')
+                                @error('avatar')
                                     <p class="help is-danger">{{ $message }}</p>
                                 @else
                                     <p class="help">@lang('admin/users.item.avatar_help')</p>

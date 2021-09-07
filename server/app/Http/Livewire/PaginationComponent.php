@@ -21,7 +21,7 @@ class PaginationComponent extends Component
 
     public function paginationView()
     {
-        return 'pagination';
+        return 'layouts.pagination';
     }
 
     public function _previousPage($disabled)

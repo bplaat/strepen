@@ -9,7 +9,7 @@
         </div>
 
         <div class="column">
-            <form wire:submit.prevent="refresh">
+            <form wire:submit.prevent="$refresh">
                 <div class="field has-addons">
                     <div class="control" style="width: 100%;">
                         <input class="input" type="text" id="q" wire:model.defer="q" placeholder="@lang('admin/inventories.crud.query')">
@@ -59,13 +59,13 @@
                     </div>
 
                     <div class="field">
-                        <label class="label" for="productId">@lang('admin/inventories.crud.products')</label>
+                        <label class="label" for="addProductId">@lang('admin/inventories.crud.products')</label>
                         <div class="control">
                             <form wire:submit.prevent="addProduct">
                                 <div class="field has-addons">
                                     <div class="control" style="width: 100%;">
                                         <div class="select is-fullwidth">
-                                            <select id="productId" wire:model.defer="productId">
+                                            <select id="addProductId" wire:model.defer="addProductId">
                                                 <option value="null" disabled selected>@lang('admin/inventories.crud.select_product')</option>
                                                 @foreach ($products as $product)
                                                     @if (!$inventoryProducts->pluck('product_id')->contains($product->id))
@@ -90,8 +90,8 @@
                                 <button type="button" class="delete is-pulled-right" wire:click="deleteProduct({{ $inventoryProduct['product_id'] }})"></button>
                             </label>
                             <div class="control">
-                                <input form="createInventory" class="input @error('inventoryProducts.{{ $index }}.amount') is-danger @enderror" type="number" min="1"
-                                    id="amount{{ $index }}" wire:model="inventoryProducts.{{ $index }}.amount" required>
+                                <input class="input @error('inventoryProducts.{{ $index }}.amount') is-danger @enderror" type="number" min="1"
+                                    id="amount{{ $index }}" form="createInventory" wire:model="inventoryProducts.{{ $index }}.amount" required>
                             </div>
                             @error('inventoryProducts.{{ $index }}.amount') <p class="help is-danger">{{ $message }}</p> @enderror
                         </div>

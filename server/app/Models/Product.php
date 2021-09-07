@@ -38,7 +38,7 @@ class Product extends Model
     public static function search($query)
     {
         return static::where('name', 'LIKE', '%' . $query . '%')
-            ->orWhere('description', 'LIKE', '%' . $query . '%');
+            ->orWhere('description', 'LIKE', '%' . $query . '%')->get();
     }
 
     // Search collection by a query

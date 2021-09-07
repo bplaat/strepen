@@ -9,7 +9,7 @@
         </div>
 
         <div class="column">
-            <form wire:submit.prevent="refresh">
+            <form wire:submit.prevent="$refresh">
                 <div class="field has-addons">
                     <div class="control" style="width: 100%;">
                         <input class="input" type="text" id="q" wire:model.defer="q" placeholder="@lang('admin/users.crud.query')">

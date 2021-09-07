@@ -70,10 +70,10 @@
                         <div class="column">
                             <div class="field">
                                 <div class="control">
-                                    <input class="input @error('productImage') is-danger @enderror" type="file" accept=".jpg,.jpeg,.png"
-                                        id="image" wire:model="productImage">
+                                    <input class="input @error('image') is-danger @enderror" type="file" accept=".jpg,.jpeg,.png"
+                                        id="image" wire:model="image">
                                 </div>
-                                @error('productImage')
+                                @error('image')
                                     <p class="help is-danger">{{ $message }}</p>
                                 @else
                                     <p class="help">@lang('admin/products.item.image_help')</p>

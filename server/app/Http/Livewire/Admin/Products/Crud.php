@@ -12,20 +12,20 @@ class Crud extends PaginationComponent
     use WithFileUploads;
 
     public $product;
-    public $productImage;
+    public $image;
     public $isCreating;
 
     public $rules = [
         'product.name' => 'required|min:2|max:48',
         'product.price' => 'required|numeric',
         'product.description' => 'nullable',
-        'productImage' => 'nullable|image|max:1024'
+        'image' => 'nullable|image|max:1024'
     ];
 
     public function mount()
     {
         $this->product = new Product();
-        $this->productImage = null;
+        $this->image = null;
         $this->isCreating = false;
     }
 
@@ -33,9 +33,9 @@ class Crud extends PaginationComponent
     {
         $this->validate();
 
-        if ($this->productImage != null) {
-            $imageName = Product::generateImageName($this->productImage->extension());
-            $this->productImage->storeAs('public/products', $imageName);
+        if ($this->image != null) {
+            $imageName = Product::generateImageName($this->image->extension());
+            $this->image->storeAs('public/products', $imageName);
             $this->product->image = $imageName;
         }
 
@@ -47,7 +47,7 @@ class Crud extends PaginationComponent
     public function render()
     {
         return view('livewire.admin.products.crud', [
-            'products' => Product::search($this->q)->get()
+            'products' => Product::search($this->q)
                 ->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE)
                 ->paginate(config('pagination.web.limit'))->withQueryString()
         ])->layout('layouts.livewire', ['title' => __('admin/products.crud.title')]);

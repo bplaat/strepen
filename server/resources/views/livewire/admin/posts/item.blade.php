@@ -51,10 +51,10 @@
                             <div class="field">
                                 <label class="label" for="created_at_date">@lang('admin/posts.item.created_at_date')</label>
                                 <div class="control">
-                                    <input class="input @error('postCreatedAtDate') is-danger @enderror" type="date" id="created_at_date"
-                                        wire:model.defer="postCreatedAtDate" tabindex="3" required>
+                                    <input class="input @error('createdAtDate') is-danger @enderror" type="date" id="created_at_date"
+                                        wire:model.defer="createdAtDate" tabindex="3" required>
                                 </div>
-                                @error('postCreatedAtDate') <p class="help is-danger">{{ $message }}</p> @enderror
+                                @error('createdAtDate') <p class="help is-danger">{{ $message }}</p> @enderror
                             </div>
                         </div>
 
@@ -62,10 +62,10 @@
                             <div class="field">
                                 <label class="label" for="created_at_time">@lang('admin/posts.item.created_at_time')</label>
                                 <div class="control">
-                                    <input class="input @error('postCreatedAtTime') is-danger @enderror" type="time" step="1" id="created_at_time"
-                                        wire:model.defer="postCreatedAtTime" tabindex="4" required>
+                                    <input class="input @error('createdAtTime') is-danger @enderror" type="time" step="1" id="created_at_time"
+                                        wire:model.defer="createdAtTime" tabindex="4" required>
                                 </div>
-                                @error('postCreatedAtTime') <p class="help is-danger">{{ $message }}</p> @enderror
+                                @error('createdAtTime') <p class="help is-danger">{{ $message }}</p> @enderror
                             </div>
                         </div>
                     </div>

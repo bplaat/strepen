@@ -12,7 +12,7 @@ class Item extends Component
     use WithFileUploads;
 
     public $product;
-    public $productImage;
+    public $image;
     public $isEditing = false;
     public $isDeleting = false;
 
@@ -20,16 +20,16 @@ class Item extends Component
         'product.name' => 'required|min:2|max:48',
         'product.price' => 'required|numeric',
         'product.description' => 'nullable',
-        'productImage' => 'nullable|image|max:1024'
+        'image' => 'nullable|image|max:1024'
     ];
 
     public function editProduct()
     {
         $this->validate();
 
-        if ($this->productImage != null) {
-            $imageName = Product::generateImageName($this->productImage->extension());
-            $this->productImage->storeAs('public/products', $imageName);
+        if ($this->image != null) {
+            $imageName = Product::generateImageName($this->image->extension());
+            $this->image->storeAs('public/products', $imageName);
 
             if ($this->product->image != null) {
                 Storage::delete('public/products/' . $this->product->image);

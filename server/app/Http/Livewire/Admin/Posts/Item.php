@@ -9,30 +9,30 @@ class Item extends Component
 {
     public $post;
     public $users;
-    public $postCreatedAtDate;
-    public $postCreatedAtTime;
+    public $createdAtDate;
+    public $createdAtTime;
     public $isEditing = false;
     public $isDeleting = false;
 
     public $rules = [
         'post.user_id' => 'required|integer|exists:users,id',
         'post.title' => 'required|min:2|max:48',
-        'postCreatedAtDate' => 'required|date_format:Y-m-d',
-        'postCreatedAtTime' => 'required|date_format:H:i:s',
+        'createdAtDate' => 'required|date_format:Y-m-d',
+        'createdAtTime' => 'required|date_format:H:i:s',
         'post.body' => 'required|min:2'
     ];
 
     public function mount()
     {
         $this->users = User::all()->sortBy('sortName', SORT_NATURAL | SORT_FLAG_CASE);
-        $this->postCreatedAtDate = $this->post->created_at->format('Y-m-d');
-        $this->postCreatedAtTime = $this->post->created_at->format('H:i:s');
+        $this->createdAtDate = $this->post->created_at->format('Y-m-d');
+        $this->createdAtTime = $this->post->created_at->format('H:i:s');
     }
 
     public function editPost()
     {
         $this->validate();
-        $this->post->created_at = $this->postCreatedAtDate . ' ' . $this->postCreatedAtTime;
+        $this->post->created_at = $this->createdAtDate . ' ' . $this->createdAtTime;
         $this->post->save();
         $this->isEditing = false;
     }
@@ -46,6 +46,7 @@ class Item extends Component
 
     public function render()
     {
+        unset($this->post->user);
         return view('livewire.admin.posts.item');
     }
 }

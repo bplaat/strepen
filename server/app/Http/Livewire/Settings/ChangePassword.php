@@ -8,20 +8,20 @@ use Livewire\Component;
 
 class ChangePassword extends Component
 {
-    public $current_password;
+    public $currentPassword;
     public $password;
-    public $password_confirmation;
+    public $passwordConfirmation;
 
     public $rules = [
-        'current_password' => 'required|current_password',
+        'currentPassword' => 'required|current_password',
         'password' => 'required|min:6|confirmed'
     ];
 
     public function mount()
     {
-        $this->current_password = null;
+        $this->currentPassword = null;
         $this->password = null;
-        $this->password_confirmation = null;
+        $this->passwordConfirmation = null;
     }
 
     public function changePassword()

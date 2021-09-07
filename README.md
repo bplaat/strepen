@@ -1,6 +1,12 @@
 # Strepen
 A new strepen system written in Laravel with reactive live Livewire components???
 
+## TODO list:
+- Finish transactions admin crud
+- Add kiosk mode page
+- Create user create transaction
+- Create user list transactions
+
 ## API
 Here is an idea of how the REST API can look like but with Livewire this is not really nessary any more:
 ```

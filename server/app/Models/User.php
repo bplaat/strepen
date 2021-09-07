@@ -92,7 +92,7 @@ class User extends Authenticatable
         return static::where('firstname', 'LIKE', '%' . $query . '%')
             ->orWhere('insertion', 'LIKE', '%' . $query . '%')
             ->orWhere('lastname', 'LIKE', '%' . $query . '%')
-            ->orWhere('email', 'LIKE', '%' . $query . '%');
+            ->orWhere('email', 'LIKE', '%' . $query . '%')->get();
     }
 
     // Search collection by a query
