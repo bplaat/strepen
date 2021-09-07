@@ -41,15 +41,21 @@ class Crud extends PaginationComponent
         foreach ($this->inventoryProducts as $inventoryProduct) {
             $this->inventory->price += $inventoryProduct['product']['price'] * $inventoryProduct['amount'];
         }
-        $this->inventory->price .= '';
         $this->inventory->save();
 
+        // Product inventory pivot table items
         foreach ($this->inventoryProducts as $inventoryProduct) {
             if ($inventoryProduct['amount'] > 0) {
                 $this->inventory->products()->attach($inventoryProduct['product_id'], [
                     'amount' => $inventoryProduct['amount']
                 ]);
             }
+        }
+
+        // Recalculate amounts of all products
+        foreach ($this->products as $product) {
+            $product->recalculateAmount();
+            $product->save();
         }
 
         $this->mount();

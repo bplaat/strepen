@@ -34,7 +34,7 @@ class User extends Authenticatable
         'city',
         'password',
         'role',
-        'money'
+        'balance'
     ];
 
     protected $hidden = [
@@ -52,6 +52,27 @@ class User extends Authenticatable
     {
         if ($extension == 'jpeg') $extension = 'jpg';
         return Str::random(32) . '.' . $extension;
+    }
+
+    // Recalculate user balance
+    public function recalculateBalance()
+    {
+        // Refresh relationships
+        unset($this->transactions);
+
+        // Recount balance
+        $this->balance = 0;
+
+        // Loop through all transactions and adjust balance
+        $transactions = $this->transactions->sortBy('created_at');
+        foreach ($transactions as $transaction) {
+            if ($transaction->type == Transaction::TYPE_TRANSACTION) {
+                $this->balance -= $transaction->price;
+            }
+            if ($transaction->type == Transaction::TYPE_DEPOSIT) {
+                $this->balance += $transaction->price;
+            }
+        }
     }
 
     // Get user full name (firstname insertion lastname)

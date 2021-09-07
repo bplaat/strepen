@@ -17,7 +17,7 @@ class CreateInventoriesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('name')->nullable();
-            $table->decimal('price', 9, 3);
+            $table->decimal('price', 12, 3);
             $table->timestamps();
 
             $table->foreign('user_id')

@@ -7,9 +7,8 @@
         <div class="navbar-menu">
             @auth
                 <div class="navbar-start">
-                    <a class="navbar-item" href="#">TODO</a>
-                    <a class="navbar-item" href="#">TODO</a>
-                    <a class="navbar-item" href="#">TODO</a>
+                    <a class="navbar-item" href="{{ route('transactions.create') }}">@lang('layout.navbar.transactions_create')</a>
+                    <a class="navbar-item" href="{{ route('transactions.history') }}">@lang('layout.navbar.transactions_history')</a>
 
                     @if (Auth::user()->role == App\Models\User::ROLE_ADMIN)
                         <div class="navbar-item has-dropdown is-hoverable">
@@ -36,7 +35,7 @@
                         <div style="width: 28px; height: 28px; border-radius: 50%; margin-right: 10px; background-size: cover; background-position: center center;
                             background-image: url({{ Auth::user()->avatar != null ? '/storage/avatars/' . Auth::user()->avatar : '/images/avatars/mp.jpg' }});"></div>
                         <span style="margin-right: 8px;">{{ Auth::user()->name }}</span>
-                        <strong @if (Auth::user()->money < 0) class="has-text-danger" @endif>&euro; {{ number_format(Auth::user()->money, 2, ',', '.') }}</strong>
+                        <strong @if (Auth::user()->balance < 0) class="has-text-danger" @endif>&euro; {{ number_format(Auth::user()->balance, 2, ',', '.') }}</strong>
                     </div>
                     <div class="navbar-item">
                         <div class="buttons">

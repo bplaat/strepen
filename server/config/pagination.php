@@ -2,6 +2,7 @@
 
 return [
     'web' => [
-        'limit' => 4 * 3
+        'limit' => 3 * 4,
+        'small_limit' => 5
     ]
 ];

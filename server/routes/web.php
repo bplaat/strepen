@@ -1,13 +1,15 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\PagesController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [PagesController::class, 'home'])->name('home');
+Route::get('/', App\Http\Livewire\Home::class)->name('home');
 
 // Normal routes
 Route::middleware('auth')->group(function () {
+    Route::get('stripe', App\Http\Livewire\Transactions\Create::class)->name('transactions.create');
+    Route::get('transactions', App\Http\Livewire\Transactions\History::class)->name('transactions.history');
+
     Route::view('/auth/settings', 'settings')->name('settings');
 
     Route::get('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');

@@ -17,9 +17,8 @@ return [
     'crud.cancel' => 'Cancel',
 
     // Admin transactions item livewire component
-    'item.done_by' => 'Done by :user.name on :transaction.created_at',
-    'item.deposit' => 'Deposit of',
-    'item.amount' => 'Amount in stock: :transaction.amount',
+    'item.deposit_for' => 'Deposit for :user.name on :transaction.created_at',
+    'item.amount' => 'Amount',
     'item.edit' => 'Edit',
     'item.delete' => 'Delete',
     'item.edit_transaction' => 'Edit transaction',

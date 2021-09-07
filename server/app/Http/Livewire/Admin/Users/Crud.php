@@ -55,7 +55,7 @@ class Crud extends PaginationComponent
             $this->user->avatar = $avatarName;
         }
 
-        $this->user->money = 0;
+        $this->user->balance = 0;
         $this->user->save();
         $this->mount();
     }

@@ -30,7 +30,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->unsignedTinyInteger('role');
-            $table->decimal('money', 9, 3);
+            $table->decimal('balance', 12, 3);
             $table->timestamps();
         });
     }

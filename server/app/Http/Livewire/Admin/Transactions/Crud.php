@@ -41,7 +41,7 @@ class Crud extends PaginationComponent
         $this->transaction->save();
 
         $user = User::find($this->transaction->user_id);
-        $user->money += $this->transaction->price;
+        $user->recalculateBalance();
         $user->save();
 
         $this->mount();

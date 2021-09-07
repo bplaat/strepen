@@ -59,18 +59,23 @@ class Item extends Component
         foreach ($this->inventoryProducts as $inventoryProduct) {
             $this->inventory->price += $inventoryProduct['product']['price'] * $inventoryProduct['amount'];
         }
-        $this->inventory->price .= '';
 
         $this->inventory->created_at = $this->createdAtDate . ' ' . $this->createdAtTime;
 
         // Reset all inventory products
-        InventoryProduct::where('inventory_id', $this->inventory->id)->delete();
+        $this->inventory->products()->detach();
         foreach ($this->inventoryProducts as $inventoryProduct) {
             if ($inventoryProduct['amount'] > 0) {
                 $this->inventory->products()->attach($inventoryProduct['product_id'], [
                     'amount' => $inventoryProduct['amount']
                 ]);
             }
+        }
+
+        // Recalculate amounts of all products
+        foreach ($this->products as $product) {
+            $product->recalculateAmount();
+            $product->save();
         }
 
         $this->inventory->save();
@@ -100,6 +105,13 @@ class Item extends Component
     {
         $this->isDeleting = false;
         $this->inventory->delete();
+
+        // Recalculate amounts of all products
+        foreach ($this->products as $product) {
+            $product->recalculateAmount();
+            $product->save();
+        }
+
         $this->emitUp('refresh');
     }
 

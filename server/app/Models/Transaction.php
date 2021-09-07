@@ -26,7 +26,7 @@ class Transaction extends Model
     // A transaction belongs to many products
     public function products()
     {
-        return $this->belongsToMany(Product::class)->withPivot('amount')->withTimestamps();
+        return $this->belongsToMany(Product::class, 'transaction_product')->withPivot('amount')->withTimestamps();
     }
 
     // Search by a query

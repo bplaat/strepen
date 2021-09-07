@@ -18,7 +18,7 @@ class CreateTransactionsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedTinyInteger('type');
             $table->string('name')->nullable();
-            $table->decimal('price', 9, 3);
+            $table->decimal('price', 12, 3);
             $table->timestamps();
 
             $table->foreign('user_id')

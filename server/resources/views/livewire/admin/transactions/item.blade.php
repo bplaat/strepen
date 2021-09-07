@@ -2,14 +2,14 @@
     <div class="card" style="display: flex; flex-direction: column; height: 100%; margin-bottom: 0; overflow: hidden;">
         <div class="card-content content" style="flex: 1; margin-bottom: 0;">
             <h3 class="is-3">{{ $transaction->name }}</h3>
-            <p><i>@lang('admin/transactions.item.done_by', ['user.name' => $transaction->user->name, 'transaction.created_at' => $transaction->created_at->format('Y-m-d H:i')])</i></p>
 
             @if ($transaction->type == \App\Models\Transaction::TYPE_TRANSACTION)
                 <p>TODO</p>
             @endif
 
             @if ($transaction->type == \App\Models\Transaction::TYPE_DEPOSIT)
-                <p>@lang('admin/transactions.item.deposit') &euro; {{ number_format($transaction->price, 2, ',', '.') }}</p>
+                <p><i>@lang('admin/transactions.item.deposit_for', ['user.name' => $transaction->user->name, 'transaction.created_at' => $transaction->created_at->format('Y-m-d H:i')])</i></p>
+                <p>@lang('admin/transactions.item.amount'): &euro; {{ number_format($transaction->price, 2, ',', '.') }}</p>
             @endif
         </div>
 

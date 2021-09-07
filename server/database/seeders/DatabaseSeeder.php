@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'bastiaan.v.d.plaat@gmail.com',
             'password' => Hash::make('admin123'),
             'role' => User::ROLE_ADMIN,
-            'money' => 0
+            'balance' => 0
         ]);
 
         // Create 50 random users
