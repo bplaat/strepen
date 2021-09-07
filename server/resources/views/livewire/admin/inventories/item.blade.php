@@ -119,7 +119,7 @@
 
                 <footer class="modal-card-foot">
                     <button type="submit" form="editInventory" class="button is-link">@lang('admin/inventories.item.edit_inventory')</button>
-                    <button type="button" class="button" wire:click="$set('isEditing', false)">@lang('admin/inventories.item.cancel')</button>
+                    <button type="button" class="button" wire:click="$set('isEditing', false)" wire:loading.attr="disabled">@lang('admin/inventories.item.cancel')</button>
                 </footer>
             </div>
         </div>
@@ -140,8 +140,8 @@
                 </section>
 
                 <footer class="modal-card-foot">
-                    <button class="button is-danger" wire:click="deleteInventory()">@lang('admin/inventories.item.delete_inventory')</button>
-                    <button class="button" wire:click="$set('isDeleting', false)">@lang('admin/inventories.item.cancel')</button>
+                    <button class="button is-danger" wire:click="deleteInventory()" wire:loading.attr="disabled">@lang('admin/inventories.item.delete_inventory')</button>
+                    <button class="button" wire:click="$set('isDeleting', false)" wire:loading.attr="disabled">@lang('admin/inventories.item.cancel')</button>
                 </footer>
             </div>
         </div>

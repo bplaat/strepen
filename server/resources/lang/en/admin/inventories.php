@@ -9,6 +9,7 @@ return [
     'crud.search' => 'Search',
     'crud.empty' => 'No inventories found!',
     'crud.name' => 'Name',
+    'crud.name_default' => 'Inventory on',
     'crud.products' => 'Products',
     'crud.select_product' => 'Select a product...',
     'crud.add_product' => 'Add product',

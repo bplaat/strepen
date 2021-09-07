@@ -4,7 +4,7 @@
     <div class="columns">
         <div class="column">
             <div class="buttons">
-                <button class="button is-link" wire:click="$set('isCreating', true)">@lang('admin/posts.crud.create_post')</button>
+                <button class="button is-link" wire:click="$set('isCreating', true)" wire:loading.attr="disabled">@lang('admin/posts.crud.create_post')</button>
             </div>
         </div>
 
@@ -59,7 +59,7 @@
                     <div class="field">
                         <label class="label" for="body">@lang('admin/posts.crud.body', ['markdown_link' => '<a href="https://en.wikipedia.org/wiki/Markdown#Example" target="_blank" tabindex="3">Markdown</a>'])</label>
                         <div class="control">
-                            <textarea class="textarea has-fixed-size @error('post.body') is-danger @enderror" id="body"
+                            <textarea class="textarea is-family-monospace has-fixed-size @error('post.body') is-danger @enderror" id="body"
                                 wire:model.defer="post.body" rows="12" tabindex="2" required></textarea>
                         </div>
                         @error('post.body') <p class="help is-danger">{{ $message }}</p> @enderror
@@ -68,7 +68,7 @@
 
                 <footer class="modal-card-foot">
                     <button type="submit" class="button is-link">@lang('admin/posts.crud.create_post')</button>
-                    <button type="button" class="button" wire:click="$set('isCreating', false)">@lang('admin/posts.crud.cancel')</button>
+                    <button type="button" class="button" wire:click="$set('isCreating', false)" wire:loading.attr="disabled">@lang('admin/posts.crud.cancel')</button>
                 </footer>
             </form>
         </div>

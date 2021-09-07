@@ -51,7 +51,7 @@
                     <div class="field">
                         <label class="label" for="description">@lang('admin/products.item.description')</label>
                         <div class="control">
-                            <textarea class="textarea has-fixed-size @error('product.description') is-danger @enderror" id="description"
+                            <textarea class="textarea is-family-monospace has-fixed-size @error('product.description') is-danger @enderror" id="description"
                                 wire:model.defer="product.description"></textarea>
                         </div>
                         @error('product.description') <p class="help is-danger">{{ $message }}</p> @enderror
@@ -85,7 +85,7 @@
                             <div class="column">
                                 <div class="field">
                                     <div class="control">
-                                        <button type="button" class="button is-danger" wire:click="deleteImage">@lang('admin/products.item.delete_image')</button>
+                                        <button type="button" class="button is-danger" wire:click="deleteImage" wire:loading.attr="disabled">@lang('admin/products.item.delete_image')</button>
                                     </div>
                                 </div>
                             </div>
@@ -95,7 +95,7 @@
 
                 <footer class="modal-card-foot">
                     <button type="submit" class="button is-link">@lang('admin/products.item.edit_product')</button>
-                    <button type="button" class="button" wire:click="$set('isEditing', false)">@lang('admin/products.item.cancel')</button>
+                    <button type="button" class="button" wire:click="$set('isEditing', false)" wire:loading.attr="disabled">@lang('admin/products.item.cancel')</button>
                 </footer>
             </form>
         </div>
@@ -116,8 +116,8 @@
                 </section>
 
                 <footer class="modal-card-foot">
-                    <button class="button is-danger" wire:click="deleteProduct()">@lang('admin/products.item.delete_product')</button>
-                    <button class="button" wire:click="$set('isDeleting', false)">@lang('admin/products.item.cancel')</button>
+                    <button class="button is-danger" wire:click="deleteProduct()" wire:loading.attr="disabled">@lang('admin/products.item.delete_product')</button>
+                    <button class="button" wire:click="$set('isDeleting', false)" wire:loading.attr="disabled">@lang('admin/products.item.cancel')</button>
                 </footer>
             </div>
         </div>

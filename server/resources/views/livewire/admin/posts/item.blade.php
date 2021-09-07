@@ -73,7 +73,7 @@
                     <div class="field">
                         <label class="label" for="body">@lang('admin/posts.item.body', ['markdown_link' => '<a href="https://en.wikipedia.org/wiki/Markdown#Example" target="_blank" tabindex="6">Markdown</a>'])</label>
                         <div class="control">
-                            <textarea class="textarea has-fixed-size @error('post.body') is-danger @enderror" id="postBody"
+                            <textarea class="textarea is-family-monospace has-fixed-size @error('post.body') is-danger @enderror" id="postBody"
                                 wire:model.defer="post.body" rows="12" tabindex="5" required></textarea>
                         </div>
                         @error('post.body') <p class="help is-danger">{{ $message }}</p> @enderror
@@ -82,7 +82,7 @@
 
                 <footer class="modal-card-foot">
                     <button type="submit" class="button is-link">@lang('admin/posts.item.edit_post')</button>
-                    <button type="button" class="button" wire:click="$set('isEditing', false)">@lang('admin/posts.item.cancel')</button>
+                    <button type="button" class="button" wire:click="$set('isEditing', false)" wire:loading.attr="disabled">@lang('admin/posts.item.cancel')</button>
                 </footer>
             </form>
         </div>
@@ -103,8 +103,8 @@
                 </section>
 
                 <footer class="modal-card-foot">
-                    <button class="button is-danger" wire:click="deletePost()">@lang('admin/posts.item.delete_post')</button>
-                    <button class="button" wire:click="$set('isDeleting', false)">@lang('admin/posts.item.cancel')</button>
+                    <button class="button is-danger" wire:click="deletePost()" wire:loading.attr="disabled">@lang('admin/posts.item.delete_post')</button>
+                    <button class="button" wire:click="$set('isDeleting', false)" wire:loading.attr="disabled">@lang('admin/posts.item.cancel')</button>
                 </footer>
             </div>
         </div>

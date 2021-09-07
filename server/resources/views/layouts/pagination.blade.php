@@ -15,6 +15,7 @@
                         <li>
                             <a class="pagination-link @if ($page == $paginator->currentPage()) is-current @endif"
                                 wire:click="gotoPage({{ $page }})"
+                                wire:loading.attr="disabled"
                                 aria-label="Goto page {{ $page }}">{{ $page }}</a>
                         </li>
                     @endforeach

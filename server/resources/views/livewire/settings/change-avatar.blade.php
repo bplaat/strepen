@@ -42,7 +42,7 @@
             <div class="control">
                 <button class="button is-link" type="submit">@lang('settings.change_avatar.change_button')</button>
                 @if (Auth::user()->avatar != null)
-                    <a class="button is-danger" wire:click="deleteAvatar">@lang('settings.change_avatar.delete_button')</a>
+                    <a class="button is-danger" wire:click="deleteAvatar" wire:loading.attr="disabled">@lang('settings.change_avatar.delete_button')</a>
                 @endif
             </div>
         </div>

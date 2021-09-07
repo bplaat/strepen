@@ -25,6 +25,7 @@ class Crud extends PaginationComponent
     {
         $this->products = Product::all()->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE);
         $this->inventory = new Inventory();
+        $this->inventory->name = __('admin/inventories.crud.name_default') . ' ' . date('Y-m-d H:i:s');
         $this->addProductId = null;
         $this->inventoryProducts = collect();
         $this->isCreating = false;

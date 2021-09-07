@@ -4,7 +4,7 @@
     <div class="columns">
         <div class="column">
             <div class="buttons">
-                <button class="button is-link" wire:click="$set('isCreating', true)">@lang('admin/products.crud.create_product')</button>
+                <button class="button is-link" wire:click="$set('isCreating', true)" wire:loading.attr="disabled">@lang('admin/products.crud.create_product')</button>
             </div>
         </div>
 
@@ -69,7 +69,7 @@
                     <div class="field">
                         <label class="label" for="description">@lang('admin/products.crud.description')</label>
                         <div class="control">
-                            <textarea class="textarea has-fixed-size @error('product.description') is-danger @enderror" id="description"
+                            <textarea class="textarea is-family-monospace has-fixed-size @error('product.description') is-danger @enderror" id="description"
                                 wire:model.defer="product.description"></textarea>
                         </div>
                         @error('product.description') <p class="help is-danger">{{ $message }}</p> @enderror
@@ -91,7 +91,7 @@
 
                 <footer class="modal-card-foot">
                     <button type="submit" class="button is-link">@lang('admin/products.crud.create_product')</button>
-                    <button type="button" class="button" wire:click="$set('isCreating', false)">@lang('admin/products.crud.cancel')</button>
+                    <button type="button" class="button" wire:click="$set('isCreating', false)" wire:loading.attr="disabled">@lang('admin/products.crud.cancel')</button>
                 </footer>
             </form>
         </div>

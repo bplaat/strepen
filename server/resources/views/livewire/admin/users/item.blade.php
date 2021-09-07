@@ -209,7 +209,7 @@
                             <div class="column">
                                 <div class="field">
                                     <div class="control">
-                                        <button type="button" class="button is-danger" wire:click="deleteAvatar">@lang('admin/users.item.delete_avatar')</button>
+                                        <button type="button" class="button is-danger" wire:click="deleteAvatar" wire:loading.attr="disabled">@lang('admin/users.item.delete_avatar')</button>
                                     </div>
                                 </div>
                             </div>
@@ -253,8 +253,8 @@
                 </section>
 
                 <footer class="modal-card-foot">
-                    <button class="button is-danger" wire:click="deleteUser()">@lang('admin/users.item.delete_user')</button>
-                    <button class="button" wire:click="$set('isDeleting', false)">@lang('admin/users.item.cancel')</button>
+                    <button class="button is-danger" wire:click="deleteUser()" wire:loading.attr="disabled">@lang('admin/users.item.delete_user')</button>
+                    <button class="button" wire:click="$set('isDeleting', false)" wire:loading.attr="disabled">@lang('admin/users.item.cancel')</button>
                 </footer>
             </div>
         </div>

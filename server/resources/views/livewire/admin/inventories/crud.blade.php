@@ -4,7 +4,7 @@
     <div class="columns">
         <div class="column">
             <div class="buttons">
-                <button class="button is-link" wire:click="$set('isCreating', true)">@lang('admin/inventories.crud.create_inventory')</button>
+                <button class="button is-link" wire:click="$set('isCreating', true)" wire:loading.attr="disabled">@lang('admin/inventories.crud.create_inventory')</button>
             </div>
         </div>
 
@@ -100,7 +100,7 @@
 
                 <footer class="modal-card-foot">
                     <button type="submit" form="createInventory" class="button is-link">@lang('admin/inventories.crud.create_inventory')</button>
-                    <button type="button" class="button" wire:click="$set('isCreating', false)">@lang('admin/inventories.crud.cancel')</button>
+                    <button type="button" class="button" wire:click="$set('isCreating', false)" wire:loading.attr="disabled">@lang('admin/inventories.crud.cancel')</button>
                 </footer>
             </div>
         </div>

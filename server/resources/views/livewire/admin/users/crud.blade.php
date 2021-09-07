@@ -4,7 +4,7 @@
     <div class="columns">
         <div class="column">
             <div class="buttons">
-                <button class="button is-link" wire:click="$set('isCreating', true)">@lang('admin/users.crud.create_user')</button>
+                <button class="button is-link" wire:click="$set('isCreating', true)" wire:loading.attr="disabled">@lang('admin/users.crud.create_user')</button>
             </div>
         </div>
 
@@ -222,7 +222,7 @@
 
                 <footer class="modal-card-foot">
                     <button type="submit" class="button is-link">@lang('admin/users.crud.create_user')</button>
-                    <button type="button" class="button" wire:click="$set('isCreating', false)">@lang('admin/users.crud.cancel')</button>
+                    <button type="button" class="button" wire:click="$set('isCreating', false)" wire:loading.attr="disabled">@lang('admin/users.crud.cancel')</button>
                 </footer>
             </form>
         </div>
