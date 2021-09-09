@@ -26,8 +26,8 @@ class Crud extends PaginationComponent
         $this->products = Product::all()->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE);
         $this->inventory = new Inventory();
         $this->inventory->name = __('admin/inventories.crud.name_default') . ' ' . date('Y-m-d H:i:s');
-        $this->addProductId = null;
         $this->inventoryProducts = collect();
+        $this->addProductId = null;
         $this->isCreating = false;
     }
 
@@ -43,7 +43,7 @@ class Crud extends PaginationComponent
         }
         $this->inventory->save();
 
-        // Product inventory pivot table items
+        // Create product inventory pivot table items
         foreach ($this->inventoryProducts as $inventoryProduct) {
             if ($inventoryProduct['amount'] > 0) {
                 $this->inventory->products()->attach($inventoryProduct['product_id'], [

@@ -78,14 +78,14 @@
                     </div>
 
                     <div class="field">
-                        <label class="label" for="addProductId">@lang('admin/inventories.crud.products')</label>
+                        <label class="label" for="addProductId">@lang('admin/inventories.item.products')</label>
                         <div class="control">
                             <form wire:submit.prevent="addProduct">
                                 <div class="field has-addons">
                                     <div class="control" style="width: 100%;">
                                         <div class="select is-fullwidth">
                                             <select id="addProductId" wire:model.defer="addProductId">
-                                                <option value="null" disabled selected>@lang('admin/inventories.crud.select_product')</option>
+                                                <option value="null" disabled selected>@lang('admin/inventories.item.select_product')</option>
                                                 @foreach ($products as $product)
                                                     @if (!$inventoryProducts->pluck('product_id')->contains($product->id))
                                                         <option value="{{ $product->id }}">{{ $product->name }} (&euro; {{ $product->price }})</option>
@@ -95,7 +95,7 @@
                                         </div>
                                     </div>
                                     <div class="control">
-                                        <button class="button is-link" type="submit">@lang('admin/inventories.crud.add_product')</button>
+                                        <button class="button is-link" type="submit">@lang('admin/inventories.item.add_product')</button>
                                     </div>
                                 </div>
                             </form>
@@ -105,7 +105,7 @@
                     @foreach ($inventoryProducts as $index => $inventoryProduct)
                         <div class="field">
                             <label class="label" for="amount{{ $index }}">
-                                {{ $inventoryProduct['product']['name'] }} (&euro; {{ $inventoryProduct['product']['price'] }}) @lang('admin/inventories.crud.amount')
+                                {{ $inventoryProduct['product']['name'] }} (&euro; {{ $inventoryProduct['product']['price'] }}) @lang('admin/inventories.item.amount')
                                 <button type="button" class="delete is-pulled-right" wire:click="deleteProduct({{ $inventoryProduct['product_id'] }})"></button>
                             </label>
                             <div class="control">

@@ -12,9 +12,9 @@ class Item extends Component
     public $users;
     public $products;
     public $inventory;
-    public $inventoryProducts;
     public $createdAtDate;
     public $createdAtTime;
+    public $inventoryProducts;
     public $addProductId = null;
     public $isEditing = false;
     public $isDeleting = false;

@@ -7,8 +7,8 @@ use Livewire\Component;
 
 class Item extends Component
 {
-    public $post;
     public $users;
+    public $post;
     public $createdAtDate;
     public $createdAtTime;
     public $isEditing = false;
