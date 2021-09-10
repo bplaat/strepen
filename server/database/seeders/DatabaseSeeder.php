@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         // Create system / kiosk account (must by user_id=1)
         User::create([
             'firstname' => config('app.name'),
-            'lastname' => '',
+            'lastname' => 'System',
             'email' => 'system@' . strtolower(config('app.name')),
             'password' => Hash::make(Str::random(32)),
             'role' => User::ROLE_NORMAL,

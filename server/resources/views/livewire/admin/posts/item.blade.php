@@ -3,7 +3,7 @@
         <div class="card-content content" style="flex: 1; margin-bottom: 0;">
             <h4>{{ $post->title }}</h4>
             <p><i>@lang('admin/posts.item.written_by', ['user.name' => $post->user->name, 'post.created_at' => $post->created_at->format('Y-m-d H:i')])</i></p>
-            <pre>{{  Str::limit($post->body, 320) }}</pre>
+            <pre style="white-space: pre-wrap;">{{  Str::limit(str_replace(["\r", "\n"], '', $post->body), 240) }}</pre>
         </div>
 
         <div class="card-footer">
