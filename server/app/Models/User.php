@@ -131,4 +131,20 @@ class User extends Authenticatable
                 Str::contains(strtolower($user->email), strtolower($query));
         });
     }
+
+    // Get balance chart data
+    public function getBalanceChart() {
+        $balance = 0;
+        $balanceData = [];
+        foreach ($this->transactions->sortBy('created_at') as $transaction) {
+            if ($transaction->type == Transaction::TYPE_TRANSACTION) {
+                $balance -= $transaction->price;
+            }
+            if ($transaction->type == Transaction::TYPE_DEPOSIT) {
+                $balance += $transaction->price;
+            }
+            $balanceData[] = [ $transaction->created_at->format('Y-m-d'), $balance ];
+        }
+        return $balanceData;
+    }
 }

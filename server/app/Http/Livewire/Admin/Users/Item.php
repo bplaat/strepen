@@ -18,6 +18,7 @@ class Item extends Component
     public $newPassword;
     public $newPasswordConfirmation;
     public $avatar;
+    public $isInspecting = false;
     public $isEditing = false;
     public $isDeleting = false;
 

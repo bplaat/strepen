@@ -49,6 +49,6 @@ class Crud extends PaginationComponent
             'products' => Product::search(strtolower($this->q))
                 ->orderByRaw('LOWER(name)')
                 ->paginate(config('pagination.web.limit'))->withQueryString()
-        ])->layout('layouts.app', ['title' => __('admin/products.crud.title')]);
+        ])->layout('layouts.app', ['title' => __('admin/products.crud.title'), 'chartjs' => true]);
     }
 }

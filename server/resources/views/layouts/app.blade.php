@@ -7,6 +7,9 @@
     <title>{{ $title }} - {{ config('app.name') }}</title>
     <link rel="stylesheet" href="/css/bulma.min.css">
     @livewireStyles
+    @if (isset($chartjs))
+        <script src="/js/chart.min.js"></script>
+    @endif
 </head>
 <body>
     @include('layouts.navbar')

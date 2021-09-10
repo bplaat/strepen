@@ -20,10 +20,48 @@
             @if ($user->id != Auth::id())
                 <a href="#" class="card-footer-item has-text-black" wire:click.prevent="hijackUser">@lang('admin/users.item.hijack')</a>
             @endif
+            <a href="#" class="card-footer-item" wire:click.prevent="$set('isInspecting', true)">@lang('admin/users.item.inspect')</a>
             <a href="#" class="card-footer-item" wire:click.prevent="$set('isEditing', true)">@lang('admin/users.item.edit')</a>
             <a href="#" class="card-footer-item has-text-danger" wire:click.prevent="$set('isDeleting', true)">@lang('admin/users.item.delete')</a>
         </div>
     </div>
+
+    @if ($isInspecting)
+        <div class="modal is-active">
+            <div class="modal-background" wire:click="$set('isInspecting', false)"></div>
+
+            <div class="modal-card" style="width: 50%;">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">@lang('admin/users.item.inspect_user')</p>
+                    <button type="button" class="delete" wire:click="$set('isInspecting', false)"></button>
+                </header>
+
+                <section class="modal-card-body">
+                    <div>
+                        <h2 class="title is-4">@lang('admin/users.item.balance_of', ['user.name' => $user->name])</h2>
+                        <canvas id="balance_chart_canvas"></canvas>
+
+                        <script>
+                        new Chart(document.getElementById('balance_chart_canvas').getContext('2d'), {
+                            type: 'line',
+                            data: {
+                                datasets: [{
+                                    label: 'Balance (\u20ac)',
+                                    data: @json($user->getBalanceChart()),
+                                    borderColor: '#3e56c4',
+                                    tension: 0.1
+                                }]
+                            },
+                            options: {
+                                animation: false
+                            }
+                        });
+                        </script>
+                    </div>
+                </section>
+            </div>
+        </div>
+    @endif
 
     @if ($isEditing)
         <div class="modal is-active">

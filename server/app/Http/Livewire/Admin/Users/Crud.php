@@ -67,6 +67,6 @@ class Crud extends PaginationComponent
             'users' => User::search($this->q)->get()
                 ->sortBy('sortName', SORT_NATURAL | SORT_FLAG_CASE)
                 ->paginate(config('pagination.web.limit'))->withQueryString()
-        ])->layout('layouts.app', ['title' => __('admin/users.crud.title')]);
+        ])->layout('layouts.app', ['title' => __('admin/users.crud.title'), 'chartjs' => true]);
     }
 }

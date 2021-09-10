@@ -50,12 +50,12 @@
                     </div>
 
                     <div class="navbar-end">
-                        <div class="navbar-item" style="display: flex; align-items: center;">
+                        <a class="navbar-item" href="{{ route('balance') }}" style="display: flex; align-items: center;">
                             <div style="width: 28px; height: 28px; border-radius: 50%; margin-right: 10px; background-size: cover; background-position: center center;
                                 background-image: url({{ Auth::user()->avatar != null ? '/storage/avatars/' . Auth::user()->avatar : '/images/avatars/mp.jpg' }});"></div>
                             <span style="margin-right: 8px;">{{ Auth::user()->name }}</span>
                             <strong @if (Auth::user()->balance < 0) class="has-text-danger" @endif>&euro; {{ number_format(Auth::user()->balance, 2, ',', '.') }}</strong>
-                        </div>
+                        </a>
                         <div class="navbar-item">
                             <div class="buttons">
                                 @if (Auth::user()->role == App\Models\User::ROLE_ADMIN)

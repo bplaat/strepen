@@ -17,6 +17,8 @@ Route::middleware('language')->group(function () {
 
         Route::get('transactions', App\Http\Livewire\Transactions\History::class)->name('transactions.history');
 
+        Route::get('balance', App\Http\Livewire\Balance::class)->name('balance');
+
         Route::view('/auth/settings', 'settings')->name('settings');
 
         Route::get('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');

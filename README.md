@@ -6,7 +6,6 @@ A new strepen system written in Laravel with reactive live Livewire components??
 - Testers: bugs?
 - Better user selector component
 - Better product selector component
-- Inventory history graphs
 - Create REST API for you know what...
 - All the whishs from the Stam Bestuur
 

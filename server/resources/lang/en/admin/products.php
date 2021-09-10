@@ -17,8 +17,11 @@ return [
 
     // Admin products item livewire component
     'item.amount' => 'Amount in stock: :product.amount',
+    'item.inspect' => 'Inspect',
     'item.edit' => 'Edit',
     'item.delete' => 'Delete',
+    'item.inspect_product' => 'Inspect product',
+    'item.amount_of' => 'Amount of :product.name',
     'item.edit_product' => 'Edit product',
     'item.name' => 'Name',
     'item.price' => 'Price',

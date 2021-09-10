@@ -18,7 +18,7 @@ return [
     'change_details.birthday' => 'Geboorte datum',
     'change_details.email' => 'Email adres',
     'change_details.phone' => 'Telefoon',
-    'change_details.address' => 'Adres (straat naam met huis nummer)',
+    'change_details.address' => 'Adres (straatnaam met huisnummer)',
     'change_details.postcode' => 'Postcode',
     'change_details.city' => 'Stad',
     'change_details.language' => 'Taal',

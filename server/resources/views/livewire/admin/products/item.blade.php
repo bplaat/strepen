@@ -15,10 +15,48 @@
         </div>
 
         <div class="card-footer">
+            <a href="#" class="card-footer-item" wire:click.prevent="$set('isInspecting', true)">@lang('admin/products.item.inspect')</a>
             <a href="#" class="card-footer-item" wire:click.prevent="$set('isEditing', true)">@lang('admin/products.item.edit')</a>
             <a href="#" class="card-footer-item has-text-danger" wire:click.prevent="$set('isDeleting', true)">@lang('admin/products.item.delete')</a>
         </div>
     </div>
+
+    @if ($isInspecting)
+        <div class="modal is-active">
+            <div class="modal-background" wire:click="$set('isInspecting', false)"></div>
+
+            <div class="modal-card" style="width: 50%;">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">@lang('admin/products.item.inspect_product')</p>
+                    <button type="button" class="delete" wire:click="$set('isInspecting', false)"></button>
+                </header>
+
+                <section class="modal-card-body">
+                    <div>
+                        <h2 class="title is-4">@lang('admin/products.item.amount_of', ['product.name' => $product->name])</h2>
+                        <canvas id="amount_chart_canvas"></canvas>
+
+                        <script>
+                        new Chart(document.getElementById('amount_chart_canvas').getContext('2d'), {
+                            type: 'line',
+                            data: {
+                                datasets: [{
+                                    label: 'Amount',
+                                    data: @json($product->getAmountChart()),
+                                    borderColor: '#3e56c4',
+                                    tension: 0.1
+                                }]
+                            },
+                            options: {
+                                animation: false
+                            }
+                        });
+                        </script>
+                    </div>
+                </section>
+            </div>
+        </div>
+    @endif
 
     @if ($isEditing)
         <div class="modal is-active">
