@@ -39,7 +39,6 @@ class Crud extends PaginationComponent
             $this->product->image = $imageName;
         }
 
-        $this->product->amount = 0;
         $this->product->save();
         $this->mount();
     }

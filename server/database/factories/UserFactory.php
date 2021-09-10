@@ -35,7 +35,6 @@ class UserFactory extends Factory
             'postcode' => $this->faker->postcode,
             'city' => $this->faker->city,
             'password' => Hash::make($this->faker->password),
-            'role' => User::ROLE_NORMAL,
             'balance' => 0
         ];
     }

@@ -29,6 +29,7 @@ return [
     'crud.role' => 'Role',
     'crud.role_normal' => 'Normal',
     'crud.role_admin' => 'Admin',
+    'crud.language' => 'Language',
     'crud.cancel' => 'Cancel',
 
     // Admin users item livewire component
@@ -52,15 +53,16 @@ return [
     'item.address' => 'Address',
     'item.postcode' => 'Postcode',
     'item.city' => 'City',
-    'item.role' => 'Role',
     'item.password' => 'Password',
     'item.password_hint' => 'Leave empty to not change',
     'item.password_confirmation' => 'Password confirmation',
     'item.avatar' => 'Avatar',
     'item.avatar_help' => 'You can upload an squared .jpg or .png avatar',
     'item.delete_avatar' => 'Delete product avatar',
+    'item.role' => 'Role',
     'item.role_normal' => 'Normal',
     'item.role_admin' => 'Admin',
+    'item.language' => 'Language',
     'item.cancel' => 'Cancel',
     'item.delete_user' => 'Delete user',
     'item.delete_description' => 'Are you sure you want to delete this user and all it\'s history?'

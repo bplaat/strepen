@@ -28,7 +28,8 @@ class ChangeDetails extends Component
             'user.phone' => 'nullable|max:255',
             'user.address' => 'nullable|min:2|max:255',
             'user.postcode' => 'nullable|min:2|max:32',
-            'user.city' => 'nullable|min:2|max:255'
+            'user.city' => 'nullable|min:2|max:255',
+            'user.language' => 'nullable|integer|digits_between:' . User::LANGUAGE_ENGLISH . ',' . User::LANGUAGE_DUTCH
         ];
     }
 

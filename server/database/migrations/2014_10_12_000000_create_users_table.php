@@ -29,7 +29,8 @@ class CreateUsersTable extends Migration
             $table->string('city')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->unsignedTinyInteger('role');
+            $table->unsignedTinyInteger('role')->default(User::ROLE_NORMAL);
+            $table->unsignedTinyInteger('language')->default(User::LANGUAGE_DUTCH);
             $table->decimal('balance', 12, 3);
             $table->timestamps();
         });

@@ -43,6 +43,7 @@ class Item extends Component
             'newPasswordConfirmation' => $this->newPassword != null ? ['required', 'same:newPassword'] : [],
             'avatar' => 'nullable|image|max:1024',
             'user.role' => 'required|integer|digits_between:' . User::ROLE_NORMAL . ',' . User::ROLE_ADMIN,
+            'user.language' => 'nullable|integer|digits_between:' . User::LANGUAGE_ENGLISH . ',' . User::LANGUAGE_DUTCH
         ];
     }
 

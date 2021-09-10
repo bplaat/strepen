@@ -22,7 +22,6 @@ class DatabaseSeeder extends Seeder
             'lastname' => 'System',
             'email' => 'system@' . strtolower(config('app.name')),
             'password' => Hash::make(Str::random(32)),
-            'role' => User::ROLE_NORMAL,
             'balance' => 0
         ]);
 

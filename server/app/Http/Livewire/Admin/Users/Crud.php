@@ -30,7 +30,8 @@ class Crud extends PaginationComponent
         'user.password' => 'required|min:6',
         'user.password_confirmation' => 'required|same:user.password_confirmation',
         'userAvatar' => 'nullable|image|max:1024',
-        'user.role' => 'nullable|integer|digits_between:' . User::ROLE_NORMAL . ',' . User::ROLE_ADMIN
+        'user.role' => 'nullable|integer|digits_between:' . User::ROLE_NORMAL . ',' . User::ROLE_ADMIN,
+        'user.language' => 'nullable|integer|digits_between:' . User::LANGUAGE_ENGLISH . ',' . User::LANGUAGE_DUTCH
     ];
 
     public function mount()

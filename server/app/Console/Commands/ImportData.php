@@ -72,7 +72,6 @@ class ImportData extends Command
                     'lastname' => $lastname,
                     'email' => $user->email,
                     'password' => Hash::make('strepen'),
-                    'role' => User::ROLE_NORMAL,
                     'balance' => 0
                 ]);
                 $oldUserIds[$user->id] = $userModel->id;
@@ -123,8 +122,7 @@ class ImportData extends Command
             $product = json_decode('{' . $productJson . '}');
             Product::create([
                 'name' => $product->name,
-                'price' => $product->price,
-                'amount' => 0
+                'price' => $product->price
             ]);
             echo "\033[F" . ($index + 1) . ' / ' . $total . ' = ' . round(($index + 1) / $total * 100, 2) . "%\n";
         }

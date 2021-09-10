@@ -206,17 +206,36 @@
                         @enderror
                     </div>
 
-                    <div class="field">
-                        <label class="label" for="role">@lang('admin/users.crud.role')</label>
-                        <div class="control">
-                            <div class="select is-fullwidth @error('user.role') is-danger @enderror">
-                                <select id="role" wire:model.defer="user.role">
-                                    <option value="{{ App\Models\User::ROLE_NORMAL }}">@lang('admin/users.crud.role_normal')</option>
-                                    <option value="{{ App\Models\User::ROLE_ADMIN }}">@lang('admin/users.crud.role_admin')</option>
-                                </select>
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label" for="role">@lang('admin/users.crud.role')</label>
+                                <div class="control">
+                                    <div class="select is-fullwidth @error('user.role') is-danger @enderror">
+                                        <select id="role" wire:model.defer="user.role">
+                                            <option value="{{ App\Models\User::ROLE_NORMAL }}">@lang('admin/users.crud.role_normal')</option>
+                                            <option value="{{ App\Models\User::ROLE_ADMIN }}">@lang('admin/users.crud.role_admin')</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                @error('user.role') <p class="help is-danger">{{ $message }}</p> @enderror
                             </div>
                         </div>
-                        @error('user.role') <p class="help is-danger">{{ $message }}</p> @enderror
+
+                        <div class="column">
+                            <div class="field">
+                                <label class="label" for="language">@lang('admin/users.crud.language')</label>
+                                <div class="control">
+                                    <div class="select is-fullwidth @error('user.language') is-danger @enderror">
+                                        <select id="language" wire:model.defer="user.language">
+                                            <option value="{{ App\Models\User::LANGUAGE_ENGLISH }}">English</option>
+                                            <option value="{{ App\Models\User::LANGUAGE_DUTCH }}">Nederlands</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                @error('user.language') <p class="help is-danger">{{ $message }}</p> @enderror
+                            </div>
+                        </div>
                     </div>
                 </section>
 

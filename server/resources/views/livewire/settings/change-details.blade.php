@@ -130,6 +130,19 @@
         </div>
 
         <div class="field">
+            <label class="label" for="language">@lang('admin/users.item.language')</label>
+            <div class="control">
+                <div class="select is-fullwidth @error('user.language') is-danger @enderror">
+                    <select id="language" wire:model.defer="user.language">
+                        <option value="{{ App\Models\User::LANGUAGE_ENGLISH }}">English</option>
+                        <option value="{{ App\Models\User::LANGUAGE_DUTCH }}">Nederlands</option>
+                    </select>
+                </div>
+            </div>
+            @error('user.language') <p class="help is-danger">{{ $message }}</p> @enderror
+        </div>
+
+        <div class="field">
             <div class="control">
                 <button class="button is-link" type="submit">@lang('settings.change_details.button')</button>
             </div>

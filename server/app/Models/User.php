@@ -20,6 +20,10 @@ class User extends Authenticatable
     const ROLE_NORMAL = 0;
     const ROLE_ADMIN = 1;
 
+    // A user can select the english and the dutch language
+    const LANGUAGE_ENGLISH = 0;
+    const LANGUAGE_DUTCH = 1;
+
     protected $fillable = [
         'firstname',
         'insertion',
