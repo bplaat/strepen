@@ -2,8 +2,13 @@
 A new strepen system written in Laravel with reactive live Livewire components???
 
 ## TODO list:
-- Add kiosk mode page
-- Inventory history graphs?
+- Better product items list with icon
+- Testers: bugs?
+- Better user selector component
+- Better product selector component
+- Inventory history graphs
+- Create REST API for you know what...
+- All the whishs from the Stam Bestuur
 
 ## API
 Here is an idea of how the REST API can look like but with Livewire this is not really nessary any more:
@@ -101,9 +106,14 @@ GET /api/posts/{post}/delete ADMIN
 - Create database tables
 
     ```
-    php artisan migrate
+    php artisan migrate --seed
     ```
 - Goto http://strepen.local/ and you're done! 🎉
+- Optional: You can import all the data from the [old Strepen System](https://github.com/JohnOnline88/strepensysteem)
+
+    ```
+    php artisan import-data 'http://stam.diekantankys.nl'
+    ```
 
 ## macOS
 TODO
@@ -207,6 +217,11 @@ TODO
 - Create database tables
 
     ```
-    php artisan migrate
+    php artisan migrate --seed
     ```
 - Goto http://strepen.local/ and you're done! 🎉
+- Optional: You can import all the data from the [old Strepen System](https://github.com/JohnOnline88/strepensysteem)
+
+    ```
+    php artisan import-data 'http://stam.diekantankys.nl'
+    ```

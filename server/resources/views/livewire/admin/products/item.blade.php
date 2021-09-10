@@ -1,8 +1,10 @@
 <div class="column is-one-quarter">
     <div class="card" style="display: flex; flex-direction: column; height: 100%; margin-bottom: 0; overflow: hidden;">
-        <div class="card-image">
-            <div class="image" style="background-image: url(/storage/products/{{ $product->image }}); background-color: #ddd; background-size: cover; background-position: center center; padding-top: 100%;"></div>
-        </div>
+        @if ($product->image != null)
+            <div class="card-image">
+                <div class="image" style="background-image: url(/storage/products/{{ $product->image }}); background-color: #ddd; background-size: cover; background-position: center center; padding-top: 100%;"></div>
+            </div>
+        @endif
 
         <div class="card-content content" style="flex: 1; margin-bottom: 0;">
             <h4>{{ $product->name }}: &euro; {{ number_format($product->price, 2, ',', '.') }}</h4>

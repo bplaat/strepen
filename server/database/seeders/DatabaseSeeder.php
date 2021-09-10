@@ -16,11 +16,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // Create kiosk account (must by user_id=1)
+        // Create system / kiosk account (must by user_id=1)
         User::create([
-            'firstname' => 'Strepen',
-            'lastname' => 'Kiosk',
-            'email' => 'kiosk@strepen',
+            'firstname' => config('app.name'),
+            'lastname' => '',
+            'email' => 'system@' . strtolower(config('app.name')),
             'password' => Hash::make(Str::random(32)),
             'role' => User::ROLE_NORMAL,
             'balance' => 0
@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
             'balance' => 0
         ]);
 
-        // Create 50 random users
-        User::factory(50)->create();
+        // // Create 50 random users
+        // User::factory(50)->create();
     }
 }
