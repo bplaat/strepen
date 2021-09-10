@@ -67,6 +67,7 @@ class Product extends Model
     // Search collection by a query
     public static function searchCollection($collection, $query)
     {
+        if (strlen($query) == 0) return $collection;
         return $collection->filter(function ($product) use ($query) {
             return Str::contains(strtolower($product->name), strtolower($query)) ||
                 Str::contains(strtolower($product->description), strtolower($query));

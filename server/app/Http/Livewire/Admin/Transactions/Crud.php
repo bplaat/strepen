@@ -50,6 +50,10 @@ class Crud extends PaginationComponent
         $this->validateOnly('transaction.name');
         $this->validateOnly('transactionProducts.*.amount');
 
+        if ($this->transactionProducts->count() == 0) {
+            return;
+        }
+
         $this->transaction->price = 0;
         foreach ($this->transactionProducts as $transactionProduct) {
             $this->transaction->price += $transactionProduct['product']['price'] * $transactionProduct['amount'];

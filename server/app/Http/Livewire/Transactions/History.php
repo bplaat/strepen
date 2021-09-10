@@ -2,13 +2,18 @@
 
 namespace App\Http\Livewire\Transactions;
 
-use Livewire\Component;
+use App\Http\Livewire\PaginationComponent;
+use App\Models\Transaction;
+use Illuminate\Support\Facades\Auth;
 
-class History extends Component
+class History extends PaginationComponent
 {
     public function render()
     {
-        return view('livewire.transactions.history')
-            ->layout('layouts.app', ['title' => __('transactions.history.title')]);
+        return view('livewire.transactions.history', [
+            'transactions' => Transaction::searchCollection(Auth::user()->transactions, $this->q)
+                ->sortByDesc('created_at')
+                ->paginate(config('pagination.web.limit'))->withQueryString()
+        ])->layout('layouts.app', ['title' => __('transactions.history.title')]);
     }
 }

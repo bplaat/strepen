@@ -8,6 +8,7 @@ Route::get('/', App\Http\Livewire\Home::class)->name('home');
 // Normal routes
 Route::middleware('auth')->group(function () {
     Route::get('stripe', App\Http\Livewire\Transactions\Create::class)->name('transactions.create');
+
     Route::get('transactions', App\Http\Livewire\Transactions\History::class)->name('transactions.history');
 
     Route::view('/auth/settings', 'settings')->name('settings');

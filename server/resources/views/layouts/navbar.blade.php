@@ -1,7 +1,7 @@
 <div class="navbar is-light is-fixed-top">
     <div class="container">
         <div class="navbar-brand">
-            <a class="navbar-item has-text-weight-bold" href="{{ route('home') }}">{{ config('app.name') }}</a>
+            <a class="navbar-item has-text-weight-bold" href="{{ route('home') }}">{{ config('app.name') }} v{{ config('app.version') }}</a>
             <a class="navbar-burger burger"><span></span><span></span><span></span></a>
         </div>
         <div class="navbar-menu">
@@ -39,6 +39,7 @@
                     </div>
                     <div class="navbar-item">
                         <div class="buttons">
+                            <a class="button is-dark" href="#">@lang('layout.navbar.admin_kiosk')</a>
                             <a class="button is-link" href="{{ route('settings') }}">@lang('layout.navbar.settings')</a>
                             <a class="button" href="{{ route('auth.logout') }}">@lang('layout.navbar.logout')</a>
                         </div>

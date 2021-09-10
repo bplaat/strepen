@@ -119,6 +119,7 @@ class User extends Authenticatable
     // Search collection by a query
     public static function searchCollection($collection, $query)
     {
+        if (strlen($query) == 0) return $collection;
         return $collection->filter(function ($user) use ($query) {
             return Str::contains(strtolower($user->firstname), strtolower($query)) ||
                 Str::contains(strtolower($user->insertion), strtolower($query)) ||

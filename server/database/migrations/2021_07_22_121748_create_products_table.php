@@ -19,7 +19,7 @@ class CreateProductsTable extends Migration
             $table->string('description')->nullable();
             $table->string('image')->nullable();
             $table->decimal('price', 12, 2);
-            $table->unsignedInteger('amount');
+            $table->integer('amount');
             $table->timestamps();
         });
     }

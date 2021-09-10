@@ -10,6 +10,7 @@ return [
     'navbar.admin_products' => 'Products',
     'navbar.admin_inventories' => 'Inventories',
     'navbar.admin_transactions' => 'Transactions',
+    'navbar.admin_kiosk' => 'Kiosk',
     'navbar.settings' => 'Settings',
     'navbar.logout' => 'Logout',
     'navbar.login' => 'Login',

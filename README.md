@@ -2,8 +2,6 @@
 A new strepen system written in Laravel with reactive live Livewire components???
 
 ## TODO list:
-- User strepen
-- User transaction history
 - Add kiosk mode page
 - Inventory history graphs?
 

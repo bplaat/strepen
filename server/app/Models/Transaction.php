@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Transaction extends Model
 {
@@ -38,6 +39,7 @@ class Transaction extends Model
     // Search collection by a query
     public static function searchCollection($collection, $query)
     {
+        if (strlen($query) == 0) return $collection;
         return $collection->filter(function ($transaction) use ($query) {
             return Str::contains(strtolower($transaction->name), strtolower($query));
         });

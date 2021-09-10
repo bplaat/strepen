@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Inventory extends Model
 {
@@ -33,6 +34,7 @@ class Inventory extends Model
     // Search collection by a query
     public static function searchCollection($collection, $query)
     {
+        if (strlen($query) == 0) return $collection;
         return $collection->filter(function ($inventory) use ($query) {
             return Str::contains(strtolower($inventory->name), strtolower($query));
         });

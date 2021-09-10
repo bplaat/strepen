@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Post extends Model
 {
@@ -28,6 +29,7 @@ class Post extends Model
     // Search collection by a query
     public static function searchCollection($collection, $query)
     {
+        if (strlen($query) == 0) return $collection;
         return $collection->filter(function ($post) use ($query) {
             return Str::contains(strtolower($post->title), strtolower($query)) ||
                 Str::contains(strtolower($post->body), strtolower($query));
