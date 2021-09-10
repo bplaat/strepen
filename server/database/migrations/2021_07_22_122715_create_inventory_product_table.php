@@ -29,6 +29,8 @@ class CreateInventoryProductTable extends Migration
                 ->references('id')
                 ->on('products')
                 ->onDelete('cascade');
+
+            $table->unique(['inventory_id', 'product_id']);
         });
     }
 

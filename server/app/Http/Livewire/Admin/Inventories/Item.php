@@ -119,8 +119,6 @@ class Item extends Component
     {
         unset($this->inventory->user);
         unset($this->inventory->products);
-        return view('livewire.admin.inventories.item', [
-            'sortedInventoryProducts' => $this->inventory->products->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE)
-        ]);
+        return view('livewire.admin.inventories.item');
     }
 }

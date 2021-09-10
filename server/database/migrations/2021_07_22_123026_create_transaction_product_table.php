@@ -29,6 +29,8 @@ class CreateTransactionProductTable extends Migration
                 ->references('id')
                 ->on('products')
                 ->onDelete('cascade');
+
+            $table->unique(['transaction_id', 'product_id']);
         });
     }
 

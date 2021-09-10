@@ -11,7 +11,8 @@ class Home extends PaginationComponent
     {
         return view('livewire.home', [
             'posts' => Post::search($this->q)
-                ->sortByDesc('created_at')
+                ->with('user')
+                ->orderBy('created_at', 'DESC')
                 ->paginate(config('pagination.web.small_limit'))->withQueryString()
         ])->layout('layouts.app', ['title' => __('home.title')]);
     }

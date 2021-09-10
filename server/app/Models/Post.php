@@ -23,7 +23,7 @@ class Post extends Model
     public static function search($query)
     {
         return static::where('title', 'LIKE', '%' . $query . '%')
-            ->orWhere('body', 'LIKE', '%' . $query . '%')->get();
+            ->orWhere('body', 'LIKE', '%' . $query . '%');
     }
 
     // Search collection by a query

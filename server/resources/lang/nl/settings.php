@@ -21,6 +21,7 @@ return [
     'change_details.address' => 'Adres (straat naam met huis nummer)',
     'change_details.postcode' => 'Postcode',
     'change_details.city' => 'Stad',
+    'change_details.language' => 'Taal',
     'change_details.button' => 'Verander gegevens',
     'change_details.success_message' => 'Je gegevens zijn opgeslagen',
 

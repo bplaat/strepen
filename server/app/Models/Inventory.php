@@ -28,7 +28,7 @@ class Inventory extends Model
     // Search by a query
     public static function search($query)
     {
-        return static::where('name', 'LIKE', '%' . $query . '%')->get();
+        return static::where('name', 'LIKE', '%' . $query . '%');
     }
 
     // Search collection by a query

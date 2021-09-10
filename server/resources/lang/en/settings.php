@@ -21,6 +21,7 @@ return [
     'change_details.address' => 'Address (street with house number)',
     'change_details.postcode' => 'Postcode',
     'change_details.city' => 'City',
+    'change_details.language' => 'Language',
     'change_details.button' => 'Change details',
     'change_details.success_message' => 'Your details have changed',
 

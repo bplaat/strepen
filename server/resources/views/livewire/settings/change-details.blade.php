@@ -130,7 +130,7 @@
         </div>
 
         <div class="field">
-            <label class="label" for="language">@lang('admin/users.item.language')</label>
+            <label class="label" for="language">@lang('settings.change_details.language')</label>
             <div class="control">
                 <div class="select is-fullwidth @error('user.language') is-danger @enderror">
                     <select id="language" wire:model.defer="user.language">

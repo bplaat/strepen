@@ -129,7 +129,8 @@ class Crud extends PaginationComponent
     {
         return view('livewire.admin.transactions.crud', [
             'transactions' => Transaction::search($this->q)
-                ->sortByDesc('created_at')
+                ->with('products')
+                ->orderBy('created_at', 'DESC')
                 ->paginate(config('pagination.web.limit'))->withQueryString()
         ])->layout('layouts.app', ['title' => __('admin/transactions.crud.title')]);
     }
