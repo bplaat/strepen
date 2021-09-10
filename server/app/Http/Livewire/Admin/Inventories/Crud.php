@@ -52,9 +52,10 @@ class Crud extends PaginationComponent
             }
         }
 
-        // Recalculate amounts of all products
-        foreach ($this->products as $product) {
-            $product->recalculateAmount();
+        // Update amounts of products
+        foreach ($this->inventoryProducts as $inventoryProduct) {
+            $product = Product::find($inventoryProduct['product_id']);
+            $product->amount -= $inventoryProduct['amount'];
             $product->save();
         }
 

@@ -83,7 +83,6 @@ class Item extends Component
                 $product->recalculateAmount();
                 $product->save();
             }
-
         }
 
         if ($this->transaction->type == Transaction::TYPE_DEPOSIT) {
@@ -136,6 +135,12 @@ class Item extends Component
         $user = User::find($userId);
         $user->recalculateBalance();
         $user->save();
+
+        // Recalculate amounts of all products
+        foreach ($this->products as $product) {
+            $product->recalculateAmount();
+            $product->save();
+        }
 
         $this->isDeleting = false;
         $this->emitUp('refresh');

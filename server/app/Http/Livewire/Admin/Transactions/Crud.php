@@ -69,15 +69,16 @@ class Crud extends PaginationComponent
             }
         }
 
-        // Recalculate amounts of all products
-        foreach ($this->products as $product) {
-            $product->recalculateAmount();
+        // Update amounts of products
+        foreach ($this->transactionProducts as $transactionProduct) {
+            $product = Product::find($transactionProduct['product_id']);
+            $product->amount -= $transactionProduct['amount'];
             $product->save();
         }
 
         // Recalculate balance of user
         $user = User::find($this->transaction->user_id);
-        $user->recalculateBalance();
+        $user->balance -= $this->transaction->price;
         $user->save();
 
         $this->mount();
@@ -119,7 +120,7 @@ class Crud extends PaginationComponent
         $this->transaction->save();
 
         $user = User::find($this->transaction->user_id);
-        $user->recalculateBalance();
+        $user->balance += $this->transaction->price;
         $user->save();
 
         $this->mount();

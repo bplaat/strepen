@@ -101,7 +101,7 @@ class ImportData extends Command
             $postModel = new Post();
             $postModel->user_id = 1;
             $postModel->title = $post->title;
-            $postModel->body = str_replace('<br />', "\n\n", base64_decode($post->body));
+            $postModel->body = str_replace('<br />', "\n", base64_decode($post->body));
             $postModel->created_at = $post->created_at;
             $postModel->save();
             echo "\033[F" . ($index + 1) . ' / ' . $total . ' = ' . round(($index + 1) / $total * 100, 2) . "%\n";

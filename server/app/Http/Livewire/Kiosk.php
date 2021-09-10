@@ -58,15 +58,16 @@ class Kiosk extends Component
             }
         }
 
-        // Recalculate amounts of all products
-        foreach ($this->products as $product) {
-            $product->recalculateAmount();
+        // Update amounts of products
+        foreach ($this->transactionProducts as $transactionProduct) {
+            $product = Product::find($transactionProduct['product_id']);
+            $product->amount -= $transactionProduct['amount'];
             $product->save();
         }
 
         // Recalculate balance of user
         $user = User::find($this->transaction->user_id);
-        $user->recalculateBalance();
+        $user->balance -= $this->transaction->price;
         $user->save();
 
         session()->flash('create_transaction_message', __('kiosk.success_message'));
