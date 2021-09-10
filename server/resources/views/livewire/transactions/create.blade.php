@@ -1,4 +1,11 @@
 <div>
+    @if (session()->has('create_transaction_message'))
+        <div class="notification is-success">
+            <button class="delete" onclick="this.parentNode.parentNode.removeChild(this.parentNode);"></button>
+            <p>{{ session('create_transaction_message') }}</p>
+        </div>
+    @endif
+
     <h1 class="title is-4">@lang('transactions.create.header')</h1>
 
     <form id="createTransaction" wire:submit.prevent="createTransaction"></form>

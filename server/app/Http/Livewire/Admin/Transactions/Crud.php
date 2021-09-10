@@ -6,7 +6,6 @@ use App\Http\Livewire\PaginationComponent;
 use App\Models\Product;
 use App\Models\Transaction;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 
 class Crud extends PaginationComponent
 {

@@ -11,7 +11,7 @@ return [
     'create.select_product' => 'Select a product...',
     'create.add_product' => 'Add product',
     'create.amount' => 'Amount',
-    'create.cancel' => 'Cancel',
+    'create.success_message' => 'Your transaction has been saved',
 
     // Transactions history livewire component
     'history.title' => 'Stripe History',
@@ -21,5 +21,5 @@ return [
     'history.empty' => 'No stripes found!',
     'history.transaction_from' => 'Transaction on :transaction.created_at',
     'history.deposit_for' => 'Deposit on :transaction.created_at',
-    'history.amount' => 'Amount',
+    'history.amount' => 'Amount'
 ];

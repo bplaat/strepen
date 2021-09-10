@@ -9,7 +9,7 @@
                 <div class="navbar-end">
                     <div class="navbar-item">
                         <div class="buttons">
-                            <a class="button is-dark" href="javascript:alert('Nee nee nee, je mag deze prachtige plek niet verlaten!')">@lang('layout.navbar.in_kiosk')</a>
+                            <a class="button is-dark" href="javascript:alert('Nee nee nee, je mag deze prachtige plek niet verlaten!\n1 gratis biertje voor degene die het toch wel lukt.\nHet is niet zo heel erg lastig.')">@lang('layout.navbar.in_kiosk')</a>
                         </div>
                     </div>
                 </div>

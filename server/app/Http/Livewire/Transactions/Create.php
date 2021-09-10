@@ -67,7 +67,8 @@ class Create extends Component
         $user->recalculateBalance();
         $user->save();
 
-        return redirect()->route('transactions.history');
+        session()->flash('create_transaction_message', __('transactions.create.success_message'));
+        $this->mount();
     }
 
     public function addProduct()
