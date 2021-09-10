@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,6 +16,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        // Create kiosk account (must by user_id=1)
+        User::create([
+            'firstname' => 'Strepen',
+            'lastname' => 'Kiosk',
+            'email' => 'kiosk@strepen',
+            'password' => Hash::make(Str::random(32)),
+            'role' => User::ROLE_NORMAL,
+            'balance' => 0
+        ]);
+
         // Create admin account
         User::create([
             'firstname' => 'Bastiaan',

@@ -1,7 +1,7 @@
 <div class="column is-one-third">
     <div class="card" style="display: flex; flex-direction: column; height: 100%; margin-bottom: 0; overflow: hidden;">
         <div class="card-content content" style="flex: 1; margin-bottom: 0;">
-            <h3 class="is-3">
+            <h4>
                 {{ $user->name }}
 
                 @if ($user->role == App\Models\User::ROLE_NORMAL)
@@ -11,7 +11,7 @@
                 @if ($user->role == App\Models\User::ROLE_ADMIN)
                     <span class="tag is-pulled-right is-danger">{{ Str::upper(__('admin/users.item.role_admin')) }}</span>
                 @endif
-            </h3>
+            </h4>
 
             <p>@lang('admin/users.item.balance'): <strong @if ($user->balance < 0) class="has-text-danger" @endif>&euro; {{ number_format($user->balance, 2, ',', '.') }}</strong></p>
         </div>

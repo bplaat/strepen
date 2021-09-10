@@ -1,7 +1,7 @@
 <div class="column is-one-third">
     <div class="card" style="display: flex; flex-direction: column; height: 100%; margin-bottom: 0; overflow: hidden;">
         <div class="card-content content" style="flex: 1; margin-bottom: 0;">
-            <h3 class="is-3">{{ $inventory->name }}</h3>
+            <h4>{{ $inventory->name }}</h4>
             <p><i>@lang('admin/inventories.item.created_by', ['user.name' => $inventory->user->name, 'inventory.created_at' => $inventory->created_at->format('Y-m-d H:i')])</i></p>
             <p><strong>@lang('admin/inventories.item.price')</strong>: &euro; {{ number_format($inventory->price, 2, ',', '.') }}</p>
             <ul>

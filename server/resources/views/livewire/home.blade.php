@@ -29,7 +29,7 @@
 
         @foreach ($posts as $post)
             <div class="box content">
-                <h3 class="is-4">{{ $post->title }}</h3>
+                <h4>{{ $post->title }}</h4>
                 <p><i>@lang('home.posts_written_by', ['user.name' => $post->user->name, 'post.created_at' => $post->created_at->format('Y-m-d H:i')])</i></p>
                 {!! (new Parsedown())->text($post->body) !!}
             </div>

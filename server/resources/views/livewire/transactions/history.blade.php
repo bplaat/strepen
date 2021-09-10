@@ -25,7 +25,7 @@
                 <div class="column is-one-quarter">
                     <div class="card" style="height: 100%;">
                         <div class="card-content content">
-                            <h3 class="is-3">{{ $transaction->name }}</h3>
+                            <h4>{{ $transaction->name }}</h4>
 
                             @if ($transaction->type == \App\Models\Transaction::TYPE_TRANSACTION)
                                 <p><i>@lang('transactions.history.transaction_from', ['transaction.created_at' => $transaction->created_at->format('Y-m-d H:i')])</i></p>

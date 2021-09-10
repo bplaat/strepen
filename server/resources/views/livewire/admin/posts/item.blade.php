@@ -1,7 +1,7 @@
 <div class="column is-one-third">
     <div class="card" style="display: flex; flex-direction: column; height: 100%; margin-bottom: 0; overflow: hidden;">
         <div class="card-content content" style="flex: 1; margin-bottom: 0;">
-            <h3 class="is-3">{{ $post->title }}</h3>
+            <h4>{{ $post->title }}</h4>
             <p><i>@lang('admin/posts.item.written_by', ['user.name' => $post->user->name, 'post.created_at' => $post->created_at->format('Y-m-d H:i')])</i></p>
             <pre>{{  Str::limit($post->body, 320) }}</pre>
         </div>

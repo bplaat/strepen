@@ -1,7 +1,7 @@
 <div class="column is-one-quarter">
     <div class="card" style="display: flex; flex-direction: column; height: 100%; margin-bottom: 0; overflow: hidden;">
         <div class="card-content content" style="flex: 1; margin-bottom: 0;">
-            <h3 class="is-3">{{ $transaction->name }}</h3>
+            <h4>{{ $transaction->name }}</h4>
 
             @if ($transaction->type == \App\Models\Transaction::TYPE_TRANSACTION)
                 <p><i>@lang('admin/transactions.item.transaction_from', ['user.name' => $transaction->user->name, 'transaction.created_at' => $transaction->created_at->format('Y-m-d H:i')])</i></p>

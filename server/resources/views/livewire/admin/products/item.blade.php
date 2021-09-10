@@ -5,7 +5,7 @@
         </div>
 
         <div class="card-content content" style="flex: 1; margin-bottom: 0;">
-            <h3 class="is-3">{{ $product->name }}: &euro; {{ number_format($product->price, 2, ',', '.') }}</h3>
+            <h4>{{ $product->name }}: &euro; {{ number_format($product->price, 2, ',', '.') }}</h4>
             @if ($product->description != null)
                 <p><i>{{ $product->description }}</i></p>
             @endif

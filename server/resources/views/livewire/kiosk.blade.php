@@ -1,0 +1,3 @@
+<div>
+    KIOSK
+</div>
