@@ -1,5 +1,5 @@
 @if ($paginator->hasPages())
-    <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+    <div class="pagination is-centered" role="navigation">
         <a wire:click="_previousPage({{ !$paginator->onFirstPage() ? 'false' : 'true' }})" wire:loading.attr="disabled"
             rel="previous" class="pagination-previous" @if ($paginator->onFirstPage()) disabled @endif>@lang('pagination.previous')</a>
         <a wire:click="_nextPage({{ $paginator->hasMorePages() ? 'false' : 'true' }})" wire:loading.attr="disabled"
@@ -15,12 +15,11 @@
                         <li>
                             <a class="pagination-link @if ($page == $paginator->currentPage()) is-current @endif"
                                 wire:click="gotoPage({{ $page }})"
-                                wire:loading.attr="disabled"
-                                aria-label="Goto page {{ $page }}">{{ $page }}</a>
+                                wire:loading.attr="disabled">{{ $page }}</a>
                         </li>
                     @endforeach
                 @endif
             @endforeach
         </ul>
-    </nav>
+    </div>
 @endif

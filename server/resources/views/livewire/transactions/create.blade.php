@@ -1,4 +1,4 @@
-<div>
+<div class="container">
     @if (session()->has('create_transaction_message'))
         <div class="notification is-success">
             <button class="delete" onclick="this.parentNode.parentNode.removeChild(this.parentNode);"></button>

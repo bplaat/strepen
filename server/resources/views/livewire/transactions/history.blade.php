@@ -1,4 +1,4 @@
-<div>
+<div class="container">
     <div class="columns">
         <div class="column">
             <h1 class="title is-4">@lang('transactions.history.header')</h1>

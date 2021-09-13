@@ -1,4 +1,4 @@
-<div>
+<div class="container">
     <h2 class="title is-4">@lang('admin/posts.crud.header')</h2>
 
     <div class="columns">
@@ -41,12 +41,12 @@
             <div class="modal-background" wire:click="$set('isCreating', false)"></div>
 
             <form wire:submit.prevent="createPost" class="modal-card">
-                <header class="modal-card-head">
+                <div class="modal-card-head">
                     <p class="modal-card-title">@lang('admin/posts.crud.create_post')</p>
                     <button type="button" class="delete" wire:click="$set('isCreating', false)"></button>
-                </header>
+                </div>
 
-                <section class="modal-card-body">
+                <div class="modal-card-body">
                     <div class="field">
                         <label class="label" for="title">@lang('admin/posts.crud._title')</label>
                         <div class="control">
@@ -64,12 +64,12 @@
                         </div>
                         @error('post.body') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
-                </section>
+                </div>
 
-                <footer class="modal-card-foot">
+                <div class="modal-card-foot">
                     <button type="submit" class="button is-link">@lang('admin/posts.crud.create_post')</button>
                     <button type="button" class="button" wire:click="$set('isCreating', false)" wire:loading.attr="disabled">@lang('admin/posts.crud.cancel')</button>
-                </footer>
+                </div>
             </form>
         </div>
     @endif

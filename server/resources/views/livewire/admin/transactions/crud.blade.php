@@ -1,4 +1,4 @@
-<div>
+<div class="container">
     <h2 class="title is-4">@lang('admin/transactions.crud.header')</h2>
 
     <div class="columns">
@@ -44,12 +44,12 @@
             <form id="createTransaction" wire:submit.prevent="createTransaction"></form>
 
             <div class="modal-card">
-                <header class="modal-card-head">
+                <div class="modal-card-head">
                     <p class="modal-card-title">@lang('admin/transactions.crud.create_transaction')</p>
                     <button type="button" class="delete" wire:click="$set('isCreatingTransaction', false)"></button>
-                </header>
+                </div>
 
-                <section class="modal-card-body">
+                <div class="modal-card-body">
                     <div class="field">
                         <label class="label" for="user_id">@lang('admin/transactions.crud.user')</label>
                         <div class="control">
@@ -121,12 +121,12 @@
                             </div>
                         @endforeach
                     </div>
-                </section>
+                </div>
 
-                <footer class="modal-card-foot">
+                <div class="modal-card-foot">
                     <button type="submit" form="createTransaction" class="button is-link">@lang('admin/transactions.crud.create_transaction')</button>
                     <button type="button" class="button" wire:click="$set('isCreatingTransaction', false)" wire:loading.attr="disabled">@lang('admin/transactions.crud.cancel')</button>
-                </footer>
+                </div>
             </div>
         </div>
     @endif
@@ -136,12 +136,12 @@
             <div class="modal-background" wire:click="$set('isCreatingDeposit', false)"></div>
 
             <form wire:submit.prevent="createDeposit" class="modal-card">
-                <header class="modal-card-head">
+                <div class="modal-card-head">
                     <p class="modal-card-title">@lang('admin/transactions.crud.create_deposit')</p>
                     <button type="button" class="delete" wire:click="$set('isCreatingDeposit', false)"></button>
-                </header>
+                </div>
 
-                <section class="modal-card-body">
+                <div class="modal-card-body">
                     <div class="field">
                         <label class="label" for="user_id">@lang('admin/transactions.crud.user')</label>
                         <div class="control">
@@ -175,12 +175,12 @@
                         </p>
                         @error('transaction.price') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
-                </section>
+                </div>
 
-                <footer class="modal-card-foot">
+                <div class="modal-card-foot">
                     <button type="submit" class="button is-link">@lang('admin/transactions.crud.create_deposit')</button>
                     <button type="button" class="button" wire:click="$set('isCreatingDeposit', false)" wire:loading.attr="disabled">@lang('admin/transactions.crud.cancel')</button>
-                </footer>
+                </div>
             </form>
         </div>
     @endif

@@ -1,4 +1,4 @@
-<div>
+<div class="container">
     @auth
         <h1 class="title">@lang('home.header_auth', ['user.firstname' => Auth::user()->firstname])</h1>
     @else

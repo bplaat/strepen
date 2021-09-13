@@ -1,4 +1,4 @@
-<div>
+<div class="container">
     <h2 class="title is-4">@lang('admin/inventories.crud.header')</h2>
 
     <div class="columns">
@@ -43,12 +43,12 @@
             <form id="createInventory" wire:submit.prevent="createInventory"></form>
 
             <div class="modal-card">
-                <header class="modal-card-head">
+                <div class="modal-card-head">
                     <p class="modal-card-title">@lang('admin/inventories.crud.create_inventory')</p>
                     <button type="button" class="delete" wire:click="$set('isCreating', false)"></button>
-                </header>
+                </div>
 
-                <section class="modal-card-body">
+                <div class="modal-card-body">
                     <div class="field">
                         <label class="label" for="name">@lang('admin/inventories.crud.name')</label>
                         <div class="control">
@@ -105,12 +105,12 @@
                             </div>
                         @endforeach
                     </div>
-                </section>
+                </div>
 
-                <footer class="modal-card-foot">
+                <div class="modal-card-foot">
                     <button type="submit" form="createInventory" class="button is-link">@lang('admin/inventories.crud.create_inventory')</button>
                     <button type="button" class="button" wire:click="$set('isCreating', false)" wire:loading.attr="disabled">@lang('admin/inventories.crud.cancel')</button>
-                </footer>
+                </div>
             </div>
         </div>
     @endif

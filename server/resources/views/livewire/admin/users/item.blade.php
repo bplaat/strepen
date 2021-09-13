@@ -31,34 +31,32 @@
             <div class="modal-background" wire:click="$set('isInspecting', false)"></div>
 
             <div class="modal-card" style="width: 50%;">
-                <header class="modal-card-head">
+                <div class="modal-card-head">
                     <p class="modal-card-title">@lang('admin/users.item.inspect_user')</p>
                     <button type="button" class="delete" wire:click="$set('isInspecting', false)"></button>
-                </header>
+                </div>
 
-                <section class="modal-card-body">
-                    <div>
-                        <h2 class="title is-4">@lang('admin/users.item.balance_of', ['user.name' => $user->name])</h2>
-                        <canvas id="balance_chart_canvas"></canvas>
+                <div class="modal-card-body">
+                    <h2 class="title is-4">@lang('admin/users.item.balance_of', ['user.name' => $user->name])</h2>
+                    <canvas id="balance_chart_canvas"></canvas>
 
-                        <script>
-                        new Chart(document.getElementById('balance_chart_canvas').getContext('2d'), {
-                            type: 'line',
-                            data: {
-                                datasets: [{
-                                    label: 'Balance (\u20ac)',
-                                    data: @json($user->getBalanceChart()),
-                                    borderColor: '#3e56c4',
-                                    tension: 0.1
-                                }]
-                            },
-                            options: {
-                                animation: false
-                            }
-                        });
-                        </script>
-                    </div>
-                </section>
+                    <script>
+                    new Chart(document.getElementById('balance_chart_canvas').getContext('2d'), {
+                        type: 'line',
+                        data: {
+                            datasets: [{
+                                label: 'Balance (\u20ac)',
+                                data: @json($user->getBalanceChart()),
+                                borderColor: '#3e56c4',
+                                tension: 0.1
+                            }]
+                        },
+                        options: {
+                            animation: false
+                        }
+                    });
+                    </script>
+                </div>
             </div>
         </div>
     @endif
@@ -68,12 +66,12 @@
             <div class="modal-background" wire:click="$set('isEditing', false)"></div>
 
             <form wire:submit.prevent="editUser" class="modal-card">
-                <header class="modal-card-head">
+                <div class="modal-card-head">
                     <p class="modal-card-title">@lang('admin/users.item.edit_user')</p>
                     <button type="button" class="delete" wire:click="$set('isEditing', false)"></button>
-                </header>
+                </div>
 
-                <section class="modal-card-body">
+                <div class="modal-card-body">
                     <div class="columns">
                         <div class="column">
                             <div class="field">
@@ -286,12 +284,12 @@
                             </div>
                         </div>
                     </div>
-                </section>
+                </div>
 
-                <footer class="modal-card-foot">
+                <div class="modal-card-foot">
                     <button type="submit" class="button is-link">@lang('admin/users.item.edit_user')</button>
                     <button type="button" class="button" wire:click="$set('isEditing', false)">@lang('admin/users.item.cancel')</button>
-                </footer>
+                </div>
             </form>
         </div>
     @endif
@@ -301,19 +299,19 @@
             <div class="modal-background" wire:click="$set('isDeleting', false)"></div>
 
             <div class="modal-card">
-                <header class="modal-card-head">
+                <div class="modal-card-head">
                     <p class="modal-card-title">@lang('admin/users.item.delete_user')</p>
                     <button type="button" class="delete" wire:click="$set('isDeleting', false)"></button>
-                </header>
+                </div>
 
-                <section class="modal-card-body">
+                <div class="modal-card-body">
                     <p>@lang('admin/users.item.delete_description')</p>
-                </section>
+                </div>
 
-                <footer class="modal-card-foot">
+                <div class="modal-card-foot">
                     <button class="button is-danger" wire:click="deleteUser()" wire:loading.attr="disabled">@lang('admin/users.item.delete_user')</button>
                     <button class="button" wire:click="$set('isDeleting', false)" wire:loading.attr="disabled">@lang('admin/users.item.cancel')</button>
-                </footer>
+                </div>
             </div>
         </div>
     @endif

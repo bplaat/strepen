@@ -1,4 +1,4 @@
-<div>
+<div class="container">
     <h1 class="title">@lang('balance.header')</h1>
     <canvas id="balance_chart_canvas"></canvas>
 

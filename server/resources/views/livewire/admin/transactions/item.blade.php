@@ -32,12 +32,12 @@
             <form id="editTransaction" wire:submit.prevent="editTransaction"></form>
 
             <div class="modal-card">
-                <header class="modal-card-head">
+                <div class="modal-card-head">
                     <p class="modal-card-title">@lang('admin/transactions.item.edit_transaction')</p>
                     <button type="button" class="delete" wire:click="$set('isEditing', false)"></button>
-                </header>
+                </div>
 
-                <section class="modal-card-body">
+                <div class="modal-card-body">
                     <div class="field">
                         <label class="label" for="user_id">@lang('admin/transactions.item.user')</label>
                         <div class="control">
@@ -146,12 +146,12 @@
                             @error('transaction.price') <p class="help is-danger">{{ $message }}</p> @enderror
                         </div>
                     @endif
-                </section>
+                </div>
 
-                <footer class="modal-card-foot">
+                <div class="modal-card-foot">
                     <button type="submit" form="editTransaction" class="button is-link">@lang('admin/transactions.item.edit_transaction')</button>
                     <button type="button" class="button" wire:click="$set('isEditing', false)" wire:loading.attr="disabled">@lang('admin/transactions.item.cancel')</button>
-                </footer>
+                </div>
             </div>
         </div>
     @endif
@@ -161,19 +161,19 @@
             <div class="modal-background" wire:click="$set('isDeleting', false)"></div>
 
             <div class="modal-card">
-                <header class="modal-card-head">
+                <div class="modal-card-head">
                     <p class="modal-card-title">@lang('admin/transactions.item.delete_transaction')</p>
                     <button type="button" class="delete" wire:click="$set('isDeleting', false)"></button>
-                </header>
+                </div>
 
-                <section class="modal-card-body">
+                <div class="modal-card-body">
                     <p>@lang('admin/transactions.item.delete_description')</p>
-                </section>
+                </div>
 
-                <footer class="modal-card-foot">
+                <div class="modal-card-foot">
                     <button class="button is-danger" wire:click="deleteTransaction()" wire:loading.attr="disabled">@lang('admin/transactions.item.delete_transaction')</button>
                     <button class="button" wire:click="$set('isDeleting', false)" wire:loading.attr="disabled">@lang('admin/transactions.item.cancel')</button>
-                </footer>
+                </div>
             </div>
         </div>
     @endif

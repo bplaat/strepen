@@ -1,4 +1,4 @@
-<form wire:submit.prevent="login">
+<form class="container" wire:submit.prevent="login">
     <h2 class="title is-4">@lang('auth.login.login')</h2>
 
     <div class="field">

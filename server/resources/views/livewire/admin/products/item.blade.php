@@ -26,34 +26,32 @@
             <div class="modal-background" wire:click="$set('isInspecting', false)"></div>
 
             <div class="modal-card" style="width: 50%;">
-                <header class="modal-card-head">
+                <div class="modal-card-head">
                     <p class="modal-card-title">@lang('admin/products.item.inspect_product')</p>
                     <button type="button" class="delete" wire:click="$set('isInspecting', false)"></button>
-                </header>
+                </div>
 
-                <section class="modal-card-body">
-                    <div>
-                        <h2 class="title is-4">@lang('admin/products.item.amount_of', ['product.name' => $product->name])</h2>
-                        <canvas id="amount_chart_canvas"></canvas>
+                <div class="modal-card-body">
+                    <h2 class="title is-4">@lang('admin/products.item.amount_of', ['product.name' => $product->name])</h2>
+                    <canvas id="amount_chart_canvas"></canvas>
 
-                        <script>
-                        new Chart(document.getElementById('amount_chart_canvas').getContext('2d'), {
-                            type: 'line',
-                            data: {
-                                datasets: [{
-                                    label: 'Amount',
-                                    data: @json($product->getAmountChart()),
-                                    borderColor: '#3e56c4',
-                                    tension: 0.1
-                                }]
-                            },
-                            options: {
-                                animation: false
-                            }
-                        });
-                        </script>
-                    </div>
-                </section>
+                    <script>
+                    new Chart(document.getElementById('amount_chart_canvas').getContext('2d'), {
+                        type: 'line',
+                        data: {
+                            datasets: [{
+                                label: 'Amount',
+                                data: @json($product->getAmountChart()),
+                                borderColor: '#3e56c4',
+                                tension: 0.1
+                            }]
+                        },
+                        options: {
+                            animation: false
+                        }
+                    });
+                    </script>
+                </div>
             </div>
         </div>
     @endif
@@ -63,12 +61,12 @@
             <div class="modal-background" wire:click="$set('isEditing', false)"></div>
 
             <form wire:submit.prevent="editProduct" class="modal-card">
-                <header class="modal-card-head">
+                <div class="modal-card-head">
                     <p class="modal-card-title">@lang('admin/products.item.edit_product')</p>
                     <button type="button" class="delete" wire:click="$set('isEditing', false)"></button>
-                </header>
+                </div>
 
-                <section class="modal-card-body">
+                <div class="modal-card-body">
                     <div class="field">
                         <label class="label" for="name">@lang('admin/products.item.name')</label>
                         <div class="control">
@@ -131,12 +129,12 @@
                             </div>
                         @endif
                     </div>
-                </section>
+                </div>
 
-                <footer class="modal-card-foot">
+                <div class="modal-card-foot">
                     <button type="submit" class="button is-link">@lang('admin/products.item.edit_product')</button>
                     <button type="button" class="button" wire:click="$set('isEditing', false)" wire:loading.attr="disabled">@lang('admin/products.item.cancel')</button>
-                </footer>
+                </div>
             </form>
         </div>
     @endif
@@ -146,19 +144,19 @@
             <div class="modal-background" wire:click="$set('isDeleting', false)"></div>
 
             <div class="modal-card">
-                <header class="modal-card-head">
+                <div class="modal-card-head">
                     <p class="modal-card-title">@lang('admin/products.item.delete_product')</p>
                     <button type="button" class="delete" wire:click="$set('isDeleting', false)"></button>
-                </header>
+                </div>
 
-                <section class="modal-card-body">
+                <div class="modal-card-body">
                     <p>@lang('admin/products.item.delete_description')</p>
-                </section>
+                </div>
 
-                <footer class="modal-card-foot">
+                <div class="modal-card-foot">
                     <button class="button is-danger" wire:click="deleteProduct()" wire:loading.attr="disabled">@lang('admin/products.item.delete_product')</button>
                     <button class="button" wire:click="$set('isDeleting', false)" wire:loading.attr="disabled">@lang('admin/products.item.cancel')</button>
-                </footer>
+                </div>
             </div>
         </div>
     @endif

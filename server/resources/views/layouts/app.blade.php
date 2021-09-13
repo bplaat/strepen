@@ -22,9 +22,7 @@
     @include('layouts.navbar')
 
     <div class="section">
-        <div class="container">
-            {{ $slot }}
-        </div>
+        {{ $slot }}
     </div>
 
     <div class="footer">

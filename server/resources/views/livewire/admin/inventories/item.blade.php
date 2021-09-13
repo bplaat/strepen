@@ -24,12 +24,12 @@
             <form id="editInventory" wire:submit.prevent="editInventory"></form>
 
             <div class="modal-card">
-                <header class="modal-card-head">
+                <div class="modal-card-head">
                     <p class="modal-card-title">@lang('admin/inventories.item.edit_inventory')</p>
                     <button type="button" class="delete" wire:click="$set('isEditing', false)"></button>
-                </header>
+                </div>
 
-                <section class="modal-card-body">
+                <div class="modal-card-body">
                     <div class="field">
                         <label class="label" for="user_id">@lang('admin/inventories.item.user')</label>
                         <div class="control">
@@ -124,12 +124,12 @@
                             </div>
                         @endforeach
                     </div>
-                </section>
+                </div>
 
-                <footer class="modal-card-foot">
+                <div class="modal-card-foot">
                     <button type="submit" form="editInventory" class="button is-link">@lang('admin/inventories.item.edit_inventory')</button>
                     <button type="button" class="button" wire:click="$set('isEditing', false)" wire:loading.attr="disabled">@lang('admin/inventories.item.cancel')</button>
-                </footer>
+                </div>
             </div>
         </div>
     @endif
@@ -139,19 +139,19 @@
             <div class="modal-background" wire:click="$set('isDeleting', false)"></div>
 
             <div class="modal-card">
-                <header class="modal-card-head">
+                <div class="modal-card-head">
                     <p class="modal-card-title">@lang('admin/inventories.item.delete_inventory')</p>
                     <button type="button" class="delete" wire:click="$set('isDeleting', false)"></button>
-                </header>
+                </div>
 
-                <section class="modal-card-body">
+                <div class="modal-card-body">
                     <p>@lang('admin/inventories.item.delete_description')</p>
-                </section>
+                </div>
 
-                <footer class="modal-card-foot">
+                <div class="modal-card-foot">
                     <button class="button is-danger" wire:click="deleteInventory()" wire:loading.attr="disabled">@lang('admin/inventories.item.delete_inventory')</button>
                     <button class="button" wire:click="$set('isDeleting', false)" wire:loading.attr="disabled">@lang('admin/inventories.item.cancel')</button>
-                </footer>
+                </div>
             </div>
         </div>
     @endif
