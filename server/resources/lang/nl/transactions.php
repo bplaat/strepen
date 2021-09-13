@@ -10,7 +10,7 @@ return [
     'create.products' => 'Producten',
     'create.select_product' => 'Selecteer een product...',
     'create.add_product' => 'Voeg product toe',
-    'create.amount' => 'Hoeveelheid',
+    'create.amount' => 'hoeveelheid',
     'create.success_message' => 'Uw transactie is opgeslagen',
 
     // Transactions history livewire component

@@ -111,19 +111,28 @@
                             </div>
                         </div>
 
-                        @foreach ($transactionProducts as $index => $transactionProduct)
-                            <div class="field">
-                                <label class="label" for="amount{{ $index }}">
-                                    {{ $transactionProduct['product']['name'] }} (&euro; {{ $transactionProduct['product']['price'] }}) @lang('admin/transactions.crud.amount')
-                                    <button type="button" class="delete is-pulled-right" wire:click="deleteProduct({{ $transactionProduct['product_id'] }})"></button>
-                                </label>
-                                <div class="control">
-                                    <input class="input @error('transactionProducts.{{ $index }}.amount') is-danger @enderror" type="number" min="1"
-                                        id="amount{{ $index }}" form="editTransaction" wire:model="transactionProducts.{{ $index }}.amount" required>
+                        <div class="field">
+                            @foreach ($transactionProducts as $index => $transactionProduct)
+                                <div class="media" style="display: flex; align-items: center;">
+                                    <div class="media-left">
+                                        <div style="width: 64px; height: 64px; background-size: cover; background-position: center center;
+                                            background-image: url({{ $transactionProduct['product']['image'] != null ? '/storage/products/' . $transactionProduct['product']['image'] : '/images/products/unkown.png' }});"></div>
+                                    </div>
+                                    <div class="media-content">
+                                        <label class="label" for="amount{{ $index }}">
+                                            {{ $transactionProduct['product']['name'] }} (&euro; {{ $transactionProduct['product']['price'] }}) @lang('admin/transactions.item.product_amount'):
+                                            <button type="button" class="delete is-pulled-right" wire:click="deleteProduct({{ $transactionProduct['product_id'] }})"></button>
+                                        </label>
+                                        <div class="control">
+                                            <input class="input @error('transactionProducts.{{ $index }}.amount') is-danger @enderror" type="number"
+                                                min="1" id="amount{{ $index }}" form="createTransaction"
+                                                wire:model="transactionProducts.{{ $index }}.amount" required>
+                                        </div>
+                                        @error('transactionProducts.{{ $index }}.amount') <p class="help is-danger">{{ $message }}</p> @enderror
+                                    </div>
                                 </div>
-                                @error('transactionProducts.{{ $index }}.amount') <p class="help is-danger">{{ $message }}</p> @enderror
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
                     @endif
 
                     @if ($transaction->type == \App\Models\Transaction::TYPE_DEPOSIT)

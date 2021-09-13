@@ -102,19 +102,28 @@
                         </div>
                     </div>
 
-                    @foreach ($inventoryProducts as $index => $inventoryProduct)
-                        <div class="field">
-                            <label class="label" for="amount{{ $index }}">
-                                {{ $inventoryProduct['product']['name'] }} (&euro; {{ $inventoryProduct['product']['price'] }}) @lang('admin/inventories.item.amount')
-                                <button type="button" class="delete is-pulled-right" wire:click="deleteProduct({{ $inventoryProduct['product_id'] }})"></button>
-                            </label>
-                            <div class="control">
-                                <input class="input @error('inventoryProducts.{{ $index }}.amount') is-danger @enderror" type="number" min="1"
-                                    id="amount{{ $index }}" form="editInventory" wire:model="inventoryProducts.{{ $index }}.amount" required>
+                    <div class="field">
+                        @foreach ($inventoryProducts as $index => $inventoryProduct)
+                            <div class="media" style="display: flex; align-items: center;">
+                                <div class="media-left">
+                                    <div style="width: 64px; height: 64px; background-size: cover; background-position: center center;
+                                        background-image: url({{ $inventoryProduct['product']['image'] != null ? '/storage/products/' . $inventoryProduct['product']['image'] : '/images/products/unkown.png' }});"></div>
+                                </div>
+                                <div class="media-content">
+                                    <label class="label" for="amount{{ $index }}">
+                                        {{ $inventoryProduct['product']['name'] }} (&euro; {{ $inventoryProduct['product']['price'] }}) @lang('admin/inventories.item.amount'):
+                                        <button type="button" class="delete is-pulled-right" wire:click="deleteProduct({{ $inventoryProduct['product_id'] }})"></button>
+                                    </label>
+                                    <div class="control">
+                                        <input class="input @error('inventoryProducts.{{ $index }}.amount') is-danger @enderror" type="number"
+                                            min="1" id="amount{{ $index }}" form="createInventory"
+                                            wire:model="inventoryProducts.{{ $index }}.amount" required>
+                                    </div>
+                                    @error('inventoryProducts.{{ $index }}.amount') <p class="help is-danger">{{ $message }}</p> @enderror
+                                </div>
                             </div>
-                            @error('inventoryProducts.{{ $index }}.amount') <p class="help is-danger">{{ $message }}</p> @enderror
-                        </div>
-                    @endforeach
+                        @endforeach
+                    </div>
                 </section>
 
                 <footer class="modal-card-foot">

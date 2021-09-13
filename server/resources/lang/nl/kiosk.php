@@ -12,6 +12,6 @@ return [
     'products' => 'Producten',
     'select_product' => 'Selecteer een product...',
     'add_product' => 'Voeg product toe',
-    'amount' => 'Hoeveelheid',
+    'amount' => 'hoeveelheid',
     'success_message' => 'Uw transactie is opgeslagen'
 ];

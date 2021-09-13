@@ -10,7 +10,7 @@ return [
     'create.products' => 'Products',
     'create.select_product' => 'Select a product...',
     'create.add_product' => 'Add product',
-    'create.amount' => 'Amount',
+    'create.amount' => 'amount',
     'create.success_message' => 'Your transaction has been saved',
 
     // Transactions history livewire component

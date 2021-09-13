@@ -17,7 +17,7 @@ return [
     'crud.products' => 'Products',
     'crud.select_product' => 'Select a product...',
     'crud.add_product' => 'Add product',
-    'crud.amount' => 'Amount',
+    'crud.amount' => 'amount',
     'crud.cancel' => 'Cancel',
 
     // Admin transactions item livewire component
@@ -34,7 +34,7 @@ return [
     'item.products' => 'Products',
     'item.select_product' => 'Select a product...',
     'item.add_product' => 'Add product',
-    'item.amount' => 'Amount',
+    'item.product_amount' => 'amount',
     'item.cancel' => 'Cancel',
     'item.delete_transaction' => 'Delete transaction',
     'item.delete_description' => 'Are you sure you want to delete this transaction?'

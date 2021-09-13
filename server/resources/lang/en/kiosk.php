@@ -12,6 +12,6 @@ return [
     'products' => 'Products',
     'select_product' => 'Select a product...',
     'add_product' => 'Add product',
-    'amount' => 'Amount',
+    'amount' => 'amount',
     'success_message' => 'Your transaction has been saved'
 ];

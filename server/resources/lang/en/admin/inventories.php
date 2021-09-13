@@ -13,7 +13,7 @@ return [
     'crud.products' => 'Products',
     'crud.select_product' => 'Select a product...',
     'crud.add_product' => 'Add product',
-    'crud.amount' => 'Amount',
+    'crud.amount' => 'amount',
     'crud.cancel' => 'Cancel',
 
     // Admin inventories item livewire component
@@ -29,7 +29,7 @@ return [
     'item.products' => 'Products',
     'item.select_product' => 'Select a product...',
     'item.add_product' => 'Add product',
-    'item.amount' => 'Amount',
+    'item.amount' => 'amount',
     'item.cancel' => 'Cancel',
     'item.delete_inventory' => 'Delete inventory',
     'item.delete_description' => 'Are you sure you want to delete this inventory and all it\'s history?'
