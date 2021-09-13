@@ -4,5 +4,5 @@
 - Better user selector component
 - Better product selector component
 - Create REST API for you know what...
-- Testers: bugs?
-- All the whishs from the Stam Bestuur
+- Native Android app which is just an web view
+- Bug fixes / All the whishs from the Stam Bestuur
