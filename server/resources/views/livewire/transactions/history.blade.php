@@ -29,7 +29,7 @@
 
                             @if ($transaction->type == \App\Models\Transaction::TYPE_TRANSACTION)
                                 <p><i>@lang('transactions.history.transaction_from', ['transaction.created_at' => $transaction->created_at->format('Y-m-d H:i')])</i></p>
-                                <p>@lang('transactions.history.amount'): &euro; {{ number_format($transaction->price, 2, ',', '.') }}</p>
+                                <p>@lang('transactions.history.cost'): &euro; {{ number_format($transaction->price, 2, ',', '.') }}</p>
                                 <ul>
                                     @foreach ($transaction->products->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE) as $product)
                                         <li><strong>{{ $product->name }}</strong>: {{ number_format($product->pivot->amount, 0, ',', '.') }}</li>

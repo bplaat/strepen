@@ -14,12 +14,13 @@ return [
     'create.success_message' => 'Your transaction has been saved',
 
     // Transactions history livewire component
-    'history.title' => 'Stripe History',
+    'history.title' => 'History',
     'history.header' => 'Your personal stripe history',
     'history.query' => 'Search for stripe...',
     'history.search' => 'Search',
     'history.empty' => 'No stripes found!',
     'history.transaction_from' => 'Transaction on :transaction.created_at',
     'history.deposit_for' => 'Deposit on :transaction.created_at',
+    'history.cost' => 'Cost',
     'history.amount' => 'Amount'
 ];

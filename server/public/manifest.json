@@ -1,0 +1,21 @@
+{
+    "name": "Strepen Systeem",
+    "short_name": "Strepen",
+    "start_url": "/",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#ffffff",
+    "theme_color": "#f5f5f5",
+    "icons": [
+        {
+            "type": "image/png",
+            "src": "/images/icon-192x192.png",
+            "sizes": "192x192"
+        },
+        {
+            "type": "image/png",
+            "src": "/images/icon-512x512.png",
+            "sizes": "512x512"
+        }
+    ]
+}

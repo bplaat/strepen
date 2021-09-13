@@ -23,6 +23,7 @@ return [
     // Admin transactions item livewire component
     'item.transaction_from' => 'Transaction from :user.name on :transaction.created_at',
     'item.deposit_for' => 'Deposit for :user.name on :transaction.created_at',
+    'item.cost' => 'Cost',
     'item.amount' => 'Amount',
     'item.edit' => 'Edit',
     'item.delete' => 'Delete',

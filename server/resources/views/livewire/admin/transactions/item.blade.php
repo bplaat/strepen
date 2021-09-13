@@ -5,7 +5,7 @@
 
             @if ($transaction->type == \App\Models\Transaction::TYPE_TRANSACTION)
                 <p><i>@lang('admin/transactions.item.transaction_from', ['user.name' => $transaction->user->name, 'transaction.created_at' => $transaction->created_at->format('Y-m-d H:i')])</i></p>
-                <p>@lang('admin/transactions.item.amount'): &euro; {{ number_format($transaction->price, 2, ',', '.') }}</p>
+                <p>@lang('admin/transactions.item.cost'): &euro; {{ number_format($transaction->price, 2, ',', '.') }}</p>
                 <ul>
                     @foreach ($sortedTransactionProducts as $product)
                         <li><strong>{{ $product->name }}</strong>: {{ number_format($product->pivot->amount, 0, ',', '.') }}</li>

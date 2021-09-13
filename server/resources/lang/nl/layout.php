@@ -3,7 +3,7 @@
 return [
     // Layout navbar
     'navbar.transactions_create' => 'Strepen',
-    'navbar.transactions_history' => 'Strepen Geschiedenis',
+    'navbar.transactions_history' => 'Geschiedenis',
     'navbar.admin_home' => 'Admin',
     'navbar.admin_users' => 'Gebruikers',
     'navbar.admin_posts' => 'Berichten',
