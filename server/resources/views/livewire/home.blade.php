@@ -5,24 +5,9 @@
         <h1 class="title">@lang('home.header_guest')</h1>
     @endauth
 
-    <div class="columns">
-        <div class="column">
-            <h2 class="title is-4">@lang('home.latest_posts')</h2>
-        </div>
-
-        <div class="column">
-            <form wire:submit.prevent="$refresh">
-                <div class="field has-addons">
-                    <div class="control" style="width: 100%;">
-                        <input class="input" type="text" id="q" wire:model.defer="q" placeholder="@lang('home.posts_query')">
-                    </div>
-                    <div class="control">
-                        <button class="button is-link" type="submit">@lang('home.posts_search')</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
+    @component('components.search-header', ['itemName' => __('home.posts')])
+        <h2 class="title is-4">@lang('home.latest_posts')</h2>
+    @endcomponent
 
     @if ($posts->count() > 0)
         {{ $posts->links() }}

@@ -1,21 +1,7 @@
 <div class="container">
-    <div class="columns">
-        <div class="column">
-            <h1 class="title is-4">@lang('transactions.history.header')</h1>
-        </div>
-        <div class="column">
-            <form wire:submit.prevent="$refresh">
-                <div class="field has-addons">
-                    <div class="control" style="width: 100%;">
-                        <input class="input" type="text" id="q" wire:model.defer="q" placeholder="@lang('transactions.history.query')">
-                    </div>
-                    <div class="control">
-                        <button class="button is-link" type="submit">@lang('transactions.history.search')</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
+    @component('components.search-header', ['itemName' => __('transactions.history.transactions')])
+        <h1 class="title is-4">@lang('transactions.history.header')</h1>
+    @endcomponent
 
     @if ($transactions->count() > 0)
         {{ $transactions->links() }}

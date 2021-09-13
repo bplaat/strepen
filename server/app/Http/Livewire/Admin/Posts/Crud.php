@@ -33,7 +33,7 @@ class Crud extends PaginationComponent
     public function render()
     {
         return view('livewire.admin.posts.crud', [
-            'posts' => Post::search($this->q)
+            'posts' => Post::search($this->query)
                 ->with(['user'])
                 ->orderBy('created_at', 'DESC')
                 ->paginate(config('pagination.web.limit'))->withQueryString()

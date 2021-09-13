@@ -16,8 +16,7 @@ return [
     // Transactions history livewire component
     'history.title' => 'History',
     'history.header' => 'Your personal stripe history',
-    'history.query' => 'Search for stripe...',
-    'history.search' => 'Search',
+    'history.transactions' => 'transactions',
     'history.empty' => 'No stripes found!',
     'history.transaction_from' => 'Transaction on :transaction.created_at',
     'history.deposit_for' => 'Deposit on :transaction.created_at',

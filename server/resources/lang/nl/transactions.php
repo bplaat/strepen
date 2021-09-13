@@ -16,8 +16,7 @@ return [
     // Transactions history livewire component
     'history.title' => 'Geschiedenis',
     'history.header' => 'Je persoonlijke streepgeschiedenis',
-    'history.query' => 'Zoek naar strepen...',
-    'history.search' => 'Zoeken',
+    'history.transactions' => 'strepen',
     'history.empty' => 'Geen strepen gevonden!',
     'history.transaction_from' => 'Transactie op :transaction.created_at',
     'history.deposit_for' => 'Storting op :transaction.created_at',

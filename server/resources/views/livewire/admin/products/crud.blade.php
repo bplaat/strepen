@@ -1,26 +1,11 @@
 <div class="container">
     <h2 class="title is-4">@lang('admin/products.crud.header')</h2>
 
-    <div class="columns">
-        <div class="column">
-            <div class="buttons">
-                <button class="button is-link" wire:click="$set('isCreating', true)" wire:loading.attr="disabled">@lang('admin/products.crud.create_product')</button>
-            </div>
+    @component('components.search-header', ['itemName' => __('admin/products.crud.products')])
+        <div class="buttons">
+            <button class="button is-link" wire:click="$set('isCreating', true)" wire:loading.attr="disabled">@lang('admin/products.crud.create_product')</button>
         </div>
-
-        <div class="column">
-            <form wire:submit.prevent="$refresh">
-                <div class="field has-addons">
-                    <div class="control" style="width: 100%;">
-                        <input class="input" type="text" id="q" wire:model.defer="q" placeholder="@lang('admin/products.crud.query')">
-                    </div>
-                    <div class="control">
-                        <button class="button is-link" type="submit">@lang('admin/products.crud.search')</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
+    @endcomponent
 
     @if ($products->count() > 0)
         {{ $products->links() }}
