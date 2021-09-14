@@ -9,9 +9,5 @@ return [
     'select_user' => 'Selecteer een gebruiker...',
     'name' => 'Naam',
     'name_default' => 'Transaction op',
-    'products' => 'Producten',
-    'select_product' => 'Selecteer een product...',
-    'add_product' => 'Voeg product toe',
-    'amount' => 'hoeveelheid',
     'success_message' => 'Uw transactie is opgeslagen'
 ];

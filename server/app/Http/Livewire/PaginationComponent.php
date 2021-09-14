@@ -14,7 +14,7 @@ class PaginationComponent extends Component
 
     public $listeners = [ 'refresh' => '$refresh' ];
 
-    public function refresh()
+    public function search()
     {
         $this->resetPage();
     }

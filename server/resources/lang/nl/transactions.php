@@ -7,10 +7,6 @@ return [
     'create.create_transaction' => 'Nieuwe transactie maken',
     'create.name' => 'Naam',
     'create.name_default' => 'Transactie op',
-    'create.products' => 'Producten',
-    'create.select_product' => 'Selecteer een product...',
-    'create.add_product' => 'Voeg product toe',
-    'create.amount' => 'hoeveelheid',
     'create.success_message' => 'Uw transactie is opgeslagen',
 
     // Transactions history livewire component

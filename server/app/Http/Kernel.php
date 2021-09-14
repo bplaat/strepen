@@ -37,6 +37,9 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+
+            // Custom middleware
+            \App\Http\Middleware\Language::class
         ],
 
         'api' => [
@@ -64,7 +67,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
 
         // Custom middleware
-        'language' => \App\Http\Middleware\Language::class,
         'admin' => \App\Http\Middleware\VerifyAdmin::class,
         'nokiosk' => \App\Http\Middleware\VerifyNoKiosk::class,
         'kiosk' => \App\Http\Middleware\VerifyKiosk::class

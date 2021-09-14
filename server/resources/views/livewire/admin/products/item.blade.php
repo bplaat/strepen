@@ -6,11 +6,11 @@
         </div>
 
         <div class="card-content content" style="flex: 1; margin-bottom: 0;">
-            <h4>{{ $product->name }}: &euro; {{ number_format($product->price, 2, ',', '.') }}</h4>
+            <h4>{{ $product->name }}: @component('components.money-format', ['money' => $product->price])@endcomponent</h4>
             @if ($product->description != null)
                 <p><i>{{ $product->description }}</i></p>
             @endif
-            <p><b>@lang('admin/products.item.amount', ['product.amount' => $product->amount])</b></p>
+            <p><b>@lang('admin/products.item.amount')</b>: @component('components.amount-format', ['amount' => $product->amount])@endcomponent</p>
         </div>
 
         <div class="card-footer">

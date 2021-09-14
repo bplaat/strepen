@@ -3,7 +3,7 @@
         {{ $slot }}
     </div>
     <div class="column">
-        <form wire:submit.prevent="$refresh">
+        <form wire:submit.prevent="search">
             <div class="field has-addons">
                 <div class="control" style="width: 100%;">
                     <input class="input" type="text" wire:model.defer="query" placeholder="@lang('components.search_header.query', ['item.name' => $itemName])">

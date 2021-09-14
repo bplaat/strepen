@@ -9,76 +9,61 @@ use Illuminate\Support\Facades\Auth;
 
 class Crud extends PaginationComponent
 {
-    public $products;
     public $inventory;
-    public $inventoryProducts;
-    public $addProductId;
-    public $isCreating;
+    public $selectedProducts;
+    public $isCreating = false;
 
     public $rules = [
         'inventory.name' => 'required|min:2|max:48',
-        'addProductId' => 'required|integer|exists:products,id',
-        'inventoryProducts.*.amount' => 'required|integer|min:1'
+        'selectedProducts.*.product_id' => 'required|integer|exists:products,id',
+        'selectedProducts.*.amount' => 'required|integer|min:1'
     ];
+
+    public $listeners = ['refresh' => '$refresh', 'selectedProducts'];
 
     public function mount()
     {
-        $this->products = Product::all()->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE);
         $this->inventory = new Inventory();
         $this->inventory->name = __('admin/inventories.crud.name_default') . ' ' . date('Y-m-d H:i:s');
-        $this->inventoryProducts = collect();
-        $this->addProductId = null;
-        $this->isCreating = false;
+        $this->selectedProducts = collect();
     }
 
-    public function createInventory()
+    public function selectedProducts($selectedProducts)
     {
-        $this->validateOnly('inventory.name');
-        $this->validateOnly('inventoryProducts.*.amount');
+        if (!$this->isCreating) return;
+        $this->selectedProducts = collect($selectedProducts);
 
+        // Validate input
+        $this->validate();
+        if (count($this->selectedProducts) == 0) return;
+
+        // Create inventory
         $this->inventory->user_id = Auth::id();
         $this->inventory->price = 0;
-        foreach ($this->inventoryProducts as $inventoryProduct) {
-            $this->inventory->price += $inventoryProduct['product']['price'] * $inventoryProduct['amount'];
+        foreach ($this->selectedProducts as $selectedProduct) {
+            $this->inventory->price += $selectedProduct['product']['price'] * $selectedProduct['amount'];
         }
         $this->inventory->save();
 
         // Create product inventory pivot table items
-        foreach ($this->inventoryProducts as $inventoryProduct) {
-            if ($inventoryProduct['amount'] > 0) {
-                $this->inventory->products()->attach($inventoryProduct['product_id'], [
-                    'amount' => $inventoryProduct['amount']
+        foreach ($this->selectedProducts as $selectedProduct) {
+            if ($selectedProduct['amount'] > 0) {
+                $product = Product::find($selectedProduct['product_id']);
+                $this->inventory->products()->attach($product, [
+                    'amount' => $selectedProduct['amount']
                 ]);
+                $product->amount += $selectedProduct['amount'];
+                $product->save();
             }
         }
 
-        // Update amounts of products
-        foreach ($this->inventoryProducts as $inventoryProduct) {
-            $product = Product::find($inventoryProduct['product_id']);
-            $product->amount -= $inventoryProduct['amount'];
-            $product->save();
-        }
-
-        $this->mount();
+        // Refresh page
+        return redirect()->route('admin.inventories.crud');
     }
 
-    public function addProduct()
+    public function createInventory()
     {
-        if ($this->addProductId != null) {
-            $this->validateOnly('addProductId');
-
-            $inventoryProduct = [];
-            $inventoryProduct['product_id'] = $this->addProductId;
-            $inventoryProduct['product'] = Product::find($this->addProductId);
-            $inventoryProduct['amount'] = 0;
-            $this->inventoryProducts->push($inventoryProduct);
-            $this->addProductId = null;
-        }
-    }
-
-    public function deleteProduct($productId)
-    {
-        $this->inventoryProducts = $this->inventoryProducts->where('product_id', '!=', $productId);
+        $this->emit('getSelectedProducts');
     }
 
     public function render()

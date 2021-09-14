@@ -13,7 +13,7 @@
                 @endif
             </h4>
 
-            <p>@lang('admin/users.item.balance'): <strong @if ($user->balance < 0) class="has-text-danger" @endif>&euro; {{ number_format($user->balance, 2, ',', '.') }}</strong></p>
+            <p>@lang('admin/users.item.balance'): @component('components.money-format', ['money' => $user->balance])@endcomponent</p>
         </div>
 
         <div class="card-footer">

@@ -44,16 +44,11 @@
                                 <a class="navbar-link is-arrowless"
                                     href="{{ route('admin.home') }}">@lang('layout.navbar.admin_home')</a>
                                 <div class="navbar-dropdown">
-                                    <a class="navbar-item"
-                                        href="{{ route('admin.users.index') }}">@lang('layout.navbar.admin_users')</a>
-                                    <a class="navbar-item"
-                                        href="{{ route('admin.posts.index') }}">@lang('layout.navbar.admin_posts')</a>
-                                    <a class="navbar-item"
-                                        href="{{ route('admin.products.index') }}">@lang('layout.navbar.admin_products')</a>
-                                    <a class="navbar-item"
-                                        href="{{ route('admin.inventories.index') }}">@lang('layout.navbar.admin_inventories')</a>
-                                    <a class="navbar-item"
-                                        href="{{ route('admin.transactions.index') }}">@lang('layout.navbar.admin_transactions')</a>
+                                    <a class="navbar-item" href="{{ route('admin.users.crud') }}">@lang('layout.navbar.admin_users')</a>
+                                    <a class="navbar-item" href="{{ route('admin.posts.crud') }}">@lang('layout.navbar.admin_posts')</a>
+                                    <a class="navbar-item" href="{{ route('admin.products.crud') }}">@lang('layout.navbar.admin_products')</a>
+                                    <a class="navbar-item" href="{{ route('admin.inventories.crud') }}">@lang('layout.navbar.admin_inventories')</a>
+                                    <a class="navbar-item" href="{{ route('admin.transactions.crud') }}">@lang('layout.navbar.admin_transactions')</a>
                                 </div>
                             </div>
                         @endif
@@ -64,7 +59,7 @@
                             <div style="width: 28px; height: 28px; border-radius: 50%; margin-right: 10px; background-size: cover; background-position: center center;
                                 background-image: url({{ Auth::user()->avatar != null ? '/storage/avatars/' . Auth::user()->avatar : '/images/avatars/mp.jpg' }});"></div>
                             <span style="margin-right: 8px;">{{ Auth::user()->name }}</span>
-                            <strong @if (Auth::user()->balance < 0) class="has-text-danger" @endif>&euro; {{ number_format(Auth::user()->balance, 2, ',', '.') }}</strong>
+                            @component('components.money-format', ['money' => Auth::user()->balance])@endcomponent
                         </a>
                         <div class="navbar-item">
                             <div class="buttons">

@@ -10,69 +10,62 @@ use App\Models\User;
 class Crud extends PaginationComponent
 {
     public $users;
-    public $products;
     public $transaction;
-    public $transactionProducts;
-    public $addProductId;
-    public $isCreatingTransaction;
-    public $isCreatingDeposit;
+    public $selectedProducts;
+    public $isCreatingTransaction = false;
+    public $isCreatingDeposit = false;
 
     public $rules = [
         'transaction.user_id' => 'required|integer|exists:users,id',
         'transaction.name' => 'required|min:2|max:48',
-        'addProductId' => 'required|integer|exists:products,id',
-        'transactionProducts.*.amount' => 'required|integer|min:1',
+        'selectedProducts.*.product_id' => 'required|integer|exists:products,id',
+        'selectedProducts.*.amount' => 'required|integer|min:1',
         'transaction.price' => 'required|numeric'
     ];
+
+    public $listeners = ['refresh' => '$refresh', 'selectedProducts'];
 
     public function mount()
     {
         $this->users = User::all()->sortBy('sortName', SORT_NATURAL | SORT_FLAG_CASE);
-        $this->products = Product::all()->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE);
         $this->transaction = new Transaction();
-        $this->transactionProducts = collect();
-        $this->addProductId = null;
-        $this->isCreatingTransaction = false;
-        $this->isCreatingDeposit = false;
+        $this->selectedProducts = collect();
     }
 
-    // Create transaction dialog
+    // Create transaction model
     public function openCreateTransaction()
     {
         $this->transaction->name = __('admin/transactions.crud.name_default_transaction') . ' ' . date('Y-m-d H:i:s');
         $this->isCreatingTransaction = true;
     }
 
-    public function createTransaction()
+    public function selectedProducts($selectedProducts)
     {
+        if (!$this->isCreatingTransaction) return;
+        $this->selectedProducts = collect($selectedProducts);
+
+        // Validate input
         $this->validateOnly('transaction.user_id');
         $this->validateOnly('transaction.name');
-        $this->validateOnly('transactionProducts.*.amount');
+        $this->validateOnly('selectedProducts.*.product_id');
+        $this->validateOnly('selectedProducts.*.amount');
+        if ($this->selectedProducts->count() == 0) return;
 
-        if ($this->transactionProducts->count() == 0) {
-            return;
-        }
-
+        // Create transaction
         $this->transaction->price = 0;
-        foreach ($this->transactionProducts as $transactionProduct) {
-            $this->transaction->price += $transactionProduct['product']['price'] * $transactionProduct['amount'];
+        foreach ($this->selectedProducts as $selectedProduct) {
+            $this->transaction->price += $selectedProduct['product']['price'] * $selectedProduct['amount'];
         }
         $this->transaction->type = Transaction::TYPE_TRANSACTION;
         $this->transaction->save();
 
-        // Create product transaction pivot table items
-        foreach ($this->transactionProducts as $transactionProduct) {
-            if ($transactionProduct['amount'] > 0) {
-                $this->transaction->products()->attach($transactionProduct['product_id'], [
-                    'amount' => $transactionProduct['amount']
-                ]);
-            }
-        }
-
-        // Update amounts of products
-        foreach ($this->transactionProducts as $transactionProduct) {
-            $product = Product::find($transactionProduct['product_id']);
-            $product->amount -= $transactionProduct['amount'];
+        // Attach products to transaction and decrement product amount
+        foreach ($this->selectedProducts as $selectedProduct) {
+            $product = Product::find($selectedProduct['product_id']);
+            $this->transaction->products()->attach($product, [
+                'amount' => $selectedProduct['amount']
+            ]);
+            $product->amount -= $selectedProduct['amount'];
             $product->save();
         }
 
@@ -81,29 +74,16 @@ class Crud extends PaginationComponent
         $user->balance -= $this->transaction->price;
         $user->save();
 
-        $this->mount();
+        // Refresh page
+        return redirect()->route('admin.transactions.crud');
     }
 
-    public function addProduct()
+    public function createTransaction()
     {
-        if ($this->addProductId != null) {
-            $this->validateOnly('addProductId');
-
-            $transactionProduct = [];
-            $transactionProduct['product_id'] = $this->addProductId;
-            $transactionProduct['product'] = Product::find($this->addProductId);
-            $transactionProduct['amount'] = 0;
-            $this->transactionProducts->push($transactionProduct);
-            $this->addProductId = null;
-        }
+        $this->emit('getSelectedProducts');
     }
 
-    public function deleteProduct($productId)
-    {
-        $this->transactionProducts = $this->transactionProducts->where('product_id', '!=', $productId);
-    }
-
-    // Create deposit dialog
+    // Create deposit model
     public function openCreateDeposit()
     {
         $this->transaction->name = __('admin/transactions.crud.name_default_deposit') . ' ' . date('Y-m-d H:i:s');
@@ -112,18 +92,22 @@ class Crud extends PaginationComponent
 
     public function createDeposit()
     {
+        // Validate input
         $this->validateOnly('transaction.user_id');
         $this->validateOnly('transaction.name');
         $this->validateOnly('transaction.price');
 
+        // Create transaction
         $this->transaction->type = Transaction::TYPE_DEPOSIT;
         $this->transaction->save();
 
+        // Recalculate balance of user
         $user = User::find($this->transaction->user_id);
         $user->balance += $this->transaction->price;
         $user->save();
 
-        $this->mount();
+        // Refresh page
+        return redirect()->route('admin.transactions.crud');
     }
 
     public function render()

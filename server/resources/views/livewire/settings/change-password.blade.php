@@ -30,9 +30,10 @@
         <div class="field">
             <label class="label" for="passwordConfirmation">@lang('settings.change_password.password_confirmation')</label>
             <div class="control">
-                <input class="input @error('password') is-danger @enderror" type="password" id="passwordConfirmation"
+                <input class="input @error('passwordConfirmation') is-danger @enderror" type="password" id="passwordConfirmation"
                     wire:model.defer="passwordConfirmation" required>
             </div>
+            @error('passwordConfirmation') <p class="help is-danger">{{ $message }}</p> @enderror
         </div>
 
         <div class="field">

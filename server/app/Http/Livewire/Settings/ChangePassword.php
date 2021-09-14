@@ -14,7 +14,8 @@ class ChangePassword extends Component
 
     public $rules = [
         'currentPassword' => 'required|current_password',
-        'password' => 'required|min:6|confirmed'
+        'password' => 'required|min:6',
+        'passwordConfirmation' => 'required|same:password'
     ];
 
     public function mount()

@@ -15,17 +15,17 @@
 
                             @if ($transaction->type == \App\Models\Transaction::TYPE_TRANSACTION)
                                 <p><i>@lang('transactions.history.transaction_from', ['transaction.created_at' => $transaction->created_at->format('Y-m-d H:i')])</i></p>
-                                <p>@lang('transactions.history.cost'): &euro; {{ number_format($transaction->price, 2, ',', '.') }}</p>
+                                <p>@lang('transactions.history.cost'): @component('components.money-format', ['money' => $transaction->price])@endcomponent</p>
                                 <ul>
                                     @foreach ($transaction->products->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE) as $product)
-                                        <li><strong>{{ $product->name }}</strong>: {{ number_format($product->pivot->amount, 0, ',', '.') }}</li>
+                                        <li><b>{{ $product->name }}</b>: @component('components.amount-format', ['amount' => $product->pivot->amount])@endcomponent</li>
                                     @endforeach
                                 </ul>
                             @endif
 
                             @if ($transaction->type == \App\Models\Transaction::TYPE_DEPOSIT)
                                 <p><i>@lang('transactions.history.deposit_for', ['transaction.created_at' => $transaction->created_at->format('Y-m-d H:i')])</i></p>
-                                <p>@lang('transactions.history.amount'): &euro; {{ number_format($transaction->price, 2, ',', '.') }}</p>
+                                <p>@lang('transactions.history.amount'): @component('components.money-format', ['money' => $transaction->price])@endcomponent</p>
                             @endif
                         </div>
                     </div>

@@ -13,10 +13,7 @@ return [
     'crud.name' => 'Name',
     'crud.name_default_transaction' => 'Transaction on',
     'crud.name_default_deposit' => 'Deposit on',
-    'crud.products' => 'Products',
-    'crud.select_product' => 'Select a product...',
-    'crud.add_product' => 'Add product',
-    'crud.amount' => 'amount',
+    'crud.amount' => 'Amount',
     'crud.cancel' => 'Cancel',
 
     // Admin transactions item livewire component
@@ -31,10 +28,6 @@ return [
     'item.name' => 'Name',
     'item.created_at_date' => 'Created at date',
     'item.created_at_time' => 'Created at time',
-    'item.products' => 'Products',
-    'item.select_product' => 'Select a product...',
-    'item.add_product' => 'Add product',
-    'item.product_amount' => 'amount',
     'item.cancel' => 'Cancel',
     'item.delete_transaction' => 'Delete transaction',
     'item.delete_description' => 'Are you sure you want to delete this transaction?'

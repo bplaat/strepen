@@ -9,9 +9,5 @@ return [
     'select_user' => 'Select a user...',
     'name' => 'Name',
     'name_default' => 'Transaction on',
-    'products' => 'Products',
-    'select_product' => 'Select a product...',
-    'add_product' => 'Add product',
-    'amount' => 'amount',
     'success_message' => 'Your transaction has been saved'
 ];

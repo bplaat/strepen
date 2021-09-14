@@ -10,12 +10,10 @@ use Livewire\Component;
 class Item extends Component
 {
     public $users;
-    public $products;
     public $inventory;
     public $createdAtDate;
     public $createdAtTime;
-    public $inventoryProducts;
-    public $addProductId = null;
+    public $selectedProducts;
     public $isEditing = false;
     public $isDeleting = false;
 
@@ -24,81 +22,67 @@ class Item extends Component
         'inventory.name' => 'required|min:2|max:48',
         'createdAtDate' => 'required|date_format:Y-m-d',
         'createdAtTime' => 'required|date_format:H:i:s',
-        'addProductId' => 'required|integer|exists:products,id',
-        'inventoryProducts.*.amount' => 'required|integer|min:1'
+        'selectedProducts.*.product_id' => 'required|integer|exists:products,id',
+        'selectedProducts.*.amount' => 'required|integer|min:1'
     ];
+
+    public $listeners = ['selectedProducts'];
 
     public function mount()
     {
         $this->users = User::all()->sortBy('sortName', SORT_NATURAL | SORT_FLAG_CASE);
-        $this->products = Product::all()->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE);
 
-        $inventoryProducts = InventoryProduct::where('inventory_id', $this->inventory->id)->get();
-        $this->inventoryProducts = collect();
-        foreach ($inventoryProducts as $inventoryProduct) {
-            $_inventoryProduct = [];
-            $_inventoryProduct['product_id'] = $inventoryProduct->product_id;
-            $_inventoryProduct['product'] = Product::find($inventoryProduct->product_id);
-            $_inventoryProduct['amount'] = $inventoryProduct->amount;
-            $this->inventoryProducts->push($_inventoryProduct);
+        $selectedProducts = InventoryProduct::where('inventory_id', $this->inventory->id)->get();
+        $this->selectedProducts = collect();
+        foreach ($selectedProducts as $selectedProduct) {
+            $_selectedProduct = [];
+            $_selectedProduct['product_id'] = $selectedProduct->product_id;
+            $_selectedProduct['product'] = Product::find($selectedProduct->product_id);
+            $_selectedProduct['amount'] = $selectedProduct->amount;
+            $this->selectedProducts->push($_selectedProduct);
         }
 
         $this->createdAtDate = $this->inventory->created_at->format('Y-m-d');
         $this->createdAtTime = $this->inventory->created_at->format('H:i:s');
     }
 
-    public function editInventory()
+    public function selectedProducts($selectedProducts)
     {
-        $this->validateOnly('inventory.user_id');
-        $this->validateOnly('inventory.name');
-        $this->validateOnly('createdAtDate');
-        $this->validateOnly('createdAtTime');
-        $this->validateOnly('inventoryProducts.*.amount');
+        if (!$this->isEditing) return;
+        $this->selectedProducts = collect($selectedProducts);
 
+        // Validate input
+        $this->validate();
+        if (count($this->selectedProducts) == 0) return;
+
+        // Edit inventory
         $this->inventory->price = 0;
-        foreach ($this->inventoryProducts as $inventoryProduct) {
-            $this->inventory->price += $inventoryProduct['product']['price'] * $inventoryProduct['amount'];
+        foreach ($this->selectedProducts as $selectedProduct) {
+            $this->inventory->price += $selectedProduct['product']['price'] * $selectedProduct['amount'];
         }
-
         $this->inventory->created_at = $this->createdAtDate . ' ' . $this->createdAtTime;
+        $this->inventory->save();
 
-        // Reset all inventory products
+        // Detach and attach products to inventory
         $this->inventory->products()->detach();
-        foreach ($this->inventoryProducts as $inventoryProduct) {
-            if ($inventoryProduct['amount'] > 0) {
-                $this->inventory->products()->attach($inventoryProduct['product_id'], [
-                    'amount' => $inventoryProduct['amount']
-                ]);
-            }
+        foreach ($this->selectedProducts as $selectedProduct) {
+            $this->inventory->products()->attach($selectedProduct['product_id'], [
+                'amount' => $selectedProduct['amount']
+            ]);
         }
 
-        // Recalculate amounts of all products
-        foreach ($this->products as $product) {
+        // Recalculate amounts of all products (SLOW!!!)
+        foreach (Product::all() as $product) {
             $product->recalculateAmount();
             $product->save();
         }
 
-        $this->inventory->save();
         $this->isEditing = false;
     }
 
-    public function addProduct()
+    public function editInventory()
     {
-        if ($this->addProductId != null) {
-            $this->validateOnly('addProductId');
-
-            $inventoryProduct = [];
-            $inventoryProduct['product_id'] = $this->addProductId;
-            $inventoryProduct['product'] = Product::find($this->addProductId);
-            $inventoryProduct['amount'] = 0;
-            $this->inventoryProducts->push($inventoryProduct);
-            $this->addProductId = null;
-        }
-    }
-
-    public function deleteProduct($productId)
-    {
-        $this->inventoryProducts = $this->inventoryProducts->where('product_id', '!=', $productId);
+        $this->emit('getSelectedProducts');
     }
 
     public function deleteInventory()
@@ -106,8 +90,8 @@ class Item extends Component
         $this->isDeleting = false;
         $this->inventory->delete();
 
-        // Recalculate amounts of all products
-        foreach ($this->products as $product) {
+        // Recalculate amounts of all products (SLOW!!!)
+        foreach (Product::all() as $product) {
             $product->recalculateAmount();
             $product->save();
         }

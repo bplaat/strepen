@@ -3,10 +3,10 @@
         <div class="card-content content" style="flex: 1; margin-bottom: 0;">
             <h4>{{ $inventory->name }}</h4>
             <p><i>@lang('admin/inventories.item.created_by', ['user.name' => $inventory->user->name, 'inventory.created_at' => $inventory->created_at->format('Y-m-d H:i')])</i></p>
-            <p><strong>@lang('admin/inventories.item.price')</strong>: &euro; {{ number_format($inventory->price, 2, ',', '.') }}</p>
+            <p><b>@lang('admin/inventories.item.price')</b>: @component('components.money-format', ['money' => $inventory->price])@endcomponent</p>
             <ul>
                 @foreach ($inventory->products->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE) as $product)
-                    <li><strong>{{ $product->name }}</strong>: {{ number_format($product->pivot->amount, 0, ',', '.') }}</li>
+                    <li><b>{{ $product->name }}</b>: @component('components.amount-format', ['amount' => $product->pivot->amount])@endcomponent</li>
                 @endforeach
             </ul>
         </div>
@@ -21,7 +21,7 @@
         <div class="modal is-active">
             <div class="modal-background" wire:click="$set('isEditing', false)"></div>
 
-            <form id="editInventory" wire:submit.prevent="editInventory"></form>
+            <form id="mainForm" wire:submit.prevent="editInventory"></form>
 
             <div class="modal-card">
                 <div class="modal-card-head">
@@ -34,7 +34,7 @@
                         <label class="label" for="user_id">@lang('admin/inventories.item.user')</label>
                         <div class="control">
                             <div class="select is-fullwidth @error('inventory.user_id') is-danger @enderror">
-                                <select id="user_id" form="editInventory" wire:model.defer="inventory.user_id">
+                                <select id="user_id" form="mainForm" wire:model.defer="inventory.user_id">
                                     @foreach ($users as $user)
                                         <option value="{{ $user->id }}">{{ $user->name }}</option>
                                     @endforeach
@@ -48,7 +48,7 @@
                         <label class="label" for="name">@lang('admin/inventories.item.name')</label>
                         <div class="control">
                             <input class="input @error('inventory.name') is-danger @enderror" type="text" id="name"
-                                form="editInventory" wire:model.defer="inventory.name" required>
+                                form="mainForm" wire:model.defer="inventory.name" required>
                         </div>
                         @error('inventory.name') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
@@ -59,7 +59,7 @@
                                 <label class="label" for="created_at_date">@lang('admin/inventories.item.created_at_date')</label>
                                 <div class="control">
                                     <input class="input @error('createdAtDate') is-danger @enderror" type="date" id="created_at_date"
-                                        form="editInventory" wire:model.defer="createdAtDate" required>
+                                        form="mainForm" wire:model.defer="createdAtDate" required>
                                 </div>
                                 @error('createdAtDate') <p class="help is-danger">{{ $message }}</p> @enderror
                             </div>
@@ -70,64 +70,18 @@
                                 <label class="label" for="created_at_time">@lang('admin/inventories.item.created_at_time')</label>
                                 <div class="control">
                                     <input class="input @error('createdAtTime') is-danger @enderror" type="time" step="1" id="created_at_time"
-                                        form="editInventory" wire:model.defer="createdAtTime" required>
+                                        form="mainForm" wire:model.defer="createdAtTime" required>
                                 </div>
                                 @error('createdAtTime') <p class="help is-danger">{{ $message }}</p> @enderror
                             </div>
                         </div>
                     </div>
 
-                    <div class="field">
-                        <label class="label" for="addProductId">@lang('admin/inventories.item.products')</label>
-                        <div class="control">
-                            <form wire:submit.prevent="addProduct">
-                                <div class="field has-addons">
-                                    <div class="control" style="width: 100%;">
-                                        <div class="select is-fullwidth">
-                                            <select id="addProductId" wire:model.defer="addProductId">
-                                                <option value="null" disabled selected>@lang('admin/inventories.item.select_product')</option>
-                                                @foreach ($products as $product)
-                                                    @if (!$inventoryProducts->pluck('product_id')->contains($product->id))
-                                                        <option value="{{ $product->id }}">{{ $product->name }} (&euro; {{ $product->price }})</option>
-                                                    @endif
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="control">
-                                        <button class="button is-link" type="submit">@lang('admin/inventories.item.add_product')</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        @foreach ($inventoryProducts as $index => $inventoryProduct)
-                            <div class="media" style="display: flex; align-items: center;">
-                                <div class="media-left">
-                                    <div style="width: 64px; height: 64px; background-size: cover; background-position: center center;
-                                        background-image: url({{ $inventoryProduct['product']['image'] != null ? '/storage/products/' . $inventoryProduct['product']['image'] : '/images/products/unkown.png' }});"></div>
-                                </div>
-                                <div class="media-content">
-                                    <label class="label" for="amount{{ $index }}">
-                                        {{ $inventoryProduct['product']['name'] }} (&euro; {{ $inventoryProduct['product']['price'] }}) @lang('admin/inventories.item.amount'):
-                                        <button type="button" class="delete is-pulled-right" wire:click="deleteProduct({{ $inventoryProduct['product_id'] }})"></button>
-                                    </label>
-                                    <div class="control">
-                                        <input class="input @error('inventoryProducts.{{ $index }}.amount') is-danger @enderror" type="number"
-                                            min="1" id="amount{{ $index }}" form="createInventory"
-                                            wire:model="inventoryProducts.{{ $index }}.amount" required>
-                                    </div>
-                                    @error('inventoryProducts.{{ $index }}.amount') <p class="help is-danger">{{ $message }}</p> @enderror
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
+                    @livewire('components.products-chooser', ['selectedProducts' => $selectedProducts])
                 </div>
 
                 <div class="modal-card-foot">
-                    <button type="submit" form="editInventory" class="button is-link">@lang('admin/inventories.item.edit_inventory')</button>
+                    <button type="submit" form="mainForm" class="button is-link">@lang('admin/inventories.item.edit_inventory')</button>
                     <button type="button" class="button" wire:click="$set('isEditing', false)" wire:loading.attr="disabled">@lang('admin/inventories.item.cancel')</button>
                 </div>
             </div>

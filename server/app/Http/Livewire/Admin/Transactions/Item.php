@@ -11,13 +11,11 @@ use Livewire\Component;
 class Item extends Component
 {
     public $users;
-    public $products;
     public $transaction;
     public $oldUserId;
     public $createdAtDate;
     public $createdAtTime;
-    public $transactionProducts;
-    public $addProductId = null;
+    public $selectedProducts;
     public $isEditing = false;
     public $isDeleting = false;
 
@@ -26,66 +24,72 @@ class Item extends Component
         'transaction.name' => 'required|min:2|max:48',
         'createdAtDate' => 'required|date_format:Y-m-d',
         'createdAtTime' => 'required|date_format:H:i:s',
-        'addProductId' => 'required|integer|exists:products,id',
-        'transactionProducts.*.amount' => 'required|integer|min:1',
+        'selectedProducts.*.product_id' => 'required|integer|exists:products,id',
+        'selectedProducts.*.amount' => 'required|integer|min:1',
         'transaction.price' => 'required|numeric'
     ];
+
+    public $listeners = ['selectedProducts'];
 
     public function mount()
     {
         $this->users = User::all()->sortBy('sortName', SORT_NATURAL | SORT_FLAG_CASE);
-        $this->products = Product::all()->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE);
         $this->oldUserId = $this->transaction->user_id;
 
-        $transactionProducts = TransactionProduct::where('transaction_id', $this->transaction->id)->get();
-        $this->transactionProducts = collect();
-        foreach ($transactionProducts as $transactionProduct) {
-            $_transactionProduct = [];
-            $_transactionProduct['product_id'] = $transactionProduct->product_id;
-            $_transactionProduct['product'] = Product::find($transactionProduct->product_id);
-            $_transactionProduct['amount'] = $transactionProduct->amount;
-            $this->transactionProducts->push($_transactionProduct);
+        $selectedProducts = TransactionProduct::where('transaction_id', $this->transaction->id)->get();
+        $this->selectedProducts = collect();
+        foreach ($selectedProducts as $selectedProduct) {
+            $_selectedProduct = [];
+            $_selectedProduct['product_id'] = $selectedProduct->product_id;
+            $_selectedProduct['product'] = Product::find($selectedProduct->product_id);
+            $_selectedProduct['amount'] = $selectedProduct->amount;
+            $this->selectedProducts->push($_selectedProduct);
         }
 
         $this->createdAtDate = $this->transaction->created_at->format('Y-m-d');
         $this->createdAtTime = $this->transaction->created_at->format('H:i:s');
     }
 
-    public function editTransaction()
+    public function selectedProducts($selectedProducts)
     {
+        if (!$this->isEditing) return;
+        $this->selectedProducts = collect($selectedProducts);
+
+        // Validate same input
         $this->validateOnly('transaction.user_id');
         $this->validateOnly('transaction.name');
         $this->validateOnly('createdAtDate');
         $this->validateOnly('createdAtTime');
 
         if ($this->transaction->type == Transaction::TYPE_TRANSACTION) {
-            $this->validateOnly('transactionProducts.*.amount');
+            // Validate input
+            $this->validateOnly('selectedProducts.*.product_id');
+            $this->validateOnly('selectedProducts.*.amount');
+            if (count($this->selectedProducts) == 0) return;
 
+            // Edit transaction
             $this->transaction->price = 0;
-            foreach ($this->transactionProducts as $transactionProduct) {
-                $this->transaction->price += $transactionProduct['product']['price'] * $transactionProduct['amount'];
+            foreach ($this->selectedProducts as $selectedProduct) {
+                $this->transaction->price += $selectedProduct['product']['price'] * $selectedProduct['amount'];
             }
 
-            $this->transaction->created_at = $this->createdAtDate . ' ' . $this->createdAtTime;
-
-            // Reset all transaction products
+            // Detach and attach products to transaction
             $this->transaction->products()->detach();
-            foreach ($this->transactionProducts as $transactionProduct) {
-                if ($transactionProduct['amount'] > 0) {
-                    $this->transaction->products()->attach($transactionProduct['product_id'], [
-                        'amount' => $transactionProduct['amount']
-                    ]);
-                }
+            foreach ($this->selectedProducts as $selectedProduct) {
+                $this->transaction->products()->attach($selectedProduct['product_id'], [
+                    'amount' => $selectedProduct['amount']
+                ]);
             }
 
-            // Recalculate amounts of all products
-            foreach ($this->products as $product) {
+            // Recalculate amounts of all products (SLOW!!!)
+            foreach (Product::all() as $product) {
                 $product->recalculateAmount();
                 $product->save();
             }
         }
 
         if ($this->transaction->type == Transaction::TYPE_DEPOSIT) {
+            // Validate input
             $this->validateOnly('transaction.price');
         }
 
@@ -108,27 +112,21 @@ class Item extends Component
         $this->isEditing = false;
     }
 
-    public function addProduct()
+    public function editTransaction()
     {
-        if ($this->addProductId != null) {
-            $this->validateOnly('addProductId');
-
-            $transactionProduct = [];
-            $transactionProduct['product_id'] = $this->addProductId;
-            $transactionProduct['product'] = Product::find($this->addProductId);
-            $transactionProduct['amount'] = 0;
-            $this->transactionProducts->push($transactionProduct);
-            $this->addProductId = null;
+        if ($this->transaction->type == Transaction::TYPE_TRANSACTION) {
+            $this->emit('getSelectedProducts');
         }
-    }
 
-    public function deleteProduct($productId)
-    {
-        $this->transactionProducts = $this->transactionProducts->where('product_id', '!=', $productId);
+        if ($this->transaction->type == Transaction::TYPE_DEPOSIT) {
+            $this->selectedProducts([]);
+        }
     }
 
     public function deleteTransaction()
     {
+        $this->isDeleting = false;
+
         // Delete and recalculate user balance
         $userId = $this->transaction->user_id;
         $this->transaction->delete();
@@ -136,13 +134,12 @@ class Item extends Component
         $user->recalculateBalance();
         $user->save();
 
-        // Recalculate amounts of all products
-        foreach ($this->products as $product) {
+        // Recalculate amounts of all products (SLOW!!!)
+        foreach (Product::all() as $product) {
             $product->recalculateAmount();
             $product->save();
         }
 
-        $this->isDeleting = false;
         $this->emitUp('refresh');
     }
 
@@ -150,8 +147,6 @@ class Item extends Component
     {
         unset($this->transaction->user);
         unset($this->transaction->products);
-        return view('livewire.admin.transactions.item', [
-            'sortedTransactionProducts' => $this->transaction->products->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE)
-        ]);
+        return view('livewire.admin.transactions.item');
     }
 }

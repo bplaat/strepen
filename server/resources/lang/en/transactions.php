@@ -7,10 +7,6 @@ return [
     'create.create_transaction' => 'Create new transaction',
     'create.name' => 'Name',
     'create.name_default' => 'Transaction on',
-    'create.products' => 'Products',
-    'create.select_product' => 'Select a product...',
-    'create.add_product' => 'Add product',
-    'create.amount' => 'amount',
     'create.success_message' => 'Your transaction has been saved',
 
     // Transactions history livewire component

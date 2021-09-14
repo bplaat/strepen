@@ -9,10 +9,6 @@ return [
     'crud.empty' => 'No inventories found!',
     'crud.name' => 'Name',
     'crud.name_default' => 'Inventory on',
-    'crud.products' => 'Products',
-    'crud.select_product' => 'Select a product...',
-    'crud.add_product' => 'Add product',
-    'crud.amount' => 'amount',
     'crud.cancel' => 'Cancel',
 
     // Admin inventories item livewire component
@@ -25,10 +21,6 @@ return [
     'item.name' => 'Name',
     'item.created_at_date' => 'Created at date',
     'item.created_at_time' => 'Created at time',
-    'item.products' => 'Products',
-    'item.select_product' => 'Select a product...',
-    'item.add_product' => 'Add product',
-    'item.amount' => 'amount',
     'item.cancel' => 'Cancel',
     'item.delete_inventory' => 'Delete inventory',
     'item.delete_description' => 'Are you sure you want to delete this inventory and all it\'s history?'
