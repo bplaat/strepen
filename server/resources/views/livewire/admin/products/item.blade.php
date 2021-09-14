@@ -6,11 +6,11 @@
         </div>
 
         <div class="card-content content" style="flex: 1; margin-bottom: 0;">
-            <h4>{{ $product->name }}: @component('components.money-format', ['money' => $product->price])@endcomponent</h4>
+            <h4 style="font-weight: normal;"><span style="font-weight: 600;">{{ $product->name }}</span>: @component('components.money-format', ['money' => $product->price])@endcomponent</h4>
             @if ($product->description != null)
                 <p><i>{{ $product->description }}</i></p>
             @endif
-            <p><b>@lang('admin/products.item.amount')</b>: @component('components.amount-format', ['amount' => $product->amount])@endcomponent</p>
+            <p>@lang('admin/products.item.amount'): @component('components.amount-format', ['amount' => $product->amount])@endcomponent</p>
         </div>
 
         <div class="card-footer">

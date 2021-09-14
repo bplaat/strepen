@@ -3,7 +3,7 @@
         <div class="card-content content" style="flex: 1; margin-bottom: 0;">
             <h4>{{ $inventory->name }}</h4>
             <p><i>@lang('admin/inventories.item.created_by', ['user.name' => $inventory->user->name, 'inventory.created_at' => $inventory->created_at->format('Y-m-d H:i')])</i></p>
-            <p><b>@lang('admin/inventories.item.price')</b>: @component('components.money-format', ['money' => $inventory->price])@endcomponent</p>
+            <p>@lang('admin/inventories.item.price'): @component('components.money-format', ['money' => $inventory->price])@endcomponent</p>
             <ul>
                 @foreach ($inventory->products->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE) as $product)
                     <li><b>{{ $product->name }}</b>: @component('components.amount-format', ['amount' => $product->pivot->amount])@endcomponent</li>
