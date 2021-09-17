@@ -24,6 +24,10 @@ class User extends Authenticatable
     const LANGUAGE_ENGLISH = 0;
     const LANGUAGE_DUTCH = 1;
 
+    // A user can select a light and a dark theme
+    const THEME_LIGHT = 0;
+    const THEME_DARK = 1;
+
     protected $fillable = [
         'firstname',
         'insertion',

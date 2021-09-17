@@ -1,8 +1,8 @@
 <div class="column is-one-quarter">
     <div class="card" style="display: flex; flex-direction: column; height: 100%; margin-bottom: 0; overflow: hidden;">
         <div class="card-image">
-            <div class="image" style="@if ($product->image != null) background-image: url(/storage/products/{{ $product->image }}); @endif
-                background-color: #ddd; background-size: cover; background-position: center center; padding-top: 100%;"></div>
+            <div class="image has-background-link" style="@if ($product->image != null) background-image: url(/storage/products/{{ $product->image }}); @endif
+                background-size: cover; background-position: center center; padding-top: 100%;"></div>
         </div>
 
         <div class="card-content content" style="flex: 1; margin-bottom: 0;">
@@ -49,7 +49,7 @@
                             datasets: [{
                                 label: 'Amount',
                                 data: @json($product->getAmountChart()),
-                                borderColor: '#3e56c4',
+                                borderColor: getComputedStyle(document.querySelector('.is-link')).backgroundColor,
                                 tension: 0.1
                             }]
                         },
@@ -105,7 +105,7 @@
                     <div class="field">
                         <label class="label" for="image">@lang('admin/products.item.image')</label>
                         @if ($product->image != null)
-                            <div class="box" style="background-color: #ccc; width: 50%;">
+                            <div class="box" style="width: 50%;">
                                 <div style="background-image: url(/storage/products/{{ $product->image }}); background-size: cover; background-position: center center; padding-top: 100%;"></div>
                             </div>
                         @endif

@@ -31,13 +31,15 @@ class Crud extends PaginationComponent
         'user.password_confirmation' => 'required|same:user.password_confirmation',
         'userAvatar' => 'nullable|image|max:1024',
         'user.role' => 'nullable|integer|digits_between:' . User::ROLE_NORMAL . ',' . User::ROLE_ADMIN,
-        'user.language' => 'nullable|integer|digits_between:' . User::LANGUAGE_ENGLISH . ',' . User::LANGUAGE_DUTCH
+        'user.language' => 'nullable|integer|digits_between:' . User::LANGUAGE_ENGLISH . ',' . User::LANGUAGE_DUTCH,
+        'user.theme' => 'nullable|integer|digits_between:' . User::THEME_LIGHT . ',' . User::THEME_DARK
     ];
 
     public function mount()
     {
         $this->user = new User();
         $this->user->language = User::LANGUAGE_DUTCH;
+        $this->user->theme = User::THEME_LIGHT;
         $this->userAvatar = null;
         $this->isCreating = false;
     }
@@ -51,6 +53,7 @@ class Crud extends PaginationComponent
 
         if ($this->user->role == '') $this->user->role = User::ROLE_NORMAL;
         if ($this->user->language == '') $this->user->language = User::LANGUAGE_ENGLISH;
+        if ($this->user->theme == '') $this->user->theme = User::THEME_LIGHT;
 
         if ($this->userAvatar != null) {
             $avatarName = User::generateAvatarName($this->userAvatar->extension());

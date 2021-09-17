@@ -32,6 +32,7 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->unsignedTinyInteger('role')->default(User::ROLE_NORMAL);
             $table->unsignedTinyInteger('language')->default(User::LANGUAGE_DUTCH);
+            $table->unsignedTinyInteger('theme')->default(User::THEME_LIGHT);
             $table->decimal('balance', 12, 3);
             $table->timestamps();
         });

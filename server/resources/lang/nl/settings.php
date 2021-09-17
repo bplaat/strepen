@@ -22,6 +22,9 @@ return [
     'change_details.postcode' => 'Postcode',
     'change_details.city' => 'Stad',
     'change_details.language' => 'Taal',
+    'change_details.theme' => 'Thema',
+    'change_details.theme_light' => 'Licht',
+    'change_details.theme_dark' => 'Donker',
     'change_details.button' => 'Verander gegevens',
     'change_details.success_message' => 'Je gegevens zijn opgeslagen',
 

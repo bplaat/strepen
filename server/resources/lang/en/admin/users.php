@@ -29,6 +29,9 @@ return [
     'crud.role_normal' => 'Normal',
     'crud.role_admin' => 'Admin',
     'crud.language' => 'Language',
+    'crud.theme' => 'Theme',
+    'crud.theme_light' => 'Light',
+    'crud.theme_dark' => 'Dark',
     'crud.cancel' => 'Cancel',
 
     // Admin users item livewire component
@@ -72,6 +75,9 @@ return [
     'item.role_normal' => 'Normal',
     'item.role_admin' => 'Admin',
     'item.language' => 'Language',
+    'item.theme' => 'Theme',
+    'item.theme_light' => 'Light',
+    'item.theme_dark' => 'Dark',
     'item.cancel' => 'Cancel',
     'item.delete_user' => 'Delete user',
     'item.delete_description' => 'Are you sure you want to delete this user and all it\'s history?'

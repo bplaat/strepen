@@ -129,17 +129,36 @@
             </div>
         </div>
 
-        <div class="field">
-            <label class="label" for="language">@lang('settings.change_details.language')</label>
-            <div class="control">
-                <div class="select is-fullwidth @error('user.language') is-danger @enderror">
-                    <select id="language" wire:model.defer="user.language">
-                        <option value="{{ App\Models\User::LANGUAGE_ENGLISH }}">English</option>
-                        <option value="{{ App\Models\User::LANGUAGE_DUTCH }}">Nederlands</option>
-                    </select>
+        <div class="columns">
+            <div class="column">
+                <div class="field">
+                    <label class="label" for="language">@lang('settings.change_details.language')</label>
+                    <div class="control">
+                        <div class="select is-fullwidth @error('user.language') is-danger @enderror">
+                            <select id="language" wire:model.defer="user.language">
+                                <option value="{{ App\Models\User::LANGUAGE_ENGLISH }}">English</option>
+                                <option value="{{ App\Models\User::LANGUAGE_DUTCH }}">Nederlands</option>
+                            </select>
+                        </div>
+                    </div>
+                    @error('user.language') <p class="help is-danger">{{ $message }}</p> @enderror
                 </div>
             </div>
-            @error('user.language') <p class="help is-danger">{{ $message }}</p> @enderror
+
+            <div class="column">
+                <div class="field">
+                    <label class="label" for="theme">@lang('admin/users.crud.theme')</label>
+                    <div class="control">
+                        <div class="select is-fullwidth @error('user.theme') is-danger @enderror">
+                            <select id="theme" wire:model.defer="user.theme">
+                                <option value="{{ App\Models\User::THEME_LIGHT }}">@lang('admin/users.crud.theme_light')</option>
+                                <option value="{{ App\Models\User::THEME_DARK }}">@lang('admin/users.crud.theme_dark')</option>
+                            </select>
+                        </div>
+                    </div>
+                    @error('user.theme') <p class="help is-danger">{{ $message }}</p> @enderror
+                </div>
+            </div>
         </div>
 
         <div class="field">

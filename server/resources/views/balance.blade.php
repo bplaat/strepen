@@ -13,7 +13,7 @@
                 datasets: [{
                     label: 'Balance (\u20ac)',
                     data: @json(Auth::user()->getBalanceChart()),
-                    borderColor: '#3e56c4',
+                    borderColor: getComputedStyle(document.querySelector('.is-link')).backgroundColor,
                     tension: 0.1
                 }]
             },

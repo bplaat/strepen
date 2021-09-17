@@ -22,6 +22,9 @@ return [
     'change_details.postcode' => 'Postcode',
     'change_details.city' => 'City',
     'change_details.language' => 'Language',
+    'change_details.theme' => 'Theme',
+    'change_details.theme_light' => 'Light',
+    'change_details.theme_dark' => 'Dark',
     'change_details.button' => 'Change details',
     'change_details.success_message' => 'Your details have changed',
 

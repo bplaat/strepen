@@ -17,11 +17,11 @@
         </div>
 
         <div class="card-footer">
-            @if ($user->id != Auth::id())
-                <a href="#" class="card-footer-item has-text-black" wire:click.prevent="hijackUser">@lang('admin/users.item.hijack')</a>
-            @endif
             <a href="#" class="card-footer-item" wire:click.prevent="$set('isShowing', true)">@lang('admin/users.item.show')</a>
             <a href="#" class="card-footer-item" wire:click.prevent="$set('isEditing', true)">@lang('admin/users.item.edit')</a>
+            @if ($user->id != Auth::id())
+                <a href="#" class="card-footer-item has-text-danger" wire:click.prevent="hijackUser">@lang('admin/users.item.hijack')</a>
+            @endif
             <a href="#" class="card-footer-item has-text-danger" wire:click.prevent="$set('isDeleting', true)">@lang('admin/users.item.delete')</a>
         </div>
     </div>
@@ -51,7 +51,7 @@
 
                     @if ($user->avatar != null)
                         <h2 class="subtitle is-5">@lang('admin/users.item.avatar')</h2>
-                        <div class="box" style="display: inline-block; background-color: #ccc;">
+                        <div class="box" style="display: inline-block;">
                             <img src="/storage/avatars/{{ $user->avatar }}" alt="@lang('settings.avatar_alt', [ 'user.name' => $user->name ])">
                         </div>
                     @endif
@@ -102,7 +102,7 @@
                             datasets: [{
                                 label: 'Balance (\u20ac)',
                                 data: @json($user->getBalanceChart()),
-                                borderColor: '#3e56c4',
+                                borderColor: getComputedStyle(document.querySelector('.is-link')).backgroundColor,
                                 tension: 0.1
                             }]
                         },
@@ -276,7 +276,7 @@
                     <div class="field">
                         <label class="label" for="avatar">@lang('admin/users.item.avatar')</label>
                         @if ($user->avatar != null)
-                            <div class="box" style="background-color: #ccc; width: 50%;">
+                            <div class="box" style="width: 50%;">
                                 <div style="background-image: url(/storage/avatars/{{ $user->avatar }}); background-size: cover; background-position: center center; padding-top: 100%;"></div>
                             </div>
                         @endif
@@ -336,6 +336,21 @@
                                     </div>
                                 </div>
                                 @error('user.language') <p class="help is-danger">{{ $message }}</p> @enderror
+                            </div>
+                        </div>
+
+                        <div class="column">
+                            <div class="field">
+                                <label class="label" for="theme">@lang('admin/users.crud.theme')</label>
+                                <div class="control">
+                                    <div class="select is-fullwidth @error('user.theme') is-danger @enderror">
+                                        <select id="theme" wire:model.defer="user.theme">
+                                            <option value="{{ App\Models\User::THEME_LIGHT }}">@lang('admin/users.crud.theme_light')</option>
+                                            <option value="{{ App\Models\User::THEME_DARK }}">@lang('admin/users.crud.theme_dark')</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                @error('user.theme') <p class="help is-danger">{{ $message }}</p> @enderror
                             </div>
                         </div>
                     </div>

@@ -14,7 +14,7 @@
                 <p>@lang('settings.change_avatar.has_avatar')</p>
             </div>
 
-            <div class="box" style="background-color: #ccc; width: 50%;">
+            <div class="box" style="width: 50%;">
                 <div style="background-image: url(/storage/avatars/{{ Auth::user()->avatar }}); background-size: cover; background-position: center center; padding-top: 100%;"></div>
             </div>
         @else
