@@ -16,11 +16,13 @@ return [
 
     // Admin products item livewire component
     'item.amount' => 'Hoeveelheid op voorraad',
-    'item.inspect' => 'Inspecteren',
+    'item.show' => 'Bekijken',
     'item.edit' => 'Aanpassen',
     'item.delete' => 'Verwijderen',
-    'item.inspect_product' => 'Inspecteer product',
-    'item.amount_of' => 'Hoeveelheid van :product.name',
+    'item.show_product' => 'Bekijk product',
+    'item.general_info' => 'Algemene informatie',
+    'item.description_unkown' => 'Descriptie onbekend',
+    'item.amount_info' => 'Hoeveelheid informatie',
     'item.edit_product' => 'Pas product aan',
     'item.name' => 'Naam',
     'item.price' => 'Prijs',

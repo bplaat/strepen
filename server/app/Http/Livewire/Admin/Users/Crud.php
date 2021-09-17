@@ -37,6 +37,7 @@ class Crud extends PaginationComponent
     public function mount()
     {
         $this->user = new User();
+        $this->user->language = User::LANGUAGE_DUTCH;
         $this->userAvatar = null;
         $this->isCreating = false;
     }
@@ -49,6 +50,7 @@ class Crud extends PaginationComponent
         unset($this->user->password_confirmation);
 
         if ($this->user->role == '') $this->user->role = User::ROLE_NORMAL;
+        if ($this->user->language == '') $this->user->language = User::LANGUAGE_ENGLISH;
 
         if ($this->userAvatar != null) {
             $avatarName = User::generateAvatarName($this->userAvatar->extension());

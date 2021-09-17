@@ -7,31 +7,39 @@
 
         <div class="card-content content" style="flex: 1; margin-bottom: 0;">
             <h4 style="font-weight: normal;"><span style="font-weight: 600;">{{ $product->name }}</span>: @component('components.money-format', ['money' => $product->price])@endcomponent</h4>
-            @if ($product->description != null)
-                <p><i>{{ $product->description }}</i></p>
-            @endif
             <p>@lang('admin/products.item.amount'): @component('components.amount-format', ['amount' => $product->amount])@endcomponent</p>
         </div>
 
         <div class="card-footer">
-            <a href="#" class="card-footer-item" wire:click.prevent="$set('isInspecting', true)">@lang('admin/products.item.inspect')</a>
+            <a href="#" class="card-footer-item" wire:click.prevent="$set('isShowing', true)">@lang('admin/products.item.show')</a>
             <a href="#" class="card-footer-item" wire:click.prevent="$set('isEditing', true)">@lang('admin/products.item.edit')</a>
             <a href="#" class="card-footer-item has-text-danger" wire:click.prevent="$set('isDeleting', true)">@lang('admin/products.item.delete')</a>
         </div>
     </div>
 
-    @if ($isInspecting)
+    @if ($isShowing)
         <div class="modal is-active">
-            <div class="modal-background" wire:click="$set('isInspecting', false)"></div>
+            <div class="modal-background" wire:click="$set('isShowing', false)"></div>
 
             <div class="modal-card" style="width: 50%;">
                 <div class="modal-card-head">
-                    <p class="modal-card-title">@lang('admin/products.item.inspect_product')</p>
-                    <button type="button" class="delete" wire:click="$set('isInspecting', false)"></button>
+                    <p class="modal-card-title">@lang('admin/products.item.show_product')</p>
+                    <button type="button" class="delete" wire:click="$set('isShowing', false)"></button>
                 </div>
 
-                <div class="modal-card-body">
-                    <h2 class="title is-4">@lang('admin/products.item.amount_of', ['product.name' => $product->name])</h2>
+                <div class="modal-card-body content">
+                    <h1 class="title is-spaced is-4">{{ $product->name }}</h1>
+
+                    <h2 class="subtitle is-5">@lang('admin/products.item.general_info')</h2>
+                    <p>@lang('admin/products.item.price'): @component('components.money-format', ['money' => $product->price])@endcomponent</p>
+                    <p>@lang('admin/products.item.amount'): @component('components.amount-format', ['amount' => $product->amount])@endcomponent</p>
+                    @if ($product->description != null)
+                        <p>@lang('admin/products.item.description'): <i>{{ $product->description }}</i></p>
+                    @else
+                        <p>@lang('admin/products.item.description'): @lang('admin/products.item.description_unkown')</p>
+                    @endif
+
+                    <h2 class="subtitle is-5">@lang('admin/products.item.amount_info')</h2>
                     <canvas id="amount_chart_canvas"></canvas>
 
                     <script>

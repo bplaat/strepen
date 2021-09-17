@@ -20,24 +20,79 @@
             @if ($user->id != Auth::id())
                 <a href="#" class="card-footer-item has-text-black" wire:click.prevent="hijackUser">@lang('admin/users.item.hijack')</a>
             @endif
-            <a href="#" class="card-footer-item" wire:click.prevent="$set('isInspecting', true)">@lang('admin/users.item.inspect')</a>
+            <a href="#" class="card-footer-item" wire:click.prevent="$set('isShowing', true)">@lang('admin/users.item.show')</a>
             <a href="#" class="card-footer-item" wire:click.prevent="$set('isEditing', true)">@lang('admin/users.item.edit')</a>
             <a href="#" class="card-footer-item has-text-danger" wire:click.prevent="$set('isDeleting', true)">@lang('admin/users.item.delete')</a>
         </div>
     </div>
 
-    @if ($isInspecting)
+    @if ($isShowing)
         <div class="modal is-active">
-            <div class="modal-background" wire:click="$set('isInspecting', false)"></div>
+            <div class="modal-background" wire:click="$set('isShowing', false)"></div>
 
             <div class="modal-card" style="width: 50%;">
                 <div class="modal-card-head">
-                    <p class="modal-card-title">@lang('admin/users.item.inspect_user')</p>
-                    <button type="button" class="delete" wire:click="$set('isInspecting', false)"></button>
+                    <p class="modal-card-title">@lang('admin/users.item.show_user')</p>
+                    <button type="button" class="delete" wire:click="$set('isShowing', false)"></button>
                 </div>
 
-                <div class="modal-card-body">
-                    <h2 class="title is-4">@lang('admin/users.item.balance_of', ['user.name' => $user->name])</h2>
+                <div class="modal-card-body content">
+                    <h1 class="title is-spaced is-4">
+                        {{ $user->name }}
+
+                        @if ($user->role == App\Models\User::ROLE_NORMAL)
+                            <span class="tag is-pulled-right is-success">@lang('admin/users.item.role_normal')</span>
+                        @endif
+
+                        @if ($user->role == App\Models\User::ROLE_ADMIN)
+                            <span class="tag is-pulled-right is-danger">@lang('admin/users.item.role_admin')</span>
+                        @endif
+                    </h1>
+
+                    @if ($user->avatar != null)
+                        <h2 class="subtitle is-5">@lang('admin/users.item.avatar')</h2>
+                        <div class="box" style="display: inline-block; background-color: #ccc;">
+                            <img src="/storage/avatars/{{ $user->avatar }}" alt="@lang('settings.avatar_alt', [ 'user.name' => $user->name ])">
+                        </div>
+                    @endif
+
+                    <h2 class="subtitle is-5">@lang('admin/users.item.personal_info')</h2>
+                    @if ($user->gender != null)
+                        @if ($user->gender == App\Models\User::GENDER_MALE)
+                            <p>@lang('admin/users.item.gender'): @lang('admin/users.item.gender_male')</p>
+                        @endif
+                        @if ($user->gender == App\Models\User::GENDER_FEMALE)
+                            <p>@lang('admin/users.item.gender'): @lang('admin/users.item.gender_female')</p>
+                        @endif
+                        @if ($user->gender == App\Models\User::GENDER_OTHER)
+                            <p>@lang('admin/users.item.gender'): @lang('admin/users.item.gender_other')</p>
+                        @endif
+                    @else
+                        <p>@lang('admin/users.item.gender'): @lang('admin/users.item.gender_unkown')</p>
+                    @endif
+                    @if ($user->birthday != null)
+                        <p>@lang('admin/users.item.birthday'): {{ $user->birthday->format('Y-m-d') }}</p>
+                    @else
+                        <p>@lang('admin/users.item.birthday'): @lang('admin/users.item.birthday_unkown')</p>
+                    @endif
+
+                    <h2 class="subtitle is-5">@lang('admin/users.item.contact_info')</h2>
+                    <p>@lang('admin/users.item.email'): <a href="mailto:{{ $user->email }}">{{ $user->email }}</a></p>
+                    @if ($user->phone != null)
+                        <p>@lang('admin/users.item.phone'): <a href="tel:{{ $user->phone }}">{{ $user->phone }}</a></p>
+                    @else
+                        <p>@lang('admin/users.item.phone'): @lang('admin/users.item.phone_unkown')</p>
+                    @endif
+
+                    <h2 class="subtitle is-5">@lang('admin/users.item.address_info')</h2>
+                    @if ($user->address != null && $user->postcode != null && $user->city != null)
+                        <p>{{ $user->address }}</p>
+                        <p>{{ $user->postcode }}, {{ $user->city }}</p>
+                    @else
+                        <p>@lang('admin/users.item.address_unkown') </p>
+                    @endif
+
+                    <h2 class="subtitle is-5">@lang('admin/users.item.balance_info')</h2>
                     <canvas id="balance_chart_canvas"></canvas>
 
                     <script>

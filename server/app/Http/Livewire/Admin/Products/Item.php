@@ -13,7 +13,7 @@ class Item extends Component
 
     public $product;
     public $image;
-    public $isInspecting = false;
+    public $isShowing = false;
     public $isEditing = false;
     public $isDeleting = false;
 

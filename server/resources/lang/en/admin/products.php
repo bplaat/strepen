@@ -16,11 +16,13 @@ return [
 
     // Admin products item livewire component
     'item.amount' => 'Amount in stock',
-    'item.inspect' => 'Inspect',
+    'item.show' => 'Show',
     'item.edit' => 'Edit',
     'item.delete' => 'Delete',
-    'item.inspect_product' => 'Inspect product',
-    'item.amount_of' => 'Amount of :product.name',
+    'item.show_product' => 'Show product',
+    'item.general_info' => 'General information',
+    'item.description_unkown' => 'Description unkown',
+    'item.amount_info' => 'Amount information',
     'item.edit_product' => 'Edit product',
     'item.name' => 'Name',
     'item.price' => 'Price',
