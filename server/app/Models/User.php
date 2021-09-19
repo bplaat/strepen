@@ -116,33 +116,15 @@ class User extends Authenticatable
     }
 
     // Search by a query
-    public static function search($searchQuery)
+    public static function search($query, $searchQuery)
     {
-        return static::where('deleted', false)
+        return $query->where('deleted', false)
             ->where(function ($query) use ($searchQuery) {
                 $query->where('firstname', 'LIKE', '%' . $searchQuery . '%')
                     ->orWhere('insertion', 'LIKE', '%' . $searchQuery . '%')
                     ->orWhere('lastname', 'LIKE', '%' . $searchQuery . '%')
                     ->orWhere('email', 'LIKE', '%' . $searchQuery . '%');
             });
-    }
-
-    // Search collection by a query
-    public static function searchCollection($collection, $searchQuery)
-    {
-        if (strlen($searchQuery) == 0) {
-            return $collection->filter(function ($user) {
-                return !$user->deleted;
-            });
-        }
-        return $collection->filter(function ($user) use ($searchQuery) {
-            return !$user->deleted && (
-                Str::contains(strtolower($user->firstname), strtolower($searchQuery)) ||
-                Str::contains(strtolower($user->insertion), strtolower($searchQuery)) ||
-                Str::contains(strtolower($user->lastname), strtolower($searchQuery)) ||
-                Str::contains(strtolower($user->email), strtolower($searchQuery))
-            );
-        });
     }
 
     // Get balance chart data

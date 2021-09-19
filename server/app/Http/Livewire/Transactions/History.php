@@ -11,8 +11,8 @@ class History extends PaginationComponent
     public function render()
     {
         return view('livewire.transactions.history', [
-            'transactions' => Transaction::searchCollection(Auth::user()->transactions, $this->query)
-                ->sortByDesc('created_at')
+            'transactions' => Transaction::search(Auth::user()->transactions(), $this->query)
+                ->orderBy('created_at', 'DESC')
                 ->paginate(config('pagination.web.limit'))->withQueryString()
         ])->layout('layouts.app', ['title' => __('transactions.history.title')]);
     }

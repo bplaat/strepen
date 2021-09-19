@@ -67,17 +67,22 @@ class ImportData extends Command
             array_shift($nameParts);
             $lastname = implode(' ', $nameParts);
             if (
-                $firstname != 'Bastiaan' && $lastname != 'van der Plaat' &&
-                User::where('email', $user->email)->count() == 0
+                $firstname != 'Bastiaan' && $lastname != 'van der Plaat'
             ) {
-                $userModel = new User();
-                $userModel->firstname = $firstname;
-                $userModel->lastname = $lastname;
-                $userModel->email = $user->email;
-                $userModel->password = Hash::make('strepen');
-                $userModel->balance = 0;
-                $userModel->active = $user->active;
-                $userModel->save();
+                $oldUser = User::where('email', $user->email)->first();
+                if ($oldUser != null) {
+                    $oldUser->active = true;
+                    $oldUser->save();
+                } else {
+                    $userModel = new User();
+                    $userModel->firstname = $firstname;
+                    $userModel->lastname = $lastname;
+                    $userModel->email = $user->email;
+                    $userModel->password = Hash::make('strepen');
+                    $userModel->balance = 0;
+                    $userModel->active = $user->active;
+                    $userModel->save();
+                }
                 $oldUserIds[$user->id] = $userModel->id;
             }
             echo "\033[F" . ($index + 1) . ' / ' . $total . ' = ' . round(($index + 1) / $total * 100, 2) . "%\n";
@@ -163,7 +168,7 @@ class ImportData extends Command
                 $transaction = new Transaction();
                 $transaction->user_id = 1;
                 $transaction->type = Transaction::TYPE_TRANSACTION;
-                $transaction->name = 'Imported transaction on ' . $inventory->created_at;
+                $transaction->name = 'Imported negative inventory on ' . $inventory->created_at;
                 $transaction->price = $product->price * ($inventory->amount);
                 $transaction->created_at = $inventory->created_at;
                 $transaction->save();

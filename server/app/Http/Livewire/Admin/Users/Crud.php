@@ -69,8 +69,9 @@ class Crud extends PaginationComponent
     public function render()
     {
         return view('livewire.admin.users.crud', [
-            'users' => User::search($this->query)->get()
+            'users' => User::search(User::select(), $this->query)->get()
                 ->sortBy('sortName', SORT_NATURAL | SORT_FLAG_CASE)
+                ->sortByDesc('active')
                 ->paginate(config('pagination.web.limit'))->withQueryString()
         ])->layout('layouts.app', ['title' => __('admin/users.crud.title'), 'chartjs' => true]);
     }

@@ -46,8 +46,8 @@ class Crud extends PaginationComponent
     public function render()
     {
         return view('livewire.admin.products.crud', [
-            'products' => Product::search(strtolower($this->query))
-                ->orderByRaw('LOWER(name)')
+            'products' => Product::search(Product::select(), $this->query)
+                ->orderByRaw('active DESC, LOWER(name) ASC')
                 ->paginate(config('pagination.web.limit'))->withQueryString()
         ])->layout('layouts.app', ['title' => __('admin/products.crud.title'), 'chartjs' => true]);
     }
