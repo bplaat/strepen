@@ -24,7 +24,7 @@ class Kiosk extends Component
 
     public function mount()
     {
-        $this->users = User::all()->sortBy('sortName', SORT_NATURAL | SORT_FLAG_CASE);
+        $this->users = User::where('active', true)->get()->sortBy('sortName', SORT_NATURAL | SORT_FLAG_CASE);
         $this->transaction = new Transaction();
         $this->transaction->name = __('kiosk.name_default') . ' ' . date('Y-m-d H:i:s');
         $this->selectedProducts = collect();

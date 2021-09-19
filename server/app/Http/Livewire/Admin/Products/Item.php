@@ -21,7 +21,8 @@ class Item extends Component
         'product.name' => 'required|min:2|max:48',
         'product.price' => 'required|numeric',
         'product.description' => 'nullable',
-        'image' => 'nullable|image|max:1024'
+        'image' => 'nullable|image|max:1024',
+        'product.active' => 'nullable|boolean'
     ];
 
     public function editProduct()

@@ -15,6 +15,7 @@ return [
     'crud.cancel' => 'Cancel',
 
     // Admin products item livewire component
+    'item.inactive' => 'Inactive',
     'item.amount' => 'Amount in stock',
     'item.show' => 'Show',
     'item.edit' => 'Edit',
@@ -30,6 +31,8 @@ return [
     'item.image' => 'Image',
     'item.image_help' => 'You can upload an squared .jpg or .png image',
     'item.delete_image' => 'Delete product image',
+    'item.active' => 'Active',
+    'item.active_product' => 'Make product visible in the system',
     'item.cancel' => 'Cancel',
     'item.delete_product' => 'Delete product',
     'item.delete_description' => 'Are you sure you want to delete this product and all it\'s history?'

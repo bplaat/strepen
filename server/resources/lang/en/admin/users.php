@@ -35,6 +35,7 @@ return [
     'crud.cancel' => 'Cancel',
 
     // Admin users item livewire component
+    'item.inactive' => 'Inactive',
     'item.written_by' => 'Written by :user.name on :user.created_at',
     'item.balance' => 'Balance',
     'item.hijack' => 'Hijack',
@@ -70,7 +71,7 @@ return [
     'item.password_confirmation' => 'Password confirmation',
     'item.avatar' => 'Avatar',
     'item.avatar_help' => 'You can upload an squared .jpg or .png avatar',
-    'item.delete_avatar' => 'Delete product avatar',
+    'item.delete_avatar' => 'Delete user avatar',
     'item.role' => 'Role',
     'item.role_normal' => 'Normal',
     'item.role_admin' => 'Admin',
@@ -78,6 +79,8 @@ return [
     'item.theme' => 'Theme',
     'item.theme_light' => 'Light',
     'item.theme_dark' => 'Dark',
+    'item.active' => 'Active',
+    'item.active_user' => 'Make user visible in the system',
     'item.cancel' => 'Cancel',
     'item.delete_user' => 'Delete user',
     'item.delete_description' => 'Are you sure you want to delete this user and all it\'s history?'

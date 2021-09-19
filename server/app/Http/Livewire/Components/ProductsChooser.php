@@ -19,7 +19,7 @@ class ProductsChooser extends Component
 
     public function mount()
     {
-        $this->products = Product::all()->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE);
+        $this->products = Product::where('active', true)->get()->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE);
     }
 
     public function getSelectedProducts()

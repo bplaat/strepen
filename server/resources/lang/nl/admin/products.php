@@ -15,6 +15,7 @@ return [
     'crud.cancel' => 'Annuleren',
 
     // Admin products item livewire component
+    'item.inactive' => 'Inactief',
     'item.amount' => 'Hoeveelheid op voorraad',
     'item.show' => 'Bekijken',
     'item.edit' => 'Aanpassen',
@@ -30,6 +31,8 @@ return [
     'item.image' => 'Plaatje',
     'item.image_help' => 'U kunt een vierkante .jpg- of .png-afbeelding uploaden',
     'item.delete_image' => 'Verwijder product plaatje',
+    'item.active' => 'Actief',
+    'item.active_product' => 'Product zichtbaar maken in het systeem',
     'item.cancel' => 'Annuleren',
     'item.delete_product' => 'Verwijder product',
     'item.delete_description' => 'Weet je zeker dat je dit product en zijn hele geschiedenis wilt verwijderen?'

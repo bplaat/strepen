@@ -33,7 +33,7 @@ class Item extends Component
 
     public function mount()
     {
-        $this->users = User::all()->sortBy('sortName', SORT_NATURAL | SORT_FLAG_CASE);
+        $this->users = User::where('active', true)->get()->sortBy('sortName', SORT_NATURAL | SORT_FLAG_CASE);
         $this->oldUserId = $this->transaction->user_id;
 
         $selectedProducts = TransactionProduct::where('transaction_id', $this->transaction->id)->get();

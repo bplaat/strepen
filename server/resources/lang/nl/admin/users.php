@@ -35,6 +35,7 @@ return [
     'crud.cancel' => 'Annuleren',
 
     // Admin users item livewire component
+    'item.inactive' => 'Inactief',
     'item.balance' => 'Balans',
     'item.hijack' => 'Overnemen',
     'item.show' => 'Bekijken',
@@ -77,6 +78,8 @@ return [
     'item.theme' => 'Thema',
     'item.theme_light' => 'Licht',
     'item.theme_dark' => 'Donker',
+    'item.active' => 'Actief',
+    'item.active_user' => 'Gebruiker zichtbaar maken in het systeem',
     'item.cancel' => 'Annuleren',
     'item.delete_user' => 'Verwijder gebruiker',
     'item.delete_description' => 'Weet u zeker dat u deze gebruiker en al zijn geschiedenis wilt verwijderen?'

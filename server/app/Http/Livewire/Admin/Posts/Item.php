@@ -24,7 +24,7 @@ class Item extends Component
 
     public function mount()
     {
-        $this->users = User::all()->sortBy('sortName', SORT_NATURAL | SORT_FLAG_CASE);
+        $this->users = User::where('active', true)->get()->sortBy('sortName', SORT_NATURAL | SORT_FLAG_CASE);
         $this->createdAtDate = $this->post->created_at->format('Y-m-d');
         $this->createdAtTime = $this->post->created_at->format('H:i:s');
     }

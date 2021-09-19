@@ -15,6 +15,10 @@ class Product extends Model
         'amount'
     ];
 
+    protected $casts = [
+        'active' => 'boolean'
+    ];
+
     // Generate a random image name
     public static function generateImageName($extension)
     {

@@ -4,13 +4,19 @@
             <h4>
                 {{ $user->name }}
 
-                @if ($user->role == App\Models\User::ROLE_NORMAL)
-                    <span class="tag is-pulled-right is-success">{{ Str::upper(__('admin/users.item.role_normal')) }}</span>
-                @endif
+                <span class="is-pulled-right">
+                    @if ($user->role == App\Models\User::ROLE_NORMAL)
+                        <span class="tag is-success">{{ Str::upper(__('admin/users.item.role_normal')) }}</span>
+                    @endif
 
-                @if ($user->role == App\Models\User::ROLE_ADMIN)
-                    <span class="tag is-pulled-right is-danger">{{ Str::upper(__('admin/users.item.role_admin')) }}</span>
-                @endif
+                    @if ($user->role == App\Models\User::ROLE_ADMIN)
+                        <span class="tag is-danger">{{ Str::upper(__('admin/users.item.role_admin')) }}</span>
+                    @endif
+
+                    @if (!$user->active)
+                        <span class="tag is-warning">{{ Str::upper(__('admin/users.item.inactive')) }}</span>
+                    @endif
+                </span>
             </h4>
 
             <p>@lang('admin/users.item.balance'): @component('components.money-format', ['money' => $user->balance])@endcomponent</p>
@@ -40,13 +46,19 @@
                     <h1 class="title is-spaced is-4">
                         {{ $user->name }}
 
-                        @if ($user->role == App\Models\User::ROLE_NORMAL)
-                            <span class="tag is-pulled-right is-success">@lang('admin/users.item.role_normal')</span>
-                        @endif
+                        <span class="is-pulled-right">
+                            @if ($user->role == App\Models\User::ROLE_NORMAL)
+                                <span class="tag is-success">{{ Str::upper(__('admin/users.item.role_normal')) }}</span>
+                            @endif
 
-                        @if ($user->role == App\Models\User::ROLE_ADMIN)
-                            <span class="tag is-pulled-right is-danger">@lang('admin/users.item.role_admin')</span>
-                        @endif
+                            @if ($user->role == App\Models\User::ROLE_ADMIN)
+                                <span class="tag is-danger">{{ Str::upper(__('admin/users.item.role_admin')) }}</span>
+                            @endif
+
+                            @if (!$user->active)
+                                <span class="tag is-warning">{{ Str::upper(__('admin/users.item.inactive')) }}</span>
+                            @endif
+                        </span>
                     </h1>
 
                     @if ($user->avatar != null)
@@ -353,6 +365,14 @@
                                 @error('user.theme') <p class="help is-danger">{{ $message }}</p> @enderror
                             </div>
                         </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label" for="image">@lang('admin/users.item.active')</label>
+                        <label class="checkbox" for="active">
+                            <input type="checkbox" id="active" wire:model.defer="user.active">
+                            @lang('admin/users.item.active_user')
+                        </label>
                     </div>
                 </div>
 

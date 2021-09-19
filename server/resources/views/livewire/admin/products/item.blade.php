@@ -6,7 +6,13 @@
         </div>
 
         <div class="card-content content" style="flex: 1; margin-bottom: 0;">
-            <h4 style="font-weight: normal;"><span style="font-weight: 600;">{{ $product->name }}</span>: @component('components.money-format', ['money' => $product->price])@endcomponent</h4>
+            <h4 style="font-weight: normal;">
+                <span style="font-weight: 600;">{{ $product->name }}</span>: @component('components.money-format', ['money' => $product->price])@endcomponent
+
+                @if (!$product->active)
+                    <span class="tag is-pulled-right is-warning">{{ Str::upper(__('admin/products.item.inactive')) }}</span>
+                @endif
+            </h4>
             <p>@lang('admin/products.item.amount'): @component('components.amount-format', ['amount' => $product->amount])@endcomponent</p>
         </div>
 
@@ -28,7 +34,13 @@
                 </div>
 
                 <div class="modal-card-body content">
-                    <h1 class="title is-spaced is-4">{{ $product->name }}</h1>
+                    <h1 class="title is-spaced is-4">
+                        {{ $product->name }}
+
+                        @if (!$product->active)
+                            <span class="tag is-pulled-right is-warning">{{ Str::upper(__('admin/products.item.inactive')) }}</span>
+                        @endif
+                    </h1>
 
                     <h2 class="subtitle is-5">@lang('admin/products.item.general_info')</h2>
                     <p>@lang('admin/products.item.price'): @component('components.money-format', ['money' => $product->price])@endcomponent</p>
@@ -135,6 +147,14 @@
                                 </div>
                             </div>
                         @endif
+                    </div>
+
+                    <div class="field">
+                        <label class="label" for="image">@lang('admin/products.item.active')</label>
+                        <label class="checkbox" for="active">
+                            <input type="checkbox" id="active" wire:model.defer="product.active">
+                            @lang('admin/products.item.active_product')
+                        </label>
                     </div>
                 </div>
 

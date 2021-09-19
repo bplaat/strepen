@@ -34,6 +34,7 @@ class CreateUsersTable extends Migration
             $table->unsignedTinyInteger('language')->default(User::LANGUAGE_DUTCH);
             $table->unsignedTinyInteger('theme')->default(User::THEME_LIGHT);
             $table->decimal('balance', 12, 3);
+            $table->boolean('active')->default(true);
             $table->timestamps();
         });
     }

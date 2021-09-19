@@ -1,6 +1,8 @@
 [&laquo; Back to the README.md](../README.md)
 
 # Todo List
+- Active toggles users: products
+- Better delete models
 - Better user selector component
 - Better product selector component
 - Create REST API for you know what...
