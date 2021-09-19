@@ -3,10 +3,12 @@
 namespace App\Console\Commands;
 
 use App\Models\Inventory;
+use App\Models\InventoryProduct;
 use App\Models\Post;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\Transaction;
+use App\Models\TransactionProduct;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Hash;
@@ -61,33 +63,36 @@ class ImportData extends Command
         preg_match_all('/<p>\{([^\}]+)/m', $data, $usersJson);
         $total = count($usersJson[1]);
         foreach ($usersJson[1] as $index => $userJson) {
-            $user = json_decode('{' . $userJson . '}');
-            $nameParts = explode(' ', $user->name);
+            $userJson = json_decode('{' . $userJson . '}');
+
+            $nameParts = explode(' ', $userJson->name);
             $firstname = $nameParts[0];
             array_shift($nameParts);
             $lastname = implode(' ', $nameParts);
+
             if (
                 $firstname != 'Bastiaan' && $lastname != 'van der Plaat'
             ) {
-                $oldUser = User::where('email', $user->email)->first();
-                if ($oldUser != null) {
-                    $oldUser->active = true;
-                    $oldUser->save();
+                $user = User::where('email', $userJson->email)->first();
+                if ($user != null) {
+                    $user->active = true;
+                    $user->save();
                 } else {
-                    $userModel = new User();
-                    $userModel->firstname = $firstname;
-                    $userModel->lastname = $lastname;
-                    $userModel->email = $user->email;
-                    $userModel->password = Hash::make('strepen');
-                    $userModel->balance = 0;
-                    $userModel->active = $user->active;
-                    $userModel->save();
+                    $user = new User();
+                    $user->firstname = $firstname;
+                    $user->lastname = $lastname;
+                    $user->email = $userJson->email;
+                    $user->password = Hash::make('strepen');
+                    $user->balance = 0;
+                    $user->active = $userJson->active;
+                    $user->save();
                 }
-                $oldUserIds[$user->id] = $userModel->id;
+                $oldUserIds[$userJson->id] = $user->id;
             }
             echo "\033[F" . ($index + 1) . ' / ' . $total . ' = ' . round(($index + 1) / $total * 100, 2) . "%\n";
         }
         echo "Importing users done!\n";
+        $users = User::all();
 
         // Get all the posts information
         echo "Importing all posts...\n\n";
@@ -100,19 +105,19 @@ class ImportData extends Command
         preg_match_all('/<p>\{([^\}]+)/m', $data, $postsJson);
         $total = count($postsJson[1]);
         foreach ($postsJson[1] as $index => $postJson) {
-            $post = json_decode('{' . str_replace("\n", '', $postJson) . '}');
-            if ($post->title == '') {
-                $post->title = 'Untitled post';
+            $postJson = json_decode('{' . str_replace("\n", '', $postJson) . '}');
+            if ($postJson->title == '') {
+                $postJson->title = 'Untitled post';
             }
-            if ($post->body == '') {
+            if ($postJson->body == '') {
                 continue;
             }
-            $postModel = new Post();
-            $postModel->user_id = 1;
-            $postModel->title = $post->title;
-            $postModel->body = str_replace('<br />', "\n", base64_decode($post->body));
-            $postModel->created_at = $post->created_at;
-            $postModel->save();
+            $post = new Post();
+            $post->user_id = 1;
+            $post->title = $postJson->title;
+            $post->body = str_replace('<br />', "\n", base64_decode($postJson->body));
+            $post->created_at = $postJson->created_at;
+            $post->save();
             echo "\033[F" . ($index + 1) . ' / ' . $total . ' = ' . round(($index + 1) / $total * 100, 2) . "%\n";
         }
         echo "Importing posts done!\n";
@@ -128,19 +133,20 @@ class ImportData extends Command
         preg_match_all('/<p>\{([^\}]+)/m', $data, $productsJson);
         $total = count($productsJson[1]);
         foreach ($productsJson[1] as $index => $productJson) {
-            $product = json_decode('{' . $productJson . '}');
-            $productModel = new Product();
-            $productModel->name = $product->name;
-            $productModel->price = $product->price;
-            $productModel->active = $product->active;
-            $productModel->save();
+            $productJson = json_decode('{' . $productJson . '}');
+            $product = new Product();
+            $product->name = $productJson->name;
+            $product->price = $productJson->price;
+            $product->active = $productJson->active;
+            $product->save();
             echo "\033[F" . ($index + 1) . ' / ' . $total . ' = ' . round(($index + 1) / $total * 100, 2) . "%\n";
         }
         echo "Importing products done!\n";
+        $products = Product::all();
 
         // Get all inventory information
         echo "Importing all inventories...\n\n";
-        $data = file_get_contents($url . '/bonnen/index.php?id=15&newsId=' . urlencode('0 UNION SELECT \'\', \'\', \'\', CONCAT(\'{"product_id":\', product_id, \',"amount":\', aantal, \',"action":"\', actie, \'","created_at":"\', datum, \'"}\') FROM inkoop'), false, stream_context_create([
+        $data = file_get_contents($url . '/bonnen/index.php?id=15&newsId=' . urlencode('0 UNION SELECT \'\', \'\', \'\', CONCAT(\'{"id":\', id, \',"product_id":\', product_id, \',"amount":\', aantal, \',"action":"\', actie, \'","created_at":"\', datum, \'"}\') FROM inkoop'), false, stream_context_create([
             'ssl' => [
                 'verify_peer' => false,
                 'verify_peer_name' => false
@@ -148,42 +154,90 @@ class ImportData extends Command
         ]));
         preg_match_all('/<p>\{([^\}]+)/m', $data, $inventoriesJson);
         $total = count($inventoriesJson[1]);
+        $doneInventories = [];
         foreach ($inventoriesJson[1] as $index => $inventoryJson) {
-            $inventory = json_decode('{' . $inventoryJson . '}');
-            $product = Product::find($inventory->product_id);
-            if ($inventory->amount > 0) {
-                $inventoryModel = new Inventory();
-                $inventoryModel->user_id = 1;
-                $inventoryModel->name = 'Imported inventory on ' . $inventory->created_at;
-                $inventoryModel->price = $product->price * $inventory->amount;
-                $inventoryModel->created_at = $inventory->created_at;
-                $inventoryModel->save();
+            $inventoryJson = json_decode('{' . $inventoryJson . '}');
+            if (!in_array($inventoryJson->id, $doneInventories)) {
+                if ($inventoryJson->amount > 0) {
+                    $inventory = new Inventory();
+                    $inventory->user_id = 1;
+                    $inventory->name = 'Imported inventory on ' . $inventoryJson->created_at;
+                    $inventory->price = 0;
+                    $inventory->created_at = $inventoryJson->created_at;
+                    $inventory->save();
 
-                $inventoryModel->products()->attach($inventory->product_id, [ 'amount' => $inventory->amount ]);
-                $product->amount += $inventory->amount;
-                $product->save();
-            }
-            if ($inventory->amount < 0) {
-                $inventory->amount = -$inventory->amount;
-                $transaction = new Transaction();
-                $transaction->user_id = 1;
-                $transaction->type = Transaction::TYPE_TRANSACTION;
-                $transaction->name = 'Imported negative inventory on ' . $inventory->created_at;
-                $transaction->price = $product->price * ($inventory->amount);
-                $transaction->created_at = $inventory->created_at;
-                $transaction->save();
+                    for ($i = $index; $i < $index + 50 && $i < $total; $i++) {
+                        $otherInventoryJson = json_decode('{' . $inventoriesJson[1][$i] . '}');
+                        if (
+                            $otherInventoryJson->amount > 0 &&
+                            strtotime($otherInventoryJson->created_at) >= strtotime($inventoryJson->created_at) &&
+                            strtotime($otherInventoryJson->created_at) < strtotime($inventoryJson->created_at) + 10 * 60
+                        ) {
+                            $product = $products->firstWhere('id', $otherInventoryJson->product_id);
+                            $inventory->price += $product->price * $otherInventoryJson->amount;
 
-                $transaction->products()->attach($inventory->product_id, [ 'amount' => $inventory->amount ]);
-                $product->amount -= $inventory->amount;
-                $product->save();
+                            $inventoryProduct = InventoryProduct::where('inventory_id', $inventory->id)
+                                ->where('product_id', $product->id)->first();
+                            if ($inventoryProduct != null) {
+                                $inventory->products()->updateExistingPivot($product->id, [
+                                    'amount' => $inventoryProduct->amount + $otherInventoryJson->amount
+                                ]);
+                            } else {
+                                $inventory->products()->attach($product->id, [ 'amount' => $otherInventoryJson->amount ]);
+                            }
+
+                            $product->amount += $otherInventoryJson->amount;
+                            $product->save();
+                            $doneInventories[] = $otherInventoryJson->id;
+                        }
+                    }
+                    $inventory->save();
+                }
+
+                if ($inventoryJson->amount < 0) {
+                    $transaction = new Transaction();
+                    $transaction->user_id = 1;
+                    $transaction->type = Transaction::TYPE_TRANSACTION;
+                    $transaction->name = 'Imported negative inventory on ' . $inventoryJson->created_at;
+                    $transaction->price = 0;
+                    $transaction->created_at = $inventoryJson->created_at;
+                    $transaction->save();
+
+                    for ($i = $index; $i < $index + 50 && $i < $total; $i++) {
+                        $otherInventoryJson = json_decode('{' . $inventoriesJson[1][$i] . '}');
+                        if (
+                            $otherInventoryJson->amount < 0 &&
+                            strtotime($otherInventoryJson->created_at) >= strtotime($inventoryJson->created_at) &&
+                            strtotime($otherInventoryJson->created_at) < strtotime($inventoryJson->created_at) + 10 * 60
+                        ) {
+                            $product = $products->firstWhere('id', $otherInventoryJson->product_id);
+                            $transaction->price += $product->price * (-$otherInventoryJson->amount);
+
+                            $transactionProduct = TransactionProduct::where('transaction_id', $transaction->id)
+                                ->where('product_id', $product->id)->first();
+                            if ($transactionProduct != null) {
+                                $transaction->products()->updateExistingPivot($product->id, [
+                                    'amount' => $transactionProduct->amount + (-$otherInventoryJson->amount)
+                                ]);
+                            } else {
+                                $transaction->products()->attach($product->id, [ 'amount' => -$otherInventoryJson->amount ]);
+                            }
+
+                            $product->amount -= -$otherInventoryJson->amount;
+                            $product->save();
+                            $doneInventories[] = $otherInventoryJson->id;
+                        }
+                    }
+                    $transaction->save();
+                }
             }
-            echo "\033[F" . ($index + 1) . ' / ' . $total . ' = ' . round(($index + 1) / $total * 100, 2) . "% | " . $inventory->created_at . "\n";
+            echo "\033[F" . ($index + 1) . ' / ' . $total . ' = ' . round(($index + 1) / $total * 100, 2) . "% | " . $inventoryJson->created_at . "\n";
         }
         echo "Importing inventories done!\n";
 
         // Get all transactions information
         echo "Importing all transactions...\n\n";
-        $data = file_get_contents($url . '/bonnen/index.php?id=15&newsId=' . urlencode('0 UNION SELECT \'\', \'\', \'\', CONCAT(\'{"old_user_id":\', lid_id, \',"product_id":\', product_id, \',"amount":\', aantal, \',"price":"\', prijs, \'","created_at":"\', datum, \'"}\') FROM schuld'), false, stream_context_create([
+        $data = file_get_contents($url . '/bonnen/index.php?id=15&newsId=' . urlencode('0 UNION SELECT \'\', \'\', \'\', CONCAT(\'{"id":\', id, \',"old_user_id":\', lid_id, \',"product_id":\', product_id, \',"amount":\', aantal, \',"price":"\', prijs, \'","created_at":"\', datum, \'"}\') FROM schuld'), false, stream_context_create([
             'ssl' => [
                 'verify_peer' => false,
                 'verify_peer_name' => false
@@ -191,43 +245,71 @@ class ImportData extends Command
         ]));
         preg_match_all('/<p>\{([^\}]+)/m', $data, $transactionsJson);
         $total = count($transactionsJson[1]);
+        $doneTransactions = [];
         foreach ($transactionsJson[1] as $index => $transactionJson) {
-            $transaction = json_decode('{' . $transactionJson . '}');
-            if (isset($oldUserIds[$transaction->old_user_id])) {
-                $user = User::find($oldUserIds[$transaction->old_user_id]);
-                if ($transaction->price != 0) {
-                    if ($transaction->product_id == 7) {
-                        $transaction->price = -$transaction->price;
-                        $transactionModel = new Transaction();
-                        $transactionModel->user_id = $user->id;
-                        $transactionModel->type = Transaction::TYPE_DEPOSIT;
-                        $transactionModel->name = 'Imported deposit on ' . $transaction->created_at;
-                        $transactionModel->price = $transaction->price;
-                        $transactionModel->created_at = $transaction->created_at;
-                        $transactionModel->save();
+            $transactionJson = json_decode('{' . $transactionJson . '}');
+            if (
+                !in_array($transactionJson->id, $doneTransactions) &&
+                isset($oldUserIds[$transactionJson->old_user_id])
+            ) {
+                $user = $users->firstWhere('id', $oldUserIds[$transactionJson->old_user_id]);
+                if ($transactionJson->price != 0) {
+                    if ($transactionJson->product_id == 7) {
+                        $transaction = new Transaction();
+                        $transaction->user_id = $user->id;
+                        $transaction->type = Transaction::TYPE_DEPOSIT;
+                        $transaction->name = 'Imported deposit on ' . $transactionJson->created_at;
+                        $transaction->price = $transactionJson->amount;
+                        $transaction->created_at = $transactionJson->created_at;
+                        $transaction->save();
 
                         $user->balance += $transaction->price;
                         $user->save();
+                        $doneTransactions[] = $transactionJson->id;
                     } else {
-                        $transactionModel = new Transaction();
-                        $transactionModel->user_id = $user->id;
-                        $transactionModel->type = Transaction::TYPE_TRANSACTION;
-                        $transactionModel->name = 'Imported transaction on ' . $transaction->created_at;
-                        $transactionModel->price = $transaction->price;
-                        $transactionModel->created_at = $transaction->created_at;
-                        $transactionModel->save();
+                        $transaction = new Transaction();
+                        $transaction->user_id = $user->id;
+                        $transaction->type = Transaction::TYPE_TRANSACTION;
+                        $transaction->name = 'Imported transaction on ' . $transactionJson->created_at;
+                        $transaction->price = 0;
+                        $transaction->created_at = $transactionJson->created_at;
+                        $transaction->save();
 
-                        $transactionModel->products()->attach($transaction->product_id, [ 'amount' => $transaction->amount ]);
-                        $product = Product::find($transaction->product_id);
-                        $product->amount -= $transaction->amount;
-                        $product->save();
+                        for ($i = $index; $i < $index + 50 && $i < $total; $i++) {
+                            $otherTransactionJson = json_decode('{' . $transactionsJson[1][$i] . '}');
+                            if (
+                                isset($oldUserIds[$otherTransactionJson->old_user_id]) &&
+                                $oldUserIds[$otherTransactionJson->old_user_id] == $user->id &&
+                                $otherTransactionJson->price != 0 &&
+                                $otherTransactionJson->product_id != 7 &&
+                                strtotime($otherTransactionJson->created_at) >= strtotime($transactionJson->created_at) &&
+                                strtotime($otherTransactionJson->created_at) < strtotime($transactionJson->created_at) + 10 * 60
+                            ) {
+                                $product = $products->firstWhere('id', $otherTransactionJson->product_id);
+                                $transaction->price += $otherTransactionJson->price;
 
+                                $transactionProduct = TransactionProduct::where('transaction_id', $transaction->id)
+                                    ->where('product_id', $product->id)->first();
+                                if ($transactionProduct != null) {
+                                    $transaction->products()->updateExistingPivot($product->id, [
+                                        'amount' => $transactionProduct->amount + $otherTransactionJson->amount
+                                    ]);
+                                } else {
+                                    $transaction->products()->attach($product->id, [ 'amount' => $otherTransactionJson->amount ]);
+                                }
+
+                                $product->amount -= $otherTransactionJson->amount;
+                                $product->save();
+                                $doneTransactions[] = $otherTransactionJson->id;
+                            }
+                        }
+                        $transaction->save();
                         $user->balance -= $transaction->price;
                         $user->save();
                     }
                 }
             }
-            echo "\033[F" . ($index + 1) . ' / ' . $total . ' = ' . round(($index + 1) / $total * 100, 2) . "% | " . $transaction->created_at . "\n";
+            echo "\033[F" . ($index + 1) . ' / ' . $total . ' = ' . round(($index + 1) / $total * 100, 2) . "% | " . $transactionJson->created_at . "\n";
         }
         echo "Importing transactions done!\n";
     }

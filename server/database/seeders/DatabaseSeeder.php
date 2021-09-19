@@ -16,27 +16,28 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // Create system / kiosk account (must by user_id=1)
-        User::create([
-            'firstname' => config('app.name'),
-            'lastname' => 'System',
-            'email' => 'system@' . strtolower(config('app.name')),
-            'password' => Hash::make(Str::random(32)),
-            'balance' => 0
-        ]);
+        // Create system / kiosk account (must by user_id=1!!!)
+        $user = new User();
+        $user->firstname = config('app.name');
+        $user->lastname = 'System';
+        $user->email = 'system@' . strtolower(config('app.name'));
+        $user->password = Hash::make(Str::random(32));
+        $user->balance = 0;
+        $user->active = false;
+        $user->save();
 
         // Create admin account
-        User::create([
-            'firstname' => 'Bastiaan',
-            'insertion' => 'van der',
-            'lastname' => 'Plaat',
-            'email' => 'bastiaan.v.d.plaat@gmail.com',
-            'password' => Hash::make('admin123'),
-            'role' => User::ROLE_ADMIN,
-            'balance' => 0
-        ]);
+        $user = new User();
+        $user->firstname = 'Bastiaan';
+        $user->insertion = 'van der';
+        $user->lastname = 'Plaat';
+        $user->email = 'bastiaan.v.d.plaat@gmail.com';
+        $user->password = Hash::make('admin123');
+        $user->role = User::ROLE_ADMIN;
+        $user->balance = 0;
+        $user->save();
 
-        // // Create 50 random users
+        // Create 50 random users
         // User::factory(50)->create();
     }
 }

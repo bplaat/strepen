@@ -33,7 +33,9 @@ class Item extends Component
 
     public function mount()
     {
-        $this->users = User::where('active', true)->where('deleted', false)->get()
+        $this->users = User::where('deleted', false)->where(function ($query) {
+                return $query->where('active', true)->orWhere('id', 1);
+            })->get()
             ->sortBy('sortName', SORT_NATURAL | SORT_FLAG_CASE);
         $this->oldUserId = $this->transaction->user_id;
 

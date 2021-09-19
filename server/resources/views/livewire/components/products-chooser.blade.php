@@ -37,7 +37,7 @@
                 </label>
                 <div class="control">
                     <input class="input @error('selectedProducts.{{ $index }}.amount') is-danger @enderror" type="number"
-                        min="1" id="product-amount-{{ $index }}" form="mainForm"
+                        min="1" @if (!$nomax) max="24" @endif id="product-amount-{{ $index }}" form="mainForm"
                         wire:model="selectedProducts.{{ $index }}.amount" required>
                 </div>
                 @error('selectedProducts.{{ $index }}.amount') <p class="help is-danger">{{ $message }}</p> @enderror

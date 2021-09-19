@@ -9,6 +9,7 @@ class ProductsChooser extends Component
 {
     public $products;
     public $selectedProducts;
+    public $nomax = false;
     public $addProductId;
 
     public $rules = [

@@ -86,7 +86,7 @@
                     </div>
 
                     @if ($transaction->type == \App\Models\Transaction::TYPE_TRANSACTION)
-                        @livewire('components.products-chooser', ['selectedProducts' => $selectedProducts])
+                        @livewire('components.products-chooser', ['selectedProducts' => $selectedProducts, 'nomax' => true])
                     @endif
 
                     @if ($transaction->type == \App\Models\Transaction::TYPE_DEPOSIT)

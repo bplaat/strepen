@@ -15,7 +15,7 @@ class Create extends Component
     public $rules = [
         'transaction.name' => 'required|min:2|max:48',
         'selectedProducts.*.product_id' => 'required|integer|exists:products,id',
-        'selectedProducts.*.amount' => 'required|integer|min:1'
+        'selectedProducts.*.amount' => 'required|integer|min:1|max:24'
     ];
 
     public $listeners = ['selectedProducts'];

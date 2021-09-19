@@ -27,8 +27,9 @@ class Crud extends PaginationComponent
 
     public function mount()
     {
-        $this->users = User::where('active', true)->where('deleted', false)->get()
-            ->sortBy('sortName', SORT_NATURAL | SORT_FLAG_CASE);
+        $this->users = User::where('deleted', false)->where(function ($query) {
+                return $query->where('active', true)->orWhere('id', 1);
+            })->get()->sortBy('sortName', SORT_NATURAL | SORT_FLAG_CASE);
         $this->transaction = new Transaction();
         $this->selectedProducts = collect();
     }
@@ -71,9 +72,11 @@ class Crud extends PaginationComponent
         }
 
         // Recalculate balance of user
-        $user = User::find($this->transaction->user_id);
-        $user->balance -= $this->transaction->price;
-        $user->save();
+        if ($this->transaction->user_id != 1) {
+            $user = User::find($this->transaction->user_id);
+            $user->balance -= $this->transaction->price;
+            $user->save();
+        }
 
         // Refresh page
         return redirect()->route('admin.transactions.crud');
