@@ -50,7 +50,7 @@ class ImportData extends Command
         Artisan::call('migrate:fresh --seed');
 
         // Get all the user information
-        echo "Importing all active users...\n\n";
+        echo "Importing all users...\n\n";
         $oldUserIds = [ 181 => 2 ];
         $data = file_get_contents($url . '/bonnen/index.php?id=15&newsId=' . urlencode('0 UNION SELECT \'\', \'\', \'\', CONCAT(\'{"id":\', id, \',"name":"\', naam, \'","email":"\', email, \'","active":\', active, \'}\') FROM stamleden'), false, stream_context_create([
             'ssl' => [
@@ -66,14 +66,18 @@ class ImportData extends Command
             $firstname = $nameParts[0];
             array_shift($nameParts);
             $lastname = implode(' ', $nameParts);
-            if ($user->active && $lastname != 'van der Plaat') {
-                $userModel = User::create([
-                    'firstname' => $firstname,
-                    'lastname' => $lastname,
-                    'email' => $user->email,
-                    'password' => Hash::make('strepen'),
-                    'balance' => 0
-                ]);
+            if (
+                $firstname != 'Bastiaan' && $lastname != 'van der Plaat' &&
+                User::where('email', $user->email)->count() == 0
+            ) {
+                $userModel = new User();
+                $userModel->firstname = $firstname;
+                $userModel->lastname = $lastname;
+                $userModel->email = $user->email;
+                $userModel->password = Hash::make('strepen');
+                $userModel->balance = 0;
+                $userModel->active = $user->active;
+                $userModel->save();
                 $oldUserIds[$user->id] = $userModel->id;
             }
             echo "\033[F" . ($index + 1) . ' / ' . $total . ' = ' . round(($index + 1) / $total * 100, 2) . "%\n";
@@ -110,7 +114,7 @@ class ImportData extends Command
 
         // Get all the product information
         echo "Importing all products...\n\n";
-        $data = file_get_contents($url . '/bonnen/index.php?id=15&newsId=' . urlencode('0 UNION SELECT \'\', \'\', id, CONCAT(\'{"name":"\', omschrijving, \'","price":\', prijs, \'}\') FROM product'), false, stream_context_create([
+        $data = file_get_contents($url . '/bonnen/index.php?id=15&newsId=' . urlencode('0 UNION SELECT \'\', \'\', id, CONCAT(\'{"name":"\', omschrijving, \'","price":\', prijs, \',"active":\', active, \'}\') FROM product'), false, stream_context_create([
             'ssl' => [
                 'verify_peer' => false,
                 'verify_peer_name' => false
@@ -120,10 +124,11 @@ class ImportData extends Command
         $total = count($productsJson[1]);
         foreach ($productsJson[1] as $index => $productJson) {
             $product = json_decode('{' . $productJson . '}');
-            Product::create([
-                'name' => $product->name,
-                'price' => $product->price
-            ]);
+            $productModel = new Product();
+            $productModel->name = $product->name;
+            $productModel->price = $product->price;
+            $productModel->active = $product->active;
+            $productModel->save();
             echo "\033[F" . ($index + 1) . ' / ' . $total . ' = ' . round(($index + 1) / $total * 100, 2) . "%\n";
         }
         echo "Importing products done!\n";
