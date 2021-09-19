@@ -62,19 +62,28 @@ class Product extends Model
     }
 
     // Search by a query
-    public static function search($query)
+    public static function search($searchQuery)
     {
-        return static::where('name', 'LIKE', '%' . $query . '%')
-            ->orWhere('description', 'LIKE', '%' . $query . '%');
+        return static::where('deleted', false)
+            ->where(function ($query) use ($searchQuery) {
+                $query->where('name', 'LIKE', '%' . $searchQuery . '%')
+                    ->orWhere('description', 'LIKE', '%' . $searchQuery . '%');
+            });
     }
 
     // Search collection by a query
-    public static function searchCollection($collection, $query)
+    public static function searchCollection($collection, $searchQuery)
     {
-        if (strlen($query) == 0) return $collection;
-        return $collection->filter(function ($product) use ($query) {
-            return Str::contains(strtolower($product->name), strtolower($query)) ||
-                Str::contains(strtolower($product->description), strtolower($query));
+        if (strlen($searchQuery) == 0) {
+            return $collection->filter(function ($product) {
+                return !$product->deleted;
+            });
+        }
+        return $collection->filter(function ($product) use ($searchQuery) {
+            return !$product->deleted && (
+                Str::contains(strtolower($product->name), strtolower($searchQuery)) ||
+                Str::contains(strtolower($product->description), strtolower($searchQuery))
+            );
         });
     }
 

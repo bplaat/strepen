@@ -40,7 +40,7 @@ return [
     'item.hijack' => 'Overnemen',
     'item.show' => 'Bekijken',
     'item.edit' => 'Aanpassen',
-    'item.delete' => 'Verijderen',
+    'item.delete' => 'Verwijderen',
     'item.show_user' => 'Bekijk gebruiker',
     'item.personal_info' => 'Persoonlijke informatie',
     'item.gender_unkown' => 'Geslacht onbekend',

@@ -22,13 +22,11 @@ class CreateTransactionProductTable extends Migration
 
             $table->foreign('transaction_id')
                 ->references('id')
-                ->on('transactions')
-                ->onDelete('cascade');
+                ->on('transactions');
 
             $table->foreign('product_id')
                 ->references('id')
-                ->on('products')
-                ->onDelete('cascade');
+                ->on('products');
 
             $table->unique(['transaction_id', 'product_id']);
         });

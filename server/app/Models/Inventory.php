@@ -26,17 +26,24 @@ class Inventory extends Model
     }
 
     // Search by a query
-    public static function search($query)
+    public static function search($searchQuery)
     {
-        return static::where('name', 'LIKE', '%' . $query . '%');
+        return static::where('deleted', false)
+            ->where('name', 'LIKE', '%' . $searchQuery . '%');
     }
 
     // Search collection by a query
-    public static function searchCollection($collection, $query)
+    public static function searchCollection($collection, $searchQuery)
     {
-        if (strlen($query) == 0) return $collection;
-        return $collection->filter(function ($inventory) use ($query) {
-            return Str::contains(strtolower($inventory->name), strtolower($query));
+        if (strlen($searchQuery) == 0) {
+            return $collection->filter(function ($inventory) {
+                return !$inventory->deleted;
+            });
+        }
+        return $collection->filter(function ($inventory) use ($searchQuery) {
+            return !$inventory->deleted && (
+                Str::contains(strtolower($inventory->name), strtolower($searchQuery))
+            );
         });
     }
 }

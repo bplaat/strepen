@@ -22,13 +22,11 @@ class CreateInventoryProductTable extends Migration
 
             $table->foreign('inventory_id')
                 ->references('id')
-                ->on('inventories')
-                ->onDelete('cascade');
+                ->on('inventories');
 
             $table->foreign('product_id')
                 ->references('id')
-                ->on('products')
-                ->onDelete('cascade');
+                ->on('products');
 
             $table->unique(['inventory_id', 'product_id']);
         });

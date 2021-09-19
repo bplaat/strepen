@@ -31,17 +31,24 @@ class Transaction extends Model
     }
 
     // Search by a query
-    public static function search($query)
+    public static function search($searchQuery)
     {
-        return static::where('name', 'LIKE', '%' . $query . '%');
+        return static::where('deleted', false)
+            ->where('name', 'LIKE', '%' . $searchQuery . '%');
     }
 
     // Search collection by a query
-    public static function searchCollection($collection, $query)
+    public static function searchCollection($collection, $searchQuery)
     {
-        if (strlen($query) == 0) return $collection;
-        return $collection->filter(function ($transaction) use ($query) {
-            return Str::contains(strtolower($transaction->name), strtolower($query));
+        if (strlen($searchQuery) == 0) {
+            return $collection->filter(function ($transaction) {
+                return !$transaction->deleted;
+            });
+        }
+        return $collection->filter(function ($transaction) use ($searchQuery) {
+            return !$transaction->deleted && (
+                Str::contains(strtolower($transaction->name), strtolower($searchQuery))
+            );
         });
     }
 }

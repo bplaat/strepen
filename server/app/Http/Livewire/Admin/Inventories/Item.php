@@ -30,7 +30,8 @@ class Item extends Component
 
     public function mount()
     {
-        $this->users = User::where('active', true)->get()->sortBy('sortName', SORT_NATURAL | SORT_FLAG_CASE);
+        $this->users = User::where('active', true)->where('deleted', false)->get()
+            ->sortBy('sortName', SORT_NATURAL | SORT_FLAG_CASE);
 
         $selectedProducts = InventoryProduct::where('inventory_id', $this->inventory->id)->get();
         $this->selectedProducts = collect();
@@ -88,7 +89,8 @@ class Item extends Component
     public function deleteInventory()
     {
         $this->isDeleting = false;
-        $this->inventory->delete();
+        $this->inventory->deleted = true;
+        $this->inventory->save();
 
         // Recalculate amounts of all products (SLOW!!!)
         foreach (Product::all() as $product) {

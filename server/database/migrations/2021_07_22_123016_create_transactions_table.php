@@ -19,12 +19,12 @@ class CreateTransactionsTable extends Migration
             $table->unsignedTinyInteger('type');
             $table->string('name')->nullable();
             $table->decimal('price', 12, 3);
+            $table->boolean('deleted')->default(false);
             $table->timestamps();
 
             $table->foreign('user_id')
                 ->references('id')
-                ->on('users')
-                ->onDelete('cascade');
+                ->on('users');
         });
     }
 

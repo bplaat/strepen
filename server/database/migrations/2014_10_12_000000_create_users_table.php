@@ -35,6 +35,7 @@ class CreateUsersTable extends Migration
             $table->unsignedTinyInteger('theme')->default(User::THEME_LIGHT);
             $table->decimal('balance', 12, 3);
             $table->boolean('active')->default(true);
+            $table->boolean('deleted')->default(false);
             $table->timestamps();
         });
     }

@@ -98,7 +98,8 @@ class Item extends Component
             Storage::delete('public/avatars/' . $this->user->avatar);
         }
         $this->isDeleting = false;
-        $this->user->delete();
+        $this->user->deleted = true;
+        $this->user->update();
         $this->emitUp('refresh');
     }
 

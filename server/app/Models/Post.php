@@ -20,19 +20,28 @@ class Post extends Model
     }
 
     // Search by a query
-    public static function search($query)
+    public static function search($searchQuery)
     {
-        return static::where('title', 'LIKE', '%' . $query . '%')
-            ->orWhere('body', 'LIKE', '%' . $query . '%');
+        return static::where('deleted', false)
+            ->where(function ($query) use ($searchQuery) {
+                $query->where('title', 'LIKE', '%' . $searchQuery . '%')
+                    ->orWhere('body', 'LIKE', '%' . $searchQuery . '%');
+            });
     }
 
     // Search collection by a query
-    public static function searchCollection($collection, $query)
+    public static function searchCollection($collection, $searchQuery)
     {
-        if (strlen($query) == 0) return $collection;
-        return $collection->filter(function ($post) use ($query) {
-            return Str::contains(strtolower($post->title), strtolower($query)) ||
-                Str::contains(strtolower($post->body), strtolower($query));
+        if (strlen($searchQuery) == 0) {
+            return $collection->filter(function ($post) {
+                return !$post->deleted;
+            });
+        }
+        return $collection->filter(function ($post) use ($searchQuery) {
+            return !$post->deleted && (
+                Str::contains(strtolower($post->title), strtolower($searchQuery)) ||
+                Str::contains(strtolower($post->body), strtolower($searchQuery))
+            );
         });
     }
 }

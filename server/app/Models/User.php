@@ -116,23 +116,32 @@ class User extends Authenticatable
     }
 
     // Search by a query
-    public static function search($query)
+    public static function search($searchQuery)
     {
-        return static::where('firstname', 'LIKE', '%' . $query . '%')
-            ->orWhere('insertion', 'LIKE', '%' . $query . '%')
-            ->orWhere('lastname', 'LIKE', '%' . $query . '%')
-            ->orWhere('email', 'LIKE', '%' . $query . '%');
+        return static::where('deleted', false)
+            ->where(function ($query) use ($searchQuery) {
+                $query->where('firstname', 'LIKE', '%' . $searchQuery . '%')
+                    ->orWhere('insertion', 'LIKE', '%' . $searchQuery . '%')
+                    ->orWhere('lastname', 'LIKE', '%' . $searchQuery . '%')
+                    ->orWhere('email', 'LIKE', '%' . $searchQuery . '%');
+            });
     }
 
     // Search collection by a query
-    public static function searchCollection($collection, $query)
+    public static function searchCollection($collection, $searchQuery)
     {
-        if (strlen($query) == 0) return $collection;
-        return $collection->filter(function ($user) use ($query) {
-            return Str::contains(strtolower($user->firstname), strtolower($query)) ||
-                Str::contains(strtolower($user->insertion), strtolower($query)) ||
-                Str::contains(strtolower($user->lastname), strtolower($query)) ||
-                Str::contains(strtolower($user->email), strtolower($query));
+        if (strlen($searchQuery) == 0) {
+            return $collection->filter(function ($user) {
+                return !$user->deleted;
+            });
+        }
+        return $collection->filter(function ($user) use ($searchQuery) {
+            return !$user->deleted && (
+                Str::contains(strtolower($user->firstname), strtolower($searchQuery)) ||
+                Str::contains(strtolower($user->insertion), strtolower($searchQuery)) ||
+                Str::contains(strtolower($user->lastname), strtolower($searchQuery)) ||
+                Str::contains(strtolower($user->email), strtolower($searchQuery))
+            );
         });
     }
 

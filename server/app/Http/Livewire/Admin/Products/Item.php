@@ -58,7 +58,8 @@ class Item extends Component
             Storage::delete('public/products/' . $this->product->image);
         }
         $this->isDeleting = false;
-        $this->product->delete();
+        $this->product->deleted = true;
+        $this->product->save();
         $this->emitUp('refresh');
     }
 

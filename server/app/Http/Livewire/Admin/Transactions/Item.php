@@ -33,7 +33,8 @@ class Item extends Component
 
     public function mount()
     {
-        $this->users = User::where('active', true)->get()->sortBy('sortName', SORT_NATURAL | SORT_FLAG_CASE);
+        $this->users = User::where('active', true)->where('deleted', false)->get()
+            ->sortBy('sortName', SORT_NATURAL | SORT_FLAG_CASE);
         $this->oldUserId = $this->transaction->user_id;
 
         $selectedProducts = TransactionProduct::where('transaction_id', $this->transaction->id)->get();
@@ -129,7 +130,9 @@ class Item extends Component
 
         // Delete and recalculate user balance
         $userId = $this->transaction->user_id;
-        $this->transaction->delete();
+        $this->transaction->deleted = true;
+        $this->transaction->save();
+
         $user = User::find($userId);
         $user->recalculateBalance();
         $user->save();
