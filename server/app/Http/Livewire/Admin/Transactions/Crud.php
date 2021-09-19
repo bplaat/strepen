@@ -100,6 +100,7 @@ class Crud extends PaginationComponent
         $this->validateOnly('transaction.user_id');
         $this->validateOnly('transaction.name');
         $this->validateOnly('transaction.price');
+        if ($this->transaction->user_id == 1) return;
 
         // Create transaction
         $this->transaction->type = Transaction::TYPE_DEPOSIT;
