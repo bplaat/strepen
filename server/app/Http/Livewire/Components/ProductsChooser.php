@@ -10,10 +10,11 @@ class ProductsChooser extends Component
     public $products;
     public $selectedProducts;
     public $nomax = false;
-    public $addProductId;
+    public $addProductName;
+    public $isOpen = false;
 
     public $rules = [
-        'addProductId' => 'required|integer|exists:products,id'
+        'addProductName' => 'required|string|exists:products,name'
     ];
 
     public $listeners = ['getSelectedProducts'];
@@ -29,17 +30,22 @@ class ProductsChooser extends Component
         $this->emitUp('selectedProducts', $this->selectedProducts);
     }
 
-    public function addProduct()
+    public function addProduct($productId = null)
     {
-        if ($this->addProductId != null) {
+        if ($productId != null) {
+            $this->addProductName = $this->products->firstWhere('id', $productId)->name;
+        }
+
+        if ($this->addProductName != null) {
             $this->validate();
 
             $selectedProduct = [];
-            $selectedProduct['product_id'] = $this->addProductId;
-            $selectedProduct['product'] = Product::find($this->addProductId);
+            $selectedProduct['product'] = $this->products->firstWhere('name', $this->addProductName);
+            if ($selectedProduct['product'] == null) return;
+            $selectedProduct['product_id'] = $selectedProduct['product']['id'];
             $selectedProduct['amount'] = 0;
             $this->selectedProducts->push($selectedProduct);
-            $this->addProductId = null;
+            $this->addProductName = null;
         }
     }
 

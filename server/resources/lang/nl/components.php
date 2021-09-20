@@ -7,7 +7,7 @@ return [
 
     // Products Chooser livewire component
     'products_chooser.products' => 'Producten',
-    'products_chooser.select_product' => 'Selecteer een product...',
+    'products_chooser.search_product' => 'Zoek een product...',
     'products_chooser.add_product' => 'Voeg product toe',
     'products_chooser.amount' => 'hoeveelheid'
 ];
