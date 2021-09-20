@@ -72,7 +72,7 @@ class User extends Authenticatable
         $this->balance = 0;
 
         // Loop through all transactions and adjust balance
-        $transactions = $this->transactions->sortBy('created_at');
+        $transactions = $this->transactions()->where('deleted', false)->orderBy('created_at')->get();
         foreach ($transactions as $transaction) {
             if ($transaction->type == Transaction::TYPE_TRANSACTION) {
                 $this->balance -= $transaction->price;
@@ -134,7 +134,8 @@ class User extends Authenticatable
     public function getBalanceChart() {
         $balance = 0;
         $balanceData = [];
-        foreach ($this->transactions->sortBy('created_at') as $transaction) {
+        $transactions = $this->transactions()->where('deleted', false)->orderBy('created_at')->get();
+        foreach ($transactions as $transaction) {
             if ($transaction->type == Transaction::TYPE_TRANSACTION) {
                 $balance -= $transaction->price;
             }

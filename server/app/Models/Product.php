@@ -37,13 +37,13 @@ class Product extends Model
         $this->amount = 0;
 
         // Loop through all inventories and adjust amount
-        $inventories = $this->inventories->sortBy('created_at');
+        $inventories = $this->inventories()->where('deleted', false)->orderBy('created_at')->get();
         foreach ($inventories as $inventory) {
             $this->amount += $inventory->pivot->amount;
         }
 
         // Loop through all transactions and adjust amount
-        $transactions = $this->transactions->sortBy('created_at');
+        $transactions = $this->transactions()->where('deleted', false)->orderBy('created_at')->get();
         foreach ($transactions as $transaction) {
             $this->amount -= $transaction->pivot->amount;
         }
@@ -76,13 +76,13 @@ class Product extends Model
         $amount = 0;
         $amountData = [];
 
-        $inventories = $this->inventories->sortBy('created_at');
+        $inventories = $this->inventories()->where('deleted', false)->orderBy('created_at')->get();
         foreach ($inventories as $inventory) {
             $amount += $inventory->pivot->amount;
             $amountData[] = [ $inventory->created_at->format('Y-m-d'), $amount ];
         }
 
-        $transactions = $this->transactions->sortBy('created_at');
+        $transactions = $this->transactions()->where('deleted', false)->orderBy('created_at')->get();
         foreach ($transactions as $transaction) {
             $amount -= $transaction->pivot->amount;
             $amountData[] = [ $transaction->created_at->format('Y-m-d'), $amount ];
