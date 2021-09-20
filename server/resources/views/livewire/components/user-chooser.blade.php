@@ -1,9 +1,10 @@
 <div class="field">
-    <label class="label" for="user_id">@lang('components.user_chooser.user')</label>
+    <label class="label" for="userName">@lang('components.user_chooser.user')</label>
     <div class="dropdown @if($isOpen) is-active @endif" style="width: 100%;">
         <div class="dropdown-trigger control has-icons-left" style="width: 100%;">
             <input class="input" type="text" placeholder="@lang('components.user_chooser.search_user')"
-                wire:model="userName" wire:focus="$set('isOpen', true)" wire:blur="$set('isOpen', false)">
+                wire:model="userName" id="userName" autocomplete="off" wire:keydown.enter.prevent="selectFirstUser"
+                wire:focus="$set('isOpen', true)" wire:blur="$set('isOpen', false)">
             <span class="icon is-small is-left">
                 <div style="width: 24px; height: 24px; border-radius: 50%; background-size: cover; background-position: center center;
                     background-image: url({{ $user != null && $user->avatar != null ? '/storage/avatars/' . $user->avatar : '/images/avatars/mp.jpg' }});"></div>

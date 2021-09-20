@@ -7,15 +7,13 @@ use Livewire\Component;
 
 class ProductsChooser extends Component
 {
-    public $products;
     public $selectedProducts;
-    public $nomax = false;
-    public $addProductName;
-    public $isOpen = false;
+    public $noMax = false;
 
-    public $rules = [
-        'addProductName' => 'required|string|exists:products,name'
-    ];
+    public $products;
+    public $filteredProducts;
+    public $productName;
+    public $isOpen = false;
 
     public $listeners = ['getSelectedProducts'];
 
@@ -23,6 +21,9 @@ class ProductsChooser extends Component
     {
         $this->products = Product::where('active', true)->where('deleted', false)
             ->orderByRaw('LOWER(name)')->get();
+        $this->filteredProducts = $this->products->filter(function ($product) {
+            return !$this->selectedProducts->pluck('product_id')->contains($product->id);
+        })->slice(0, 10);
     }
 
     public function getSelectedProducts()
@@ -30,23 +31,33 @@ class ProductsChooser extends Component
         $this->emitUp('selectedProducts', $this->selectedProducts);
     }
 
-    public function addProduct($productId = null)
+    public function updatedProductName() {
+        if (!$this->isOpen) {
+            $this->isOpen = true;
+        }
+
+        $this->filteredProducts = $this->products->filter(function ($product) {
+            return !$this->selectedProducts->pluck('product_id')->contains($product->id) &&
+                (strlen($this->productName) == 0 || stripos($product->name, $this->productName) !== false);
+        })->slice(0, 10);
+    }
+
+    public function addFirstProduct() {
+        if ($this->filteredProducts->count() > 0) {
+            $this->addProduct($this->filteredProducts->first()->id);
+        }
+    }
+
+    public function addProduct($productId)
     {
-        if ($productId != null) {
-            $this->addProductName = $this->products->firstWhere('id', $productId)->name;
-        }
-
-        if ($this->addProductName != null) {
-            $this->validate();
-
-            $selectedProduct = [];
-            $selectedProduct['product'] = $this->products->firstWhere('name', $this->addProductName);
-            if ($selectedProduct['product'] == null) return;
-            $selectedProduct['product_id'] = $selectedProduct['product']['id'];
-            $selectedProduct['amount'] = 0;
-            $this->selectedProducts->push($selectedProduct);
-            $this->addProductName = null;
-        }
+        $selectedProduct = [];
+        $selectedProduct['product_id'] = $productId;
+        $selectedProduct['product'] = $this->products->firstWhere('id', $productId);
+        $selectedProduct['amount'] = 0;
+        $this->selectedProducts->push($selectedProduct);
+        $this->productName = null;
+        $this->updatedProductName();
+        $this->isOpen = false;
     }
 
     public function deleteProduct($productId)

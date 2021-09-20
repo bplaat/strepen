@@ -1,25 +1,23 @@
 <div class="field">
     <div class="field">
-        <label class="label" for="addProductName">@lang('components.products_chooser.products')</label>
+        <label class="label" for="productName">@lang('components.products_chooser.products')</label>
         <div class="control">
-            <form wire:submit.prevent="addProduct">
+            <form wire:submit.prevent="addFirstProduct">
                 <div class="field has-addons">
                     <div class="dropdown @if($isOpen) is-active @endif" style="width: 100%;">
                         <div class="dropdown-trigger control" style="width: 100%;">
-                            <input class="input @error('addProductName') is-danger @enderror"
-                                type="text" placeholder="@lang('components.products_chooser.search_product')"
-                                wire:model="addProductName" wire:focus="$set('isOpen', true)" wire:blur="$set('isOpen', false)">
+                            <input class="input" type="text" placeholder="@lang('components.products_chooser.search_product')"
+                                wire:model="productName" id="productName" autocomplete="off"
+                                wire:focus="$set('isOpen', true)" wire:blur="$set('isOpen', false)">
                         </div>
                         <div class="dropdown-menu" style="width: 100%;">
                             <div class="dropdown-content">
-                                @foreach ($products as $product)
-                                    @if (!$selectedProducts->pluck('product_id')->contains($product->id) && (strlen($addProductName) == 0 || stripos($product->name, $addProductName) !== false))
-                                        <a href="#" wire:click.prevent="addProduct({{ $product->id }})" class="dropdown-item" style="display: flex; align-items: center;">
-                                            <div style="margin-right: .75rem; width: 24px; height: 24px; border-radius: 3px; background-size: cover; background-position: center center;
-                                                background-image: url({{ $product->image != null ? '/storage/products/' . $product->image : '/images/products/unkown.png' }});"></div>
-                                            {!! $addProductName != '' ? str_replace(' ', '&nbsp;', preg_replace('/(' . preg_quote($addProductName) . ')/i', '<b>$1</b>', $product->name)) : $product->name !!}
-                                        </a>
-                                    @endif
+                                @foreach ($filteredProducts as $product)
+                                    <a href="#" wire:click.prevent="addProduct({{ $product->id }})" class="dropdown-item" style="display: flex; align-items: center;">
+                                        <div style="margin-right: .75rem; width: 24px; height: 24px; border-radius: 3px; background-size: cover; background-position: center center;
+                                            background-image: url({{ $product->image != null ? '/storage/products/' . $product->image : '/images/products/unkown.png' }});"></div>
+                                        {!! $productName != '' ? str_replace(' ', '&nbsp;', preg_replace('/(' . preg_quote($productName) . ')/i', '<b>$1</b>', $product->name)) : $product->name !!}
+                                    </a>
                                 @endforeach
                             </div>
                         </div>
@@ -45,7 +43,7 @@
                 </label>
                 <div class="control">
                     <input class="input @error('selectedProducts.{{ $index }}.amount') is-danger @enderror" type="number"
-                        min="1" @if (!$nomax) max="24" @endif id="product-amount-{{ $index }}" form="mainForm"
+                        min="1" @if (!$noMax) max="24" @endif id="product-amount-{{ $index }}" form="mainForm"
                         wire:model="selectedProducts.{{ $index }}.amount" required>
                 </div>
                 @error('selectedProducts.{{ $index }}.amount') <p class="help is-danger">{{ $message }}</p> @enderror
