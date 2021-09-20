@@ -14,6 +14,7 @@ class Crud extends PaginationComponent
     public $selectedProducts;
     public $isCreatingTransaction = false;
     public $isCreatingDeposit = false;
+    public $isCreatingFood = false;
 
     public $rules = [
         'transaction.user_id' => 'required|integer|exists:users,id',
@@ -109,6 +110,34 @@ class Crud extends PaginationComponent
         // Recalculate balance of user
         $user = User::find($this->transaction->user_id);
         $user->balance += $this->transaction->price;
+        $user->save();
+
+        // Refresh page
+        return redirect()->route('admin.transactions.crud');
+    }
+
+    // Create food model
+    public function openCreateFood()
+    {
+        $this->transaction->name = __('admin/transactions.crud.name_default_food') . ' ' . date('Y-m-d H:i:s');
+        $this->isCreatingFood = true;
+    }
+
+    public function createFood()
+    {
+        // Validate input
+        $this->validateOnly('transaction.user_id');
+        $this->validateOnly('transaction.name');
+        $this->validateOnly('transaction.price');
+        if ($this->transaction->user_id == 1) return;
+
+        // Create transaction
+        $this->transaction->type = Transaction::TYPE_FOOD;
+        $this->transaction->save();
+
+        // Recalculate balance of user
+        $user = User::find($this->transaction->user_id);
+        $user->balance -= $this->transaction->price;
         $user->save();
 
         // Refresh page

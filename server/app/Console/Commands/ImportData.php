@@ -124,7 +124,8 @@ class ImportData extends Command
 
         // Get all the product information
         echo "Importing all products...\n\n";
-        $data = file_get_contents($url . '/bonnen/index.php?id=15&newsId=' . urlencode('0 UNION SELECT \'\', \'\', id, CONCAT(\'{"name":"\', omschrijving, \'","price":\', prijs, \',"active":\', active, \'}\') FROM product'), false, stream_context_create([
+        $oldProductIds = [];
+        $data = file_get_contents($url . '/bonnen/index.php?id=15&newsId=' . urlencode('0 UNION SELECT \'\', \'\', id, CONCAT(\'{"id":\', id, \',"name":"\', omschrijving, \'","price":\', prijs, \',"active":\', active, \'}\') FROM product'), false, stream_context_create([
             'ssl' => [
                 'verify_peer' => false,
                 'verify_peer_name' => false
@@ -134,11 +135,14 @@ class ImportData extends Command
         $total = count($productsJson[1]);
         foreach ($productsJson[1] as $index => $productJson) {
             $productJson = json_decode('{' . $productJson . '}');
-            $product = new Product();
-            $product->name = $productJson->name;
-            $product->price = $productJson->price;
-            $product->active = $productJson->active;
-            $product->save();
+            if ($productJson->id != 7 && $productJson->id != 10) {
+                $product = new Product();
+                $product->name = $productJson->name;
+                $product->price = $productJson->price;
+                $product->active = $productJson->active;
+                $product->save();
+                $oldProductIds[$productJson->id] = $product->id;
+            }
             echo "\033[F" . ($index + 1) . ' / ' . $total . ' = ' . round(($index + 1) / $total * 100, 2) . "%\n";
         }
         echo "Importing products done!\n";
@@ -146,7 +150,7 @@ class ImportData extends Command
 
         // Get all inventory information
         echo "Importing all inventories...\n\n";
-        $data = file_get_contents($url . '/bonnen/index.php?id=15&newsId=' . urlencode('0 UNION SELECT \'\', \'\', \'\', CONCAT(\'{"id":\', id, \',"product_id":\', product_id, \',"amount":\', aantal, \',"action":"\', actie, \'","created_at":"\', datum, \'"}\') FROM inkoop'), false, stream_context_create([
+        $data = file_get_contents($url . '/bonnen/index.php?id=15&newsId=' . urlencode('0 UNION SELECT \'\', \'\', \'\', CONCAT(\'{"id":\', id, \',"old_product_id":\', product_id, \',"amount":\', aantal, \',"action":"\', actie, \'","created_at":"\', datum, \'"}\') FROM inkoop'), false, stream_context_create([
             'ssl' => [
                 'verify_peer' => false,
                 'verify_peer_name' => false
@@ -170,10 +174,12 @@ class ImportData extends Command
                         $otherInventoryJson = json_decode('{' . $inventoriesJson[1][$i] . '}');
                         if (
                             $otherInventoryJson->amount > 0 &&
+                            $otherInventoryJson->old_product_id != 7 &&
+                            $otherInventoryJson->old_product_id != 10 &&
                             strtotime($otherInventoryJson->created_at) >= strtotime($inventoryJson->created_at) &&
                             strtotime($otherInventoryJson->created_at) < strtotime($inventoryJson->created_at) + 10 * 60
                         ) {
-                            $product = $products->firstWhere('id', $otherInventoryJson->product_id);
+                            $product = $products->firstWhere('id', $oldProductIds[$otherInventoryJson->old_product_id]);
                             $inventory->price += $product->price * $otherInventoryJson->amount;
 
                             $inventoryProduct = InventoryProduct::where('inventory_id', $inventory->id)
@@ -207,10 +213,12 @@ class ImportData extends Command
                         $otherInventoryJson = json_decode('{' . $inventoriesJson[1][$i] . '}');
                         if (
                             $otherInventoryJson->amount < 0 &&
+                            $otherInventoryJson->old_product_id != 7 &&
+                            $otherInventoryJson->old_product_id != 10 &&
                             strtotime($otherInventoryJson->created_at) >= strtotime($inventoryJson->created_at) &&
                             strtotime($otherInventoryJson->created_at) < strtotime($inventoryJson->created_at) + 10 * 60
                         ) {
-                            $product = $products->firstWhere('id', $otherInventoryJson->product_id);
+                            $product = $products->firstWhere('id', $oldProductIds[$otherInventoryJson->old_product_id]);
                             $transaction->price += $product->price * (-$otherInventoryJson->amount);
 
                             $transactionProduct = TransactionProduct::where('transaction_id', $transaction->id)
@@ -237,7 +245,7 @@ class ImportData extends Command
 
         // Get all transactions information
         echo "Importing all transactions...\n\n";
-        $data = file_get_contents($url . '/bonnen/index.php?id=15&newsId=' . urlencode('0 UNION SELECT \'\', \'\', \'\', CONCAT(\'{"id":\', id, \',"old_user_id":\', lid_id, \',"product_id":\', product_id, \',"amount":\', aantal, \',"price":"\', prijs, \'","created_at":"\', datum, \'"}\') FROM schuld'), false, stream_context_create([
+        $data = file_get_contents($url . '/bonnen/index.php?id=15&newsId=' . urlencode('0 UNION SELECT \'\', \'\', \'\', CONCAT(\'{"id":\', id, \',"old_user_id":\', lid_id, \',"old_product_id":\', product_id, \',"amount":\', aantal, \',"price":"\', prijs, \'","created_at":"\', datum, \'"}\') FROM schuld'), false, stream_context_create([
             'ssl' => [
                 'verify_peer' => false,
                 'verify_peer_name' => false
@@ -254,7 +262,7 @@ class ImportData extends Command
             ) {
                 $user = $users->firstWhere('id', $oldUserIds[$transactionJson->old_user_id]);
                 if ($transactionJson->price != 0) {
-                    if ($transactionJson->product_id == 7) {
+                    if ($transactionJson->old_product_id == 7) {
                         $transaction = new Transaction();
                         $transaction->user_id = $user->id;
                         $transaction->type = Transaction::TYPE_DEPOSIT;
@@ -264,6 +272,18 @@ class ImportData extends Command
                         $transaction->save();
 
                         $user->balance += $transaction->price;
+                        $user->save();
+                        $doneTransactions[] = $transactionJson->id;
+                    } else if ($transactionJson->old_product_id == 10) {
+                        $transaction = new Transaction();
+                        $transaction->user_id = $user->id;
+                        $transaction->type = Transaction::TYPE_FOOD;
+                        $transaction->name = 'Imported food transaction on ' . $transactionJson->created_at;
+                        $transaction->price = $transactionJson->price;
+                        $transaction->created_at = $transactionJson->created_at;
+                        $transaction->save();
+
+                        $user->balance -= $transaction->price;
                         $user->save();
                         $doneTransactions[] = $transactionJson->id;
                     } else {
@@ -281,11 +301,12 @@ class ImportData extends Command
                                 isset($oldUserIds[$otherTransactionJson->old_user_id]) &&
                                 $oldUserIds[$otherTransactionJson->old_user_id] == $user->id &&
                                 $otherTransactionJson->price != 0 &&
-                                $otherTransactionJson->product_id != 7 &&
+                                $otherTransactionJson->old_product_id != 7 &&
+                                $otherTransactionJson->old_product_id != 10 &&
                                 strtotime($otherTransactionJson->created_at) >= strtotime($transactionJson->created_at) &&
                                 strtotime($otherTransactionJson->created_at) < strtotime($transactionJson->created_at) + 10 * 60
                             ) {
-                                $product = $products->firstWhere('id', $otherTransactionJson->product_id);
+                                $product = $products->firstWhere('id', $oldProductIds[$otherTransactionJson->old_product_id]);
                                 $transaction->price += $otherTransactionJson->price;
 
                                 $transactionProduct = TransactionProduct::where('transaction_id', $transaction->id)

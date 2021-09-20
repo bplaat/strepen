@@ -80,6 +80,9 @@ class User extends Authenticatable
             if ($transaction->type == Transaction::TYPE_DEPOSIT) {
                 $this->balance += $transaction->price;
             }
+            if ($transaction->type == Transaction::TYPE_FOOD) {
+                $this->balance -= $transaction->price;
+            }
         }
     }
 
@@ -137,6 +140,9 @@ class User extends Authenticatable
             }
             if ($transaction->type == Transaction::TYPE_DEPOSIT) {
                 $balance += $transaction->price;
+            }
+            if ($transaction->type == Transaction::TYPE_FOOD) {
+                $balance -= $transaction->price;
             }
             $balanceData[] = [ $transaction->created_at->format('Y-m-d'), $balance ];
         }

@@ -6,6 +6,7 @@ return [
     'crud.header' => 'Transacties',
     'crud.create_transaction' => 'Maak nieuwe transactie',
     'crud.create_deposit' => 'Maak nieuwe storting',
+    'crud.create_food' => 'Maak nieuwe eten',
     'crud.transactions' => 'transacties',
     'crud.empty' => 'Geen transacties gevonden!',
     'crud.user' => 'Gebruiker',
@@ -13,12 +14,14 @@ return [
     'crud.name' => 'Naam',
     'crud.name_default_transaction' => 'Transactie op',
     'crud.name_default_deposit' => 'Storting op',
+    'crud.name_default_food' => 'Eten op',
     'crud.amount' => 'Hoeveelheid',
     'crud.cancel' => 'Annuleren',
 
     // Admin transactions item livewire component
     'item.transaction_from' => 'Transactie van :user.name op :transaction.created_at',
     'item.deposit_for' => 'Storting voor :user.name op :transaction.created_at',
+    'item.food_for' => 'Eten voor :user.name op :transaction.created_at',
     'item.cost' => 'Kosten',
     'item.amount' => 'Hoeveelheid',
     'item.edit' => 'Aanpassen',

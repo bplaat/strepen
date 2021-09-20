@@ -17,6 +17,11 @@
                 <p><i>@lang('admin/transactions.item.deposit_for', ['user.name' => $transaction->user->name, 'transaction.created_at' => $transaction->created_at->format('Y-m-d H:i')])</i></p>
                 <p>@lang('admin/transactions.item.amount'): @component('components.money-format', ['money' => $transaction->price])@endcomponent</p>
             @endif
+
+            @if ($transaction->type == \App\Models\Transaction::TYPE_FOOD)
+                <p><i>@lang('admin/transactions.item.food_for', ['user.name' => $transaction->user->name, 'transaction.created_at' => $transaction->created_at->format('Y-m-d H:i')])</i></p>
+                <p>@lang('admin/transactions.item.amount'): @component('components.money-format', ['money' => $transaction->price])@endcomponent</p>
+            @endif
         </div>
 
         <div class="card-footer">
@@ -89,7 +94,7 @@
                         @livewire('components.products-chooser', ['selectedProducts' => $selectedProducts, 'nomax' => true])
                     @endif
 
-                    @if ($transaction->type == \App\Models\Transaction::TYPE_DEPOSIT)
+                    @if ($transaction->type == \App\Models\Transaction::TYPE_DEPOSIT || $transaction->type == \App\Models\Transaction::TYPE_FOOD)
                         <div class="field">
                             <label class="label" for="amount">@lang('admin/transactions.item.amount')</label>
                             <p class="control has-icons-left">

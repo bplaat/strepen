@@ -16,6 +16,7 @@ return [
     'history.empty' => 'Geen strepen gevonden!',
     'history.transaction_from' => 'Transactie op :transaction.created_at',
     'history.deposit_for' => 'Storting op :transaction.created_at',
+    'history.food_for' => 'Eten op :transaction.created_at',
     'history.cost' => 'Kosten',
     'history.amount' => 'Hoeveelheid'
 ];

@@ -27,6 +27,11 @@
                                 <p><i>@lang('transactions.history.deposit_for', ['transaction.created_at' => $transaction->created_at->format('Y-m-d H:i')])</i></p>
                                 <p>@lang('transactions.history.amount'): @component('components.money-format', ['money' => $transaction->price])@endcomponent</p>
                             @endif
+
+                            @if ($transaction->type == \App\Models\Transaction::TYPE_FOOD)
+                                <p><i>@lang('transactions.history.food_for', ['transaction.created_at' => $transaction->created_at->format('Y-m-d H:i')])</i></p>
+                                <p>@lang('transactions.history.amount'): @component('components.money-format', ['money' => $transaction->price])@endcomponent</p>
+                            @endif
                         </div>
                     </div>
                 </div>

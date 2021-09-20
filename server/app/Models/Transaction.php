@@ -7,9 +7,10 @@ use Illuminate\Support\Str;
 
 class Transaction extends Model
 {
-    // A transaction can be a normal transaction or a deposit
+    // A transaction can be a normal transaction, a deposit or a food transaction
     const TYPE_TRANSACTION = 0;
     const TYPE_DEPOSIT = 1;
+    const TYPE_FOOD = 2;
 
     protected $fillable = [
         'user_id',
