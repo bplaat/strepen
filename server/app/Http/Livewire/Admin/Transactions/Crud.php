@@ -9,7 +9,6 @@ use App\Models\User;
 
 class Crud extends PaginationComponent
 {
-    public $users;
     public $transaction;
     public $selectedProducts;
     public $isCreatingTransaction = false;
@@ -24,15 +23,16 @@ class Crud extends PaginationComponent
         'transaction.price' => 'required|numeric'
     ];
 
-    public $listeners = ['refresh' => '$refresh', 'selectedProducts'];
+    public $listeners = ['refresh' => '$refresh', 'userChooser', 'selectedProducts'];
 
     public function mount()
     {
-        $this->users = User::where('deleted', false)->where(function ($query) {
-                return $query->where('active', true)->orWhere('id', 1);
-            })->get()->sortBy('sortName', SORT_NATURAL | SORT_FLAG_CASE);
         $this->transaction = new Transaction();
         $this->selectedProducts = collect();
+    }
+
+    public function userChooser($userId) {
+        $this->transaction->user_id = $userId;
     }
 
     // Create transaction model

@@ -36,20 +36,7 @@
                 </div>
 
                 <div class="modal-card-body">
-                    <div class="field">
-                        <label class="label" for="user_id">@lang('admin/transactions.crud.user')</label>
-                        <div class="control">
-                            <div class="select is-fullwidth @error('transaction.user_id') is-danger @enderror">
-                                <select id="user_id" form="mainForm" wire:model.defer="transaction.user_id">
-                                    <option value="null" disabled selected>@lang('admin/transactions.crud.select_user')</option>
-                                    @foreach ($users as $user)
-                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        @error('transaction.user_id') <p class="help is-danger">{{ $message }}</p> @enderror
-                    </div>
+                    @livewire('components.user-chooser', ['includeStrepenUser' => true])
 
                     <div class="field">
                         <label class="label" for="name">@lang('admin/transactions.crud.name')</label>
@@ -82,20 +69,7 @@
                 </div>
 
                 <div class="modal-card-body">
-                    <div class="field">
-                        <label class="label" for="user_id">@lang('admin/transactions.crud.user')</label>
-                        <div class="control">
-                            <div class="select is-fullwidth @error('transaction.user_id') is-danger @enderror">
-                                <select id="user_id" wire:model.defer="transaction.user_id">
-                                    <option value="null" disabled selected>@lang('admin/transactions.crud.select_user')</option>
-                                    @foreach ($users as $user)
-                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        @error('transaction.user_id') <p class="help is-danger">{{ $message }}</p> @enderror
-                    </div>
+                    @livewire('components.user-chooser', ['includeStrepenUser' => true])
 
                     <div class="field">
                         <label class="label" for="name">@lang('admin/transactions.crud.name')</label>
@@ -108,11 +82,11 @@
 
                     <div class="field">
                         <label class="label" for="amount">@lang('admin/transactions.crud.amount')</label>
-                        <p class="control has-icons-left">
+                        <div class="control has-icons-left">
                             <input class="input @error('transaction.price') is-danger @enderror" type="number" step="0.01" id="amount"
                                 wire:model.defer="transaction.price" required>
                             <span class="icon is-small is-left">&euro;</span>
-                        </p>
+                        </div>
                         @error('transaction.price') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
                 </div>
@@ -136,20 +110,7 @@
                 </div>
 
                 <div class="modal-card-body">
-                    <div class="field">
-                        <label class="label" for="user_id">@lang('admin/transactions.crud.user')</label>
-                        <div class="control">
-                            <div class="select is-fullwidth @error('transaction.user_id') is-danger @enderror">
-                                <select id="user_id" wire:model.defer="transaction.user_id">
-                                    <option value="null" disabled selected>@lang('admin/transactions.crud.select_user')</option>
-                                    @foreach ($users as $user)
-                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        @error('transaction.user_id') <p class="help is-danger">{{ $message }}</p> @enderror
-                    </div>
+                    @livewire('components.user-chooser', ['includeStrepenUser' => true])
 
                     <div class="field">
                         <label class="label" for="name">@lang('admin/transactions.crud.name')</label>
@@ -162,11 +123,11 @@
 
                     <div class="field">
                         <label class="label" for="amount">@lang('admin/transactions.crud.amount')</label>
-                        <p class="control has-icons-left">
+                        <div class="control has-icons-left">
                             <input class="input @error('transaction.price') is-danger @enderror" type="number" step="0.01" id="amount"
                                 wire:model.defer="transaction.price" required>
                             <span class="icon is-small is-left">&euro;</span>
-                        </p>
+                        </div>
                         @error('transaction.price') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
                 </div>

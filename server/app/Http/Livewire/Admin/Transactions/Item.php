@@ -10,7 +10,6 @@ use Livewire\Component;
 
 class Item extends Component
 {
-    public $users;
     public $transaction;
     public $oldUserId;
     public $createdAtDate;
@@ -29,14 +28,10 @@ class Item extends Component
         'transaction.price' => 'required|numeric'
     ];
 
-    public $listeners = ['selectedProducts'];
+    public $listeners = ['userChooser', 'selectedProducts'];
 
     public function mount()
     {
-        $this->users = User::where('deleted', false)->where(function ($query) {
-                return $query->where('active', true)->orWhere('id', 1);
-            })->get()
-            ->sortBy('sortName', SORT_NATURAL | SORT_FLAG_CASE);
         $this->oldUserId = $this->transaction->user_id;
 
         $selectedProducts = TransactionProduct::where('transaction_id', $this->transaction->id)->get();
@@ -51,6 +46,10 @@ class Item extends Component
 
         $this->createdAtDate = $this->transaction->created_at->format('Y-m-d');
         $this->createdAtTime = $this->transaction->created_at->format('H:i:s');
+    }
+
+    public function userChooser($userId) {
+        $this->transaction->user_id = $userId;
     }
 
     public function selectedProducts($selectedProducts)

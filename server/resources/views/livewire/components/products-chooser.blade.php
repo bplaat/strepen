@@ -15,7 +15,7 @@
                                 @foreach ($products as $product)
                                     @if (!$selectedProducts->pluck('product_id')->contains($product->id) && (strlen($addProductName) == 0 || stripos($product->name, $addProductName) !== false))
                                         <a href="#" wire:click.prevent="addProduct({{ $product->id }})" class="dropdown-item" style="display: flex; align-items: center;">
-                                            <div style="margin-right: .75rem; width: 24px; height: 24px; background-size: cover; background-position: center center;
+                                            <div style="margin-right: .75rem; width: 24px; height: 24px; border-radius: 3px; background-size: cover; background-position: center center;
                                                 background-image: url({{ $product->image != null ? '/storage/products/' . $product->image : '/images/products/unkown.png' }});"></div>
                                             {!! $addProductName != '' ? str_replace(' ', '&nbsp;', preg_replace('/(' . preg_quote($addProductName) . ')/i', '<b>$1</b>', $product->name)) : $product->name !!}
                                         </a>
@@ -35,7 +35,7 @@
     @foreach ($selectedProducts as $index => $selectedProduct)
         <div class="media" style="display: flex; align-items: center;">
             <div class="media-left">
-                <div style="width: 64px; height: 64px; background-size: cover; background-position: center center;
+                <div style="width: 64px; height: 64px; border-radius: 6px; background-size: cover; background-position: center center;
                     background-image: url({{ $selectedProduct['product']['image'] != null ? '/storage/products/' . $selectedProduct['product']['image'] : '/images/products/unkown.png' }});"></div>
             </div>
             <div class="media-content">

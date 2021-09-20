@@ -21,8 +21,8 @@ class ProductsChooser extends Component
 
     public function mount()
     {
-        $this->products = Product::where('active', true)->where('deleted', false)->get()
-            ->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE);
+        $this->products = Product::where('active', true)->where('deleted', false)
+            ->orderByRaw('LOWER(name)')->get();
     }
 
     public function getSelectedProducts()

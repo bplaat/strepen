@@ -4,22 +4,22 @@
             <h4>{{ $transaction->name }}</h4>
 
             @if ($transaction->type == \App\Models\Transaction::TYPE_TRANSACTION)
-                <p><i>@lang('admin/transactions.item.transaction_from', ['user.name' => $transaction->user->name, 'transaction.created_at' => $transaction->created_at->format('Y-m-d H:i')])</i></p>
+                <p><i>@lang('admin/transactions.item.transaction_from', ['user.name' => $transaction->user != null ? $transaction->user->name : '?', 'transaction.created_at' => $transaction->created_at->format('Y-m-d H:i')])</i></p>
                 <p>@lang('admin/transactions.item.cost'): @component('components.money-format', ['money' => $transaction->price])@endcomponent</p>
                 <ul>
-                    @foreach ($transaction->products->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE) as $product)
+                    @foreach ($transaction->products()->orderByRaw('LOWER(name)')->get() as $product)
                         <li><b>{{ $product->name }}</b>: @component('components.amount-format', ['amount' => $product->pivot->amount])@endcomponent</li>
                     @endforeach
                 </ul>
             @endif
 
             @if ($transaction->type == \App\Models\Transaction::TYPE_DEPOSIT)
-                <p><i>@lang('admin/transactions.item.deposit_for', ['user.name' => $transaction->user->name, 'transaction.created_at' => $transaction->created_at->format('Y-m-d H:i')])</i></p>
+                <p><i>@lang('admin/transactions.item.deposit_for', ['user.name' => $transaction->user != null ? $transaction->user->name : '?', 'transaction.created_at' => $transaction->created_at->format('Y-m-d H:i')])</i></p>
                 <p>@lang('admin/transactions.item.amount'): @component('components.money-format', ['money' => $transaction->price])@endcomponent</p>
             @endif
 
             @if ($transaction->type == \App\Models\Transaction::TYPE_FOOD)
-                <p><i>@lang('admin/transactions.item.food_for', ['user.name' => $transaction->user->name, 'transaction.created_at' => $transaction->created_at->format('Y-m-d H:i')])</i></p>
+                <p><i>@lang('admin/transactions.item.food_for', ['user.name' => $transaction->user != null ? $transaction->user->name : '?', 'transaction.created_at' => $transaction->created_at->format('Y-m-d H:i')])</i></p>
                 <p>@lang('admin/transactions.item.amount'): @component('components.money-format', ['money' => $transaction->price])@endcomponent</p>
             @endif
         </div>
@@ -43,19 +43,7 @@
                 </div>
 
                 <div class="modal-card-body">
-                    <div class="field">
-                        <label class="label" for="user_id">@lang('admin/transactions.item.user')</label>
-                        <div class="control">
-                            <div class="select is-fullwidth @error('transaction.user_id') is-danger @enderror">
-                                <select id="user_id" form="mainForm" wire:model.defer="transaction.user_id" tabindex="1">
-                                    @foreach ($users as $user)
-                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        @error('transaction.user_id') <p class="help is-danger">{{ $message }}</p> @enderror
-                    </div>
+                    @livewire('components.user-chooser', ['userId' => $transaction->user_id, 'includeStrepenUser' => true])
 
                     <div class="field">
                         <label class="label" for="name">@lang('admin/transactions.item.name')</label>
@@ -97,11 +85,11 @@
                     @if ($transaction->type == \App\Models\Transaction::TYPE_DEPOSIT || $transaction->type == \App\Models\Transaction::TYPE_FOOD)
                         <div class="field">
                             <label class="label" for="amount">@lang('admin/transactions.item.amount')</label>
-                            <p class="control has-icons-left">
+                            <div class="control has-icons-left">
                                 <input class="input @error('transaction.price') is-danger @enderror" type="number" step="0.01" id="amount"
                                     form="mainForm" wire:model.defer="transaction.price" required>
                                 <span class="icon is-small is-left">&euro;</span>
-                            </p>
+                            </div>
                             @error('transaction.price') <p class="help is-danger">{{ $message }}</p> @enderror
                         </div>
                     @endif

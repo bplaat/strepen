@@ -2,7 +2,7 @@
     <div class="card" style="display: flex; flex-direction: column; height: 100%; margin-bottom: 0; overflow: hidden;">
         <div class="card-content content" style="flex: 1; margin-bottom: 0;">
             <h4>{{ $post->title }}</h4>
-            <p><i>@lang('admin/posts.item.written_by', ['user.name' => $post->user->name, 'post.created_at' => $post->created_at->format('Y-m-d H:i')])</i></p>
+            <p><i>@lang('admin/posts.item.written_by', ['user.name' => $post->user != null ? $post->user->name : '?', 'post.created_at' => $post->created_at->format('Y-m-d H:i')])</i></p>
             <pre style="white-space: pre-wrap;">{{  Str::limit(str_replace(["\r", "\n"], '', $post->body), 240) }}</pre>
         </div>
 
@@ -23,19 +23,7 @@
                 </div>
 
                 <div class="modal-card-body">
-                    <div class="field">
-                        <label class="label" for="user_id">@lang('admin/posts.item.user')</label>
-                        <div class="control">
-                            <div class="select is-fullwidth @error('post.user_id') is-danger @enderror">
-                                <select id="user_id" wire:model.defer="post.user_id" tabindex="1">
-                                    @foreach ($users as $user)
-                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        @error('post.user_id') <p class="help is-danger">{{ $message }}</p> @enderror
-                    </div>
+                    @livewire('components.user-chooser', ['userId' => $post->user_id, 'includeStrepenUser' => true])
 
                     <div class="field">
                         <label class="label" for="title">@lang('admin/posts.item.title')</label>

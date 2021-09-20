@@ -10,20 +10,7 @@
 
     <form id="mainForm" wire:submit.prevent="createTransaction"></form>
 
-    <div class="field">
-        <label class="label" for="user_id">@lang('kiosk.user')</label>
-        <div class="control">
-            <div class="select is-fullwidth @error('transaction.user_id') is-danger @enderror">
-                <select id="user_id" form="mainForm" wire:model.defer="transaction.user_id">
-                    <option value="null" disabled selected>@lang('kiosk.select_user')</option>
-                    @foreach ($users as $user)
-                        <option value="{{ $user->id }}">{{ $user->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-        @error('transaction.user_id') <p class="help is-danger">{{ $message }}</p> @enderror
-    </div>
+    @livewire('components.user-chooser')
 
     <div class="field">
         <label class="label" for="name">@lang('kiosk.name')</label>

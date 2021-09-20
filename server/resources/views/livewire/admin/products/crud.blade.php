@@ -43,11 +43,11 @@
 
                     <div class="field">
                         <label class="label" for="price">@lang('admin/products.crud.price')</label>
-                        <p class="control has-icons-left">
+                        <div class="control has-icons-left">
                             <input class="input @error('product.price') is-danger @enderror" type="number" step="0.01" id="price"
                                 wire:model.defer="product.price" required>
                             <span class="icon is-small is-left">&euro;</span>
-                        </p>
+                        </div>
                         @error('product.price') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
 

@@ -9,7 +9,6 @@ use Livewire\Component;
 
 class Item extends Component
 {
-    public $users;
     public $inventory;
     public $createdAtDate;
     public $createdAtTime;
@@ -26,15 +25,10 @@ class Item extends Component
         'selectedProducts.*.amount' => 'required|integer|min:1'
     ];
 
-    public $listeners = ['selectedProducts'];
+    public $listeners = ['userChooser', 'selectedProducts'];
 
     public function mount()
     {
-        $this->users = User::where('deleted', false)->where(function ($query) {
-                return $query->where('active', true)->orWhere('id', 1);
-            })->get()
-            ->sortBy('sortName', SORT_NATURAL | SORT_FLAG_CASE);
-
         $selectedProducts = InventoryProduct::where('inventory_id', $this->inventory->id)->get();
         $this->selectedProducts = collect();
         foreach ($selectedProducts as $selectedProduct) {
@@ -47,6 +41,10 @@ class Item extends Component
 
         $this->createdAtDate = $this->inventory->created_at->format('Y-m-d');
         $this->createdAtTime = $this->inventory->created_at->format('H:i:s');
+    }
+
+    public function userChooser($userId) {
+        $this->inventory->user_id = $userId;
     }
 
     public function selectedProducts($selectedProducts)

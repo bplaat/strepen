@@ -70,9 +70,7 @@ class ImportData extends Command
             array_shift($nameParts);
             $lastname = implode(' ', $nameParts);
 
-            if (
-                $firstname != 'Bastiaan' && $lastname != 'van der Plaat'
-            ) {
+            if (!($firstname == 'Bastiaan' && $lastname == 'van der Plaat')) {
                 $user = User::where('email', $userJson->email)->first();
                 if ($user != null) {
                     $user->active = true;

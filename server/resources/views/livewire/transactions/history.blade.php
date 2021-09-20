@@ -17,7 +17,7 @@
                                 <p><i>@lang('transactions.history.transaction_from', ['transaction.created_at' => $transaction->created_at->format('Y-m-d H:i')])</i></p>
                                 <p>@lang('transactions.history.cost'): @component('components.money-format', ['money' => $transaction->price])@endcomponent</p>
                                 <ul>
-                                    @foreach ($transaction->products->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE) as $product)
+                                    @foreach ($transaction->products()->orderByRaw('LOWER(name)')->get() as $product)
                                         <li><b>{{ $product->name }}</b>: @component('components.amount-format', ['amount' => $product->pivot->amount])@endcomponent</li>
                                     @endforeach
                                 </ul>

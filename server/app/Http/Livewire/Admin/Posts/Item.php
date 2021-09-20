@@ -7,7 +7,6 @@ use Livewire\Component;
 
 class Item extends Component
 {
-    public $users;
     public $post;
     public $createdAtDate;
     public $createdAtTime;
@@ -22,14 +21,16 @@ class Item extends Component
         'post.body' => 'required|min:2'
     ];
 
+    public $listeners = ['userChooser'];
+
     public function mount()
     {
-        $this->users = User::where('deleted', false)->where(function ($query) {
-                return $query->where('active', true)->orWhere('id', 1);
-            })->get()
-            ->sortBy('sortName', SORT_NATURAL | SORT_FLAG_CASE);
         $this->createdAtDate = $this->post->created_at->format('Y-m-d');
         $this->createdAtTime = $this->post->created_at->format('H:i:s');
+    }
+
+    public function userChooser($userId) {
+        $this->post->user_id = $userId;
     }
 
     public function editPost()

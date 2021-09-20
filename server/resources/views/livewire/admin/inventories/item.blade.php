@@ -2,10 +2,10 @@
     <div class="card" style="display: flex; flex-direction: column; height: 100%; margin-bottom: 0; overflow: hidden;">
         <div class="card-content content" style="flex: 1; margin-bottom: 0;">
             <h4>{{ $inventory->name }}</h4>
-            <p><i>@lang('admin/inventories.item.created_by', ['user.name' => $inventory->user->name, 'inventory.created_at' => $inventory->created_at->format('Y-m-d H:i')])</i></p>
+            <p><i>@lang('admin/inventories.item.created_by', ['user.name' => $inventory->user != null ? $inventory->user->name : '?', 'inventory.created_at' => $inventory->created_at->format('Y-m-d H:i')])</i></p>
             <p>@lang('admin/inventories.item.price'): @component('components.money-format', ['money' => $inventory->price])@endcomponent</p>
             <ul>
-                @foreach ($inventory->products->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE) as $product)
+                @foreach ($inventory->products()->orderByRaw('LOWER(name)')->get() as $product)
                     <li><b>{{ $product->name }}</b>: @component('components.amount-format', ['amount' => $product->pivot->amount])@endcomponent</li>
                 @endforeach
             </ul>
@@ -30,19 +30,7 @@
                 </div>
 
                 <div class="modal-card-body">
-                    <div class="field">
-                        <label class="label" for="user_id">@lang('admin/inventories.item.user')</label>
-                        <div class="control">
-                            <div class="select is-fullwidth @error('inventory.user_id') is-danger @enderror">
-                                <select id="user_id" form="mainForm" wire:model.defer="inventory.user_id">
-                                    @foreach ($users as $user)
-                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        @error('inventory.user_id') <p class="help is-danger">{{ $message }}</p> @enderror
-                    </div>
+                    @livewire('components.user-chooser', ['userId' => $inventory->user_id, 'includeStrepenUser' => true])
 
                     <div class="field">
                         <label class="label" for="name">@lang('admin/inventories.item.name')</label>

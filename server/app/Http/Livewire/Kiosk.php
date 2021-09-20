@@ -9,7 +9,6 @@ use App\Models\User;
 
 class Kiosk extends Component
 {
-    public $users;
     public $transaction;
     public $selectedProducts;
 
@@ -20,15 +19,17 @@ class Kiosk extends Component
         'selectedProducts.*.amount' => 'required|integer|min:1|max:24'
     ];
 
-    public $listeners = ['selectedProducts'];
+    public $listeners = ['userChooser', 'selectedProducts'];
 
     public function mount()
     {
-        $this->users = User::where('active', true)->where('deleted', false)->get()
-            ->sortBy('sortName', SORT_NATURAL | SORT_FLAG_CASE);
         $this->transaction = new Transaction();
         $this->transaction->name = __('kiosk.name_default') . ' ' . date('Y-m-d H:i:s');
         $this->selectedProducts = collect();
+    }
+
+    public function userChooser($userId) {
+        $this->transaction->user_id = $userId;
     }
 
     public function selectedProducts($selectedProducts)
