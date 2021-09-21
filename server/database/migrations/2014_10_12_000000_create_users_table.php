@@ -33,6 +33,7 @@ class CreateUsersTable extends Migration
             $table->unsignedTinyInteger('role')->default(User::ROLE_NORMAL);
             $table->unsignedTinyInteger('language')->default(User::LANGUAGE_DUTCH);
             $table->unsignedTinyInteger('theme')->default(User::THEME_LIGHT);
+            $table->boolean('receive_news')->default(true);
             $table->decimal('balance', 12, 3);
             $table->boolean('active')->default(true);
             $table->boolean('deleted')->default(false);

@@ -32,7 +32,8 @@ class Crud extends PaginationComponent
         'userAvatar' => 'nullable|image|max:1024',
         'user.role' => 'nullable|integer|digits_between:' . User::ROLE_NORMAL . ',' . User::ROLE_ADMIN,
         'user.language' => 'nullable|integer|digits_between:' . User::LANGUAGE_ENGLISH . ',' . User::LANGUAGE_DUTCH,
-        'user.theme' => 'nullable|integer|digits_between:' . User::THEME_LIGHT . ',' . User::THEME_DARK
+        'user.theme' => 'nullable|integer|digits_between:' . User::THEME_LIGHT . ',' . User::THEME_DARK,
+        'user.receive_news' => 'nullable|boolean'
     ];
 
     public function mount()
@@ -40,6 +41,7 @@ class Crud extends PaginationComponent
         $this->user = new User();
         $this->user->language = User::LANGUAGE_DUTCH;
         $this->user->theme = User::THEME_LIGHT;
+        $this->user->receive_news = true;
         $this->userAvatar = null;
         $this->isCreating = false;
     }

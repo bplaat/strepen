@@ -32,6 +32,8 @@ return [
     'crud.theme' => 'Thema',
     'crud.theme_light' => 'Licht',
     'crud.theme_dark' => 'Donker',
+    'crud.receive_news' => 'Ontvang nieuws',
+    'crud.receive_news_user' => 'Ontvang meldingen wanneer een nieuwe nieuwsberichten zijn geplaatst',
     'crud.cancel' => 'Annuleren',
 
     // Admin users item livewire component
@@ -78,6 +80,8 @@ return [
     'item.theme' => 'Thema',
     'item.theme_light' => 'Licht',
     'item.theme_dark' => 'Donker',
+    'item.receive_news' => 'Ontvang nieuws',
+    'item.receive_news_user' => 'Ontvang meldingen wanneer een nieuwe nieuwsberichten zijn geplaatst',
     'item.active' => 'Actief',
     'item.active_user' => 'Gebruiker zichtbaar maken in het systeem',
     'item.cancel' => 'Annuleren',

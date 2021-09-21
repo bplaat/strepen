@@ -46,6 +46,7 @@ class Item extends Component
             'user.role' => 'required|integer|digits_between:' . User::ROLE_NORMAL . ',' . User::ROLE_ADMIN,
             'user.language' => 'nullable|integer|digits_between:' . User::LANGUAGE_ENGLISH . ',' . User::LANGUAGE_DUTCH,
             'user.theme' => 'nullable|integer|digits_between:' . User::THEME_LIGHT . ',' . User::THEME_DARK,
+            'user.receive_news' => 'nullable|boolean',
             'user.active' => 'nullable|boolean'
         ];
     }

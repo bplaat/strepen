@@ -30,7 +30,8 @@ class ChangeDetails extends Component
             'user.postcode' => 'nullable|min:2|max:32',
             'user.city' => 'nullable|min:2|max:255',
             'user.language' => 'nullable|integer|digits_between:' . User::LANGUAGE_ENGLISH . ',' . User::LANGUAGE_DUTCH,
-            'user.theme' => 'nullable|integer|digits_between:' . User::THEME_LIGHT . ',' . User::THEME_DARK
+            'user.theme' => 'nullable|integer|digits_between:' . User::THEME_LIGHT . ',' . User::THEME_DARK,
+            'user.receive_news' => 'nullable|boolean'
         ];
     }
 

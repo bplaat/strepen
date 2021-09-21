@@ -350,7 +350,9 @@
                                 @error('user.language') <p class="help is-danger">{{ $message }}</p> @enderror
                             </div>
                         </div>
+                    </div>
 
+                    <div class="columns">
                         <div class="column">
                             <div class="field">
                                 <label class="label" for="theme">@lang('admin/users.crud.theme')</label>
@@ -365,10 +367,20 @@
                                 @error('user.theme') <p class="help is-danger">{{ $message }}</p> @enderror
                             </div>
                         </div>
+
+                        <div class="column">
+                            <div class="field">
+                                <label class="label" for="receive_news">@lang('admin/users.item.receive_news')</label>
+                                <label class="checkbox" for="receive_news">
+                                    <input type="checkbox" id="receive_news" wire:model.defer="user.receive_news">
+                                    @lang('admin/users.item.receive_news_user')
+                                </label>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="field">
-                        <label class="label" for="image">@lang('admin/users.item.active')</label>
+                        <label class="label" for="active">@lang('admin/users.item.active')</label>
                         <label class="checkbox" for="active">
                             <input type="checkbox" id="active" wire:model.defer="user.active">
                             @lang('admin/users.item.active_user')

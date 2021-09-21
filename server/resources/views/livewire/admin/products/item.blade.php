@@ -150,7 +150,7 @@
                     </div>
 
                     <div class="field">
-                        <label class="label" for="image">@lang('admin/products.item.active')</label>
+                        <label class="label" for="active">@lang('admin/products.item.active')</label>
                         <label class="checkbox" for="active">
                             <input type="checkbox" id="active" wire:model.defer="product.active">
                             @lang('admin/products.item.active_product')

@@ -54,7 +54,7 @@ class ImportData extends Command
         // Get all the user information
         echo "Importing all users...\n\n";
         $oldUserIds = [ 181 => 2 ];
-        $data = file_get_contents($url . '/bonnen/index.php?id=15&newsId=' . urlencode('0 UNION SELECT \'\', \'\', \'\', CONCAT(\'{"id":\', id, \',"name":"\', naam, \'","email":"\', email, \'","active":\', active, \'}\') FROM stamleden'), false, stream_context_create([
+        $data = file_get_contents($url . '/bonnen/index.php?id=15&newsId=' . urlencode('0 UNION SELECT \'\', \'\', \'\', CONCAT(\'{"id":\', id, \',"name":"\', naam, \'","email":"\', email, \'","active":\', active, \',"receive_news":\', mailinglist, \'}\') FROM stamleden'), false, stream_context_create([
             'ssl' => [
                 'verify_peer' => false,
                 'verify_peer_name' => false
@@ -81,6 +81,7 @@ class ImportData extends Command
                     $user->lastname = $lastname;
                     $user->email = $userJson->email;
                     $user->password = Hash::make('strepen');
+                    $user->receive_news = $userJson->receive_news;
                     $user->balance = 0;
                     $user->active = $userJson->active;
                     $user->save();
