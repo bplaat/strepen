@@ -18,9 +18,10 @@
                                     <span class="tag is-warning is-pulled-right">{{ Str::upper(__('notifications.unread')) }}</span>
                                 @endif
                             </h1>
-                            <p>@lang('notifications.new_deposit_text') @component('components.money-format', ['money' => $transaction->price])@endcomponent
-                                @lang('notifications.new_deposit_on') {{ $transaction->created_at->format('Y-m-d H:i:s') }}</p>
+                            <p>@lang('notifications.new_deposit_start') @component('components.money-format', ['money' => $transaction->price])@endcomponent
+                                @lang('notifications.new_deposit_end') {{ $transaction->created_at->format('Y-m-d H:i:s') }}</p>
                         @endif
+
                         @if ($notification->type == 'App\Notifications\NewPost')
                             @php
                                 $post = App\Models\Post::find($notification->data['post_id']);
@@ -32,6 +33,17 @@
                                 @endif
                             </h1>
                             <p>@lang('notifications.new_post_text', ['post.created_at' => $post->created_at->format('Y-m-d H:i:s')])</p>
+                        @endif
+
+                        @if ($notification->type == 'App\Notifications\LowBalance')
+                            <h1 class="title is-5">
+                                <a href="{{ route('balance') }}">@lang('notifications.low_balance_header')</a>
+                                @if ($notification->read_at == null)
+                                    <span class="tag is-warning is-pulled-right">{{ Str::upper(__('notifications.unread')) }}</span>
+                                @endif
+                            </h1>
+                            <p>@lang('notifications.low_balance_start') @component('components.money-format', ['money' => $notification->data['balance']])@endcomponent
+                                @lang('notifications.low_balance_end')</p>
                         @endif
                     </div>
                 </div>

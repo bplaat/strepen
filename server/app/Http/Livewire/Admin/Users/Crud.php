@@ -68,6 +68,11 @@ class Crud extends PaginationComponent
         $this->mount();
     }
 
+    public function checkBalances()
+    {
+        User::checkBalances();
+    }
+
     public function render()
     {
         return view('livewire.admin.users.crud', [

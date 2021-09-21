@@ -8,9 +8,13 @@ return [
     'unread' => 'Ongelezen',
 
     'new_deposit_header' => 'Nieuwe storting',
-    'new_deposit_text' => 'Je hebt een nieuwe storting van ontvangen',
-    'new_deposit_on' => 'op',
+    'new_deposit_start' => 'Je hebt een nieuwe storting van ontvangen',
+    'new_deposit_end' => 'op',
 
     'new_post_header' => 'Nieuw nieuws bericht',
-    'new_post_text' => 'Een nieuw nieuws bericht is op de home<br> pagina gezet op :post.created_at'
+    'new_post_text' => 'Een nieuw nieuws bericht is op de home<br> pagina gezet op :post.created_at',
+
+    'low_balance_header' => 'Balans te laag',
+    'low_balance_start' => 'Jouw balans van',
+    'low_balance_end' => 'is te laag<br> stort wat geld om je schuld te vereffen'
 ];

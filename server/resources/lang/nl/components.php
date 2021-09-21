@@ -9,11 +9,15 @@ return [
     'notifications.empty' => 'Geen ongelezen notificaties',
 
     'notifications.new_deposit_header' => 'Nieuwe storting',
-    'notifications.new_deposit_text' => 'Je hebt een nieuwe storting ontvangen<br>van',
-    'notifications.new_deposit_on' => 'op',
+    'notifications.new_deposit_start' => 'Je hebt een nieuwe storting ontvangen<br>van',
+    'notifications.new_deposit_end' => 'op',
 
     'notifications.new_post_header' => 'Nieuw nieuws bericht',
     'notifications.new_post_text' => 'Een nieuw nieuws bericht is op de home<br>pagina gezet op :post.created_at',
+
+    'notifications.low_balance_header' => 'Balans te laag',
+    'notifications.low_balance_start' => 'Jouw balans van',
+    'notifications.low_balance_end' => 'is te laag<br> stort wat geld om je schuld te vereffen',
 
     // User Chooser livewire component
     'user_chooser.user' => 'Gebruiker',

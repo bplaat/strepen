@@ -22,10 +22,11 @@
                             @lang('components.notifications.new_deposit_header')
                             <button type="button" class="delete is-small is-pulled-right" wire:click.prevent="readNotification('{{ $notification->id }}')"></button>
                         </h1>
-                        <p>@lang('components.notifications.new_deposit_text') @component('components.money-format', ['money' => $transaction->price])@endcomponent
-                            @lang('components.notifications.new_deposit_on') {{ $transaction->created_at->format('Y-m-d H:i:s') }}</p>
+                        <p>@lang('components.notifications.new_deposit_start') @component('components.money-format', ['money' => $transaction->price])@endcomponent
+                            @lang('components.notifications.new_deposit_end') {{ $transaction->created_at->format('Y-m-d H:i:s') }}</p>
                     </a>
                 @endif
+
                 @if ($notification->type == 'App\Notifications\NewPost')
                     <a class="navbar-item" href="{{ route('home') }}"
                         style="flex-direction: column; text-align: center; padding: 12px 16px;">
@@ -37,6 +38,18 @@
                             <button type="button" class="delete is-small is-pulled-right" wire:click.prevent="readNotification('{{ $notification->id }}')"></button>
                         </h1>
                         <p>@lang('components.notifications.new_post_text', ['post.created_at' => $post->created_at->format('Y-m-d H:i:s')])</p>
+                    </a>
+                @endif
+
+                @if ($notification->type == 'App\Notifications\LowBalance')
+                    <a class="navbar-item" href="{{ route('balance') }}"
+                        style="flex-direction: column; text-align: center; padding: 12px 16px;">
+                        <h1 class="title is-6" style="width: 100%; line-height: 12px; margin-bottom: 4px;">
+                            @lang('components.notifications.low_balance_header')
+                            <button type="button" class="delete is-small is-pulled-right" wire:click.prevent="readNotification('{{ $notification->id }}')"></button>
+                        </h1>
+                        <p>@lang('components.notifications.low_balance_start') @component('components.money-format', ['money' => $notification->data['balance']])@endcomponent
+                            @lang('components.notifications.low_balance_end')</p>
                     </a>
                 @endif
             @endforeach

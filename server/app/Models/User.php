@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\LowBalance;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -149,5 +150,16 @@ class User extends Authenticatable
             $balanceData[] = [ $transaction->created_at->format('Y-m-d'), $balance ];
         }
         return $balanceData;
+    }
+
+    // Send all users that have a to low balance an low balance notification
+    public static function checkBalances()
+    {
+        $users = User::where('active', true)->where('deleted', false)->get();
+        foreach ($users as $user) {
+            if ($user->balance < config('balance.min')) {
+                $user->notify(new LowBalance($user));
+            }
+        }
     }
 }

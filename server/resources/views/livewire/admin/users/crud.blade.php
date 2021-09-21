@@ -4,6 +4,7 @@
     @component('components.search-header', ['itemName' => __('admin/users.crud.users')])
         <div class="buttons">
             <button class="button is-link" wire:click="$set('isCreating', true)" wire:loading.attr="disabled">@lang('admin/users.crud.create_user')</button>
+            <button class="button is-link" wire:click="checkBalances()" wire:loading.attr="disabled">@lang('admin/users.crud.check_balances')</button>
         </div>
     @endcomponent
 

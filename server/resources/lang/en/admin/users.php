@@ -5,6 +5,7 @@ return [
     'crud.title' => 'Users - Admin',
     'crud.header' => 'Users',
     'crud.create_user' => 'Create new user',
+    'crud.check_balances' => 'Check user balances',
     'crud.users' => 'users',
     'crud.empty' => 'No users found!',
     'crud.firstname' => 'First name',

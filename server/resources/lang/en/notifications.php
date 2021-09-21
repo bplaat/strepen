@@ -8,9 +8,13 @@ return [
     'unread' => 'Unread',
 
     'new_deposit_header' => 'New deposit',
-    'new_deposit_text' => 'You have received a new deposit of',
-    'new_deposit_on' => 'on',
+    'new_deposit_start' => 'You have received a new deposit of',
+    'new_deposit_end' => 'on',
 
     'new_post_header' => 'New post',
     'new_post_text' => 'An new post has been placed on the home page on :post.created_at',
+
+    'low_balance_header' => 'Balance to low',
+    'low_balance_start' => 'Your balance of',
+    'low_balance_end' => 'is to low deposit some money to clear your debt'
 ];
