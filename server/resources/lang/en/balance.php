@@ -1,7 +1,7 @@
 <?php
 
 return [
-    // Balance livewire component
+    // Balance page
     'title' => 'Balance',
     'header' => 'Your balance',
 ];

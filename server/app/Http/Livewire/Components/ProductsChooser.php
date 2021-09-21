@@ -31,7 +31,8 @@ class ProductsChooser extends Component
         $this->emitUp('selectedProducts', $this->selectedProducts);
     }
 
-    public function updatedProductName() {
+    public function updatedProductName()
+    {
         if (!$this->isOpen) {
             $this->isOpen = true;
         }
@@ -42,7 +43,8 @@ class ProductsChooser extends Component
         })->slice(0, 10);
     }
 
-    public function addFirstProduct() {
+    public function addFirstProduct()
+    {
         if ($this->filteredProducts->count() > 0) {
             $this->addProduct($this->filteredProducts->first()->id);
         }

@@ -72,7 +72,8 @@ class Product extends Model
     }
 
     // Get amount chart data
-    public function getAmountChart() {
+    public function getAmountChart()
+    {
         $amount = 0;
         $amountData = [];
 

@@ -6,6 +6,7 @@ use App\Http\Livewire\PaginationComponent;
 use App\Models\Product;
 use App\Models\Transaction;
 use App\Models\User;
+use App\Notifications\NewDeposit;
 
 class Crud extends PaginationComponent
 {
@@ -111,6 +112,9 @@ class Crud extends PaginationComponent
         $user = User::find($this->transaction->user_id);
         $user->balance += $this->transaction->price;
         $user->save();
+
+        // Send user new deposit notification
+        $user->notify(new NewDeposit($this->transaction));
 
         // Refresh page
         return redirect()->route('admin.transactions.crud');

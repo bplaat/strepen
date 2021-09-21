@@ -32,7 +32,7 @@
                 </div>
 
                 <div class="modal-card-body">
-                <div class="columns">
+                    <div class="columns">
                         <div class="column">
                             <div class="field">
                                 <label class="label" for="firstname">@lang('admin/users.item.firstname')</label>

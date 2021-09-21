@@ -33,7 +33,8 @@ class UserChooser extends Component
         }
     }
 
-    public function updatedUserName() {
+    public function updatedUserName()
+    {
         if (!$this->isOpen) {
             $this->isOpen = true;
         }
@@ -48,7 +49,8 @@ class UserChooser extends Component
         })->slice(0, 10);
     }
 
-    public function selectFirstUser() {
+    public function selectFirstUser()
+    {
         if ($this->filteredUsers->count() > 0) {
             $this->user = $this->filteredUsers->first();
             $this->emitUp('userChooser', $this->user->id);

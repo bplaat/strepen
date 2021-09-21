@@ -131,7 +131,8 @@ class User extends Authenticatable
     }
 
     // Get balance chart data
-    public function getBalanceChart() {
+    public function getBalanceChart()
+    {
         $balance = 0;
         $balanceData = [];
         $transactions = $this->transactions()->where('deleted', false)->orderBy('created_at')->get();

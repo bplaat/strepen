@@ -15,9 +15,11 @@ Route::middleware(['auth', 'nokiosk'])->group(function () {
 
     Route::get('transactions', App\Http\Livewire\Transactions\History::class)->name('transactions.history');
 
+    Route::view('/notifications', 'notifications')->name('notifications');
+
     Route::view('/balance', 'balance')->name('balance');
 
-    Route::view('/auth/settings', 'settings')->name('settings');
+    Route::view('/settings', 'settings')->name('settings');
 
     Route::get('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
 });
