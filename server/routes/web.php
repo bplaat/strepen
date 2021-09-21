@@ -15,7 +15,7 @@ Route::middleware(['auth', 'nokiosk'])->group(function () {
 
     Route::get('transactions', App\Http\Livewire\Transactions\History::class)->name('transactions.history');
 
-    Route::view('/notifications', 'notifications')->name('notifications');
+    Route::get('notifications', App\Http\Livewire\Notifications::class)->name('notifications');
 
     Route::view('/balance', 'balance')->name('balance');
 

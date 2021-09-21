@@ -9,11 +9,11 @@ return [
     'notifications.empty' => 'No unread notifications',
 
     'notifications.new_deposit_header' => 'New deposit',
-    'notifications.new_deposit_text' => 'You have received a new deposit of',
+    'notifications.new_deposit_text' => 'You have received a new deposit<br>of',
     'notifications.new_deposit_on' => 'on',
 
     'notifications.new_post_header' => 'New post',
-    'notifications.new_post_text' => 'An new post has been placed on the<br> home page on :post.created_at',
+    'notifications.new_post_text' => 'An new post has been placed on the<br>home page on :post.created_at',
 
     // User Chooser livewire component
     'user_chooser.user' => 'User',

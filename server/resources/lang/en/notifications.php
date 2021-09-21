@@ -3,7 +3,7 @@
 return [
     // Notifications page
     'title' => 'Notifications',
-    'header' => 'Your notifications',
+    'header' => 'Your notifications history',
     'empty' => 'No notifications',
     'unread' => 'Unread',
 

@@ -14,7 +14,7 @@
             <div class="dropdown-content">
                 @foreach ($filteredUsers as $user)
                     <a href="#" wire:click.prevent="selectUser({{ $user->id }})" class="dropdown-item" style="display: flex; align-items: center;">
-                        <div style="margin-right: .75rem; width: 24px; height: 24px; border-radius: 50%; background-size: cover; background-position: center center;
+                        <div style="margin-right: 12px; width: 24px; height: 24px; border-radius: 50%; background-size: cover; background-position: center center;
                             background-image: url({{ $user->avatar != null ? '/storage/avatars/' . $user->avatar : '/images/avatars/mp.jpg' }});"></div>
                         {!! $userName != '' ? str_replace(' ', '&nbsp;', preg_replace('/(' . preg_quote($userName) . ')/i', '<b>$1</b>', $user->name)) : $user->name !!}
                     </a>
