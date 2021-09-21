@@ -8,5 +8,7 @@ return [
     'login.email' => 'Email address',
     'login.password' => 'Password',
     'login.login' => 'Login',
-    'login.error' => 'Incorrect email or password'
+    'login.active_error' => 'The user of this email address is not an active user',
+    'login.deleted_error' => 'The user of this email address is deleted',
+    'login.login_error' => 'Incorrect email or password'
 ];

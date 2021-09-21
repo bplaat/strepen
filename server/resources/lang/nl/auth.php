@@ -8,5 +8,7 @@ return [
     'login.email' => 'Email adres',
     'login.password' => 'Wachtewoord',
     'login.login' => 'Inloggen',
-    'login.error' => 'Incorrecte email of wachtwoord'
+    'login.active_error' => 'De gebruiker van dit email adres is niet actief',
+    'login.deleted_error' => 'De gebruiker van dit email adres is verwijdered',
+    'login.login_error' => 'Incorrecte email of wachtwoord'
 ];

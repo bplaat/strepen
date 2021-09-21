@@ -1,19 +1,24 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\ApiAuthController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+// Api home route
+Route::get('', function () {
+    return [
+        'message' => 'Strepen REST API documentation: https://github.com/bplaat/strepen/blob/master/docs/api.md'
+    ];
+})->name('api.home');
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+// Api auth routes
+Route::middleware('api_key')->group(function () {
+
+
+
+    Route::get('auth/logout', [ApiAuthController::class, 'logout'])->name('api.auth.logout');
+});
+
+// Api guest routes
+Route::middleware('api_key:false')->group(function () {
+    Route::any('auth/login', [ApiAuthController::class, 'login'])->name('api.auth.login');
 });

@@ -4,10 +4,10 @@
 Here is an idea of how the REST API can look like but with Livewire this is not really nessary any more:
 
 ```
-GET /api
+GET /api ✅
 
-POST /api/auth/login
-GET /api/auth/logout
+POST /api/auth/login ✅
+GET /api/auth/logout ✅
 
 GET /api/users ADMIN = more info
 POST /api/users ADMIN

@@ -1,0 +1,61 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Session;
+
+class ApiAuthController extends Controller
+{
+    // API login route
+    public function login(Request $request)
+    {
+        // Validate input
+        $validation = Validator::make($request->all(), [
+            'email' => 'required|email|exists:users,email',
+            'password' => 'required'
+        ]);
+        if ($validation->fails()) {
+            return response(['errors' => $validation->errors()], 400);
+        }
+
+        // Check if user is active and not deleted
+        $user = User::where('email', request('email'))->first();
+        if (!$user->active) {
+            return response(['errors' => [__('auth.login.active_error')]], 400);
+            return;
+        }
+        if ($user->deleted) {
+            return response(['errors' => [__('auth.login.deleted_error')]], 400);
+            return;
+        }
+
+        // Try to login
+        if (!Hash::check(request('password'), $user->password)) {
+            return response(['errors' => [
+                'email' => [__('auth.login.login_error')]
+            ]], 400);
+        }
+
+        // Try to login user
+        return [
+            'token' => $user->createToken('API auth token for api')->plainTextToken
+        ];
+    }
+
+    // API logout route
+    public function logout(Request $request)
+    {
+        // Revoke current used token
+        $request->user()->currentAccessToken()->delete();
+
+        // Return success message
+        return [
+            'message' => 'Your current token has been signed out!'
+        ];
+    }
+}

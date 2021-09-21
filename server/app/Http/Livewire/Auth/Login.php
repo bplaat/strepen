@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Auth;
 
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -11,7 +12,7 @@ class Login extends Component
     public $password;
 
     public $rules = [
-        'email' => 'required|email',
+        'email' => 'required|email|exists:users,email',
         'password' => 'required'
     ];
 
@@ -19,12 +20,27 @@ class Login extends Component
     {
         $this->validate();
 
-        if (Auth::attempt(['email' => $this->email, 'password' => $this->password], true)) {
-            return redirect()->route('home');
+        // Check if user is active and not deleted
+        $user = User::where('email', $this->email)->first();
+        if (!$user->active) {
+            $this->addError('email', __('auth.login.active_error'));
+            $this->addError('password', 'null');
+            return;
+        }
+        if ($user->deleted) {
+            $this->addError('email', __('auth.login.deleted_error'));
+            $this->addError('password', 'null');
+            return;
         }
 
-        $this->addError('email', __('auth.login.error'));
-        $this->addError('password', 'null');
+        // Try to login user and remember in cookie
+        if (!Auth::attempt(['email' => $this->email, 'password' => $this->password], true)) {
+            $this->addError('email', __('auth.login.login_error'));
+            $this->addError('password', 'null');
+            return;
+        }
+
+        return redirect()->route('home');
     }
 
     public function render()
