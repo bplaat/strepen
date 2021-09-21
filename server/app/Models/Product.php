@@ -23,7 +23,11 @@ class Product extends Model
     public static function generateImageName($extension)
     {
         if ($extension == 'jpeg') $extension = 'jpg';
-        return Str::random(32) . '.' . $extension;
+        $image = Str::random(32) . '.' . $extension;
+        if (static::where('image', $image)->count() > 0) {
+            return static::generateImageName($extension);
+        }
+        return $image;
     }
 
     // Recalculate product amount

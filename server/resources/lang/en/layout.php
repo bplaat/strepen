@@ -5,6 +5,7 @@ return [
     'navbar.transactions_create' => 'Stripe',
     'navbar.transactions_history' => 'History',
     'navbar.admin_home' => 'Admin',
+    'navbar.admin_api_keys' => 'Api Keys',
     'navbar.admin_users' => 'Users',
     'navbar.admin_posts' => 'Posts',
     'navbar.admin_products' => 'Products',

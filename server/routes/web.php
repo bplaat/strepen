@@ -35,6 +35,8 @@ Route::middleware('admin')->group(function () {
 
     Route::get('/admin/kiosk', [AdminController::class, 'kiosk'])->name('admin.kiosk');
 
+    Route::get('/admin/api_keys', App\Http\Livewire\Admin\ApiKeys\Crud::class)->name('admin.api_keys.crud');
+
     Route::get('/admin/users', App\Http\Livewire\Admin\Users\Crud::class)->name('admin.users.crud');
 
     Route::get('/admin/posts', App\Http\Livewire\Admin\Posts\Crud::class)->name('admin.posts.crud');

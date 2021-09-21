@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\ApiKey;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -36,6 +37,13 @@ class DatabaseSeeder extends Seeder
         $user->role = User::ROLE_ADMIN;
         $user->balance = 0;
         $user->save();
+
+        // Create website api key
+        $apiKey = new ApiKey();
+        $apiKey->name = 'Website';
+        $apiKey->key = ApiKey::generateKey();
+        $apiKey->level = ApiKey::REQUIRE_AUTH;
+        $apiKey->save();
 
         // Create 50 random users
         // User::factory(50)->create();

@@ -60,7 +60,11 @@ class User extends Authenticatable
     public static function generateAvatarName($extension)
     {
         if ($extension == 'jpeg') $extension = 'jpg';
-        return Str::random(32) . '.' . $extension;
+        $avatar = Str::random(32) . '.' . $extension;
+        if (static::where('avatar', $avatar)->count() > 0) {
+            return static::generateAvatarName($extension);
+        }
+        return $avatar;
     }
 
     // Recalculate user balance

@@ -50,6 +50,7 @@
                                 <a class="navbar-link is-arrowless"
                                     href="{{ route('admin.home') }}">@lang('layout.navbar.admin_home')</a>
                                 <div class="navbar-dropdown">
+                                    <a class="navbar-item" href="{{ route('admin.api_keys.crud') }}">@lang('layout.navbar.admin_api_keys')</a>
                                     <a class="navbar-item" href="{{ route('admin.users.crud') }}">@lang('layout.navbar.admin_users')</a>
                                     <a class="navbar-item" href="{{ route('admin.posts.crud') }}">@lang('layout.navbar.admin_posts')</a>
                                     <a class="navbar-item" href="{{ route('admin.products.crud') }}">@lang('layout.navbar.admin_products')</a>
