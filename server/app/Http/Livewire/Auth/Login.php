@@ -22,13 +22,13 @@ class Login extends Component
 
         // Check if user is active and not deleted
         $user = User::where('email', $this->email)->first();
-        if (!$user->active) {
-            $this->addError('email', __('auth.login.active_error'));
+        if ($user->deleted) {
+            $this->addError('email', __('auth.login.deleted_error'));
             $this->addError('password', 'null');
             return;
         }
-        if ($user->deleted) {
-            $this->addError('email', __('auth.login.deleted_error'));
+        if (!$user->active) {
+            $this->addError('email', __('auth.login.active_error'));
             $this->addError('password', 'null');
             return;
         }

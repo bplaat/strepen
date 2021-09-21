@@ -7,7 +7,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Session;
 
 class ApiAuthController extends Controller
 {
@@ -25,12 +24,12 @@ class ApiAuthController extends Controller
 
         // Check if user is active and not deleted
         $user = User::where('email', request('email'))->first();
-        if (!$user->active) {
-            return response(['errors' => [__('auth.login.active_error')]], 400);
-            return;
-        }
         if ($user->deleted) {
             return response(['errors' => [__('auth.login.deleted_error')]], 400);
+            return;
+        }
+        if (!$user->active) {
+            return response(['errors' => [__('auth.login.active_error')]], 400);
             return;
         }
 

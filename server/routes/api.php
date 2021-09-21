@@ -1,19 +1,14 @@
 <?php
 
+use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\Api\ApiAuthController;
 use Illuminate\Support\Facades\Route;
 
-// Api home route
-Route::get('', function () {
-    return [
-        'message' => 'Strepen REST API documentation: https://github.com/bplaat/strepen/blob/master/docs/api.md'
-    ];
-})->name('api.home');
+Route::get('', [ApiController::class, 'home'])->name('api.home');
 
 // Api auth routes
 Route::middleware('api_key')->group(function () {
-
-
+    // TODO
 
     Route::get('auth/logout', [ApiAuthController::class, 'logout'])->name('api.auth.logout');
 });

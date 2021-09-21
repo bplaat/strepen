@@ -1,7 +1,7 @@
 [&laquo; Back to the README.md](../README.md)
 
 # API Documentation
-Here is an idea of how the REST API can look like but with Livewire this is not really nessary any more:
+Here are all the routes of the REST API more information will follow:
 
 ```
 GET /api ✅
