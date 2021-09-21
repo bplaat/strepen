@@ -4,6 +4,8 @@ namespace App\Http\Livewire\Admin\Posts;
 
 use App\Http\Livewire\PaginationComponent;
 use App\Models\Post;
+use App\Models\User;
+use App\Notifications\NewPost;
 use Illuminate\Support\Facades\Auth;
 
 class Crud extends PaginationComponent
@@ -27,6 +29,13 @@ class Crud extends PaginationComponent
         $this->validate();
         $this->post->user_id = Auth::id();
         $this->post->save();
+
+        // Send all users the receive news new post notification
+        $users = User::where('active', true)->where('deleted', false)->where('receive_news', true)->get();
+        foreach ($users as $user) {
+            $user->notify(new NewPost($this->post));
+        }
+
         $this->mount();
     }
 

@@ -12,17 +12,24 @@
     <div class="navbar-dropdown">
         @if ($notifications->count() > 0)
             @foreach ($notifications as $notification)
-                @if ($notification->type == 'App\Notifications\NewDeposit')
-                    @php
-                        $transaction = App\Models\Transaction::find($notification->data['transaction_id']);
-                    @endphp
-                    <a class="navbar-item" href="#" wire:click.prevent="readNotification('{{ $notification->id }}')"
-                        style="flex-direction: column; text-align: center;">
+                <a class="navbar-item" href="#" wire:click.prevent="readNotification('{{ $notification->id }}')"
+                    style="flex-direction: column; text-align: center;">
+                    @if ($notification->type == 'App\Notifications\NewDeposit')
+                        @php
+                            $transaction = App\Models\Transaction::find($notification->data['transaction_id']);
+                        @endphp
                         <h1 class="title is-6" style="margin-bottom: 4px;">@lang('components.notifications.new_deposit_header')</h1>
                         <p>@lang('components.notifications.new_deposit_text') @component('components.money-format', ['money' => $transaction->price])@endcomponent<br>
                             @lang('components.notifications.new_deposit_on') {{ $transaction->created_at->format('Y-m-d H:i:s') }}</p>
-                    </a>
-                @endif
+                    @endif
+                    @if ($notification->type == 'App\Notifications\NewPost')
+                        @php
+                            $post = App\Models\Post::find($notification->data['post_id']);
+                        @endphp
+                        <h1 class="title is-6" style="margin-bottom: 4px;">@lang('components.notifications.new_post_header')</h1>
+                        <p>@lang('components.notifications.new_post_text', ['post.created_at' => $post->created_at->format('Y-m-d H:i:s')])</p>
+                    @endif
+                </a>
             @endforeach
         @else
             <div class="navbar-item"><i>@lang('components.notifications.empty')</i></div>

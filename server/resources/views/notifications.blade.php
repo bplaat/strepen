@@ -17,15 +17,26 @@
                                 @php
                                     $transaction = App\Models\Transaction::find($notification->data['transaction_id']);
                                 @endphp
-                                <h1 class="title is-6" style="margin-bottom: 4px;">
+                                <h1 class="title is-5">
                                     @lang('notifications.new_deposit_header')
-
                                     @if ($notification->read_at == null)
                                         <span class="tag is-warning is-pulled-right">{{ Str::upper(__('notifications.unread')) }}</span>
                                     @endif
                                 </h1>
                                 <p>@lang('notifications.new_deposit_text') @component('components.money-format', ['money' => $transaction->price])@endcomponent
                                     @lang('notifications.new_deposit_on') {{ $transaction->created_at->format('Y-m-d H:i:s') }}</p>
+                            @endif
+                            @if ($notification->type == 'App\Notifications\NewPost')
+                                @php
+                                    $post = App\Models\Post::find($notification->data['post_id']);
+                                @endphp
+                                <h1 class="title is-5">
+                                    @lang('notifications.new_post_header')
+                                    @if ($notification->read_at == null)
+                                        <span class="tag is-warning is-pulled-right">{{ Str::upper(__('notifications.unread')) }}</span>
+                                    @endif
+                                </h1>
+                                <p>@lang('notifications.new_post_text', ['post.created_at' => $post->created_at->format('Y-m-d H:i:s')])</p>
                             @endif
                         </div>
                     </div>
