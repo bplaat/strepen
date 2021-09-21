@@ -16,6 +16,7 @@ return [
     // Admin api keys item livewire component
     'item.level_require_auth_tag' => 'Require Auth',
     'item.level_no_auth_tag' => 'No Auth',
+    'item.inactive' => 'Inactive',
     'item.key' => 'Key',
     'item.requests' => 'Requests counter',
     'item.edit' => 'Edit',
@@ -25,6 +26,8 @@ return [
     'item.level' => 'Security level',
     'item.level_require_auth' => 'Require authentication tokens (SAFE)',
     'item.level_no_auth' => 'No authentication tokens (DANGEROUS)',
+    'item.active' => 'Active',
+    'item.active_api_key' => 'Make api key usable for the REST API',
     'item.cancel' => 'Cancel',
     'item.delete_api_key' => 'Delete api key',
     'item.delete_description' => 'Are you sure you want to delete this api key?'

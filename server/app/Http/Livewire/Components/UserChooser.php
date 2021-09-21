@@ -10,6 +10,7 @@ class UserChooser extends Component
     public $userId;
     public $includeStrepenUser = false;
 
+    public $isLoading = true;
     public $users;
     public $filteredUsers;
     public $userName;
@@ -31,11 +32,13 @@ class UserChooser extends Component
         if ($this->userId != null) {
             $this->selectUser($this->userId);
         }
+
+        $this->isLoading = false;
     }
 
     public function updatedUserName()
     {
-        if (!$this->isOpen) {
+        if (!$this->isLoading && !$this->isOpen) {
             $this->isOpen = true;
         }
 

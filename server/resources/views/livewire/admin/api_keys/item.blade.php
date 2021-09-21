@@ -3,12 +3,17 @@
         <div class="card-content content" style="flex: 1; margin-bottom: 0;">
             <h4>
                 {{ $apiKey->name }}
-                @if ($apiKey->level == App\Models\ApiKey::LEVEL_REQUIRE_AUTH)
-                    <span class="tag is-success is-pulled-right">{{ Str::upper(__('admin/api_keys.item.level_require_auth_tag')) }}</span>
-                @endif
-                @if ($apiKey->level == App\Models\ApiKey::LEVEL_NO_AUTH)
-                    <span class="tag is-danger is-pulled-right">{{ Str::upper(__('admin/api_keys.item.level_no_auth_tag')) }}</span>
-                @endif
+                <span class="is-pulled-right">
+                    @if ($apiKey->level == App\Models\ApiKey::LEVEL_REQUIRE_AUTH)
+                        <span class="tag is-success">{{ Str::upper(__('admin/api_keys.item.level_require_auth_tag')) }}</span>
+                    @endif
+                    @if ($apiKey->level == App\Models\ApiKey::LEVEL_NO_AUTH)
+                        <span class="tag is-danger">{{ Str::upper(__('admin/api_keys.item.level_no_auth_tag')) }}</span>
+                    @endif
+                    @if (!$apiKey->active)
+                        <span class="tag is-warning">{{ Str::upper(__('admin/api_keys.item.inactive')) }}</span>
+                    @endif
+                </span>
             </h4>
             <p>@lang('admin/api_keys.item.key'): <code>{{ $apiKey->key }}</code></p>
             <p>@lang('admin/api_keys.item.requests'): <b>{{ $apiKey->requests }}</b></p>
@@ -51,6 +56,14 @@
                             </div>
                         </div>
                         @error('apiKey.level') <p class="help is-danger">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div class="field">
+                        <label class="label" for="active">@lang('admin/api_keys.item.active')</label>
+                        <label class="checkbox" for="active">
+                            <input type="checkbox" id="active" wire:model.defer="apiKey.active">
+                            @lang('admin/api_keys.item.active_api_key')
+                        </label>
                     </div>
                 </div>
 
