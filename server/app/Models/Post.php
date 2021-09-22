@@ -21,6 +21,16 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
+    // Turn model to api data
+    public function forApi($user, $parsedown)
+    {
+        $this->body = $parsedown->text($this->body);
+
+        if ($user == null || $user->role != User::ROLE_ADMIN) {
+            unset($this->updated_at);
+        }
+    }
+
     // Search by a query
     public static function search($query, $searchQuery)
     {

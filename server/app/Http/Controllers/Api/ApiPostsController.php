@@ -4,39 +4,43 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Post;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Parsedown;
 
 class ApiPostsController extends Controller
 {
     // Api posts index route
-    public function index()
+    public function index(Request $request)
     {
-        if (request('query') != '') {
-            $posts = Post::search(Post::select(), request('query'));
+        $searchQuery = $request->input('query');
+        if ($searchQuery != '') {
+            $posts = Post::search(Post::select(), $searchQuery);
         } else {
             $posts = Post::where('deleted', false);
         }
-        if (request('limit') != '') {
-            $limit = (int)request('limit');
+
+        $limit = $request->input('limit');
+        if ($limit != '') {
+            $limit = (int)$limit;
             if ($limit < 1) $limit = 1;
             if ($limit > 50) $limit = 50;
         } else {
             $limit = config('pagination.api.limit');
         }
 
+        $posts = $posts->orderBy('created_at', 'DESC')->paginate($limit);
         $parsedown = new Parsedown();
-        return $posts->orderBy('created_at', 'DESC')
-            ->paginate($limit)
-            ->map(function ($post) use ($parsedown) {
-                $post->body = $parsedown->text($post->body);
-                return $post;
-            });
+        foreach ($posts as $post) {
+            $post->forApi($request->user(), $parsedown);
+        }
+        return $posts;
     }
 
     // Api posts show route
-    public function show(Post $post)
+    public function show(Request $request, Post $post)
     {
-        $post->user;
+        // Load user of this post
+        $post->user->forApi($request->user());
         return $post;
     }
 }

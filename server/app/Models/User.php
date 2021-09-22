@@ -113,6 +113,32 @@ class User extends Authenticatable
         return $this->hasMany(Transaction::class);
     }
 
+    // Turn model to api data
+    public function forApi($user)
+    {
+        if ($this->avatar != null) {
+            $this->avatar = asset('/storage/avatars/' . $this->avatar);
+        }
+
+        if ($user == null || $user->role != User::ROLE_ADMIN) {
+            unset($this->gender);
+            unset($this->birthday);
+            unset($this->email);
+            unset($this->phone);
+            unset($this->address);
+            unset($this->postcode);
+            unset($this->city);
+            unset($this->role);
+            unset($this->language);
+            unset($this->theme);
+            unset($this->receive_news);
+            unset($this->balance);
+            unset($this->active);
+            unset($this->created_at);
+            unset($this->updated_at);
+        }
+    }
+
     // Search by a query
     public static function search($query, $searchQuery)
     {
