@@ -7,16 +7,14 @@ use Illuminate\Support\Str;
 
 class Product extends Model
 {
-    protected $fillable = [
-        'name',
-        'description',
-        'image',
-        'price',
-        'amount'
+    protected $hidden = [
+        'deleted'
     ];
 
     protected $casts = [
-        'active' => 'boolean'
+        'price' => 'double',
+        'active' => 'boolean',
+        'deleted' => 'boolean'
     ];
 
     // Generate a random image name

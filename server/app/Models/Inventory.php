@@ -7,10 +7,14 @@ use Illuminate\Support\Str;
 
 class Inventory extends Model
 {
-    protected $fillable = [
-        'user_id',
-        'name',
-        'price'
+    protected $hidden = [
+        'deleted'
+    ];
+
+    protected $casts = [
+        'price' => 'double',
+        'active' => 'boolean',
+        'deleted' => 'boolean'
     ];
 
     // A inventory belongs to a user

@@ -7,10 +7,12 @@ use Illuminate\Support\Str;
 
 class Post extends Model
 {
-    protected $fillable = [
-        'user_id',
-        'title',
-        'body'
+    protected $hidden = [
+        'deleted'
+    ];
+
+    protected $casts = [
+        'deleted' => 'boolean'
     ];
 
     // A post belongs to a user

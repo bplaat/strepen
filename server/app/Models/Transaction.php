@@ -12,11 +12,14 @@ class Transaction extends Model
     const TYPE_DEPOSIT = 1;
     const TYPE_FOOD = 2;
 
-    protected $fillable = [
-        'user_id',
-        'type',
-        'name',
-        'price'
+    protected $hidden = [
+        'deleted'
+    ];
+
+    protected $casts = [
+        'price' => 'double',
+        'active' => 'boolean',
+        'deleted' => 'boolean'
     ];
 
     // A transaction belongs to a user

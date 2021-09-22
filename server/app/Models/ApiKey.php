@@ -11,10 +11,13 @@ class ApiKey extends Model
     const LEVEL_REQUIRE_AUTH = 0;
     const LEVEL_NO_AUTH = 1;
 
-    protected $fillable = [
-        'name',
-        'key',
-        'level'
+    protected $hidden = [
+        'deleted'
+    ];
+
+    protected $casts = [
+        'active' => 'boolean',
+        'deleted' => 'boolean'
     ];
 
     public static function generateKey()

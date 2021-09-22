@@ -9,10 +9,10 @@ GET /api ✅
 POST /api/auth/login ✅
 GET /api/auth/logout ✅
 
-GET /api/users ADMIN = more info
+GET /api/users ADMIN = more info ✅
 POST /api/users ADMIN
 GET /api/users/check_balances ADMIN
-GET /api/users/{user} ADMIN = more info & your self
+GET /api/users/{user} ADMIN = more info & your self ✅
 GET /api/users/{user}/notifications ADMIN & your self
 GET /api/users/{user}/notifications/unread ADMIN & your self
 GET /api/users/{user}/posts
@@ -23,9 +23,9 @@ GET /api/users/{user}/delete ADMIN & your self
 
 GET /api/notifications/{notification}/read ADMIN & your self
 
-GET /api/posts
+GET /api/posts ✅
 POST /api/posts ADMIN
-GET /api/posts/{post}
+GET /api/posts/{post} ✅
 POST /api/posts/{post}/edit ADMIN
 GET /api/posts/{post}/delete ADMIN
 

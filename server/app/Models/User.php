@@ -30,31 +30,20 @@ class User extends Authenticatable
     const THEME_LIGHT = 0;
     const THEME_DARK = 1;
 
-    protected $fillable = [
-        'firstname',
-        'insertion',
-        'lastname',
-        'avatar',
-        'gender',
-        'birthday',
-        'email',
-        'phone',
-        'address',
-        'postcode',
-        'city',
-        'password',
-        'role',
-        'balance'
-    ];
-
     protected $hidden = [
+        'email_verified_at',
         'password',
-        'remember_token'
+        'remember_token',
+        'deleted'
     ];
 
     protected $casts = [
+        'birthday' => 'datetime:Y-m-d',
         'email_verified_at' => 'datetime',
-        'active' => 'boolean'
+        'receive_news' => 'boolean',
+        'balance' => 'double',
+        'active' => 'boolean',
+        'delted' => 'boolean'
     ];
 
     // Generate a random avatar name

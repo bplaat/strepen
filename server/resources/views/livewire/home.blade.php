@@ -12,11 +12,15 @@
     @if ($posts->count() > 0)
         {{ $posts->links() }}
 
+        @php
+            $parsedown = new Parsedown();
+        @endphp
+
         @foreach ($posts as $post)
             <div class="box content">
                 <h4>{{ $post->title }}</h4>
                 <p><i>@lang('home.posts_written_by', ['user.name' => $post->user->name, 'post.created_at' => $post->created_at->format('Y-m-d H:i')])</i></p>
-                {!! (new Parsedown())->text($post->body) !!}
+                {!! $parsedown->text($post->body) !!}
             </div>
         @endforeach
 

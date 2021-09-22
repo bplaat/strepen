@@ -40,7 +40,8 @@ class Login extends Component
             return;
         }
 
-        return redirect()->route('home');
+        session()->regenerate();
+        return redirect()->intended(route('home'));
     }
 
     public function render()
