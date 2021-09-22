@@ -1,6 +1,6 @@
 <div class="navbar-item has-dropdown is-hoverable">
     @php
-        $notifications = Auth::user()->unreadNotifications;
+        $notifications = Auth::user()->unreadNotifications->slice(0, 5);
     @endphp
     <a class="navbar-item is-arrowless is-hidden-touch" href="{{ route('notifications') }}">
         <svg xmlns="http://www.w3.org/2000/svg" style="width: 24px; height: 24px;" viewBox="0 0 24 24">
