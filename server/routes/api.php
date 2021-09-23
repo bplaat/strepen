@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\Api\ApiAuthController;
 use App\Http\Controllers\Api\ApiUsersController;
+use App\Http\Controllers\Api\ApiNotificationsController;
 use App\Http\Controllers\Api\ApiPostsController;
 use App\Http\Controllers\Api\ApiProductsController;
 use App\Http\Controllers\Api\ApiInventoriesController;
@@ -30,6 +31,8 @@ Route::middleware('api_key:self')->group(function () {
     Route::get('users/{user}/notifications', [ApiUsersController::class, 'showNotifications'])->name('api.users.show_notifications');
     Route::get('users/{user}/notifications/unread', [ApiUsersController::class, 'showUnreadNotifications'])->name('api.users.show_unread_notifications');
 
+    Route::get('notifications/{notification}/read', [ApiNotificationsController::class, 'read'])->name('api.notifications.read');
+
     Route::get('transactions/{transaction}', [ApiTransactionsController::class, 'show'])->name('api.transactions.show');
 
     // TODO
@@ -43,7 +46,7 @@ Route::middleware('api_key:auth')->group(function () {
     Route::get('products', [ApiProductsController::class, 'index'])->name('api.products.index');
     Route::get('products/{product}', [ApiProductsController::class, 'show'])->name('api.products.show');
 
-    // TODO
+    Route::post('transactions', [ApiTransactionsController::class, 'store'])->name('api.transactions.store');
 
     Route::get('auth/logout', [ApiAuthController::class, 'logout'])->name('api.auth.logout');
 });

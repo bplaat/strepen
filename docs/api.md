@@ -21,7 +21,7 @@ GET /api/users/{user}/transactions SELF ✅ (query, page, limit)
 POST /api/users/{user/edit SELF ❌
 GET /api/users/{user}/delete SELF ❌
 
-GET /api/notifications/{notification}/read SELF ❌
+GET /api/notifications/{notification}/read SELF ✅
 
 GET /api/posts GUEST ✅ (query, page, limit)
 POST /api/posts ADMIN ❌
@@ -42,7 +42,7 @@ POST /api/inventories/{inventory/edit ADMIN ❌
 GET /api/inventories/{inventory}/delete ADMIN ❌
 
 GET /api/transactions ADMIN ✅ (query, page, limit)
-POST /api/transactions AUTH ❌
+POST /api/transactions AUTH ✅ (user_id?, name, products[] { product_id, amount})
 GET /api/transactions/{transaction} SELF ✅
 POST /api/inventories/{transaction/edit ADMIN ❌
 GET /api/inventories/{transaction}/delete ADMIN ❌

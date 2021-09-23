@@ -169,7 +169,7 @@ class ApiUsersController extends Controller
     {
         User::checkBalances();
         return [
-            'message' => 'User balances are checked!'
+            'message' => 'User balances are checked'
         ];
     }
 }

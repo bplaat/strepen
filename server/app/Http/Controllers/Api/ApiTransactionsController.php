@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Product;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ApiTransactionsController extends Controller
 {
@@ -40,5 +42,54 @@ class ApiTransactionsController extends Controller
     {
         $transaction->forApi($request->user());
         return $transaction;
+    }
+
+    // Api transactions store route
+    public function store(Request $request)
+    {
+        // Validate input
+        $rules = [
+            'name' => 'required|min:2|max:48',
+            'products.*.product_id' => 'required|integer|exists:products,id',
+            'products.*.amount' => 'required|integer|min:1'
+        ];
+        if ($request->user()->role == User::ROLE_ADMIN && $request->input('user_id')) {
+            $rules['user_id'] = 'required|integer|exists:users,id';
+        }
+        $validation = Validator::make($request->all(), $rules);
+        if ($validation->fails()) {
+            return response(['errors' => $validation->errors()], 400);
+        }
+
+        $productsData = $request->input('products', []);
+        if (count($productsData) == 0) {
+            return response(['errors' => [
+                'products' => 'You need to add minimal one product to the transaction'
+            ]], 400);
+        }
+
+        // Create transaction
+        $transaction = new Transaction();
+        $transaction->user_id = $request->input('user_id') ?? $request->user()->id;
+        $transaction->type = Transaction::TYPE_TRANSACTION;
+        $transaction->name = $request->input('name');
+        $transaction->price = 0;
+        $transaction->save();
+
+        // Attach products to transaction
+        foreach ($productsData as $productData) {
+            $product = Product::find($productData['product_id']);
+            $transaction->price += $product->price * $productData['amount'];
+            $transaction->products()->attach($product->id, [ 'amount' => $productData['amount'] ]);
+
+            $product->amount -= $productData['amount'];
+            $product->save();
+        }
+        $transaction->save();
+
+        // Return success message
+        return [
+            'message' => 'Your transaction is successfully created'
+        ];
     }
 }

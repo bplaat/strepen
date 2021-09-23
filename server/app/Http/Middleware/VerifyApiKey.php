@@ -36,7 +36,7 @@ class VerifyApiKey
                 if ($type == 'self') {
                     $parms = $request->route()->parameters();
                     $parmType = array_key_first($parms);
-                    $user_id = $parmType == 'user' ? $parms[$parmType]->id : $parms[$parmType]->user_id;
+                    $user_id = $parmType == 'user' ? $parms[$parmType]->id : ($parmType == 'notification' ? $parms[$parmType]->notifiable_id : $parms[$parmType]->user_id);
                     if ($request->user()->role == User::ROLE_NORMAL && $user_id != $request->user()->id) {
                         return response(['errors' => [
                             'token' => 'You can only view your own data'
