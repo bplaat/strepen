@@ -3,11 +3,12 @@
 namespace App\Http\Middleware;
 
 use App\Models\ApiKey;
+use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 
 class VerifyApiKey
 {
-    public function handle($request, $next, $checkAuthToken = 'true')
+    public function handle($request, $next, $type)
     {
         // Verify API key
         $validation = Validator::make($request->all(), [
@@ -29,8 +30,30 @@ class VerifyApiKey
         $apiKey->save();
 
         // Check auth token when needed
-        if ($checkAuthToken == 'true' && $apiKey->level == ApiKey::LEVEL_REQUIRE_AUTH) {
-            return app(Authenticate::class)->handle($request, function ($request) use ($next) {
+        if ($type != 'guest') {
+            return app(Authenticate::class)->handle($request, function ($request) use ($type, $next) {
+                // Check self
+                if ($type == 'self') {
+                    $parms = $request->route()->parameters();
+                    $parmType = array_key_first($parms);
+                    $user_id = $parmType == 'user' ? $parms[$parmType]->id : $parms[$parmType]->user_id;
+                    if ($request->user()->role == User::ROLE_NORMAL && $user_id != $request->user()->id) {
+                        return response(['errors' => [
+                            'token' => 'You can only view your own data'
+                        ]], 403);
+                    }
+                }
+
+                // Check admin
+                if ($type == 'admin') {
+                    if ($request->user()->role != User::ROLE_ADMIN) {
+                        return response(['errors' => [
+                            'token' => 'The authed user is not an admin'
+                        ]], 403);
+                    }
+                }
+
+                // Go to next middleware
                 return $next($request);
             }, 'sanctum');
         }

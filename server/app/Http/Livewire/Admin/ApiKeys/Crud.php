@@ -11,14 +11,12 @@ class Crud extends PaginationComponent
     public $isCreating;
 
     public $rules = [
-        'apiKey.name' => 'required|min:2|max:48',
-        'apiKey.level' => 'required|integer|digits_between:' . ApiKey::LEVEL_REQUIRE_AUTH . ',' . ApiKey::LEVEL_NO_AUTH
+        'apiKey.name' => 'required|min:2|max:48'
     ];
 
     public function mount()
     {
         $this->apiKey = new ApiKey();
-        $this->apiKey->level = ApiKey::LEVEL_REQUIRE_AUTH;
         $this->isCreating = false;
     }
 

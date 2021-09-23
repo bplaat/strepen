@@ -13,7 +13,6 @@ class Item extends Component
 
     public $rules = [
         'apiKey.name' => 'required|min:2|max:48',
-        'apiKey.level' => 'required|integer|digits_between:' . ApiKey::LEVEL_REQUIRE_AUTH . ',' . ApiKey::LEVEL_NO_AUTH,
         'apiKey.active' => 'nullable|boolean'
     ];
 

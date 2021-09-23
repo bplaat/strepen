@@ -34,6 +34,29 @@ class Transaction extends Model
         return $this->belongsToMany(Product::class, 'transaction_product')->withPivot('amount')->withTimestamps();
     }
 
+    // Turn model to api data
+    public function forApi($user)
+    {
+        if ($user == null || $user->role != User::ROLE_ADMIN) {
+            unset($this->updated_at);
+        }
+
+        $this->user->forApi($user);
+
+        if ($this->type == static::TYPE_TRANSACTION) {
+            $this->type = 'transaction';
+
+            foreach ($this->products as $product) {
+                $product->forApi($user);
+                $product->amount = $product->pivot->amount;
+                unset($product->pivot);
+            }
+        }
+
+        if ($this->type == static::TYPE_DEPOSIT) $this->type = 'deposit';
+        if ($this->type == static::TYPE_FOOD) $this->type = 'food';
+    }
+
     // Search by a query
     public static function search($query, $searchQuery)
     {

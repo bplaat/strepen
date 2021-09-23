@@ -26,18 +26,16 @@ class ApiAuthController extends Controller
         $user = User::where('email', request('email'))->first();
         if ($user->deleted) {
             return response(['errors' => [__('auth.login.deleted_error')]], 400);
-            return;
         }
         if (!$user->active) {
             return response(['errors' => [__('auth.login.active_error')]], 400);
-            return;
         }
 
         // Try to login
         if (!Hash::check(request('password'), $user->password)) {
             return response(['errors' => [
                 'email' => [__('auth.login.login_error')]
-            ]], 400);
+            ]], 403);
         }
 
         // Try to login user

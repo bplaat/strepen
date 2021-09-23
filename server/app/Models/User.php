@@ -107,6 +107,12 @@ class User extends Authenticatable
         return $this->hasMany(Post::class);
     }
 
+    // A user has many inventories
+    public function inventories()
+    {
+        return $this->hasMany(Inventory::class);
+    }
+
     // A user has many transactions
     public function transactions()
     {
@@ -121,21 +127,36 @@ class User extends Authenticatable
         }
 
         if ($user == null || $user->role != User::ROLE_ADMIN) {
-            unset($this->gender);
-            unset($this->birthday);
-            unset($this->email);
-            unset($this->phone);
-            unset($this->address);
-            unset($this->postcode);
-            unset($this->city);
-            unset($this->role);
-            unset($this->language);
-            unset($this->theme);
-            unset($this->receive_news);
-            unset($this->balance);
-            unset($this->active);
-            unset($this->created_at);
+            if ($this->id != $user->id) {
+                unset($this->gender);
+                unset($this->birthday);
+                unset($this->email);
+                unset($this->phone);
+                unset($this->address);
+                unset($this->postcode);
+                unset($this->city);
+                unset($this->role);
+                unset($this->language);
+                unset($this->theme);
+                unset($this->receive_news);
+                unset($this->balance);
+                unset($this->active);
+                unset($this->created_at);
+            }
             unset($this->updated_at);
+        } else {
+            if ($this->gender == static::GENDER_MALE) $this->gender = 'male';
+            if ($this->gender == static::GENDER_FEMALE) $this->gender = 'female';
+            if ($this->gender == static::GENDER_OTHER) $this->gender = 'other';
+
+            if ($this->role == static::ROLE_NORMAL) $this->role = 'normal';
+            if ($this->role == static::ROLE_ADMIN) $this->role = 'admin';
+
+            if ($this->language == static::LANGUAGE_ENGLISH) $this->language = 'en';
+            if ($this->language == static::LANGUAGE_DUTCH) $this->language = 'nl';
+
+            if ($this->theme == static::THEME_LIGHT) $this->theme = 'light';
+            if ($this->theme == static::THEME_DARK) $this->theme = 'dark';
         }
     }
 

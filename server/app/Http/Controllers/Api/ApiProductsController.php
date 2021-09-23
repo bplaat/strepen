@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Product;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Parsedown;
@@ -32,7 +33,7 @@ class ApiProductsController extends Controller
             $products = $products->where('active', true);
         }
 
-        $products = $products->orderByRaw('active DESC, LOWER(name)')->paginate($limit);
+        $products = $products->orderByRaw('active DESC, LOWER(name)')->paginate($limit)->withQueryString();
         foreach ($products as $product) {
             $product->forApi($request->user());
         }

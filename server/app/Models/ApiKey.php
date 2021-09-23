@@ -7,10 +7,6 @@ use Illuminate\Support\Str;
 
 class ApiKey extends Model
 {
-    // The api key security levels
-    const LEVEL_REQUIRE_AUTH = 0;
-    const LEVEL_NO_AUTH = 1;
-
     protected $hidden = [
         'deleted'
     ];

@@ -29,6 +29,18 @@ class Inventory extends Model
         return $this->belongsToMany(Product::class)->withPivot('amount')->withTimestamps();
     }
 
+    // Turn model to api data
+    public function forApi($user)
+    {
+        $this->user->forApi($user);
+
+        foreach ($this->products as $product) {
+            $product->forApi($user);
+            $product->amount = $product->pivot->amount;
+            unset($product->pivot);
+        }
+    }
+
     // Search by a query
     public static function search($query, $searchQuery)
     {

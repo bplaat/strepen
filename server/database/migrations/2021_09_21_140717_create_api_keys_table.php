@@ -18,7 +18,6 @@ class CreateApiKeysTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('key');
-            $table->unsignedTinyInteger('level')->default(ApiKey::LEVEL_REQUIRE_AUTH);
             $table->unsignedBigInteger('requests')->default(0);
             $table->boolean('active')->default(true);
             $table->boolean('deleted')->default(false);

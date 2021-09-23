@@ -42,7 +42,6 @@ class DatabaseSeeder extends Seeder
         $apiKey = new ApiKey();
         $apiKey->name = 'Website';
         $apiKey->key = ApiKey::generateKey();
-        $apiKey->level = ApiKey::LEVEL_REQUIRE_AUTH;
         $apiKey->save();
 
         // Create 50 random users

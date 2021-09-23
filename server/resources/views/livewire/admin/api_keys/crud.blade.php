@@ -40,19 +40,6 @@
                         </div>
                         @error('apiKey.name') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
-
-                    <div class="field">
-                        <label class="label" for="level">@lang('admin/api_keys.crud.level')</label>
-                        <div class="control">
-                            <div class="select is-fullwidth @error('apiKey.level') is-danger @enderror">
-                                <select id="level" wire:model.defer="apiKey.level">
-                                    <option value="{{ App\Models\ApiKey::LEVEL_REQUIRE_AUTH }}">@lang('admin/api_keys.crud.level_require_auth')</option>
-                                    <option value="{{ App\Models\ApiKey::LEVEL_NO_AUTH }}">@lang('admin/api_keys.crud.level_no_auth')</option>
-                                 </select>
-                            </div>
-                        </div>
-                        @error('apiKey.level') <p class="help is-danger">{{ $message }}</p> @enderror
-                    </div>
                 </div>
 
                 <div class="modal-card-foot">

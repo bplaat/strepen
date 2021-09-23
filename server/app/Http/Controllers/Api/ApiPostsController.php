@@ -28,7 +28,7 @@ class ApiPostsController extends Controller
             $limit = config('pagination.api.limit');
         }
 
-        $posts = $posts->orderBy('created_at', 'DESC')->paginate($limit);
+        $posts = $posts->orderBy('created_at', 'DESC')->paginate($limit)->withQueryString();
         $parsedown = new Parsedown();
         foreach ($posts as $post) {
             $post->forApi($request->user(), $parsedown);
