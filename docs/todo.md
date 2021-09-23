@@ -3,6 +3,5 @@
 # Todo List
 - Create REST API for mobile app
 - Password reset system
-- Native Android app which is just an web view
-- Native Android real mobile app
+- Create simple Flutter "native" mobile
 - Bug fixes / All the whishs from the Stam Bestuur
