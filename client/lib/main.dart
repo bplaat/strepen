@@ -6,14 +6,14 @@ import 'services/storage_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SharedPreferences storage = await StorageService.getInstance();
+  StorageService storage = await StorageService.getInstance();
   runApp(MaterialApp(
     title: 'Strepen',
     debugShowCheckedModeBanner: false,
     theme: ThemeData(
       primarySwatch: Colors.pink
     ),
-    initialRoute: storage.getString('token') != null ? '/' : '/login',
+    initialRoute: storage.prefs.getString('token') != null ? '/' : '/login',
     routes: {
       '/': (context) => HomeScreen(),
       '/login': (context) => LoginScreen()

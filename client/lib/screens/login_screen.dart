@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../services/auth_service.dart' as auth;
+import '../services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -79,7 +79,7 @@ class _LoginScreenState extends State {
                     width: double.infinity,
                     child: RaisedButton(
                       onPressed: () async {
-                        if (await auth.login(email: emailController.text, password: passwordController.text)) {
+                        if (await AuthService.getInstance().login(email: emailController.text, password: passwordController.text)) {
                           Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
                         } else {
                           setState(() {

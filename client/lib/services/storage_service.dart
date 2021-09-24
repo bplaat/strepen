@@ -1,11 +1,14 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StorageService {
-  static SharedPreferences? _instance;
+  static StorageService? _instance;
 
-  static Future<SharedPreferences> getInstance() async {
+  late SharedPreferences prefs;
+
+  static Future<StorageService> getInstance() async {
     if (_instance == null) {
-      _instance = await SharedPreferences.getInstance();
+      _instance = StorageService();
+      _instance!.prefs = await SharedPreferences.getInstance();
     }
     return _instance!;
   }
