@@ -11,8 +11,14 @@ void main() async {
     title: 'Strepen',
     debugShowCheckedModeBanner: false,
     theme: ThemeData(
+      brightness: Brightness.light,
       primarySwatch: Colors.pink
     ),
+    // darkTheme: ThemeData(
+    //   brightness: Brightness.dark,
+    //   primarySwatch: Colors.pink
+    // ),
+    // themeMode: ThemeMode.dark,
     initialRoute: storage.prefs.getString('token') != null ? '/' : '/login',
     routes: {
       '/': (context) => HomeScreen(),

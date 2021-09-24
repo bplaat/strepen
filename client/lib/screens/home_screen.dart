@@ -30,7 +30,7 @@ class _HomeScreenState extends State {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(['News posts', 'Stripe', 'Profile'][currentIndex]),
+        title: Text(['News posts', 'Stripe', 'Your profile'][currentIndex]),
       ),
 
       body: [

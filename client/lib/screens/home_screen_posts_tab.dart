@@ -37,33 +37,39 @@ class PostsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.symmetric(horizontal: 16),
       itemCount: posts.length,
       itemBuilder: (context, index) {
         Post post = posts[index];
-        return Card(
-          child: Padding(
-            padding: EdgeInsets.all(16),
-            child: Column(
-              children: [
-                Container(
-                  width: double.infinity,
-                  margin: EdgeInsets.only(bottom: 8),
-                  child: Text(post.title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
-                ),
+        return Container(
+          margin: EdgeInsets.symmetric(vertical: 16),
+          child: Card(
+            child: Padding(
+              padding: EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.only(bottom: 8),
+                    child: Text(post.title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+                  ),
 
-                Text('Written by ${post.user.name} on ${DateFormat('yyyy-MM-dd kk:mm').format(post.created_at)}', style: TextStyle(color: Colors.grey)),
+                  Container(
+                    width: double.infinity,
+                    child: Text('Written by ${post.user.name} on ${DateFormat('yyyy-MM-dd kk:mm').format(post.created_at)}', style: TextStyle(color: Colors.grey))
+                  ),
 
-                Html(
-                  data: post.body,
-                  style: { "body": Style(margin: EdgeInsets.zero, padding: EdgeInsets.zero) },
-                  onLinkTap: (String? url, RenderContext context, Map<String, String> attributes, dom.Element? element) async {
-                    if (url != null) {
-                      if (await canLaunch(url as String)) await launch(url as String);
+                  Html(
+                    data: post.body,
+                    style: { "body": Style(margin: EdgeInsets.zero, padding: EdgeInsets.zero) },
+                    onLinkTap: (String? url, RenderContext context, Map<String, String> attributes, dom.Element? element) async {
+                      if (url != null) {
+                        if (await canLaunch(url as String)) await launch(url as String);
+                      }
                     }
-                  }
-                )
-              ]
+                  )
+                ]
+              )
             )
           )
         );

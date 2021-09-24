@@ -89,7 +89,8 @@ class ApiTransactionsController extends Controller
 
         // Return success message
         return [
-            'message' => 'Your transaction is successfully created'
+            'message' => 'Your transaction is successfully created',
+            'transaction_id' => $transaction->id
         ];
     }
 }
