@@ -31,11 +31,22 @@ class _HomeScreenState extends State {
         title: Text(['News posts', 'Stripe', 'Your profile'][currentIndex]),
       ),
 
-      body: [
-        HomeScreenPostsTab(),
-        HomeScreenStripeTab(),
-        HomeScreenProfileTab()
-      ][currentIndex],
+      body: Stack(
+        children: [
+          Offstage(
+            offstage: currentIndex != 0,
+            child: HomeScreenPostsTab()
+          ),
+          Offstage(
+            offstage: currentIndex != 1,
+            child: HomeScreenStripeTab()
+          ),
+          Offstage(
+            offstage: currentIndex != 2,
+            child: HomeScreenProfileTab()
+          )
+        ]
+      ),
 
       bottomNavigationBar: BottomNavigationBar(
         onTap: onTabTapped,
