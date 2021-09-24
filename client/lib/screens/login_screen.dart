@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
-import '../config.dart';
+import '../services/auth_service.dart' as auth;
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -15,26 +12,6 @@ class _LoginScreenState extends State {
   var error = false;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-
-  void login(BuildContext context) async {
-    var body = {
-      'api_key': API_KEY,
-      'email': emailController.text,
-      'password': passwordController.text
-    };
-    var response = await http.post(Uri.parse(API_URL + '/auth/login'), body: body);
-    var data = json.decode(response.body);
-    if (!data.containsKey('token')) {
-      setState(() {
-        error = true;
-      });
-    }
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('token', data['token']);
-    await prefs.setInt('user_id', data['user_id']);
-    Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
-  }
 
   @override
   void dispose() {
@@ -101,8 +78,14 @@ class _LoginScreenState extends State {
                   child: SizedBox(
                     width: double.infinity,
                     child: RaisedButton(
-                      onPressed: () {
-                        login(context);
+                      onPressed: () async {
+                        if (await auth.login(emailController.text, passwordController.text)) {
+                          Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+                        } else {
+                          setState(() {
+                            error = true;
+                          });
+                        }
                       },
                       color: Colors.pink,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(48)),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../models/product.dart';
+import '../services/auth_service.dart' as auth;
 import '../services/product_service.dart';
 
 // Home
@@ -13,21 +14,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State {
   int currentIndex = 0;
-
-  final List children = [
-    // Home
-    Center(
-      child: Text('Home'),
-    ),
-
-    // Stripe
-    HomeScreenStripe(),
-
-    // Profile
-    Center(
-      child: Text('Profile'),
-    )
-  ];
 
   void onTabTapped(int index) {
     setState(() {
@@ -42,7 +28,11 @@ class _HomeScreenState extends State {
         title: Text('Strepen'),
       ),
 
-      body: children[currentIndex],
+      body: [
+        HomeScreenHomeTab(),
+        HomeScreenStripeTab(),
+        HomeScreenProfileTab()
+      ][currentIndex],
 
       bottomNavigationBar: BottomNavigationBar(
         onTap: onTabTapped,
@@ -66,15 +56,39 @@ class _HomeScreenState extends State {
   }
 }
 
-// HomeStripe
-class HomeScreenStripe extends StatefulWidget {
+// HomeScreenHomeTab
+class HomeScreenHomeTab extends StatelessWidget {
   @override
-  State createState() {
-    return _HomeScreenStripeState();
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(16.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.symmetric(vertical: 16),
+            child: Text('Home', style: TextStyle(fontSize: 32, fontWeight: FontWeight.w500), textAlign: TextAlign.center)
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 16),
+            child: Text('News posts will come here...', style: TextStyle(fontSize: 16, color: Colors.grey))
+          )
+        ]
+      )
+    );
   }
 }
 
-class _HomeScreenStripeState extends State {
+// HomeScreenStripeTab
+class HomeScreenStripeTab extends StatefulWidget {
+  @override
+  State createState() {
+    return _HomeScreenStripeTabState();
+  }
+}
+
+class _HomeScreenStripeTabState extends State {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Product>>(
@@ -124,6 +138,41 @@ class ProductsList extends StatelessWidget {
           subtitle: Text('\u20ac ${product.price.toStringAsFixed(2)}')
         );
       }
+    );
+  }
+}
+
+// HomeScreenProfileTab
+class HomeScreenProfileTab extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(16.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 16),
+            child: Text('Profile', style: TextStyle(fontSize: 32, fontWeight: FontWeight.w500))
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 16),
+            child: SizedBox(
+              width: double.infinity,
+              child: RaisedButton(
+                onPressed: () async {
+                  await auth.logout();
+                  Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+                },
+                color: Colors.pink,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(48)),
+                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                child: Text('Logout', style: TextStyle(color: Colors.white, fontSize: 18))
+              )
+            )
+          )
+        ]
+      )
     );
   }
 }
