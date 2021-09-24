@@ -79,7 +79,7 @@ class _LoginScreenState extends State {
                     width: double.infinity,
                     child: RaisedButton(
                       onPressed: () async {
-                        if (await auth.login(emailController.text, passwordController.text)) {
+                        if (await auth.login(email: emailController.text, password: passwordController.text)) {
                           Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
                         } else {
                           setState(() {

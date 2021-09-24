@@ -3,8 +3,12 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../models/product.dart';
 import '../config.dart';
+import '../services/storage_service.dart';
 
-Future<bool> login(String email, String password) async {
+Future<bool> login({
+  required String email,
+  required String password
+}) async {
   var response = await http.post(Uri.parse(API_URL + '/auth/login'), body: {
     'api_key': API_KEY,
     'email': email,
@@ -15,18 +19,18 @@ Future<bool> login(String email, String password) async {
     return false;
   }
 
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.setString('token', data['token']);
-  await prefs.setInt('user_id', data['user_id']);
+  SharedPreferences storage = await StorageService.getInstance();
+  await storage.setString('token', data['token']);
+  await storage.setInt('user_id', data['user_id']);
   return true;
 }
 
 Future logout() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
+  SharedPreferences storage = await StorageService.getInstance();
   await http.get(Uri.parse(API_URL + '/auth/logout?api_key=' + API_KEY), headers: {
-    'Authorization': 'Bearer ' + prefs.getString('token')!
+    'Authorization': 'Bearer ' + storage.getString('token')!
   });
 
-  await prefs.remove('token');
-  await prefs.remove('user_id');
+  await storage.remove('token');
+  await storage.remove('user_id');
 }

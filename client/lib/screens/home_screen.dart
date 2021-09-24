@@ -13,7 +13,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State {
-  int currentIndex = 0;
+  int currentIndex = 1;
 
   void onTabTapped(int index) {
     setState(() {
@@ -25,11 +25,11 @@ class _HomeScreenState extends State {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Strepen'),
+        title: Text(['News posts', 'Stripe', 'Profile'][currentIndex]),
       ),
 
       body: [
-        HomeScreenHomeTab(),
+        HomeScreenPostsTab(),
         HomeScreenStripeTab(),
         HomeScreenProfileTab()
       ][currentIndex],
@@ -39,8 +39,8 @@ class _HomeScreenState extends State {
         currentIndex: currentIndex,
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text('Home'),
+            icon: Icon(Icons.email),
+            title: Text('News posts'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.edit),
@@ -56,8 +56,8 @@ class _HomeScreenState extends State {
   }
 }
 
-// HomeScreenHomeTab
-class HomeScreenHomeTab extends StatelessWidget {
+// HomeScreenPostsTab
+class HomeScreenPostsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -68,7 +68,7 @@ class HomeScreenHomeTab extends StatelessWidget {
           Container(
             width: double.infinity,
             margin: EdgeInsets.symmetric(vertical: 16),
-            child: Text('Home', style: TextStyle(fontSize: 32, fontWeight: FontWeight.w500), textAlign: TextAlign.center)
+            child: Text('News posts', style: TextStyle(fontSize: 32, fontWeight: FontWeight.w500), textAlign: TextAlign.center)
           ),
           Container(
             margin: EdgeInsets.symmetric(vertical: 16),
@@ -92,7 +92,7 @@ class _HomeScreenStripeTabState extends State {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Product>>(
-      future: fetchProducts(),
+      future: fetchActiveProducts(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           print(snapshot.error);
