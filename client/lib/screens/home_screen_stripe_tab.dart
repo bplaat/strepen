@@ -54,6 +54,8 @@ class _ProductsListState extends State {
 
   final List<int> amounts = [];
 
+  bool isLoading = false;
+
   @override
   void initState() {
     super.initState();
@@ -132,13 +134,15 @@ class _ProductsListState extends State {
             child: SizedBox(
               width: double.infinity,
               child: RaisedButton(
-                onPressed: () async {
+                onPressed: isLoading ? null : () async {
+                  setState(() => isLoading = true);
+
                   int index = 0;
-                  if (
-                    await TransactionService.getInstance().create({
-                      for (var product in products) product: amounts[index++]
-                    })
-                  ) {
+                  bool? succeeded = await TransactionService.getInstance().create({
+                      for (Product product in products) product: amounts[index++]
+                  });
+
+                  if (succeeded == true) {
                     setState(() {
                       for (int i = 0; i < products.length; i++) {
                         amounts[i] = 0;
@@ -155,7 +159,9 @@ class _ProductsListState extends State {
                       )
                     );
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  } else {
+                  }
+
+                  if (succeeded == false) {
                     scrollController.animateTo(0, duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
 
                     final snackBar = SnackBar(
@@ -167,6 +173,8 @@ class _ProductsListState extends State {
                     );
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   }
+
+                  setState(() => isLoading = false);
                 },
                 color: Colors.pink,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(48)),

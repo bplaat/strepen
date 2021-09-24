@@ -8,7 +8,7 @@ import 'storage_service.dart';
 class TransactionService {
   static TransactionService? _instance;
 
-  Future<bool> create(Map<Product, int> products) async {
+  Future<bool?> create(Map<Product, int> products) async {
     var body = {
       'api_key': API_KEY,
       'name': 'Mobile transaction'
@@ -22,6 +22,9 @@ class TransactionService {
         body['products[' + index.toString() + '][amount]'] = amount.toString();
         index++;
       }
+    }
+    if (body.length == 2) {
+      return null;
     }
 
     StorageService storage = await StorageService.getInstance();

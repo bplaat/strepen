@@ -9,7 +9,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State {
-  var error = false;
+  bool hasError = false;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
@@ -35,7 +35,7 @@ class _LoginScreenState extends State {
                   child: Text('Login to Strepen', style: TextStyle(fontSize: 32, fontWeight: FontWeight.w500))
                 ),
 
-                if (error) ...[
+                if (hasError) ...[
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 8),
                     child: Text('Wrong email or password!', style: TextStyle(fontSize: 16, color: Colors.red))
@@ -82,9 +82,7 @@ class _LoginScreenState extends State {
                         if (await AuthService.getInstance().login(email: emailController.text, password: passwordController.text)) {
                           Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
                         } else {
-                          setState(() {
-                            error = true;
-                          });
+                          setState(() => hasError = true);
                         }
                       },
                       color: Colors.pink,

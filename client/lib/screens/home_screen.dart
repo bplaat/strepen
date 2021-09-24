@@ -15,9 +15,7 @@ class _HomeScreenState extends State {
   int currentIndex = 1;
 
   void onTabTapped(int index) {
-    setState(() {
-      currentIndex = index;
-    });
+    setState(() => currentIndex = index);
   }
 
   @override
