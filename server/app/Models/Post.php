@@ -26,6 +26,8 @@ class Post extends Model
     {
         $this->body = $parsedown->text($this->body);
 
+        $this->user->forApi(null); // TEMP = $user
+
         if ($user == null || $user->role != User::ROLE_ADMIN) {
             unset($this->updated_at);
         }

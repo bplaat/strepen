@@ -1,10 +1,10 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import '../config.dart';
 import '../models/user.dart';
 import '../models/product.dart';
-import '../config.dart';
-import '../services/storage_service.dart';
+import 'storage_service.dart';
 
 class AuthService {
   static AuthService? _instance;

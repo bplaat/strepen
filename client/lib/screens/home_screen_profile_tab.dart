@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import '../services/auth_service.dart';
 import '../models/user.dart';
+import '../services/auth_service.dart';
 
 class HomeScreenProfileTab extends StatelessWidget {
   @override

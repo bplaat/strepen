@@ -127,7 +127,7 @@ class User extends Authenticatable
         }
 
         if ($user == null || $user->role != User::ROLE_ADMIN) {
-            if ($this->id != $user->id) {
+            if ($user == null || $this->id != $user->id) {
                 unset($this->gender);
                 unset($this->birthday);
                 unset($this->email);

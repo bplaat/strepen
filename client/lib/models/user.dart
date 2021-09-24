@@ -4,7 +4,7 @@ class User {
   final String? insertion;
   final String lastname;
   final String? avatar;
-  final double balance;
+  final double? balance;
 
   User({
     required this.id,
@@ -29,7 +29,7 @@ class User {
       insertion: json['insertion'],
       lastname: json['lastname'],
       avatar: json['avatar'],
-      balance: json['balance'].toDouble()
+      balance: json['balance']?.toDouble()
     );
   }
 }
