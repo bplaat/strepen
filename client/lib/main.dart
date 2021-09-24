@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'screens/home.dart';
-import 'screens/login.dart';
+import 'screens/home_screen.dart';
+import 'screens/login_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,8 +14,8 @@ void main() async {
     ),
     initialRoute: prefs.getString('token') != null ? '/' : '/login',
     routes: {
-      '/': (context) => Home(),
-      '/login': (context) => Login()
+      '/': (context) => HomeScreen(),
+      '/login': (context) => LoginScreen()
     }
   ));
 }

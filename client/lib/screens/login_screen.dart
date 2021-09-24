@@ -4,14 +4,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../config.dart';
 
-class Login extends StatefulWidget {
+class LoginScreen extends StatefulWidget {
   @override
   State createState() {
-    return _LoginState();
+    return _LoginScreenState();
   }
 }
 
-class _LoginState extends State {
+class _LoginScreenState extends State {
   var error = false;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -32,6 +32,7 @@ class _LoginState extends State {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('token', data['token']);
+    await prefs.setInt('user_id', data['user_id']);
     Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
   }
 

@@ -1,6 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="nl.plaatsoft.strepen">
-   <application
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <application
         android:label="Strepen"
         android:icon="@mipmap/ic_launcher">
         <activity
