@@ -29,8 +29,6 @@ class TransactionService {
       'Authorization': 'Bearer ' + storage.prefs.getString('token')!
     }, body: body);
 
-    print(response.body);
-
     var data = json.decode(response.body);
     if (!data.containsKey('transaction_id')) {
       return false;
