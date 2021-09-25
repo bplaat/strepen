@@ -17,9 +17,9 @@ class User {
 
   String get name {
     if (insertion != null) {
-      return firstname + ' ' + insertion! + ' ' + lastname;
+      return '${firstname} ${insertion!} ${lastname}';
     }
-    return firstname + ' ' + lastname;
+    return '${firstname} ${lastname}';
   }
 
   factory User.fromJson(Map<String, dynamic> json) {

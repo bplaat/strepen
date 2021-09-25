@@ -22,7 +22,7 @@ class _HomeScreenPostsTabState extends State {
       future: PostsService.getInstance().posts(forceReload: _forceReload),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          print(snapshot.error);
+          print('HomeScreenPostsTab error: ${snapshot.error}');
           return const Center(
             child: Text('An error has occurred!'),
           );

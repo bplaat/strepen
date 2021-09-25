@@ -19,7 +19,7 @@ class _HomeScreenProfileTabState extends State {
       future: AuthService.getInstance().user(forceReload: _forceReload),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          print(snapshot.error);
+          print('HomeScreenProfileTab error: ${snapshot.error}');
           return const Center(
             child: Text('An error has occurred!'),
           );
@@ -57,15 +57,20 @@ class _HomeScreenProfileTabState extends State {
                         child: Text(user.name, style: TextStyle(fontSize: 32, fontWeight: FontWeight.w500))
                       ),
 
-                      if (user.balance != null) ...[
-                        Container(
+                      InkWell(
+                        onTap: () {
+                          setState(() => _forceReload = true);
+                        },
+                        child: Container(
+                          width: double.infinity,
                           margin: EdgeInsets.symmetric(vertical: 8),
                           child: Text(
                             '\u20ac ${user.balance!.toStringAsFixed(2)}',
-                            style: TextStyle(fontSize: 24, color: user.balance! < 0 ? Colors.red : Colors.black , fontWeight: FontWeight.w500)
+                            style: TextStyle(fontSize: 24, color: user.balance! < 0 ? Colors.red : Colors.black , fontWeight: FontWeight.w500),
+                            textAlign: TextAlign.center
                           )
                         )
-                      ],
+                      ),
 
                       Container(
                         margin: EdgeInsets.symmetric(vertical: 8),

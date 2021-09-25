@@ -20,7 +20,7 @@ class _HomeScreenStripeTabState extends State {
       future: ProductsService.getInstance().activeProducts(forceReload: _forceReload),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          print(snapshot.error);
+          print('HomeScreenStripeTab error: ${snapshot.error}');
           return const Center(
             child: Text('An error has occurred!'),
           );

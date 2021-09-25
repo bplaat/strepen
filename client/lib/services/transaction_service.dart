@@ -25,8 +25,8 @@ class TransactionService {
     for (Product product in products.keys) {
       int amount = products[product]!;
       if (amount > 0) {
-        body['products[' + index.toString() + '][product_id]'] = product.id.toString();
-        body['products[' + index.toString() + '][amount]'] = amount.toString();
+        body['products[${index}][product_id]'] = product.id.toString();
+        body['products[${index}][amount]'] = amount.toString();
         index++;
       }
     }
@@ -35,8 +35,8 @@ class TransactionService {
     }
 
     StorageService storage = await StorageService.getInstance();
-    final response = await http.post(Uri.parse(API_URL + '/transactions'), headers: {
-      'Authorization': 'Bearer ' + storage.prefs.getString('token')!
+    final response = await http.post(Uri.parse('${API_URL}/transactions'), headers: {
+      'Authorization': 'Bearer ${storage.prefs.getString('token')!}'
     }, body: body);
 
     final data = json.decode(response.body);

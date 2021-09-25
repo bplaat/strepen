@@ -87,6 +87,11 @@ class ApiTransactionsController extends Controller
         }
         $transaction->save();
 
+        // Update user balance
+        $user = $request->user();
+        $user->balance -= $transaction->price;
+        $user->save();
+
         // Return success message
         return [
             'message' => 'Your transaction is successfully created',

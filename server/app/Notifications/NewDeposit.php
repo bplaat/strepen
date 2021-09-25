@@ -58,7 +58,8 @@ class NewDeposit extends Notification
     public function toArray($notifiable)
     {
         return [
-            'transaction_id' => $this->transaction->id
+            'transaction_id' => $this->transaction->id,
+            'amount' => $this->transaction->price
         ];
     }
 }
