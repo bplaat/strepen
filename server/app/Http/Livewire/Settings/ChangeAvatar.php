@@ -32,7 +32,9 @@ class ChangeAvatar extends Component
         }
 
         // Update user that he has an avatar
-        Auth::user()->update([ 'avatar' => $avatarName ]);
+        $user = Auth::user();
+        $user->avatar = $avatarName;
+        $user->save();
 
         session()->flash('change_avatar_message', __('settings.change_avatar.success_message'));
     }
@@ -43,7 +45,9 @@ class ChangeAvatar extends Component
         Storage::delete('public/avatars/' . Auth::user()->avatar);
 
         // Update user that he has no avatar
-        Auth::user()->update([ 'avatar' => null ]);
+        $user = Auth::user();
+        $user->avatar = null;
+        $user->save();
 
         session()->flash('change_avatar_message', __('settings.change_avatar.delete_message'));
     }

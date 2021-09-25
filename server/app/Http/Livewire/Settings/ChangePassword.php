@@ -29,9 +29,9 @@ class ChangePassword extends Component
     {
         $this->validate();
 
-        Auth::user()->update([
-            'password' => Hash::make($this->password)
-        ]);
+        $user = Auth::user();
+        $user->password = Hash::make($this->password);
+        $user->save();
 
         session()->flash('change_password_message', __('settings.change_password.success_message'));
         $this->mount();
