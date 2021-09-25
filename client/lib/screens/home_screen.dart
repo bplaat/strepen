@@ -12,11 +12,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State {
-  int currentIndex = 1;
+  final _pageController = PageController(initialPage: 1);
 
-  void onTabTapped(int index) {
-    setState(() => currentIndex = index);
-  }
+  int _currentPageIndex = 1;
 
   @override
   void initState() {
@@ -25,32 +23,36 @@ class _HomeScreenState extends State {
   }
 
   @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(['News posts', 'Stripe', 'Your profile'][currentIndex]),
+        title: Text(['News posts', 'Stripe', 'Your profile'][_currentPageIndex])
       ),
 
-      body: Stack(
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: (index) {
+          setState(() => _currentPageIndex = index);
+        },
         children: [
-          Offstage(
-            offstage: currentIndex != 0,
-            child: HomeScreenPostsTab()
-          ),
-          Offstage(
-            offstage: currentIndex != 1,
-            child: HomeScreenStripeTab()
-          ),
-          Offstage(
-            offstage: currentIndex != 2,
-            child: HomeScreenProfileTab()
-          )
+          HomeScreenPostsTab(),
+          HomeScreenStripeTab(),
+          HomeScreenProfileTab()
         ]
       ),
 
       bottomNavigationBar: BottomNavigationBar(
-        onTap: onTabTapped,
-        currentIndex: currentIndex,
+        onTap: (index) {
+          _pageController.animateToPage(index, duration: Duration(milliseconds: 300), curve: Curves.ease);
+          setState(() => _currentPageIndex = index);
+        },
+        currentIndex: _currentPageIndex,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.email),
@@ -63,9 +65,9 @@ class _HomeScreenState extends State {
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             title: Text('Profile')
-          ),
-        ],
-      ),
+          )
+        ]
+      )
     );
   }
 }

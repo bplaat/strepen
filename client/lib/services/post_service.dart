@@ -10,22 +10,22 @@ class PostsService {
 
   List<Post>? _posts;
 
-  Future<List<Post>> posts() async {
-    if (_posts == null) {
-      StorageService storage = await StorageService.getInstance();
-      var response = await http.get(Uri.parse(API_URL + '/posts?api_key=' + API_KEY), headers: {
-        'Authorization': 'Bearer ' + storage.prefs.getString('token')!
-      });
-      var postsJson = json.decode(response.body)['data'];
-      _posts = postsJson.map<Post>((json) => Post.fromJson(json)).toList();
-    }
-    return _posts!;
-  }
-
   static PostsService getInstance() {
     if (_instance == null) {
       _instance = PostsService();
     }
     return _instance!;
+  }
+
+  Future<List<Post>> posts({bool forceReload = false}) async {
+    if (_posts == null || forceReload) {
+      StorageService storage = await StorageService.getInstance();
+      final response = await http.get(Uri.parse(API_URL + '/posts?api_key=' + API_KEY), headers: {
+        'Authorization': 'Bearer ' + storage.prefs.getString('token')!
+      });
+      final postsJson = json.decode(response.body)['data'];
+      _posts = postsJson.map<Post>((json) => Post.fromJson(json)).toList();
+    }
+    return _posts!;
   }
 }

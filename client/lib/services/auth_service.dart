@@ -11,10 +11,17 @@ class AuthService {
 
   User? _user;
 
-  Future<User> user() async {
-    if (_user == null) {
+  static AuthService getInstance() {
+    if (_instance == null) {
+      _instance = AuthService();
+    }
+    return _instance!;
+  }
+
+  Future<User> user({bool forceReload = false}) async {
+    if (_user == null || forceReload) {
       StorageService storage = await StorageService.getInstance();
-      var response = await http.get(Uri.parse(API_URL + '/users/' + storage.prefs.getInt('user_id').toString() + '?api_key=' + API_KEY), headers: {
+      final response = await http.get(Uri.parse(API_URL + '/users/' + storage.prefs.getInt('user_id').toString() + '?api_key=' + API_KEY), headers: {
           'Authorization': 'Bearer ' + storage.prefs.getString('token')!
       });
       _user = User.fromJson(json.decode(response.body));
@@ -26,12 +33,12 @@ class AuthService {
     required String email,
     required String password
   }) async {
-    var response = await http.post(Uri.parse(API_URL + '/auth/login'), body: {
+    final response = await http.post(Uri.parse(API_URL + '/auth/login'), body: {
       'api_key': API_KEY,
       'email': email,
       'password': password
     });
-    var data = json.decode(response.body);
+    final data = json.decode(response.body);
     if (!data.containsKey('token')) {
       return false;
     }
@@ -50,12 +57,5 @@ class AuthService {
 
     await storage.prefs.remove('token');
     await storage.prefs.remove('user_id');
-  }
-
-  static AuthService getInstance() {
-    if (_instance == null) {
-      _instance = AuthService();
-    }
-    return _instance!;
   }
 }

@@ -6,11 +6,20 @@ import 'package:intl/intl.dart';
 import '../models/post.dart';
 import '../services/post_service.dart';
 
-class HomeScreenPostsTab extends StatelessWidget {
+class HomeScreenPostsTab extends StatefulWidget {
+  @override
+  State createState() {
+    return _HomeScreenPostsTabState();
+  }
+}
+
+class _HomeScreenPostsTabState extends State {
+  bool _forceReload = false;
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Post>>(
-      future: PostsService.getInstance().posts(),
+      future: PostsService.getInstance().posts(forceReload: _forceReload),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           print(snapshot.error);
@@ -18,7 +27,12 @@ class HomeScreenPostsTab extends StatelessWidget {
             child: Text('An error has occurred!'),
           );
         } else if (snapshot.hasData) {
-          return PostsList(posts: snapshot.data!);
+          return RefreshIndicator(
+            onRefresh: () async {
+              setState(() => _forceReload = true);
+            },
+            child: PostsList(posts: snapshot.data!)
+          );
         } else {
           return const Center(
             child: CircularProgressIndicator(),

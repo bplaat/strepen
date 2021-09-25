@@ -12,10 +12,12 @@ class HomeScreenStripeTab extends StatefulWidget {
 }
 
 class _HomeScreenStripeTabState extends State {
+  bool _forceReload = false;
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Product>>(
-      future: ProductsService.getInstance().products(),
+      future: ProductsService.getInstance().activeProducts(forceReload: _forceReload),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           print(snapshot.error);
@@ -23,7 +25,12 @@ class _HomeScreenStripeTabState extends State {
             child: Text('An error has occurred!'),
           );
         } else if (snapshot.hasData) {
-          return ProductsList(products: snapshot.data!);
+          return RefreshIndicator(
+            onRefresh: () async {
+              setState(() => _forceReload = true);
+            },
+            child: ProductsList(products: snapshot.data!)
+          );
         } else {
           return const Center(
             child: CircularProgressIndicator(),
@@ -46,28 +53,34 @@ class ProductsList extends StatefulWidget {
 }
 
 class _ProductsListState extends State {
-  _ProductsListState({required this.products});
-
-  final ScrollController scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   final List<Product> products;
 
-  final List<int> amounts = [];
+  final List<int> _amounts = [];
 
-  bool isLoading = false;
+  bool _isLoading = false;
+
+  _ProductsListState({required this.products});
 
   @override
   void initState() {
     super.initState();
     for (int i = 0; i < products.length; i++) {
-      amounts.add(0);
+      _amounts.add(0);
     }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      controller: scrollController,
+      controller: _scrollController,
       child: Column(
         children: [
           Container(
@@ -78,7 +91,7 @@ class _ProductsListState extends State {
               itemCount: products.length,
               itemBuilder: (context, index) {
                 Product product = products[index];
-                int amount = amounts[index];
+                int amount = _amounts[index];
                 return ListTile(
                   leading: product.image != null
                     ? CachedNetworkImage(
@@ -99,12 +112,13 @@ class _ProductsListState extends State {
                       IconButton(
                         onPressed: () {
                           setState(() {
-                            if (amounts[index] > 0) {
-                              amounts[index]--;
+                            if (_amounts[index] > 0) {
+                              _amounts[index]--;
                             }
                           });
                         },
-                        icon: Icon(Icons.remove)
+                        icon: Icon(Icons.remove),
+                        tooltip: 'Decrement'
                       ),
 
                       Container(
@@ -115,12 +129,13 @@ class _ProductsListState extends State {
                       IconButton(
                         onPressed: () {
                           setState(() {
-                            if (amounts[index] < 24) {
-                              amounts[index]++;
+                            if (_amounts[index] < 24) {
+                              _amounts[index]++;
                             }
                           });
                         },
-                        icon: Icon(Icons.add)
+                        icon: Icon(Icons.add),
+                        tooltip: 'Increment'
                       )
                     ]
                   )
@@ -134,22 +149,22 @@ class _ProductsListState extends State {
             child: SizedBox(
               width: double.infinity,
               child: RaisedButton(
-                onPressed: isLoading ? null : () async {
-                  setState(() => isLoading = true);
+                onPressed: _isLoading ? null : () async {
+                  setState(() => _isLoading = true);
 
                   int index = 0;
                   bool? succeeded = await TransactionService.getInstance().create({
-                      for (Product product in products) product: amounts[index++]
+                      for (Product product in products) product: _amounts[index++]
                   });
 
                   if (succeeded == true) {
                     setState(() {
                       for (int i = 0; i < products.length; i++) {
-                        amounts[i] = 0;
+                        _amounts[i] = 0;
                       }
                     });
 
-                    scrollController.animateTo(0, duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+                    _scrollController.animateTo(0, duration: Duration(milliseconds: 300), curve: Curves.ease);
 
                     final snackBar = SnackBar(
                       content: Text('Transaction created succesfully'),
@@ -162,7 +177,7 @@ class _ProductsListState extends State {
                   }
 
                   if (succeeded == false) {
-                    scrollController.animateTo(0, duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+                    _scrollController.animateTo(0, duration: Duration(milliseconds: 300), curve: Curves.ease);
 
                     final snackBar = SnackBar(
                       content: Text('An error has occurred!'),
@@ -174,7 +189,7 @@ class _ProductsListState extends State {
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   }
 
-                  setState(() => isLoading = false);
+                  setState(() => _isLoading = false);
                 },
                 color: Colors.pink,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(48)),

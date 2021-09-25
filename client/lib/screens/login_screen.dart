@@ -9,14 +9,16 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State {
-  bool hasError = false;
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final _emailController = TextEditingController();
+
+  final _passwordController = TextEditingController();
+
+  bool _hasError = false;
 
   @override
   void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
@@ -35,7 +37,7 @@ class _LoginScreenState extends State {
                   child: Text('Login to Strepen', style: TextStyle(fontSize: 32, fontWeight: FontWeight.w500))
                 ),
 
-                if (hasError) ...[
+                if (_hasError) ...[
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 8),
                     child: Text('Wrong email or password!', style: TextStyle(fontSize: 16, color: Colors.red))
@@ -45,7 +47,7 @@ class _LoginScreenState extends State {
                 Container(
                   margin: EdgeInsets.symmetric(vertical: 8),
                   child: TextField(
-                    controller: emailController,
+                    controller: _emailController,
                     style: TextStyle(fontSize: 18),
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -60,7 +62,7 @@ class _LoginScreenState extends State {
                 Container(
                   margin: EdgeInsets.symmetric(vertical: 8),
                   child: TextField(
-                    controller: passwordController,
+                    controller: _passwordController,
                     obscureText: true,
                     style: TextStyle(fontSize: 18),
                     decoration: InputDecoration(
@@ -79,10 +81,13 @@ class _LoginScreenState extends State {
                     width: double.infinity,
                     child: RaisedButton(
                       onPressed: () async {
-                        if (await AuthService.getInstance().login(email: emailController.text, password: passwordController.text)) {
+                        if (await AuthService.getInstance().login(
+                          email: _emailController.text,
+                          password: _passwordController.text
+                        )) {
                           Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
                         } else {
-                          setState(() => hasError = true);
+                          setState(() => _hasError = true);
                         }
                       },
                       color: Colors.pink,

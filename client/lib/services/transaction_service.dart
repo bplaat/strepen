@@ -8,14 +8,21 @@ import 'storage_service.dart';
 class TransactionService {
   static TransactionService? _instance;
 
+  static TransactionService getInstance() {
+    if (_instance == null) {
+      _instance = TransactionService();
+    }
+    return _instance!;
+  }
+
   Future<bool?> create(Map<Product, int> products) async {
-    var body = {
+    final body = {
       'api_key': API_KEY,
       'name': 'Mobile transaction'
     };
 
     int index = 0;
-    for (var product in products.keys) {
+    for (Product product in products.keys) {
       int amount = products[product]!;
       if (amount > 0) {
         body['products[' + index.toString() + '][product_id]'] = product.id.toString();
@@ -28,21 +35,14 @@ class TransactionService {
     }
 
     StorageService storage = await StorageService.getInstance();
-    var response = await http.post(Uri.parse(API_URL + '/transactions'), headers: {
+    final response = await http.post(Uri.parse(API_URL + '/transactions'), headers: {
       'Authorization': 'Bearer ' + storage.prefs.getString('token')!
     }, body: body);
 
-    var data = json.decode(response.body);
+    final data = json.decode(response.body);
     if (!data.containsKey('transaction_id')) {
       return false;
     }
     return true;
-  }
-
-  static TransactionService getInstance() {
-    if (_instance == null) {
-      _instance = TransactionService();
-    }
-    return _instance!;
   }
 }
