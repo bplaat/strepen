@@ -1,7 +1,6 @@
 [&laquo; Back to the README.md](../README.md)
 
 # Todo List (before launch)
-- Transaction Gif image
 - Transaction complete screens web and mobile
 - Fix swipe back bug on mobile
 - Add product transactions admin page

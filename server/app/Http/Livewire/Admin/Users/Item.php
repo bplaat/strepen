@@ -18,6 +18,7 @@ class Item extends Component
     public $newPassword;
     public $newPasswordConfirmation;
     public $avatar;
+    public $thanks;
     public $isShowing = false;
     public $isEditing = false;
     public $isDeleting = false;
@@ -43,6 +44,7 @@ class Item extends Component
             'newPassword' => 'nullable|min:6',
             'newPasswordConfirmation' => $this->newPassword != null ? ['required', 'same:newPassword'] : [],
             'avatar' => 'nullable|image|mimes:jpg,jpeg,png|max:1024',
+            'thanks' => 'nullable|image|mimes:gif|max:2048',
             'user.role' => 'required|integer|digits_between:' . User::ROLE_NORMAL . ',' . User::ROLE_ADMIN,
             'user.language' => 'required|integer|digits_between:' . User::LANGUAGE_ENGLISH . ',' . User::LANGUAGE_DUTCH,
             'user.theme' => 'required|integer|digits_between:' . User::THEME_LIGHT . ',' . User::THEME_DARK,
@@ -72,6 +74,16 @@ class Item extends Component
             $this->user->avatar = $avatarName;
         }
 
+        if ($this->thanks != null) {
+            $thanksName = User::generateAvatarName($this->thanks->extension());
+            $this->thanks->storeAs('public/thanks', $thanksName);
+
+            if ($this->user->thanks != null) {
+                Storage::delete('public/thanks/' . $this->user->thanks);
+            }
+            $this->user->thanks = $thanksName;
+        }
+
         $this->isEditing = false;
         $this->user->save();
         $this->newPassword = null;
@@ -93,11 +105,17 @@ class Item extends Component
         $this->user->save();
     }
 
+    public function deleteThanks()
+    {
+        if ($this->user->thanks != null) {
+            Storage::delete('public/thanks/' . $this->user->thanks);
+        }
+        $this->user->thanks = null;
+        $this->user->save();
+    }
+
     public function deleteUser()
     {
-        if ($this->user->avatar != null) {
-            Storage::delete('public/avatars/' . $this->user->avatar);
-        }
         $this->isDeleting = false;
         $this->user->deleted = true;
         $this->user->update();

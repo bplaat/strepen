@@ -68,6 +68,13 @@
                         </div>
                     @endif
 
+                    @if ($user->thanks != null)
+                        <h2 class="subtitle is-5">@lang('admin/users.item.thanks')</h2>
+                        <div class="box" style="display: inline-block;">
+                            <img src="/storage/thanks/{{ $user->thanks }}" alt="@lang('settings.thanks_alt', [ 'user.name' => $user->name ])">
+                        </div>
+                    @endif
+
                     <h2 class="subtitle is-5">@lang('admin/users.item.personal_info')</h2>
                     @if ($user->gender != null)
                         @if ($user->gender == App\Models\User::GENDER_MALE)
@@ -285,21 +292,20 @@
                         </div>
                     </div>
 
-                    <div class="field">
-                        <label class="label" for="avatar">@lang('admin/users.item.avatar')</label>
-                        @if ($user->avatar != null)
-                            <div class="box" style="width: 50%;">
-                                <div style="background-image: url(/storage/avatars/{{ $user->avatar }}); background-size: cover; background-position: center center; padding-top: 100%;"></div>
-                            </div>
-                        @endif
-                    </div>
-
                     <div class="columns">
                         <div class="column">
                             <div class="field">
+                                <label class="label" for="avatar">@lang('admin/users.item.avatar')</label>
+                                @if ($user->avatar != null)
+                                    <div class="box" style="width: 100%;">
+                                        <div style="background-image: url(/storage/avatars/{{ $user->avatar }}); background-size: cover; background-position: center center; padding-top: 100%;"></div>
+                                    </div>
+                                @endif
+                            </div>
+
+                            <div class="field">
                                 <div class="control">
-                                    <input class="input @error('avatar') is-danger @enderror" type="file" accept=".jpg,.jpeg,.png"
-                                        id="avatar" wire:model="avatar">
+                                    <input class="input @error('avatar') is-danger @enderror" type="file" accept=".jpg,.jpeg,.png" id="avatar" wire:model="avatar">
                                 </div>
                                 @error('avatar')
                                     <p class="help is-danger">{{ $message }}</p>
@@ -307,17 +313,43 @@
                                     <p class="help">@lang('admin/users.item.avatar_help')</p>
                                 @enderror
                             </div>
-                        </div>
 
-                        @if ($user->avatar != null)
-                            <div class="column">
+                            @if ($user->avatar != null)
                                 <div class="field">
                                     <div class="control">
                                         <button type="button" class="button is-danger" wire:click="deleteAvatar" wire:loading.attr="disabled">@lang('admin/users.item.delete_avatar')</button>
                                     </div>
                                 </div>
+                            @endif
+                        </div>
+
+                        <div class="column">
+                            <div class="field">
+                                <label class="label" for="thanks">@lang('admin/users.item.thanks')</label>
+                                @if ($user->thanks != null)
+                                    <div class="box" style="width: 100%;">
+                                        <div style="background-image: url(/storage/thanks/{{ $user->thanks }}); background-size: cover; background-position: center center; padding-top: 100%;"></div>
+                                    </div>
+                                @endif
                             </div>
-                        @endif
+
+                            <div class="field">
+                                <div class="control">
+                                    <input class="input @error('thanks') is-danger @enderror" type="file" accept=".gif" id="thanks" wire:model="thanks">
+                                </div>
+                                @error('thanks')
+                                    <p class="help is-danger">{{ $message }}</p>
+                                @else
+                                    <p class="help">@lang('admin/users.item.thanks_help')</p>
+                                @enderror
+                            </div>
+
+                            @if ($user->thanks != null)
+                                <div class="control">
+                                    <button type="button" class="button is-danger" wire:click="deleteThanks" wire:loading.attr="disabled">@lang('admin/users.item.delete_thanks')</button>
+                                </div>
+                            @endif
+                        </div>
                     </div>
 
                     <div class="columns">

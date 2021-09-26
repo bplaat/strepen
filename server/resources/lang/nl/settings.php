@@ -33,13 +33,24 @@ return [
     // Change avatar form
     'change_avatar.header' => 'Verander avatar',
     'change_avatar.has_avatar' => 'Je hebt een avatar geüpload:',
-    'change_avatar.no_avatar' => 'Je hebt geen avatar geüpload',
+    'change_avatar.no_avatar' => 'Je hebt geen avatar geüpload, dus je gebruikt de de standaard avatar:',
     'change_avatar.avatar' => 'Avatar plaatje',
     'change_avatar.avatar_help' => 'U kunt een vierkante .jpg- of .png-afbeelding uploaden',
     'change_avatar.change_button' => 'Verander avatar',
     'change_avatar.delete_button' => 'Verwijder avatar',
     'change_avatar.success_message' => 'Je avatar is veranderd',
     'change_avatar.delete_message' => 'Je avatar is verwijderd',
+
+    // Change thanks form
+    'change_thanks.header' => 'Verderander bedank-gif',
+    'change_thanks.has_thanks' => 'Je hebt een bedank-gif geüpload:',
+    'change_thanks.no_thanks' => 'Je hebt geen bedank-gif geüpload, dus de standaard eigen wordt gebruikt:',
+    'change_thanks.thanks' => 'Bedank-gif',
+    'change_thanks.thanks_help' => 'U kunt een vierkante .gif-afbeelding uploaden',
+    'change_thanks.change_button' => 'Verander bedank-gif',
+    'change_thanks.delete_button' => 'Verwijder bedank-gif',
+    'change_thanks.success_message' => 'Je bedank-gif is veranderd',
+    'change_thanks.delete_message' => 'Je bedank-gif is verwijderd',
 
     // Change password form
     'change_password.header' => 'Verander wachtwoord',

@@ -54,9 +54,6 @@ class Item extends Component
 
     public function deleteProduct()
     {
-        if ($this->product->image != null) {
-            Storage::delete('public/products/' . $this->product->image);
-        }
         $this->isDeleting = false;
         $this->product->deleted = true;
         $this->product->save();

@@ -179,17 +179,33 @@
                         </div>
                     </div>
 
-                    <div class="field">
-                        <label class="label" for="avatar">@lang('admin/users.crud.avatar')</label>
-                        <div class="control">
-                            <input class="input @error('userAvatar') is-danger @enderror" type="file" accept=".jpg,.jpeg,.png"
-                                id="avatar" wire:model="userAvatar">
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label" for="avatar">@lang('admin/users.crud.avatar')</label>
+                                <div class="control">
+                                    <input class="input @error('avatar') is-danger @enderror" type="file" accept=".jpg,.jpeg,.png" id="avatar" wire:model="avatar">
+                                </div>
+                                @error('avatar')
+                                    <p class="help is-danger">{{ $message }}</p>
+                                @else
+                                    <p class="help">@lang('admin/users.crud.avatar_help')</p>
+                                @enderror
+                            </div>
                         </div>
-                        @error('userAvatar')
-                            <p class="help is-danger">{{ $message }}</p>
-                        @else
-                            <p class="help">@lang('admin/users.crud.avatar_help')</p>
-                        @enderror
+                        <div class="column">
+                            <div class="field">
+                                <label class="label" for="thanks">@lang('admin/users.crud.thanks')</label>
+                                <div class="control">
+                                    <input class="input @error('thanks') is-danger @enderror" type="file" accept=".gif" id="thanks" wire:model="thanks">
+                                </div>
+                                @error('thanks')
+                                    <p class="help is-danger">{{ $message }}</p>
+                                @else
+                                    <p class="help">@lang('admin/users.crud.thanks_help')</p>
+                                @enderror
+                            </div>
+                        </div>
                     </div>
 
                     <div class="columns">

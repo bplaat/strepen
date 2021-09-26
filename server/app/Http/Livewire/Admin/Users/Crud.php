@@ -13,7 +13,8 @@ class Crud extends PaginationComponent
     use WithFileUploads;
 
     public $user;
-    public $userAvatar;
+    public $avatar;
+    public $thanks;
     public $isCreating;
 
     public $rules = [
@@ -29,7 +30,8 @@ class Crud extends PaginationComponent
         'user.city' => 'nullable|min:2|max:255',
         'user.password' => 'required|min:6',
         'user.password_confirmation' => 'required|same:user.password_confirmation',
-        'userAvatar' => 'nullable|image|mimes:jpg,jpeg,png|max:1024',
+        'avatar' => 'nullable|image|mimes:jpg,jpeg,png|max:1024',
+        'thanks' => 'nullable|image|mimes:gif|max:2048',
         'user.role' => 'required|integer|digits_between:' . User::ROLE_NORMAL . ',' . User::ROLE_ADMIN,
         'user.language' => 'required|integer|digits_between:' . User::LANGUAGE_ENGLISH . ',' . User::LANGUAGE_DUTCH,
         'user.theme' => 'required|integer|digits_between:' . User::THEME_LIGHT . ',' . User::THEME_DARK,
@@ -43,7 +45,8 @@ class Crud extends PaginationComponent
         $this->user->language = User::LANGUAGE_DUTCH;
         $this->user->theme = User::THEME_LIGHT;
         $this->user->receive_news = true;
-        $this->userAvatar = null;
+        $this->avatar = null;
+        $this->thanks = null;
         $this->isCreating = false;
     }
 
@@ -54,10 +57,16 @@ class Crud extends PaginationComponent
         $this->user->password = Hash::make($this->user->password);
         unset($this->user->password_confirmation);
 
-        if ($this->userAvatar != null) {
-            $avatarName = User::generateAvatarName($this->userAvatar->extension());
-            $this->userAvatar->storeAs('public/avatars', $avatarName);
+        if ($this->avatar != null) {
+            $avatarName = User::generateAvatarName($this->avatar->extension());
+            $this->avatar->storeAs('public/avatars', $avatarName);
             $this->user->avatar = $avatarName;
+        }
+
+        if ($this->thanks != null) {
+            $thanksName = User::generateThanksName($this->thanks->extension());
+            $this->thanks->storeAs('public/thanks', $thanksName);
+            $this->user->thanks = $thanksName;
         }
 
         $this->user->balance = 0;
