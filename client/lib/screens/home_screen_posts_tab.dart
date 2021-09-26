@@ -51,12 +51,12 @@ class PostsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      padding: EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       itemCount: posts.length,
       itemBuilder: (context, index) {
         Post post = posts[index];
         return Container(
-          margin: EdgeInsets.symmetric(vertical: 16),
+          margin: EdgeInsets.symmetric(vertical: 8),
           child: Card(
             child: Padding(
               padding: EdgeInsets.all(16),

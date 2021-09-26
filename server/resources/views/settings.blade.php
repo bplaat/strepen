@@ -5,7 +5,15 @@
 
         @livewire('settings.change-details')
 
-        @livewire('settings.change-avatar')
+        <div class="columns">
+            <div class="column">
+                @livewire('settings.change-avatar')
+            </div>
+
+            <div class="column">
+                @livewire('settings.change-thanks')
+            </div>
+        </div>
 
         @livewire('settings.change-password')
     </div>

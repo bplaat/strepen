@@ -1,10 +1,16 @@
 [&laquo; Back to the README.md](../README.md)
 
-# Todo List
+# Todo List (before launch)
+- Transaction Gif image
+- Transaction complete screens web and mobile
+- Fix swipe back bug on mobile
+- Add product transactions admin page
+- Add user transactions admin page
+- Better admin food insert modal
+- Setup and make better strepen.ml deployment
+
+- Make import tool more efficient and so faster
+- Fixed import inventory values bug
 - Password reset system
 - Finish the REST API
-- Transaction complete screens web and mobile
-- Transaction Gif image
-- Expand the mobile flutter app
-- Fixed import inventory values bug
 - Bug fixes / All the whishs from the Stam Bestuur

@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('insertion')->nullable();
             $table->string('lastname');
             $table->string('avatar')->nullable();
+            $table->string('thanks')->nullable();
             $table->unsignedTinyInteger('gender')->nullable();
             $table->date('birthday')->nullable();
             $table->string('email')->unique();

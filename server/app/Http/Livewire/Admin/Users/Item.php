@@ -42,7 +42,7 @@ class Item extends Component
             'user.city' => 'nullable|min:2|max:255',
             'newPassword' => 'nullable|min:6',
             'newPasswordConfirmation' => $this->newPassword != null ? ['required', 'same:newPassword'] : [],
-            'avatar' => 'nullable|image|max:1024',
+            'avatar' => 'nullable|image|mimes:jpg,jpeg,png|max:1024',
             'user.role' => 'required|integer|digits_between:' . User::ROLE_NORMAL . ',' . User::ROLE_ADMIN,
             'user.language' => 'required|integer|digits_between:' . User::LANGUAGE_ENGLISH . ',' . User::LANGUAGE_DUTCH,
             'user.theme' => 'required|integer|digits_between:' . User::THEME_LIGHT . ',' . User::THEME_DARK,

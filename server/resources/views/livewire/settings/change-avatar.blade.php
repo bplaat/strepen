@@ -19,7 +19,11 @@
             </div>
         @else
             <div class="field">
-                <p><i>@lang('settings.change_avatar.no_avatar')</i></p>
+                <p>@lang('settings.change_avatar.no_avatar')</p>
+            </div>
+
+            <div class="box" style="width: 50%;">
+                <div style="background-image: url(/images/avatars/mp.jpg); background-size: cover; background-position: center center; padding-top: 100%;"></div>
             </div>
         @endif
 

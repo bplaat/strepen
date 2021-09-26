@@ -29,7 +29,7 @@ class Crud extends PaginationComponent
         'user.city' => 'nullable|min:2|max:255',
         'user.password' => 'required|min:6',
         'user.password_confirmation' => 'required|same:user.password_confirmation',
-        'userAvatar' => 'nullable|image|max:1024',
+        'userAvatar' => 'nullable|image|mimes:jpg,jpeg,png|max:1024',
         'user.role' => 'required|integer|digits_between:' . User::ROLE_NORMAL . ',' . User::ROLE_ADMIN,
         'user.language' => 'required|integer|digits_between:' . User::LANGUAGE_ENGLISH . ',' . User::LANGUAGE_DUTCH,
         'user.theme' => 'required|integer|digits_between:' . User::THEME_LIGHT . ',' . User::THEME_DARK,

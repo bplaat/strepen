@@ -99,16 +99,11 @@ class _NotificationsButtonState extends State {
     return FutureBuilder<List<NotificationData>>(
       future: AuthService.getInstance().unreadNotifications(forceReload: forceReload),
       builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          print('NotificationsButton error: ${snapshot.error}');
-          return const Center(
-            child: CircularProgressIndicator()
-          );
-        } else if (snapshot.hasData) {
+        if (snapshot.hasData) {
           List<NotificationData> notifications = snapshot.data!;
           return PopupMenuButton(
             icon: Icon(notifications.length > 0 ? Icons.notifications_on : Icons.notifications_sharp),
-            tooltip: 'Notification',
+            tooltip: 'Notifications',
             itemBuilder: (BuildContext context) {
               if (notifications.length > 0) {
                 return notifications.take(5).map((NotificationData notification) {
@@ -166,8 +161,22 @@ class _NotificationsButtonState extends State {
             }
           );
         } else {
-          return const Center(
-            child: CircularProgressIndicator(),
+          if (snapshot.hasError) {
+            print('NotificationsButton error: ${snapshot.error}');
+          }
+          return PopupMenuButton(
+            icon: Icon(Icons.notifications_sharp),
+            tooltip: 'Notifications',
+            itemBuilder: (BuildContext context) {
+              return [
+                PopupMenuItem(
+                  onTap: () async {
+                    setState(() => forceReload = true);
+                  },
+                  child: Text('No unread notifications', style: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic)),
+                )
+              ];
+            }
           );
         }
       }

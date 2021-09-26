@@ -15,7 +15,7 @@ class ChangeAvatar extends Component
     public $avatar;
 
     public $rules = [
-        'avatar' => 'image|max:1024'
+        'avatar' => 'required|image|mimes:jpg,jpeg,png|max:1024'
     ];
 
     public function changeAvatar()

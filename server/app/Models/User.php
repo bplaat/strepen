@@ -57,6 +57,16 @@ class User extends Authenticatable
         return $avatar;
     }
 
+    // Generate a random thanks name
+    public static function generateThanksName($extension)
+    {
+        $thanks = Str::random(32) . '.' . $extension;
+        if (static::where('thanks', $thanks)->count() > 0) {
+            return static::generateThanksName($extension);
+        }
+        return $thanks;
+    }
+
     // Recalculate user balance
     public function recalculateBalance()
     {
@@ -124,6 +134,9 @@ class User extends Authenticatable
     {
         if ($this->avatar != null) {
             $this->avatar = asset('/storage/avatars/' . $this->avatar);
+        }
+        if ($this->thanks != null) {
+            $this->thanks = asset('/storage/thanks/' . $this->thanks);
         }
 
         if ($user == null || $user->role != User::ROLE_ADMIN) {
