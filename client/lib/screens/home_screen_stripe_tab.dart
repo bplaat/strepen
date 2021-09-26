@@ -20,13 +20,14 @@ class _HomeScreenStripeTabState extends State {
 
   @override
   Widget build(BuildContext context) {
+    final lang = AppLocalizations.of(context)!;
     return FutureBuilder<List<Product>>(
       future: ProductsService.getInstance().activeProducts(forceReload: _forceReload),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           print('HomeScreenStripeTab error: ${snapshot.error}');
-          return const Center(
-            child: Text('An error has occurred!'),
+          return Center(
+            child: Text(lang.home_stripe_products_error),
           );
         } else if (snapshot.hasData) {
           return RefreshIndicator(
@@ -179,7 +180,7 @@ class _ProductsListState extends State {
                       });
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text(lang.home_stripe_error),
+                        content: Text(lang.home_stripe_create_error),
                         action: SnackBarAction(
                           label: lang.home_stripe_close,
                           onPressed: () {}

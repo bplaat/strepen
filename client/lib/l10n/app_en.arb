@@ -20,7 +20,8 @@
 
     "home_stripe_decrement": "Decrement",
     "home_stripe_increment": "Increment",
-    "home_stripe_error": "An error has occurred while creating the transaction!",
+    "home_stripe_products_error": "An error has occurred while loading the products!",
+    "home_stripe_create_error": "An error has occurred while creating the transaction!",
     "home_stripe_close": "Close",
     "home_stripe_stripe": "Stripe",
     "home_stripe_created": "Transaction created",
