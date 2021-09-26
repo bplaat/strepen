@@ -1,0 +1,39 @@
+{
+    "home_posts": "News posts",
+    "home_stripe": "Stripe",
+    "home_profile": "Your profile",
+    "home_notifications": "Notifications",
+    "home_new_deposit": "New deposit of \u20ac {transaction_amount}",
+    "@home_new_deposit": { "placeholders": { "transaction_amount": {} } },
+    "home_new_post": "New news post posted",
+    "home_low_balance": "Low balance of \u20ac {user_balance}",
+    "@home_low_balance": { "placeholders": { "user_balance": {} } },
+    "home_unkown_notification": "Unkown notification type",
+    "home_unread_notifications_empty": "No unread notifications",
+    "home_posts_short": "Posts",
+    "home_stripe_short": "Stripe",
+    "home_profile_short": "Profile",
+
+    "home_posts_error": "An error has occurred while loading the posts!",
+    "home_posts_written_by": "Written by {user_name} on {post_created_at}",
+    "@home_posts_written_by": { "placeholders": { "user_name": {}, "post_created_at": {} } },
+
+    "home_stripe_decrement": "Decrement",
+    "home_stripe_increment": "Increment",
+    "home_stripe_error": "An error has occurred while creating the transaction!",
+    "home_stripe_close": "Close",
+    "home_stripe_stripe": "Stripe",
+    "home_stripe_created": "Transaction created",
+    "home_stripe_thx": "Done, thx!",
+
+    "home_profile_error": "An error has occurred while loading your user information!",
+    "home_profile_more": "Go to the Strepen website for\nmore settings and options",
+    "home_profile_logout": "Logout",
+
+    "login_header": "Login to Strepen",
+    "login_error": "Wrong email or password!",
+    "login_email": "Email",
+    "login_password": "Password",
+    "login_login": "Login",
+    "login_footer": "Made by Bastiaan van der Plaat"
+}

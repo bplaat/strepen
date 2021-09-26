@@ -54,9 +54,11 @@
                                 </p>
                                 <p>
                                     @component('components.amount-format', ['amount' => $selectedProduct['amount']])@endcomponent
-                                    <span class="is-pulled-right">
-                                        @component('components.money-format', ['money' => $selectedProduct['product']['price'] * $selectedProduct['amount']])@endcomponent
-                                    </span>
+                                </p>
+                            </div>
+                            <div class="media-right">
+                                <p>
+                                    @component('components.money-format', ['money' => $selectedProduct['product']['price'] * $selectedProduct['amount']])@endcomponent
                                 </p>
                             </div>
                         </div>
@@ -69,9 +71,11 @@
                         <div class="media-content">
                             <p>
                                 @component('components.amount-format', ['amount' => $selectedProducts->pluck('amount')->sum()])@endcomponent
-                                <span class="is-pulled-right">
-                                    @component('components.money-format', ['money' => $transaction->price])@endcomponent
-                                </span>
+                            </p>
+                        </div>
+                        <div class="media-right">
+                            <p>
+                            @component('components.money-format', ['money' => $transaction->price])@endcomponent
                             </p>
                         </div>
                     </div>

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../models/user.dart';
 import '../services/auth_service.dart';
@@ -15,13 +16,14 @@ class _HomeScreenProfileTabState extends State {
 
   @override
   Widget build(BuildContext context) {
+    final lang = AppLocalizations.of(context)!;
     return FutureBuilder<User>(
       future: AuthService.getInstance().user(forceReload: _forceReload),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           print('HomeScreenProfileTab error: ${snapshot.error}');
-          return const Center(
-            child: Text('An error has occurred!'),
+          return Center(
+            child: Text(lang.home_profile_error),
           );
         } else if (snapshot.hasData) {
           User user = snapshot.data!;
@@ -77,7 +79,7 @@ class _HomeScreenProfileTabState extends State {
 
                       Container(
                         margin: EdgeInsets.symmetric(vertical: 8),
-                        child: Text('Go to the Strepen website for\nmore settings and options', style: TextStyle(fontSize: 16, color: Colors.grey, fontStyle: FontStyle.italic), textAlign: TextAlign.center)
+                        child: Text(lang.home_profile_more, style: TextStyle(fontSize: 16, color: Colors.grey, fontStyle: FontStyle.italic), textAlign: TextAlign.center)
                       ),
 
                       Container(
@@ -92,7 +94,7 @@ class _HomeScreenProfileTabState extends State {
                             color: Colors.pink,
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(48)),
                             padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                            child: Text('Logout', style: TextStyle(color: Colors.white, fontSize: 18))
+                            child: Text(lang.home_profile_logout, style: TextStyle(color: Colors.white, fontSize: 18))
                           )
                         )
                       )

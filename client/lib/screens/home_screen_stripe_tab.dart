@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../models/product.dart';
 import '../models/user.dart';
@@ -82,6 +83,7 @@ class _ProductsListState extends State {
 
   @override
   Widget build(BuildContext context) {
+    final lang = AppLocalizations.of(context)!;
     return SingleChildScrollView(
       controller: _scrollController,
       child: Column(
@@ -121,7 +123,7 @@ class _ProductsListState extends State {
                           });
                         },
                         icon: Icon(Icons.remove),
-                        tooltip: 'Decrement'
+                        tooltip: lang.home_stripe_decrement
                       ),
 
                       Container(
@@ -138,7 +140,7 @@ class _ProductsListState extends State {
                           });
                         },
                         icon: Icon(Icons.add),
-                        tooltip: 'Increment'
+                        tooltip: lang.home_stripe_increment
                       )
                     ]
                   )
@@ -153,8 +155,6 @@ class _ProductsListState extends State {
               width: double.infinity,
               child: RaisedButton(
                 onPressed: _isLoading ? null : () async {
-                  setState(() => _isLoading = true);
-
                   final Map<Product, int> productAmounts = {};
                   int index = 0;
                   for (Product product in products) {
@@ -164,37 +164,37 @@ class _ProductsListState extends State {
                     index++;
                   };
 
-                  if (await TransactionService.getInstance().create(productAmounts: productAmounts)) {
-                    setState(() {
-                      for (int i = 0; i < products.length; i++) {
-                        _amounts[i] = 0;
-                      }
-                    });
+                  if (productAmounts.length > 0) {
+                    setState(() => _isLoading = true);
+
+                    if (await TransactionService.getInstance().create(productAmounts: productAmounts)) {
+                      setState(() {
+                        for (int i = 0; i < products.length; i++) {
+                          _amounts[i] = 0;
+                        }
+                      });
+
+                      showDialog(context: context, builder: (BuildContext context){
+                        return TransactionCreatedDialog(productAmounts: productAmounts);
+                      });
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(lang.home_stripe_error),
+                        action: SnackBarAction(
+                          label: lang.home_stripe_close,
+                          onPressed: () {}
+                        )
+                      ));
+                    }
 
                     _scrollController.animateTo(0, duration: Duration(milliseconds: 300), curve: Curves.ease);
-
-                    showDialog(context: context, builder: (BuildContext context){
-                      return TransactionCreatedDialog(productAmounts: productAmounts);
-                    });
-                  } else {
-                    _scrollController.animateTo(0, duration: Duration(milliseconds: 300), curve: Curves.ease);
-
-                    final snackBar = SnackBar(
-                      content: Text('An error has occurred!'),
-                      action: SnackBarAction(
-                        label: 'Close',
-                        onPressed: () {}
-                      )
-                    );
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    setState(() => _isLoading = false);
                   }
-
-                  setState(() => _isLoading = false);
                 },
                 color: Colors.pink,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(48)),
                 padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                child: Text('Stripe', style: TextStyle(color: Colors.white, fontSize: 18))
+                child: Text(lang.home_stripe_stripe, style: TextStyle(color: Colors.white, fontSize: 18))
               )
             )
           )
@@ -211,6 +211,7 @@ class TransactionCreatedDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final lang = AppLocalizations.of(context)!;
     return FutureBuilder<User>(
       future: AuthService.getInstance().user(),
       builder: (context, snapshot) {
@@ -226,7 +227,7 @@ class TransactionCreatedDialog extends StatelessWidget {
           }
 
           return AlertDialog(
-            title: Text("Transaction created"),
+            title: Text(lang.home_stripe_created),
             content: Container(
               width: MediaQuery.of(context).size.width * 0.9,
               height: MediaQuery.of(context).size.height * 0.9,
@@ -251,7 +252,7 @@ class TransactionCreatedDialog extends StatelessWidget {
 
                     Container(
                       margin: EdgeInsets.only(bottom: 24),
-                      child: Text('Done, thx!', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500))
+                      child: Text(lang.home_stripe_thx, style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500))
                     ),
 
                     ListView.builder(
@@ -332,7 +333,7 @@ class TransactionCreatedDialog extends StatelessWidget {
                           color: Colors.pink,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(48)),
                           padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                          child: Text('Close', style: TextStyle(color: Colors.white, fontSize: 18))
+                          child: Text(lang.home_stripe_close, style: TextStyle(color: Colors.white, fontSize: 18))
                         )
                       )
                     )
@@ -343,7 +344,7 @@ class TransactionCreatedDialog extends StatelessWidget {
           );
         } else {
           return AlertDialog(
-            title: Text("Transaction created successfully"),
+            title: Text(lang.home_stripe_created),
             content: const Center(
               child: CircularProgressIndicator()
             )

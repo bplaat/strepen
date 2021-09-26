@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -24,6 +25,7 @@ class _LoginScreenState extends State {
 
   @override
   Widget build(BuildContext context) {
+    final lang = AppLocalizations.of(context)!;
     return Scaffold(
         body: Center(
           child: SingleChildScrollView(
@@ -34,13 +36,13 @@ class _LoginScreenState extends State {
                 children: [
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 16),
-                    child: Text('Login to Strepen', style: TextStyle(fontSize: 32, fontWeight: FontWeight.w500))
+                    child: Text(lang.login_header, style: TextStyle(fontSize: 32, fontWeight: FontWeight.w500))
                   ),
 
                   if (_hasError) ...[
                     Container(
                       margin: EdgeInsets.symmetric(vertical: 8),
-                      child: Text('Wrong email or password!', style: TextStyle(fontSize: 16, color: Colors.red))
+                      child: Text(lang.login_error, style: TextStyle(fontSize: 16, color: Colors.red))
                     )
                   ],
 
@@ -54,7 +56,7 @@ class _LoginScreenState extends State {
                           borderRadius: BorderRadius.circular(48)
                         ),
                         contentPadding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                        labelText: 'Email'
+                        labelText: lang.login_email
                       )
                     )
                   ),
@@ -70,7 +72,7 @@ class _LoginScreenState extends State {
                           borderRadius: BorderRadius.circular(48)
                         ),
                         contentPadding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                        labelText: 'Password'
+                        labelText: lang.login_password
                       )
                     )
                   ),
@@ -93,14 +95,14 @@ class _LoginScreenState extends State {
                         color: Colors.pink,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(48)),
                         padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                        child: Text('Login', style: TextStyle(color: Colors.white, fontSize: 18))
+                        child: Text(lang.login_login, style: TextStyle(color: Colors.white, fontSize: 18))
                       )
                     )
                   ),
 
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 8),
-                    child: Text('Made by Bastiaan van der Plaat', style: TextStyle(color: Colors.grey, fontSize: 18))
+                    child: Text(lang.login_footer, style: TextStyle(color: Colors.grey, fontSize: 18))
                   )
                 ]
               )

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:html/dom.dart' as dom;
@@ -18,13 +19,14 @@ class _HomeScreenPostsTabState extends State {
 
   @override
   Widget build(BuildContext context) {
+    final lang = AppLocalizations.of(context)!;
     return FutureBuilder<List<Post>>(
       future: PostsService.getInstance().posts(forceReload: _forceReload),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           print('HomeScreenPostsTab error: ${snapshot.error}');
-          return const Center(
-            child: Text('An error has occurred!'),
+          return Center(
+            child: Text(lang.home_posts_error),
           );
         } else if (snapshot.hasData) {
           return RefreshIndicator(
@@ -50,6 +52,7 @@ class PostsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final lang = AppLocalizations.of(context)!;
     return ListView.builder(
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       itemCount: posts.length,
@@ -70,7 +73,7 @@ class PostsList extends StatelessWidget {
 
                   Container(
                     width: double.infinity,
-                    child: Text('Written by ${post.user.name} on ${DateFormat('yyyy-MM-dd kk:mm').format(post.created_at)}', style: TextStyle(color: Colors.grey))
+                    child: Text(lang.home_posts_written_by(post.user.name, DateFormat('yyyy-MM-dd kk:mm').format(post.created_at)), style: TextStyle(color: Colors.grey))
                   ),
 
                   Html(

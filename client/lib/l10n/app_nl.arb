@@ -1,0 +1,36 @@
+{
+    "home_posts": "Nieuws berichten",
+    "home_stripe": "Strepen",
+    "home_profile": "Jouw profiel",
+    "home_notifications": "Notificaties",
+    "home_new_deposit": "Nieuwe storting van \u20ac {transaction_amount}",
+    "home_new_post": "Nieuw nieuws bericht gepost",
+    "home_low_balance": "Te lage balans van \u20ac {user_balance}",
+    "home_unkown_notification": "Onbekend notificatie type",
+    "home_unread_notifications_empty": "Geen ongelezen notificaties",
+    "home_posts_short": "Berichten",
+    "home_stripe_short": "Strepen",
+    "home_profile_short": "Profiel",
+
+    "home_posts_error": "Er is een fout opgetreden bij het laden van de berichten!",
+    "home_posts_written_by": "Geschreven door {user_name} op {post_created_at}",
+
+    "home_stripe_decrement": "Verlagen",
+    "home_stripe_increment": "Verhogen",
+    "home_stripe_error": "Er is een fout opgetreden bij het aanmaken van de transactie!",
+    "home_stripe_close": "Sluiten",
+    "home_stripe_stripe": "Strepen",
+    "home_stripe_created": "Transactie gemaakt",
+    "home_stripe_thx": "Bedankt, thx!",
+
+    "home_profile_error": "Er is een fout opgetreden tijdens het laden van uw gebruikersinformatie!",
+    "home_profile_more": "Ga naar de Strepen website voor\nmeer instellingen en opties",
+    "home_profile_logout": "Uitloggen",
+
+    "login_header": "Login op Strepen",
+    "login_error": "Fout email of wachtwoord!",
+    "login_email": "Email",
+    "login_password": "Wachtwoord",
+    "login_login": "Login",
+    "login_footer": "Gemaakt door Bastiaan van der Plaat"
+}

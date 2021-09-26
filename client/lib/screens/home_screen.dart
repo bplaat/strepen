@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'home_screen_posts_tab.dart';
 import 'home_screen_stripe_tab.dart';
 import 'home_screen_profile_tab.dart';
@@ -31,9 +32,10 @@ class _HomeScreenState extends State {
 
   @override
   Widget build(BuildContext context) {
+    final lang = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: Text(['News posts', 'Stripe', 'Your profile'][_currentPageIndex]),
+        title: Text([lang.home_posts, lang.home_stripe, lang.home_profile][_currentPageIndex]),
         actions: [
           NotificationsButton(pageController: _pageController)
         ]
@@ -58,17 +60,17 @@ class _HomeScreenState extends State {
         },
         currentIndex: _currentPageIndex,
         items: [
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.email),
-            title: Text('News posts'),
+            title: Text(lang.home_posts_short),
           ),
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.edit),
-            title: Text('Stripe'),
+            title: Text(lang.home_stripe_short),
           ),
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            title: Text('Profile')
+            title: Text(lang.home_profile_short)
           )
         ]
       )
@@ -96,6 +98,7 @@ class _NotificationsButtonState extends State {
 
   @override
   Widget build(BuildContext context) {
+    final lang = AppLocalizations.of(context)!;
     return FutureBuilder<List<NotificationData>>(
       future: AuthService.getInstance().unreadNotifications(forceReload: forceReload),
       builder: (context, snapshot) {
@@ -103,7 +106,7 @@ class _NotificationsButtonState extends State {
           List<NotificationData> notifications = snapshot.data!;
           return PopupMenuButton(
             icon: Icon(notifications.length > 0 ? Icons.notifications_on : Icons.notifications_sharp),
-            tooltip: 'Notifications',
+            tooltip: lang.home_notifications,
             itemBuilder: (BuildContext context) {
               if (notifications.length > 0) {
                 return notifications.take(5).map((NotificationData notification) {
@@ -114,7 +117,7 @@ class _NotificationsButtonState extends State {
                         setState(() => forceReload = true);
                         pageController.animateToPage(2, duration: Duration(milliseconds: 300), curve: Curves.ease);
                       },
-                      child: Text('New deposit of \u20ac ${notification.data['amount'].toStringAsFixed(2)}'),
+                      child: Text(lang.home_new_deposit(notification.data['amount'].toStringAsFixed(2))),
                     );
                   }
 
@@ -125,7 +128,7 @@ class _NotificationsButtonState extends State {
                         setState(() => forceReload = true);
                         pageController.animateToPage(0, duration: Duration(milliseconds: 300), curve: Curves.ease);
                       },
-                      child: Text('New news post posted'),
+                      child: Text(lang.home_new_post),
                     );
                   }
 
@@ -136,7 +139,7 @@ class _NotificationsButtonState extends State {
                         setState(() => forceReload = true);
                         pageController.animateToPage(2, duration: Duration(milliseconds: 300), curve: Curves.ease);
                       },
-                      child: Text('Low balance of \u20ac ${notification.data['balance'].toStringAsFixed(2)}'),
+                      child: Text(lang.home_low_balance(notification.data['balance'].toStringAsFixed(2))),
                     );
                   }
 
@@ -145,7 +148,7 @@ class _NotificationsButtonState extends State {
                       await AuthService.getInstance().readNotification(notificationId: notification.id);
                       setState(() => forceReload = true);
                     },
-                    child: Text('Unkown notification type'),
+                    child: Text(lang.home_unkown_notification),
                   );
                 }).toList();
               } else {
@@ -154,7 +157,7 @@ class _NotificationsButtonState extends State {
                     onTap: () async {
                       setState(() => forceReload = true);
                     },
-                    child: Text('No unread notifications', style: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic)),
+                    child: Text(lang.home_unread_notifications_empty, style: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic)),
                   )
                 ];
               }
@@ -166,14 +169,14 @@ class _NotificationsButtonState extends State {
           }
           return PopupMenuButton(
             icon: Icon(Icons.notifications_sharp),
-            tooltip: 'Notifications',
+            tooltip: lang.home_notifications,
             itemBuilder: (BuildContext context) {
               return [
                 PopupMenuItem(
                   onTap: () async {
                     setState(() => forceReload = true);
                   },
-                  child: Text('No unread notifications', style: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic)),
+                  child: Text(lang.home_unread_notifications_empty, style: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic)),
                 )
               ];
             }
