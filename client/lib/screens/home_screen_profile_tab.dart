@@ -33,10 +33,10 @@ class _HomeScreenProfileTabState extends State {
             onRefresh: () async {
               setState(() => _forceReload = true);
             },
-            child: Stack(
-              children: [
-                ListView(),
-                Padding(
+            child: Center(
+              child: SingleChildScrollView(
+                physics: AlwaysScrollableScrollPhysics(),
+                child: Padding(
                   padding: EdgeInsets.all(16.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -104,11 +104,11 @@ class _HomeScreenProfileTabState extends State {
                     ]
                   )
                 )
-              ]
+              )
             )
           );
         } else {
-          return const Center(
+          return Center(
             child: CircularProgressIndicator(),
           );
         }

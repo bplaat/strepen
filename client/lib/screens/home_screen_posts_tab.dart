@@ -36,7 +36,7 @@ class _HomeScreenPostsTabState extends State {
             child: PostsList(posts: snapshot.data!)
           );
         } else {
-          return const Center(
+          return Center(
             child: CircularProgressIndicator(),
           );
         }
