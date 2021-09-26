@@ -38,16 +38,19 @@ class _HomeScreenProfileTabState extends State {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        width: 192,
-                        height: 192,
                         margin: EdgeInsets.symmetric(vertical: 16),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            fit: BoxFit.fill,
-                            image: user.avatar != null
-                              ? CachedNetworkImageProvider(user.avatar!)
-                              : AssetImage('assets/avatars/mp.jpg') as ImageProvider
+                        child: SizedBox(
+                          width: 192,
+                          height: 192,
+                          child: Card(
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            child: user.avatar != null
+                              ? CachedNetworkImage(imageUrl: user.avatar!)
+                              : Image(image: AssetImage('assets/avatars/mp.jpg')),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(96.0),
+                            ),
+                            elevation: 3
                           )
                         )
                       ),

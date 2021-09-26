@@ -24,9 +24,7 @@ class _LoginScreenState extends State {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false, // TODO
-      child: Scaffold(
+    return Scaffold(
         body: Center(
           child: SingleChildScrollView(
             child: Padding(
@@ -87,7 +85,7 @@ class _LoginScreenState extends State {
                             email: _emailController.text,
                             password: _passwordController.text
                           )) {
-                            Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+                            Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
                           } else {
                             setState(() => _hasError = true);
                           }
@@ -109,7 +107,6 @@ class _LoginScreenState extends State {
             )
           )
         )
-      )
     );
   }
 }

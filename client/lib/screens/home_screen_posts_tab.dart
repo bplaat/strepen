@@ -44,9 +44,9 @@ class _HomeScreenPostsTabState extends State {
 }
 
 class PostsList extends StatelessWidget {
-  const PostsList({Key? key, required this.posts}) : super(key: key);
-
   final List<Post> posts;
+
+  const PostsList({Key? key, required this.posts}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

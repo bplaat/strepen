@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../models/product.dart';
+import '../models/user.dart';
+import '../services/auth_service.dart';
 import '../services/product_service.dart';
 import '../services/transaction_service.dart';
+import '../config.dart';
 
 class HomeScreenStripeTab extends StatefulWidget {
   @override
@@ -152,12 +155,16 @@ class _ProductsListState extends State {
                 onPressed: _isLoading ? null : () async {
                   setState(() => _isLoading = true);
 
+                  final Map<Product, int> productAmounts = {};
                   int index = 0;
-                  bool? succeeded = await TransactionService.getInstance().create({
-                      for (Product product in products) product: _amounts[index++]
-                  });
+                  for (Product product in products) {
+                    if (_amounts[index] > 0) {
+                      productAmounts[product] = _amounts[index];
+                    }
+                    index++;
+                  };
 
-                  if (succeeded == true) {
+                  if (await TransactionService.getInstance().create(productAmounts: productAmounts)) {
                     setState(() {
                       for (int i = 0; i < products.length; i++) {
                         _amounts[i] = 0;
@@ -166,17 +173,10 @@ class _ProductsListState extends State {
 
                     _scrollController.animateTo(0, duration: Duration(milliseconds: 300), curve: Curves.ease);
 
-                    final snackBar = SnackBar(
-                      content: Text('Transaction created succesfully'),
-                      action: SnackBarAction(
-                        label: 'Close',
-                        onPressed: () {}
-                      )
-                    );
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  }
-
-                  if (succeeded == false) {
+                    showDialog(context: context, builder: (BuildContext context){
+                      return TransactionCreatedDialog(productAmounts: productAmounts);
+                    });
+                  } else {
                     _scrollController.animateTo(0, duration: Duration(milliseconds: 300), curve: Curves.ease);
 
                     final snackBar = SnackBar(
@@ -200,6 +200,156 @@ class _ProductsListState extends State {
           )
         ]
       )
+    );
+  }
+}
+
+class TransactionCreatedDialog extends StatelessWidget {
+  final Map<Product, int> productAmounts;
+
+  const TransactionCreatedDialog({Key? key, required this.productAmounts}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<User>(
+      future: AuthService.getInstance().user(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          User user = snapshot.data!;
+
+          int totalAmount = 0;
+          double totalPrice = 0;
+          for (Product product in productAmounts.keys) {
+            int amount = productAmounts[product]!;
+            totalAmount += amount;
+            totalPrice += product.price * amount;
+          }
+
+          return AlertDialog(
+            title: Text("Transaction created"),
+            content: Container(
+              width: MediaQuery.of(context).size.width * 0.9,
+              height: MediaQuery.of(context).size.height * 0.9,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(bottom: 24),
+                      child: SizedBox(
+                        width: 256,
+                        height: 256,
+                        child: Card(
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          child: CachedNetworkImage(imageUrl: user.thanks ?? '${WEBSITE_URL}/images/thanks/default.gif'),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16.0),
+                          ),
+                          elevation: 3
+                        )
+                      )
+                    ),
+
+                    Container(
+                      margin: EdgeInsets.only(bottom: 24),
+                      child: Text('Done, thx!', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500))
+                    ),
+
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: productAmounts.length,
+                      itemBuilder: (context, index) {
+                        Product product = productAmounts.keys.elementAt(index);
+                        int amount = productAmounts[product]!;
+                        return Container(
+                          margin: EdgeInsets.only(bottom: 12),
+                          child: Row(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(right: 24),
+                                child: product.image != null
+                                  ? CachedNetworkImage(
+                                    width: 56,
+                                    height: 56,
+                                    imageUrl: product.image!
+                                  )
+                                  : Image(
+                                    width: 56,
+                                    height: 56,
+                                    image: AssetImage('assets/products/unkown.png')
+                                  )
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.only(bottom: 4),
+                                      child: SizedBox(
+                                        width: double.infinity,
+                                        child: Text('${product.name}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))
+                                      )
+                                    ),
+                                    SizedBox(
+                                      width: double.infinity,
+                                      child: Text('${amount}x   \u20ac ${product.price.toStringAsFixed(2)}', style: TextStyle(color: Colors.grey))
+                                    )
+                                  ]
+                                )
+                              ),
+                              Text('\u20ac ${(product.price * amount).toStringAsFixed(2)}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500))
+                            ]
+                          )
+                        );
+                      }
+                    ),
+
+                    Divider(),
+
+                    Row(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(right: 24),
+                          child: SizedBox(
+                            width: 56,
+                            height: 56
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Text('${totalAmount}x', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))
+                        ),
+                        Text('\u20ac ${totalPrice.toStringAsFixed(2)}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500))
+                      ]
+                    ),
+
+                    Container(
+                      margin: EdgeInsets.only(top: 8),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: RaisedButton(
+                          onPressed: () => Navigator.pop(context),
+                          color: Colors.pink,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(48)),
+                          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                          child: Text('Close', style: TextStyle(color: Colors.white, fontSize: 18))
+                        )
+                      )
+                    )
+                  ]
+                )
+              )
+            )
+          );
+        } else {
+          return AlertDialog(
+            title: Text("Transaction created successfully"),
+            content: const Center(
+              child: CircularProgressIndicator()
+            )
+          );
+        }
+      }
     );
   }
 }

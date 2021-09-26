@@ -1,5 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'dart:convert';
 import '../config.dart';
 import '../models/product.dart';
@@ -15,23 +16,18 @@ class TransactionService {
     return _instance!;
   }
 
-  Future<bool?> create(Map<Product, int> products) async {
+  Future<bool> create({required Map<Product, int> productAmounts}) async {
     final body = {
       'api_key': API_KEY,
-      'name': 'Mobile transaction'
+      'name': 'Mobile transaction on ${DateFormat('yyyy-MM-dd kk:mm:ss').format(DateTime.now())}'
     };
 
     int index = 0;
-    for (Product product in products.keys) {
-      int amount = products[product]!;
-      if (amount > 0) {
-        body['products[${index}][product_id]'] = product.id.toString();
-        body['products[${index}][amount]'] = amount.toString();
-        index++;
-      }
-    }
-    if (body.length == 2) {
-      return null;
+    for (Product product in productAmounts.keys) {
+      int amount = productAmounts[product]!;
+      body['products[${index}][product_id]'] = product.id.toString();
+      body['products[${index}][amount]'] = amount.toString();
+      index++;
     }
 
     StorageService storage = await StorageService.getInstance();

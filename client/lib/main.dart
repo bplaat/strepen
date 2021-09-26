@@ -20,9 +20,9 @@ void main() async {
       primarySwatch: Colors.pink,
       accentColor: Colors.pink
     ),
-    initialRoute: storage.prefs.getString('token') != null ? '/' : '/login',
+    initialRoute: storage.prefs.getString('token') != null ? '/home' : '/login',
     routes: {
-      '/': (context) => HomeScreen(),
+      '/home': (context) => HomeScreen(),
       '/login': (context) => LoginScreen()
     }
   ));
