@@ -10,6 +10,7 @@ use Livewire\Component;
 class ChangeDetails extends Component
 {
     public $user;
+    public $isChanged = false;
 
     public function rules()
     {
@@ -48,7 +49,7 @@ class ChangeDetails extends Component
         if ($this->user->birthday == '') $this->user->birthday = null;
         $this->user->save();
 
-        session()->flash('change_details_message', __('settings.change_details.success_message'));
+        $this->isChanged = true;
     }
 
     public function render()

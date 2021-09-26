@@ -11,6 +11,7 @@ class ChangePassword extends Component
     public $currentPassword;
     public $password;
     public $passwordConfirmation;
+    public $isChanged;
 
     public $rules = [
         'currentPassword' => 'required|current_password',
@@ -23,6 +24,7 @@ class ChangePassword extends Component
         $this->currentPassword = null;
         $this->password = null;
         $this->passwordConfirmation = null;
+        $this->isChanged = false;
     }
 
     public function changePassword()
@@ -33,8 +35,8 @@ class ChangePassword extends Component
         $user->password = Hash::make($this->password);
         $user->save();
 
-        session()->flash('change_password_message', __('settings.change_password.success_message'));
         $this->mount();
+        $this->isChanged = true;
     }
 
     public function render()

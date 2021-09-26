@@ -11,6 +11,7 @@ class Create extends Component
 {
     public $transaction;
     public $selectedProducts;
+    public $isCreated;
 
     public $rules = [
         'transaction.name' => 'required|min:2|max:48',
@@ -25,6 +26,7 @@ class Create extends Component
         $this->transaction = new Transaction();
         $this->transaction->name = __('transactions.create.name_default') . ' ' . date('Y-m-d H:i:s');
         $this->selectedProducts = collect();
+        $this->isCreated = false;
     }
 
     public function selectedProducts($selectedProducts)
@@ -59,14 +61,18 @@ class Create extends Component
         $user->balance -= $this->transaction->price;
         $user->save();
 
-        // Display create flash message and refresh
-        session()->flash('create_transaction_message', __('transactions.create.success_message'));
-        return redirect()->route('transactions.create');
+        $this->isCreated = true;
     }
 
     public function createTransaction()
     {
         $this->emit('getSelectedProducts');
+    }
+
+    public function closeCreated()
+    {
+        $this->emit('clearSelectedProducts');
+        $this->mount();
     }
 
     public function render()

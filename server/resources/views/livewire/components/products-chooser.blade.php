@@ -12,13 +12,17 @@
                         </div>
                         <div class="dropdown-menu" style="width: 100%;">
                             <div class="dropdown-content">
-                                @foreach ($filteredProducts as $product)
-                                    <a href="#" wire:click.prevent="addProduct({{ $product->id }})" class="dropdown-item" style="display: flex; align-items: center;">
-                                        <div style="margin-right: 12px; width: 24px; height: 24px; border-radius: 3px; background-size: cover; background-position: center center;
-                                            background-image: url({{ $product->image != null ? '/storage/products/' . $product->image : '/images/products/unkown.png' }});"></div>
-                                        {!! $productName != '' ? str_replace(' ', '&nbsp;', preg_replace('/(' . preg_quote($productName) . ')/i', '<b>$1</b>', $product->name)) : $product->name !!}
-                                    </a>
-                                @endforeach
+                                @if ($filteredProducts->count() > 0)
+                                    @foreach ($filteredProducts as $product)
+                                        <a href="#" wire:click.prevent="addProduct({{ $product->id }})" class="dropdown-item" style="display: flex; align-items: center;">
+                                            <div style="margin-right: 12px; width: 24px; height: 24px; border-radius: 3px; background-size: cover; background-position: center center;
+                                                background-image: url({{ $product->image != null ? '/storage/products/' . $product->image : '/images/products/unkown.png' }});"></div>
+                                            {!! $productName != '' ? str_replace(' ', '&nbsp;', preg_replace('/(' . preg_quote($productName) . ')/i', '<b>$1</b>', $product->name)) : $product->name !!}
+                                        </a>
+                                    @endforeach
+                                @else
+                                    <div class="dropdown-item"><i>@lang('components.products_chooser.empty')</i></div>
+                                @endif
                             </div>
                         </div>
                     </div>

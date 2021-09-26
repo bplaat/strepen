@@ -13,6 +13,8 @@ class ChangeThanks extends Component
     use WithFileUploads;
 
     public $thanks;
+    public $isChanged = false;
+    public $isDeleted = false;
 
     public $rules = [
         'thanks' => 'required|image|mimes:gif|max:2048'
@@ -36,7 +38,7 @@ class ChangeThanks extends Component
         $user->thanks = $thanksName;
         $user->save();
 
-        session()->flash('change_thanks_message', __('settings.change_thanks.success_message'));
+        $this->isChanged = true;
     }
 
     public function deleteThanks()
@@ -49,7 +51,7 @@ class ChangeThanks extends Component
         $user->thanks = null;
         $user->save();
 
-        session()->flash('change_thanks_message', __('settings.change_thanks.delete_message'));
+        $this->isDeleted = true;
     }
 
     public function render()

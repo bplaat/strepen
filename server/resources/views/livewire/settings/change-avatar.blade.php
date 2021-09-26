@@ -1,8 +1,15 @@
-<div style="margin: 1.5em 0;">
-    @if (session()->has('change_avatar_message'))
+<div>
+    @if ($isChanged)
         <div class="notification is-success">
-            <button class="delete" onclick="this.parentNode.parentNode.removeChild(this.parentNode);"></button>
-            <p>{{ session('change_avatar_message') }}</p>
+            <button class="delete" wire:click="$set('isChanged', false)"></button>
+            <p>@lang('settings.change_avatar.success_message')</p>
+        </div>
+    @endif
+
+    @if ($isDeleted)
+        <div class="notification is-warning">
+            <button class="delete" wire:click="$set('isDeleted', false)"></button>
+            <p>@lang('settings.change_avatar.delete_message')</p>
         </div>
     @endif
 
@@ -14,16 +21,16 @@
                 <p>@lang('settings.change_avatar.has_avatar')</p>
             </div>
 
-            <div class="box" style="width: 50%;">
-                <div style="background-image: url(/storage/avatars/{{ Auth::user()->avatar }}); background-size: cover; background-position: center center; padding-top: 100%;"></div>
+            <div class="box" style="width: 75%;">
+                <div style="background-image: url(/storage/avatars/{{ Auth::user()->avatar }}); background-size: cover; background-position: center center; padding-top: 100%; border-radius: 6px;"></div>
             </div>
         @else
             <div class="field">
                 <p>@lang('settings.change_avatar.no_avatar')</p>
             </div>
 
-            <div class="box" style="width: 50%;">
-                <div style="background-image: url(/images/avatars/mp.jpg); background-size: cover; background-position: center center; padding-top: 100%;"></div>
+            <div class="box" style="width: 75%;">
+                <div style="background-image: url(/images/avatars/mp.jpg); background-size: cover; background-position: center center; padding-top: 100%; border-radius: 6px;"></div>
             </div>
         @endif
 

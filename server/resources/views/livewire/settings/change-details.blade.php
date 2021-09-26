@@ -1,8 +1,8 @@
 <div style="margin: 1.5em 0;">
-    @if (session()->has('change_details_message'))
+    @if ($isChanged)
         <div class="notification is-success">
-            <button class="delete" onclick="this.parentNode.parentNode.removeChild(this.parentNode);"></button>
-            <p>{{ session('change_details_message') }}</p>
+            <button class="delete" wire:click="$set('isChanged', false)"></button>
+            <p>@lang('settings.change_details.success_message')</p>
         </div>
     @endif
 

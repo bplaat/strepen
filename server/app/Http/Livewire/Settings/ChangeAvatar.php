@@ -13,6 +13,8 @@ class ChangeAvatar extends Component
     use WithFileUploads;
 
     public $avatar;
+    public $isChanged = false;
+    public $isDeleted = false;
 
     public $rules = [
         'avatar' => 'required|image|mimes:jpg,jpeg,png|max:1024'
@@ -36,7 +38,7 @@ class ChangeAvatar extends Component
         $user->avatar = $avatarName;
         $user->save();
 
-        session()->flash('change_avatar_message', __('settings.change_avatar.success_message'));
+        $this->isChanged = true;
     }
 
     public function deleteAvatar()
@@ -49,7 +51,7 @@ class ChangeAvatar extends Component
         $user->avatar = null;
         $user->save();
 
-        session()->flash('change_avatar_message', __('settings.change_avatar.delete_message'));
+        $this->isDeleted = true;
     }
 
     public function render()

@@ -63,15 +63,15 @@
 
                     @if ($user->avatar != null)
                         <h2 class="subtitle is-5">@lang('admin/users.item.avatar')</h2>
-                        <div class="box" style="display: inline-block;">
-                            <img src="/storage/avatars/{{ $user->avatar }}" alt="@lang('settings.avatar_alt', [ 'user.name' => $user->name ])">
+                        <div class="box" style="width: 50%;">
+                            <div style="background-image: url(/storage/avatars/{{ $user->avatar }}); background-size: cover; background-position: center center; padding-top: 100%; border-radius: 6px;"></div>
                         </div>
                     @endif
 
                     @if ($user->thanks != null)
                         <h2 class="subtitle is-5">@lang('admin/users.item.thanks')</h2>
-                        <div class="box" style="display: inline-block;">
-                            <img src="/storage/thanks/{{ $user->thanks }}" alt="@lang('settings.thanks_alt', [ 'user.name' => $user->name ])">
+                        <div class="box" style="width: 50%;">
+                            <div style="background-image: url(/storage/thanks/{{ $user->thanks }}); background-size: cover; background-position: center center; padding-top: 100%; border-radius: 6px;"></div>
                         </div>
                     @endif
 
@@ -298,7 +298,7 @@
                                 <label class="label" for="avatar">@lang('admin/users.item.avatar')</label>
                                 @if ($user->avatar != null)
                                     <div class="box" style="width: 100%;">
-                                        <div style="background-image: url(/storage/avatars/{{ $user->avatar }}); background-size: cover; background-position: center center; padding-top: 100%;"></div>
+                                        <div style="background-image: url(/storage/avatars/{{ $user->avatar }}); background-size: cover; background-position: center center; padding-top: 100%; border-radius: 6px;"></div>
                                     </div>
                                 @endif
                             </div>
@@ -328,7 +328,7 @@
                                 <label class="label" for="thanks">@lang('admin/users.item.thanks')</label>
                                 @if ($user->thanks != null)
                                     <div class="box" style="width: 100%;">
-                                        <div style="background-image: url(/storage/thanks/{{ $user->thanks }}); background-size: cover; background-position: center center; padding-top: 100%;"></div>
+                                        <div style="background-image: url(/storage/thanks/{{ $user->thanks }}); background-size: cover; background-position: center center; padding-top: 100%; border-radius: 6px;"></div>
                                     </div>
                                 @endif
                             </div>

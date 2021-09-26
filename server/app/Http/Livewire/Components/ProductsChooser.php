@@ -15,7 +15,7 @@ class ProductsChooser extends Component
     public $productName;
     public $isOpen = false;
 
-    public $listeners = ['getSelectedProducts'];
+    public $listeners = ['getSelectedProducts', 'clearSelectedProducts'];
 
     public function mount()
     {
@@ -31,16 +31,24 @@ class ProductsChooser extends Component
         $this->emitUp('selectedProducts', $this->selectedProducts);
     }
 
-    public function updatedProductName()
+    public function clearSelectedProducts()
     {
-        if (!$this->isOpen) {
-            $this->isOpen = true;
-        }
+        $this->selectedProducts = collect();
+        $this->mount();
+    }
 
+    public function filterProducts()
+    {
         $this->filteredProducts = $this->products->filter(function ($product) {
             return !$this->selectedProducts->pluck('product_id')->contains($product->id) &&
                 (strlen($this->productName) == 0 || stripos($product->name, $this->productName) !== false);
         })->slice(0, 10);
+    }
+
+    public function updatedProductName()
+    {
+        if (!$this->isOpen) $this->isOpen = true;
+        $this->filterProducts();
     }
 
     public function addFirstProduct()
@@ -58,7 +66,7 @@ class ProductsChooser extends Component
         $selectedProduct['amount'] = 0;
         $this->selectedProducts->push($selectedProduct);
         $this->productName = null;
-        $this->updatedProductName();
+        $this->filterProducts();
         $this->isOpen = false;
     }
 

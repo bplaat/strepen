@@ -11,6 +11,7 @@ class Kiosk extends Component
 {
     public $transaction;
     public $selectedProducts;
+    public $isCreated;
 
     public $rules = [
         'transaction.user_id' => 'required|integer|exists:users,id',
@@ -26,6 +27,7 @@ class Kiosk extends Component
         $this->transaction = new Transaction();
         $this->transaction->name = __('kiosk.name_default') . ' ' . date('Y-m-d H:i:s');
         $this->selectedProducts = collect();
+        $this->isCreated = false;
     }
 
     public function userChooser($userId) {
@@ -63,14 +65,19 @@ class Kiosk extends Component
         $user->balance -= $this->transaction->price;
         $user->save();
 
-        // Display create flash message and refresh
-        session()->flash('create_transaction_message', __('kiosk.success_message'));
-        $this->redirect('kiosk');
+        $this->isCreated = true;
     }
 
     public function createTransaction()
     {
         $this->emit('getSelectedProducts');
+    }
+
+    public function closeCreated()
+    {
+        $this->emit('clearUserChooser');
+        $this->emit('clearSelectedProducts');
+        $this->mount();
     }
 
     public function render()

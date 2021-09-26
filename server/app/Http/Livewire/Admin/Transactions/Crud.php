@@ -81,7 +81,10 @@ class Crud extends PaginationComponent
         }
 
         // Refresh page
-        return redirect()->route('admin.transactions.crud');
+        $this->emit('clearUserChooser');
+        $this->emit('clearSelectedProducts');
+        $this->mount();
+        $this->isCreatingTransaction = false;
     }
 
     public function createTransaction()
@@ -116,8 +119,10 @@ class Crud extends PaginationComponent
         // Send user new deposit notification
         $user->notify(new NewDeposit($this->transaction));
 
-        // Refresh page
-        return redirect()->route('admin.transactions.crud');
+        $this->emit('clearUserChooser');
+        $this->emit('clearSelectedProducts');
+        $this->mount();
+        $this->isCreatingDeposit = false;
     }
 
     // Create food model
@@ -144,8 +149,10 @@ class Crud extends PaginationComponent
         $user->balance -= $this->transaction->price;
         $user->save();
 
-        // Refresh page
-        return redirect()->route('admin.transactions.crud');
+        $this->emit('clearUserChooser');
+        $this->emit('clearSelectedProducts');
+        $this->mount();
+        $this->isCreatingFood = false;
     }
 
     public function render()

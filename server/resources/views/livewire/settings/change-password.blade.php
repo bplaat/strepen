@@ -1,8 +1,8 @@
 <div>
-    @if (session()->has('change_password_message'))
+    @if ($isChanged)
         <div class="notification is-success">
-            <button class="delete" onclick="this.parentNode.parentNode.removeChild(this.parentNode);"></button>
-            <p>{{ session('change_password_message') }}</p>
+            <button class="delete" wire:click="$set('isChanged', false)"></button>
+            <p>@lang('settings.change_password.success_message')</p>
         </div>
     @endif
 

@@ -9,5 +9,7 @@ return [
     'select_user' => 'Selecteer een gebruiker...',
     'name' => 'Naam',
     'name_default' => 'Transaction op',
-    'success_message' => 'Uw transactie is opgeslagen'
+    'created_header' => 'Uw transactie is opgeslagen',
+    'thx' => 'Gelukt, thx!',
+    'close' => 'Sluiten',
 ];

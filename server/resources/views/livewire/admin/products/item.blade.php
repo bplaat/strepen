@@ -118,7 +118,7 @@
                         <label class="label" for="image">@lang('admin/products.item.image')</label>
                         @if ($product->image != null)
                             <div class="box" style="width: 50%;">
-                                <div style="background-image: url(/storage/products/{{ $product->image }}); background-size: cover; background-position: center center; padding-top: 100%;"></div>
+                                <div style="background-image: url(/storage/products/{{ $product->image }}); background-size: cover; background-position: center center; padding-top: 100%; border-radius: 6px;"></div>
                             </div>
                         @endif
                     </div>

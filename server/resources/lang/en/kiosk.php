@@ -9,5 +9,7 @@ return [
     'select_user' => 'Select a user...',
     'name' => 'Name',
     'name_default' => 'Transaction on',
-    'success_message' => 'Your transaction has been saved'
+    'created_header' => 'Your transaction has been saved',
+    'thx' => 'Done, thx!',
+    'close' => 'Close'
 ];

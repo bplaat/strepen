@@ -58,7 +58,9 @@ class Crud extends PaginationComponent
         }
 
         // Refresh page
-        return redirect()->route('admin.inventories.crud');
+        $this->emit('clearSelectedProducts');
+        $this->mount();
+        $this->isCreating = false;
     }
 
     public function createInventory()

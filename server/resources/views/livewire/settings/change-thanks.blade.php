@@ -1,8 +1,15 @@
-<div style="margin: 1.5em 0;">
-    @if (session()->has('change_thanks_message'))
+<div>
+    @if ($isChanged)
         <div class="notification is-success">
-            <button class="delete" onclick="this.parentNode.parentNode.removeChild(this.parentNode);"></button>
-            <p>{{ session('change_thanks_message') }}</p>
+            <button class="delete" wire:click="$set('isChanged', false)"></button>
+            <p>@lang('settings.change_thanks.success_message')</p>
+        </div>
+    @endif
+
+    @if ($isDeleted)
+        <div class="notification is-warning">
+            <button class="delete" wire:click="$set('isDeleted', false)"></button>
+            <p>@lang('settings.change_thanks.delete_message')</p>
         </div>
     @endif
 
@@ -14,16 +21,16 @@
                 <p>@lang('settings.change_thanks.has_thanks')</p>
             </div>
 
-            <div class="box" style="width: 50%;">
-                <div style="background-image: url(/storage/thanks/{{ Auth::user()->thanks }}); background-size: cover; background-position: center center; padding-top: 100%;"></div>
+            <div class="box" style="width: 75%;">
+                <div style="background-image: url(/storage/thanks/{{ Auth::user()->thanks }}); background-size: cover; background-position: center center; padding-top: 100%; border-radius: 6px;"></div>
             </div>
         @else
             <div class="field">
                 <p>@lang('settings.change_thanks.no_thanks')</p>
             </div>
 
-            <div class="box" style="width: 50%;">
-                <div style="background-image: url(/images/thanks/default.gif); background-size: cover; background-position: center center; padding-top: 100%;"></div>
+            <div class="box" style="width: 75%;">
+                <div style="background-image: url(/images/thanks/default.gif); background-size: cover; background-position: center center; padding-top: 100%; border-radius: 6px;"></div>
             </div>
         @endif
 
