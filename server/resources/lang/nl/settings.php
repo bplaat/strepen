@@ -42,7 +42,7 @@ return [
     'change_avatar.delete_message' => 'Je avatar is verwijderd',
 
     // Change thanks form
-    'change_thanks.header' => 'Verderander bedank-gif',
+    'change_thanks.header' => 'Verander bedank-gif',
     'change_thanks.has_thanks' => 'Je hebt een bedank-gif geüpload:',
     'change_thanks.no_thanks' => 'Je hebt geen bedank-gif geüpload, dus de standaard eigen wordt gebruikt:',
     'change_thanks.thanks' => 'Bedank-gif',

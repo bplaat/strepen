@@ -9,14 +9,14 @@
 - Add user transactions admin page
 - Add product transactions admin page
 - Better admin food insert modal
-- Setup and make better strepen.ml deployment
+- Bug fixes / All the whishs from the Stam Bestuur
 
 ## Medium priority
 - Make import tool more efficient and so faster
 - Fixed import inventory values bug
-- Notifications emails
 - Password reset system / Initial user password
-- Bug fixes / All the whishs from the Stam Bestuur
+- Notifications emails
+- Publish flutter mobile app on Google Play Store
 
 ## Low priority
 - Finish the REST API

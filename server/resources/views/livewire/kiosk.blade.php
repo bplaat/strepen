@@ -34,7 +34,7 @@
 
                 <div class="modal-card-body">
                     <div class="box" style="width: 50%; margin: 0 auto; margin-bottom: 24px;">
-                        <div style="background-image: @if (Auth::user()->thanks != null) url(/storage/thanks/{{ Auth::user()->thanks }}) @else url(/images/thanks/default.gif) @endif;
+                        <div style="background-image: @if ($transaction->user->thanks != null) url(/storage/thanks/{{ $transaction->user->thanks }}) @else url(/images/thanks/default.gif) @endif;
                             background-size: cover; background-position: center center; padding-top: 100%; border-radius: 6px;"></div>
                     </div>
 
