@@ -24,8 +24,10 @@ class ProductsService {
         'Authorization': 'Bearer ${storage.prefs.getString('token')!}'
       });
       final productsJson = json.decode(response.body)['data'];
-      _products = productsJson.map<Product>((json) => Product.fromJson(json)).toList()
-        .where((Product product) => product.active).toList();
+      _products = productsJson.map<Product>((json) => Product.fromJson(json)).toList();
+      if (_products![0].active != null) {
+        _products = _products!.where((Product product) => product.active!).toList();
+      }
     }
     return _products!;
   }

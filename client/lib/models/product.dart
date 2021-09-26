@@ -4,7 +4,7 @@ class Product {
   final String? description;
   final String? image;
   final double price;
-  final bool active;
+  final bool? active;
 
   Product({
     required this.id,

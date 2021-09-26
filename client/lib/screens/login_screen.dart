@@ -16,6 +16,8 @@ class _LoginScreenState extends State {
 
   bool _hasError = false;
 
+  bool _isLoading = false;
+
   @override
   void dispose() {
     _emailController.dispose();
@@ -82,7 +84,8 @@ class _LoginScreenState extends State {
                     child: SizedBox(
                       width: double.infinity,
                       child: RaisedButton(
-                        onPressed: () async {
+                        onPressed: _isLoading ? null : () async {
+                          setState(() => _isLoading = true);
                           if (await AuthService.getInstance().login(
                             email: _emailController.text,
                             password: _passwordController.text
@@ -90,6 +93,7 @@ class _LoginScreenState extends State {
                             Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
                           } else {
                             setState(() => _hasError = true);
+                            setState(() => _isLoading = false);
                           }
                         },
                         color: Colors.pink,

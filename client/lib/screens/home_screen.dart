@@ -21,7 +21,7 @@ class _HomeScreenState extends State {
   @override
   void initState() {
     super.initState();
-    AuthService.getInstance().user();
+    AuthService.getInstance().user(forceReload: true);
   }
 
   @override

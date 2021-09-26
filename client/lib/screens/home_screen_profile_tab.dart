@@ -14,6 +14,8 @@ class HomeScreenProfileTab extends StatefulWidget {
 class _HomeScreenProfileTabState extends State {
   bool _forceReload = false;
 
+  bool _isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     final lang = AppLocalizations.of(context)!;
@@ -87,7 +89,8 @@ class _HomeScreenProfileTabState extends State {
                         child: SizedBox(
                           width: double.infinity,
                           child: RaisedButton(
-                            onPressed: () async {
+                            onPressed: _isLoading ? null : () async {
+                              setState(() => _isLoading = true);
                               await AuthService.getInstance().logout();
                               Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
                             },

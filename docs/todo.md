@@ -14,7 +14,8 @@
 ## Medium priority
 - Make import tool more efficient and so faster
 - Fixed import inventory values bug
-- Password reset system
+- Notifications emails
+- Password reset system / Initial user password
 - Bug fixes / All the whishs from the Stam Bestuur
 
 ## Low priority
