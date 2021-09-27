@@ -29,5 +29,10 @@ return [
     'products_chooser.search_product' => 'Zoek een product...',
     'products_chooser.add_product' => 'Voeg product toe',
     'products_chooser.empty' => 'Geen producten gevonden!',
-    'products_chooser.amount' => 'hoeveelheid'
+    'products_chooser.amount' => 'hoeveelheid',
+
+    // Transaction Created Modal blade component
+    'transaction_created_modal_header' => 'Uw transactie is opgeslagen',
+    'transaction_created_modal_thx' => 'Gelukt, thx!',
+    'transaction_created_modal_close' => 'Sluiten'
 ];

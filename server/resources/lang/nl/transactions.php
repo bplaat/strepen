@@ -7,9 +7,6 @@ return [
     'create.create_transaction' => 'Nieuwe transactie maken',
     'create.name' => 'Naam',
     'create.name_default' => 'Transactie op',
-    'create.created_header' => 'Uw transactie is opgeslagen',
-    'create.thx' => 'Gelukt, thx!',
-    'create.close' => 'Sluiten',
 
     // Transactions history livewire component
     'history.title' => 'Geschiedenis',

@@ -7,9 +7,6 @@ return [
     'create.create_transaction' => 'Create new transaction',
     'create.name' => 'Name',
     'create.name_default' => 'Transaction on',
-    'create.created_header' => 'Your transaction has been saved',
-    'create.thx' => 'Done, thx!',
-    'create.close' => 'Close',
 
     // Transactions history livewire component
     'history.title' => 'History',

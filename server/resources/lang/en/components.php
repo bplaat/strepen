@@ -29,5 +29,10 @@ return [
     'products_chooser.search_product' => 'Search a product...',
     'products_chooser.add_product' => 'Add product',
     'products_chooser.empty' => 'No products found!',
-    'products_chooser.amount' => 'amount'
+    'products_chooser.amount' => 'amount',
+
+    // Transaction Created Modal blade component
+    'transaction_created_modal_header' => 'Your transaction has been saved',
+    'transaction_created_modal_thx' => 'Done, thx!',
+    'transaction_created_modal_close' => 'Close'
 ];

@@ -8,8 +8,5 @@ return [
     'user' => 'Gebruiker',
     'select_user' => 'Selecteer een gebruiker...',
     'name' => 'Naam',
-    'name_default' => 'Transaction op',
-    'created_header' => 'Uw transactie is opgeslagen',
-    'thx' => 'Gelukt, thx!',
-    'close' => 'Sluiten',
+    'name_default' => 'Transaction op'
 ];

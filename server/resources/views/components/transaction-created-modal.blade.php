@@ -1,0 +1,62 @@
+<div class="modal is-active">
+    <div class="modal-background" wire:click="closeCreated"></div>
+
+    <form wire:submit.prevent="createPost" class="modal-card">
+        <div class="modal-card-head">
+            <p class="modal-card-title">@lang('components.transaction_created_modal_header')</p>
+            <button type="button" class="delete" wire:click="closeCreated"></button>
+        </div>
+
+        <div class="modal-card-body">
+            <div class="box" style="width: 50%; margin: 0 auto; margin-bottom: 24px;">
+                <div style="background-image: @if ($transaction->user->thanks != null) url(/storage/thanks/{{ $transaction->user->thanks }}) @else url(/images/thanks/default.gif) @endif;
+                    background-size: cover; background-position: center center; padding-top: 100%; border-radius: 6px;"></div>
+            </div>
+
+            <h2 class="title" style="margin-bottom: 24px; text-align: center;">@lang('components.transaction_created_modal_thx')</h2>
+
+            @foreach ($transaction->products as $product)
+                <div class="media" style="display: flex; align-items: center; width: 75%; margin-left: auto; margin-right: auto;">
+                    <div class="media-left">
+                        <div style="width: 64px; height: 64px; border-radius: 6px; background-size: cover; background-position: center center;
+                            background-image: url({{ $product->image != null ? '/storage/products/' . $product->image : '/images/products/unkown.png' }});"></div>
+                    </div>
+                    <div class="media-content">
+                        <p>
+                            <b>{{ $product->name }}</b>
+                            (@component('components.money-format', ['money' => $product->price])@endcomponent)
+                        </p>
+                        <p>
+                            @component('components.amount-format', ['amount' => $product->pivot->amount])@endcomponent
+                        </p>
+                    </div>
+                    <div class="media-right">
+                        <p>
+                            @component('components.money-format', ['money' => $product->price * $product->pivot->amount])@endcomponent
+                        </p>
+                    </div>
+                </div>
+            @endforeach
+
+            <div class="media" style="display: flex; align-items: center; width: 75%; margin-left: auto; margin-right: auto; margin-bottom: 16px;">
+                <div class="media-left">
+                    <div style="width: 64px;"></div>
+                </div>
+                <div class="media-content">
+                    <p>
+                        @component('components.amount-format', ['amount' => $transaction->products->pluck('pivot.amount')->sum()])@endcomponent
+                    </p>
+                </div>
+                <div class="media-right">
+                    <p>
+                        @component('components.money-format', ['money' => $transaction->price])@endcomponent
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-card-foot">
+            <button type="button" class="button is-link" style="margin: 0 auto;" wire:click="closeCreated" wire:loading.attr="disabled">@lang('components.transaction_created_modal_close')</button>
+        </div>
+    </form>
+</div>
