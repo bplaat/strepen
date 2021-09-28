@@ -3,6 +3,8 @@
         <h1 class="title is-4">@lang('transactions.history.header')</h1>
 
         <x-slot name="fields">
+            <x-transaction-type-chooser />
+
             <livewire:components.product-chooser :productId="$product_id" inline="true" relationship="true" />
         </x-slot>
     </x-search-header>

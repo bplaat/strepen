@@ -16,7 +16,7 @@
 
     <div class="field">
         <div class="control">
-            <button type="submit" form="mainForm" class="button is-link">@lang('transactions.create.create_transaction')</button>
+            <button type="submit" form="mainForm" class="button is-link" wire:loading.attr="disabled">@lang('transactions.create.create_transaction')</button>
         </div>
     </div>
 

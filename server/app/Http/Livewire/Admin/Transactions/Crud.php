@@ -12,6 +12,7 @@ class Crud extends PaginationComponent
 {
     public $user_id;
     public $userIdTemp;
+    public $type;
     public $product_id;
     public $productIdTemp;
     public $transaction;
@@ -39,9 +40,14 @@ class Crud extends PaginationComponent
 
     public function mount()
     {
+        if ($this->type != 'transaction' && $this->type != 'deposit' && $this->type != 'food') {
+            $this->type = null;
+        }
+
         if ($this->user_id != 1 && User::where('id', $this->user_id)->where('active', true)->where('deleted', false)->count() == 0) {
             $this->user_id = null;
         }
+
         if (Product::where('id', $this->product_id)->where('active', true)->where('deleted', false)->count() == 0) {
             $this->product_id = null;
         }
@@ -61,6 +67,10 @@ class Crud extends PaginationComponent
 
     public function search()
     {
+        if ($this->type != 'transaction' && $this->type != 'deposit' && $this->type != 'food') {
+            $this->type = null;
+        }
+
         $this->user_id = $this->userIdTemp;
         $this->product_id = $this->productIdTemp;
         $this->resetPage();
@@ -183,6 +193,12 @@ class Crud extends PaginationComponent
     public function render()
     {
         $transactions = Transaction::search(Transaction::select(), $this->query);
+        if ($this->type != null) {
+            if ($this->type == 'transaction') $type = Transaction::TYPE_TRANSACTION;
+            if ($this->type == 'deposit') $type = Transaction::TYPE_DEPOSIT;
+            if ($this->type == 'food') $type = Transaction::TYPE_FOOD;
+            $transactions = $transactions->where('type', $type);
+        }
         if ($this->user_id != null) {
             $transactions = $transactions->where('user_id', $this->user_id);
         }

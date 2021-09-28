@@ -18,7 +18,7 @@
 
     <div class="field">
         <div class="control">
-            <button type="submit" form="mainForm" class="button is-link">@lang('kiosk.create_transaction')</button>
+            <button type="submit" form="mainForm" class="button is-link" wire:loading.attr="disabled">@lang('kiosk.create_transaction')</button>
         </div>
     </div>
 

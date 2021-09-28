@@ -9,16 +9,22 @@ use Illuminate\Support\Facades\Auth;
 
 class History extends PaginationComponent
 {
+    public $type;
     public $product_id;
     public $productIdTemp;
 
     public function __construct() {
         parent::__construct();
+        $this->queryString[] = 'type';
         $this->queryString[] = 'product_id';
         $this->listeners[] = 'productChooser';
     }
 
     public function mount() {
+        if ($this->type != 'transaction' && $this->type != 'deposit' && $this->type != 'food') {
+            $this->type = null;
+        }
+
         if (Product::where('id', $this->product_id)->where('active', true)->where('deleted', false)->count() == 0) {
             $this->product_id = null;
         }
@@ -30,6 +36,10 @@ class History extends PaginationComponent
 
     public function search()
     {
+        if ($this->type != 'transaction' && $this->type != 'deposit' && $this->type != 'food') {
+            $this->type = null;
+        }
+
         $this->product_id = $this->productIdTemp;
         $this->resetPage();
     }
@@ -37,6 +47,12 @@ class History extends PaginationComponent
     public function render()
     {
         $transactions = Transaction::search(Auth::user()->transactions(), $this->query);
+        if ($this->type != null) {
+            if ($this->type == 'transaction') $type = Transaction::TYPE_TRANSACTION;
+            if ($this->type == 'deposit') $type = Transaction::TYPE_DEPOSIT;
+            if ($this->type == 'food') $type = Transaction::TYPE_FOOD;
+            $transactions = $transactions->where('type', $type);
+        }
         if ($this->product_id != null) {
             $transactions = $transactions->whereHas('products', function ($query) {
                 return $query->where('product_id', $this->product_id);

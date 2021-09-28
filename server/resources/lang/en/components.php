@@ -38,6 +38,12 @@ return [
     'products_chooser.empty' => 'No products found!',
     'products_chooser.amount' => 'amount',
 
+    // Transaction Type Chooser blade component
+    'transaction_type_chooser_all' => 'All transactions',
+    'transaction_type_chooser_transaction' => 'Transactions only',
+    'transaction_type_chooser_deposit' => 'Deposits only',
+    'transaction_type_chooser_food' => 'Food transactions only',
+
     // Transaction Created Modal blade component
     'transaction_created_modal_header' => 'Your transaction has been saved',
     'transaction_created_modal_thx' => 'Done, thx!',

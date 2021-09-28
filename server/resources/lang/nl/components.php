@@ -38,6 +38,12 @@ return [
     'products_chooser.empty' => 'Geen producten gevonden!',
     'products_chooser.amount' => 'hoeveelheid',
 
+    // Transaction Type Chooser blade component
+    'transaction_type_chooser_all' => 'Alle transacties',
+    'transaction_type_chooser_transaction' => 'Transacties alleen',
+    'transaction_type_chooser_deposit' => 'Stortingen alleen',
+    'transaction_type_chooser_food' => 'Eten transacties alleen',
+
     // Transaction Created Modal blade component
     'transaction_created_modal_header' => 'Uw transactie is opgeslagen',
     'transaction_created_modal_thx' => 'Gelukt, thx!',

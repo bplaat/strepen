@@ -8,6 +8,7 @@
 
         <x-slot name="fields">
             <livewire:components.user-chooser :userId="$user_id" inline="true" includeStrepenUser="true" relationship="true" />
+
             <livewire:components.product-chooser :productId="$product_id" inline="true" relationship="true" />
         </x-slot>
     </x-search-header>
@@ -52,7 +53,7 @@
                 </div>
 
                 <div class="modal-card-foot">
-                    <button type="submit" form="mainForm" class="button is-link">@lang('admin/inventories.crud.create_inventory')</button>
+                    <button type="submit" form="mainForm" class="button is-link" wire:loading.attr="disabled">@lang('admin/inventories.crud.create_inventory')</button>
                     <button type="button" class="button" wire:click="$set('isCreating', false)" wire:loading.attr="disabled">@lang('admin/inventories.crud.cancel')</button>
                 </div>
             </div>

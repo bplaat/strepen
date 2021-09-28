@@ -19,7 +19,9 @@
                         <a href="#" wire:click.prevent="selectProduct({{ $product->id }})" class="dropdown-item" style="display: flex; align-items: center;">
                             <div style="margin-right: 12px; width: 24px; height: 24px; border-radius: 4px; background-size: cover; background-position: center center;
                                 background-image: url({{ $product->image != null ? '/storage/products/' . $product->image : '/images/products/unkown.png' }});"></div>
-                            {!! $productName != '' ? str_replace(' ', '&nbsp;', preg_replace('/(' . preg_quote($productName) . ')/i', '<b>$1</b>', $product->name)) : $product->name !!}
+                            <div style="flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                {!! $productName != '' ? str_replace(' ', '&nbsp;', preg_replace('/(' . preg_quote($productName) . ')/i', '<b>$1</b>', $product->name)) : $product->name !!}
+                            </div>
                         </a>
                     @endforeach
                 @else

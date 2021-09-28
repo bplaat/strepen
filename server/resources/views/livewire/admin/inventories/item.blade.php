@@ -69,7 +69,7 @@
                 </div>
 
                 <div class="modal-card-foot">
-                    <button type="submit" form="mainForm" class="button is-link">@lang('admin/inventories.item.edit_inventory')</button>
+                    <button type="submit" form="mainForm" class="button is-link" wire:loading.attr="disabled">@lang('admin/inventories.item.edit_inventory')</button>
                     <button type="button" class="button" wire:click="$set('isEditing', false)" wire:loading.attr="disabled">@lang('admin/inventories.item.cancel')</button>
                 </div>
             </div>
