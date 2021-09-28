@@ -5,22 +5,22 @@
 
             @if ($transaction->type == \App\Models\Transaction::TYPE_TRANSACTION)
                 <p><i>@lang('admin/transactions.item.transaction_from', ['user.name' => $transaction->user != null ? $transaction->user->name : '?', 'transaction.created_at' => $transaction->created_at->format('Y-m-d H:i')])</i></p>
-                <p>@lang('admin/transactions.item.cost'): @component('components.money-format', ['money' => $transaction->price])@endcomponent</p>
+                <p>@lang('admin/transactions.item.cost'): <x-money-format :money="$transaction->price" /></p>
                 <ul>
                     @foreach ($transaction->products()->orderByRaw('LOWER(name)')->get() as $product)
-                        <li><b>{{ $product->name }}</b>: @component('components.amount-format', ['amount' => $product->pivot->amount])@endcomponent</li>
+                        <li><b>{{ $product->name }}</b>: <x-amount-format :amount="$product->pivot->amount" /></li>
                     @endforeach
                 </ul>
             @endif
 
             @if ($transaction->type == \App\Models\Transaction::TYPE_DEPOSIT)
                 <p><i>@lang('admin/transactions.item.deposit_for', ['user.name' => $transaction->user != null ? $transaction->user->name : '?', 'transaction.created_at' => $transaction->created_at->format('Y-m-d H:i')])</i></p>
-                <p>@lang('admin/transactions.item.amount'): @component('components.money-format', ['money' => $transaction->price])@endcomponent</p>
+                <p>@lang('admin/transactions.item.amount'): <x-money-format :money="$transaction->price" /></p>
             @endif
 
             @if ($transaction->type == \App\Models\Transaction::TYPE_FOOD)
                 <p><i>@lang('admin/transactions.item.food_for', ['user.name' => $transaction->user != null ? $transaction->user->name : '?', 'transaction.created_at' => $transaction->created_at->format('Y-m-d H:i')])</i></p>
-                <p>@lang('admin/transactions.item.amount'): @component('components.money-format', ['money' => $transaction->price])@endcomponent</p>
+                <p>@lang('admin/transactions.item.amount'): <x-money-format :money="$transaction->price" /></p>
             @endif
         </div>
 
@@ -43,7 +43,7 @@
                 </div>
 
                 <div class="modal-card-body">
-                    @livewire('components.user-chooser', ['userId' => $transaction->user_id, 'includeStrepenUser' => true])
+                    <livewire:components.user-chooser :userId="$transaction->user_id" includeStrepenUser="true" />
 
                     <div class="field">
                         <label class="label" for="name">@lang('admin/transactions.item.name')</label>
@@ -79,7 +79,7 @@
                     </div>
 
                     @if ($transaction->type == \App\Models\Transaction::TYPE_TRANSACTION)
-                        @livewire('components.products-chooser', ['selectedProducts' => $selectedProducts, 'noMax' => true])
+                        <livewire:components.products-chooser :selectedProducts="$selectedProducts" noMax="true" />
                     @endif
 
                     @if ($transaction->type == \App\Models\Transaction::TYPE_DEPOSIT || $transaction->type == \App\Models\Transaction::TYPE_FOOD)

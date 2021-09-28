@@ -62,13 +62,13 @@
                     </div>
 
                     <div class="navbar-end">
-                        @livewire('components.notifications')
+                        <livewire:components.notifications />
 
                         <a class="navbar-item" href="{{ route('balance') }}" style="display: flex; align-items: center;">
                             <div style="width: 28px; height: 28px; border-radius: 50%; margin-right: 10px; background-size: cover; background-position: center center;
                                 background-image: url({{ Auth::user()->avatar != null ? '/storage/avatars/' . Auth::user()->avatar : '/images/avatars/mp.jpg' }});"></div>
                             <span style="margin-right: 8px;">{{ Auth::user()->name }}</span>
-                            @component('components.money-format', ['money' => Auth::user()->balance])@endcomponent
+                            <x-money-format :money="Auth::user()->balance" />
                         </a>
 
                         <div class="navbar-item">

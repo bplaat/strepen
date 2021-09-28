@@ -1,9 +1,9 @@
 <div class="container">
     <h1 class="title is-4">@lang('kiosk.header')</h1>
 
-    <form id="mainForm" wire:submit.prevent="createTransaction"></form>
+    <form id="mainForm" wire:submit.prevent="$emit('getSelectedProducts')"></form>
 
-    @livewire('components.user-chooser')
+    <livewire:components.user-chooser />
 
     <div class="field">
         <label class="label" for="name">@lang('kiosk.name')</label>
@@ -14,7 +14,7 @@
         @error('transaction.name') <p class="help is-danger">{{ $message }}</p> @enderror
     </div>
 
-    @livewire('components.products-chooser', ['selectedProducts' => $selectedProducts])
+    <livewire:components.products-chooser :selectedProducts="$selectedProducts" />
 
     <div class="field">
         <div class="control">
@@ -23,6 +23,6 @@
     </div>
 
     @if ($isCreated)
-        @component('components.transaction-created-modal', ['transaction' => $transaction])@endcomponent
+        <x-transaction-created-modal :transaction="$transaction" />
     @endif
 </div>

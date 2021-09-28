@@ -2,7 +2,7 @@
 
 return [
     // Search Header blade component
-    'search_header.query' => 'Zoeken naar :item.name...',
+    'search_header.query' => 'Zoek naar :item.name...',
     'search_header.search' => 'Zoeken',
 
     // Notifications livewire component
@@ -22,6 +22,7 @@ return [
     // User Chooser livewire component
     'user_chooser.user' => 'Gebruiker',
     'user_chooser.search_user' => 'Zoek een gebruiker...',
+    'user_chooser.search_by_user' => 'Zoek op gebruiker...',
     'user_chooser.empty' => 'Geen gebruikers gevonden!',
 
     // Products Chooser livewire component

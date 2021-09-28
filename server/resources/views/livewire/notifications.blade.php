@@ -18,7 +18,7 @@
                                     <span class="tag is-warning is-pulled-right">{{ Str::upper(__('notifications.unread')) }}</span>
                                 @endif
                             </h1>
-                            <p>@lang('notifications.new_deposit_start') @component('components.money-format', ['money' => $transaction->price])@endcomponent
+                            <p>@lang('notifications.new_deposit_start') <x-money-format :money="$transaction->price" />
                                 @lang('notifications.new_deposit_end') {{ $transaction->created_at->format('Y-m-d H:i:s') }}</p>
                         @endif
 
@@ -42,7 +42,7 @@
                                     <span class="tag is-warning is-pulled-right">{{ Str::upper(__('notifications.unread')) }}</span>
                                 @endif
                             </h1>
-                            <p>@lang('notifications.low_balance_start') @component('components.money-format', ['money' => $notification->data['balance']])@endcomponent
+                            <p>@lang('notifications.low_balance_start') <x-money-format :money="$notification->data['balance']" />
                                 @lang('notifications.low_balance_end')</p>
                         @endif
                     </div>

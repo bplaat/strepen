@@ -22,6 +22,7 @@ return [
     // User Chooser livewire component
     'user_chooser.user' => 'User',
     'user_chooser.search_user' => 'Search an user...',
+    'user_chooser.search_by_user' => 'Search by user...',
     'user_chooser.empty' => 'No users found!',
 
     // Products Chooser livewire component

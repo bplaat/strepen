@@ -1,20 +1,24 @@
 <div class="container">
     <h2 class="title is-4">@lang('admin/transactions.crud.header')</h2>
 
-    @component('components.search-header', ['itemName' => __('admin/transactions.crud.transactions')])
+    <x-search-header :itemName="__('admin/transactions.crud.transactions')">
         <div class="buttons">
             <button class="button is-link" wire:click="openCreateTransaction" wire:loading.attr="disabled">@lang('admin/transactions.crud.create_transaction')</button>
-            <button class="button is-link" wire:click="openCreateDeposit" wire:loading.attr="disabled">@lang('admin/transactions.crud.create_deposit')</button>
-            <button class="button is-link" wire:click="openCreateFood" wire:loading.attr="disabled">@lang('admin/transactions.crud.create_food')</button>
+            <button class="button is-link" wire:click="openCreateDeposit" wire:loading.attr="disabled">@lang('admin/transactions.crud.create_deposit_small')</button>
+            <button class="button is-link" wire:click="openCreateFood" wire:loading.attr="disabled">@lang('admin/transactions.crud.create_food_small')</button>
         </div>
-    @endcomponent
+
+        <x-slot name="fields">
+            <livewire:components.user-chooser :userId="$user_id" inline="true" includeStrepenUser="true" relationship="true" />
+        </x-slot>
+    </x-search-header>
 
     @if ($transactions->count() > 0)
         {{ $transactions->links() }}
 
         <div class="columns is-multiline">
             @foreach ($transactions as $transaction)
-                @livewire('admin.transactions.item', ['transaction' => $transaction], key($transaction->id))
+                <livewire:admin.transactions.item :transaction="$transaction" :key="$transaction->id" />
             @endforeach
         </div>
 
@@ -27,7 +31,7 @@
         <div class="modal is-active">
             <div class="modal-background" wire:click="$set('isCreatingTransaction', false)"></div>
 
-            <form id="mainForm" wire:submit.prevent="createTransaction"></form>
+            <form id="mainForm" wire:submit.prevent="$emit('getSelectedProducts')"></form>
 
             <div class="modal-card">
                 <div class="modal-card-head">
@@ -36,7 +40,7 @@
                 </div>
 
                 <div class="modal-card-body">
-                    @livewire('components.user-chooser', ['includeStrepenUser' => true])
+                    <livewire:components.user-chooser includeStrepenUser="true" />
 
                     <div class="field">
                         <label class="label" for="name">@lang('admin/transactions.crud.name')</label>
@@ -47,7 +51,7 @@
                         @error('transaction.name') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
 
-                    @livewire('components.products-chooser', ['selectedProducts' => $selectedProducts, 'noMax' => true])
+                    <livewire:components.products-chooser :selectedProducts="$selectedProducts" noMax="true" />
                 </div>
 
                 <div class="modal-card-foot">
@@ -69,7 +73,7 @@
                 </div>
 
                 <div class="modal-card-body">
-                    @livewire('components.user-chooser', ['includeStrepenUser' => true])
+                    <livewire:components.user-chooser includeStrepenUser="true" />
 
                     <div class="field">
                         <label class="label" for="name">@lang('admin/transactions.crud.name')</label>
@@ -110,7 +114,7 @@
                 </div>
 
                 <div class="modal-card-body">
-                    @livewire('components.user-chooser', ['includeStrepenUser' => true])
+                    <livewire:components.user-chooser includeStrepenUser="true" />
 
                     <div class="field">
                         <label class="label" for="name">@lang('admin/transactions.crud.name')</label>

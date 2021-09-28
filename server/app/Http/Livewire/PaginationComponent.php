@@ -10,7 +10,7 @@ class PaginationComponent extends Component
     use WithPagination;
 
     public $query;
-    public $queryString = ['query'];
+    public $queryString = ['query' => ['except' => '']];
 
     public $listeners = [ 'refresh' => '$refresh' ];
 

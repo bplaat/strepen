@@ -5,9 +5,13 @@
         <h1 class="title">@lang('home.header_guest')</h1>
     @endauth
 
-    @component('components.search-header', ['itemName' => __('home.posts')])
+    <x-search-header :itemName="__('home.posts')">
         <h2 class="title is-4">@lang('home.latest_posts')</h2>
-    @endcomponent
+
+        <x-slot name="fields">
+            <livewire:components.user-chooser :userId="$user_id" inline="true" includeStrepenUser="true" relationship="true" />
+        </x-slot>
+    </x-search-header>
 
     @if ($posts->count() > 0)
         {{ $posts->links() }}

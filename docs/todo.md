@@ -3,10 +3,8 @@
 # Todo List (before launch)
 
 ## High priority
-- Add user posts admin page
-- Add user inventory admin page
+- Add product transactions history page
 - Add product inventory admin page
-- Add user transactions admin page
 - Add product transactions admin page
 - Better admin food insert modal
 - Bug fixes / All the whishs from the Stam Bestuur

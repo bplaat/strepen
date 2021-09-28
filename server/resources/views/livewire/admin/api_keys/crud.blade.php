@@ -1,18 +1,18 @@
 <div class="container">
     <h2 class="title is-4">@lang('admin/api_keys.crud.header')</h2>
 
-    @component('components.search-header', ['itemName' => __('admin/api_keys.crud.api_keys')])
+    <x-search-header :itemName="__('admin/api_keys.crud.api_keys')">
         <div class="buttons">
             <button class="button is-link" wire:click="$set('isCreating', true)" wire:loading.attr="disabled">@lang('admin/api_keys.crud.create_api_key')</button>
         </div>
-    @endcomponent
+    </x-search-header>
 
     @if ($apiKeys->count() > 0)
         {{ $apiKeys->links() }}
 
         <div class="columns is-multiline">
             @foreach ($apiKeys as $apiKey)
-                @livewire('admin.api-keys.item', ['apiKey' => $apiKey], key($apiKey->id))
+                <livewire:admin.api-keys.item :apiKey="$apiKey" :key="$apiKey->id" />
             @endforeach
         </div>
 

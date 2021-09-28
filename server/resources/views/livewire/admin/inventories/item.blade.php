@@ -3,10 +3,10 @@
         <div class="card-content content" style="flex: 1; margin-bottom: 0;">
             <h4>{{ $inventory->name }}</h4>
             <p><i>@lang('admin/inventories.item.created_by', ['user.name' => $inventory->user != null ? $inventory->user->name : '?', 'inventory.created_at' => $inventory->created_at->format('Y-m-d H:i')])</i></p>
-            <p>@lang('admin/inventories.item.price'): @component('components.money-format', ['money' => $inventory->price])@endcomponent</p>
+            <p>@lang('admin/inventories.item.price'): <x-money-format :money="$inventory->price" /></p>
             <ul>
                 @foreach ($inventory->products()->orderByRaw('LOWER(name)')->get() as $product)
-                    <li><b>{{ $product->name }}</b>: @component('components.amount-format', ['amount' => $product->pivot->amount])@endcomponent</li>
+                    <li><b>{{ $product->name }}</b>: <x-money-format :money="$product->pivot->amount" /></li>
                 @endforeach
             </ul>
         </div>
@@ -21,7 +21,7 @@
         <div class="modal is-active">
             <div class="modal-background" wire:click="$set('isEditing', false)"></div>
 
-            <form id="mainForm" wire:submit.prevent="editInventory"></form>
+            <form id="mainForm" wire:submit.prevent="$emit('getSelectedProducts')"></form>
 
             <div class="modal-card">
                 <div class="modal-card-head">
@@ -30,7 +30,7 @@
                 </div>
 
                 <div class="modal-card-body">
-                    @livewire('components.user-chooser', ['userId' => $inventory->user_id, 'includeStrepenUser' => true])
+                    <livewire:components.user-chooser :userId="$inventory->user_id" includeStrepenUser="true" />
 
                     <div class="field">
                         <label class="label" for="name">@lang('admin/inventories.item.name')</label>
@@ -65,7 +65,7 @@
                         </div>
                     </div>
 
-                    @livewire('components.products-chooser', ['selectedProducts' => $selectedProducts, 'noMax' => true])
+                    <livewire:components.products-chooser :selectedProducts="$selectedProducts" noMax="true" />
                 </div>
 
                 <div class="modal-card-foot">

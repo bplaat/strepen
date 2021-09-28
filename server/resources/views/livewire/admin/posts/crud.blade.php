@@ -1,18 +1,22 @@
 <div class="container">
     <h2 class="title is-4">@lang('admin/posts.crud.header')</h2>
 
-    @component('components.search-header', ['itemName' => __('admin/posts.crud.posts')])
+    <x-search-header :itemName="__('admin/posts.crud.posts')">
         <div class="buttons">
             <button class="button is-link" wire:click="$set('isCreating', true)" wire:loading.attr="disabled">@lang('admin/posts.crud.create_post')</button>
         </div>
-    @endcomponent
+
+        <x-slot name="fields">
+            <livewire:components.user-chooser :userId="$user_id" inline="true" includeStrepenUser="true" relationship="true" />
+        </x-slot>
+    </x-search-header>
 
     @if ($posts->count() > 0)
         {{ $posts->links() }}
 
         <div class="columns is-multiline">
             @foreach ($posts as $post)
-                @livewire('admin.posts.item', ['post' => $post], key($post->id))
+                <livewire:admin.posts.item :post="$post" :key="$post->id" />
             @endforeach
         </div>
 

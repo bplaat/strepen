@@ -24,16 +24,12 @@
                     <div class="media-content">
                         <p>
                             <b>{{ $product->name }}</b>
-                            (@component('components.money-format', ['money' => $product->price])@endcomponent)
+                            (<x-money-format :money="$product->price" />)
                         </p>
-                        <p>
-                            @component('components.amount-format', ['amount' => $product->pivot->amount])@endcomponent
-                        </p>
+                        <p><x-amount-format :amount="$product->pivot->amount" /></p>
                     </div>
                     <div class="media-right">
-                        <p>
-                            @component('components.money-format', ['money' => $product->price * $product->pivot->amount])@endcomponent
-                        </p>
+                        <p><x-money-format :money="$product->price * $product->pivot->amount" /></p>
                     </div>
                 </div>
             @endforeach
@@ -43,14 +39,10 @@
                     <div style="width: 64px;"></div>
                 </div>
                 <div class="media-content">
-                    <p>
-                        @component('components.amount-format', ['amount' => $transaction->products->pluck('pivot.amount')->sum()])@endcomponent
-                    </p>
+                    <p><x-amount-format :amount="$transaction->products->pluck('pivot.amount')->sum()" /></p>
                 </div>
                 <div class="media-right">
-                    <p>
-                        @component('components.money-format', ['money' => $transaction->price])@endcomponent
-                    </p>
+                    <p><x-money-format :money="$transaction->price" /></p>
                 </div>
             </div>
         </div>

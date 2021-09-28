@@ -81,11 +81,6 @@ class Item extends Component
         $this->isEditing = false;
     }
 
-    public function editInventory()
-    {
-        $this->emit('getSelectedProducts');
-    }
-
     public function deleteInventory()
     {
         $this->isDeleting = false;

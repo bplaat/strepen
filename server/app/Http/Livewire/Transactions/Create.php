@@ -64,11 +64,6 @@ class Create extends Component
         $this->isCreated = true;
     }
 
-    public function createTransaction()
-    {
-        $this->emit('getSelectedProducts');
-    }
-
     public function closeCreated()
     {
         $this->emit('clearSelectedProducts');

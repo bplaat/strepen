@@ -8,6 +8,8 @@ use Livewire\Component;
 class UserChooser extends Component
 {
     public $userId;
+    public $inline = false;
+    public $relationship = false;
     public $includeStrepenUser = false;
 
     public $users;
@@ -52,13 +54,11 @@ class UserChooser extends Component
 
     public function updatedUserName()
     {
-        if (!$this->isOpen) $this->isOpen = true;
-
+        $this->isOpen = true;
         if ($this->user != null && $this->userName != $this->user->name) {
             $this->user = null;
             $this->emitUp('userChooser', null);
         }
-
         $this->filterUsers();
     }
 

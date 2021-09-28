@@ -1,18 +1,22 @@
 <div class="container">
     <h2 class="title is-4">@lang('admin/inventories.crud.header')</h2>
 
-    @component('components.search-header', ['itemName' => __('admin/inventories.crud.inventories')])
+    <x-search-header :itemName="__('admin/inventories.crud.inventories')">
         <div class="buttons">
             <button class="button is-link" wire:click="$set('isCreating', true)" wire:loading.attr="disabled">@lang('admin/inventories.crud.create_inventory')</button>
         </div>
-    @endcomponent
+
+        <x-slot name="fields">
+            <livewire:components.user-chooser :userId="$user_id" inline="true" includeStrepenUser="true" relationship="true" />
+        </x-slot>
+    </x-search-header>
 
     @if ($inventories->count() > 0)
         {{ $inventories->links() }}
 
         <div class="columns is-multiline">
             @foreach ($inventories as $inventory)
-                @livewire('admin.inventories.item', ['inventory' => $inventory], key($inventory->id))
+                <livewire:admin.inventories.item :inventory="$inventory" :key="$inventory->id" />
             @endforeach
         </div>
 
@@ -25,7 +29,7 @@
         <div class="modal is-active">
             <div class="modal-background" wire:click="$set('isCreating', false)"></div>
 
-            <form id="mainForm" wire:submit.prevent="createInventory"></form>
+            <form id="mainForm" wire:submit.prevent="$emit('getSelectedProducts')"></form>
 
             <div class="modal-card">
                 <div class="modal-card-head">
@@ -43,7 +47,7 @@
                         @error('inventory.name') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
 
-                    @livewire('components.products-chooser', ['selectedProducts' => $selectedProducts, 'noMax' => true])
+                    <livewire:components.products-chooser :selectedProducts="$selectedProducts" />
                 </div>
 
                 <div class="modal-card-foot">

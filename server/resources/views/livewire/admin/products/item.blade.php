@@ -7,13 +7,13 @@
 
         <div class="card-content content" style="flex: 1; margin-bottom: 0;">
             <h4 style="font-weight: normal;">
-                <span style="font-weight: 600;">{{ $product->name }}</span>: @component('components.money-format', ['money' => $product->price])@endcomponent
+                <span style="font-weight: 600;">{{ $product->name }}</span>: <x-money-format :money="$product->price" />
 
                 @if (!$product->active)
                     <span class="tag is-pulled-right is-warning">{{ Str::upper(__('admin/products.item.inactive')) }}</span>
                 @endif
             </h4>
-            <p>@lang('admin/products.item.amount'): @component('components.amount-format', ['amount' => $product->amount])@endcomponent</p>
+            <p>@lang('admin/products.item.amount'): <x-amount-format :amount="$product->amount" /></p>
         </div>
 
         <div class="card-footer">
@@ -43,8 +43,8 @@
                     </h1>
 
                     <h2 class="subtitle is-5">@lang('admin/products.item.general_info')</h2>
-                    <p>@lang('admin/products.item.price'): @component('components.money-format', ['money' => $product->price])@endcomponent</p>
-                    <p>@lang('admin/products.item.amount'): @component('components.amount-format', ['amount' => $product->amount])@endcomponent</p>
+                    <p>@lang('admin/products.item.price'): <x-money-format :money="$product->price" /></p>
+                    <p>@lang('admin/products.item.amount'): <x-amount-format :amount="$product->amount" /></p>
                     @if ($product->description != null)
                         <p>@lang('admin/products.item.description'): <i>{{ $product->description }}</i></p>
                     @else

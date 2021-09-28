@@ -5,10 +5,13 @@ namespace App\Http\Livewire\Admin\Inventories;
 use App\Http\Livewire\PaginationComponent;
 use App\Models\Inventory;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class Crud extends PaginationComponent
 {
+    public $user_id;
+    public $userIdTemp;
     public $inventory;
     public $selectedProducts;
     public $isCreating = false;
@@ -19,13 +22,32 @@ class Crud extends PaginationComponent
         'selectedProducts.*.amount' => 'required|integer|min:1'
     ];
 
-    public $listeners = ['refresh' => '$refresh', 'selectedProducts'];
+    public function __construct() {
+        parent::__construct();
+        $this->queryString[] = 'user_id';
+        $this->listeners[] = 'userChooser';
+        $this->listeners[] = 'selectedProducts';
+    }
 
     public function mount()
     {
+        if ($this->user_id != 1 && User::where('id', $this->user_id)->where('active', true)->where('deleted', false)->count() == 0) {
+            $this->user_id = null;
+        }
+
         $this->inventory = new Inventory();
         $this->inventory->name = __('admin/inventories.crud.name_default') . ' ' . date('Y-m-d H:i:s');
         $this->selectedProducts = collect();
+    }
+
+    public function userChooser($userId) {
+        $this->userIdTemp = $userId;
+    }
+
+    public function search()
+    {
+        $this->user_id = $this->userIdTemp;
+        $this->resetPage();
     }
 
     public function selectedProducts($selectedProducts)
@@ -63,16 +85,14 @@ class Crud extends PaginationComponent
         $this->isCreating = false;
     }
 
-    public function createInventory()
-    {
-        $this->emit('getSelectedProducts');
-    }
-
     public function render()
     {
+        $inventories = Inventory::search(Inventory::select(), $this->query);
+        if ($this->user_id != null) {
+            $inventories = $inventories->where('user_id', $this->user_id);
+        }
         return view('livewire.admin.inventories.crud', [
-            'inventories' => Inventory::search(Inventory::select(), $this->query)
-                ->with(['user', 'products'])
+            'inventories' => $inventories->with(['user', 'products'])
                 ->orderBy('created_at', 'DESC')
                 ->paginate(config('pagination.web.limit'))->withQueryString()
         ])->layout('layouts.app', ['title' => __('admin/inventories.crud.title')]);

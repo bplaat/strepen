@@ -1,18 +1,18 @@
 <div class="container">
     <h2 class="title is-4">@lang('admin/products.crud.header')</h2>
 
-    @component('components.search-header', ['itemName' => __('admin/products.crud.products')])
+    <x-search-header :itemName="__('admin/products.crud.products')">
         <div class="buttons">
             <button class="button is-link" wire:click="$set('isCreating', true)" wire:loading.attr="disabled">@lang('admin/products.crud.create_product')</button>
         </div>
-    @endcomponent
+    </x-search-header>
 
     @if ($products->count() > 0)
         {{ $products->links() }}
 
         <div class="columns is-multiline">
             @foreach ($products as $product)
-                @livewire('admin.products.item', ['product' => $product], key($product->id))
+                <livewire:admin.products.item :product="$product" :key="$product->id" />
             @endforeach
         </div>
 

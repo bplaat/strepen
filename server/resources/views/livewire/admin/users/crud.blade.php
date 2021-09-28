@@ -1,19 +1,19 @@
 <div class="container">
     <h2 class="title is-4">@lang('admin/users.crud.header')</h2>
 
-    @component('components.search-header', ['itemName' => __('admin/users.crud.users')])
+    <x-search-header :itemName="__('admin/users.crud.users')">
         <div class="buttons">
             <button class="button is-link" wire:click="$set('isCreating', true)" wire:loading.attr="disabled">@lang('admin/users.crud.create_user')</button>
             <button class="button is-link" wire:click="checkBalances()" wire:loading.attr="disabled">@lang('admin/users.crud.check_balances')</button>
         </div>
-    @endcomponent
+    </x-search-header>
 
     @if ($users->count() > 0)
         {{ $users->links() }}
 
         <div class="columns is-multiline">
             @foreach ($users as $user)
-                @livewire('admin.users.item', ['user' => $user], key($user->id))
+                <livewire:admin.users.item :user="$user" :key="$user->id" />
             @endforeach
         </div>
 
