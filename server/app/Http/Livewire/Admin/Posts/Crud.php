@@ -16,7 +16,7 @@ class Crud extends PaginationComponent
     public $isCreating;
 
     public $rules = [
-        'post.title' => 'required|min:2|max:48',
+        'post.title' => 'required|min:2|max:128',
         'post.body' => 'required|min:2'
     ];
 

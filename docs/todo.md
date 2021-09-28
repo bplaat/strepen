@@ -3,6 +3,7 @@
 # Todo List (before launch)
 
 ## High priority
+- Admin users role filter
 - Better admin food insert modal
 - Bug fixes / All the whishs from the Stam Bestuur
 

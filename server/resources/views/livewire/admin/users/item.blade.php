@@ -19,7 +19,7 @@
                 </span>
             </h4>
 
-            <p>@lang('admin/users.item.balance'): <x-money-format :money="$user->price" /></p>
+            <p>@lang('admin/users.item.balance'): <x-money-format :money="$user->balance" /></p>
         </div>
 
         <div class="card-footer">

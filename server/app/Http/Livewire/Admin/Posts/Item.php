@@ -15,7 +15,7 @@ class Item extends Component
 
     public $rules = [
         'post.user_id' => 'required|integer|exists:users,id',
-        'post.title' => 'required|min:2|max:48',
+        'post.title' => 'required|min:2|max:128',
         'createdAtDate' => 'required|date_format:Y-m-d',
         'createdAtTime' => 'required|date_format:H:i:s',
         'post.body' => 'required|min:2'

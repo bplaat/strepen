@@ -11,6 +11,7 @@ use App\Models\Transaction;
 use App\Models\TransactionProduct;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class ImportData extends Command
@@ -297,6 +298,40 @@ class ImportData extends Command
             $transactionsJson[] = json_decode('{' . $itemJson . '}');
         }
 
+        function createTransactionProduct($transactionProduct) {
+            static $transactionProductsCache = [];
+            if ($transactionProduct != null) {
+                $transactionProductsCache[] = $transactionProduct;
+            }
+            if ($transactionProduct == null || count($transactionProductsCache) == 500) {
+                TransactionProduct::insert($transactionProductsCache);
+                $transactionProductsCache = [];
+            }
+        }
+
+        function createTransaction($transaction, $products = []) {
+            static $transactionsCache = [];
+            static $productsCache = [];
+            if ($transaction != null) {
+                $transactionsCache[] = $transaction;
+                $productsCache[] = $products;
+            }
+            if ($transaction == null || count($transactionsCache) == 500) {
+                $transaction_id = Transaction::orderBy('id', 'DESC')->first()->id + 1;
+                Transaction::insert($transactionsCache);
+                foreach ($transactionsCache as $index => $transaction) {
+                    $products = $productsCache[$index];
+                    foreach ($products as $transactionProduct) {
+                        $transactionProduct['transaction_id'] = $transaction_id;
+                        createTransactionProduct($transactionProduct);
+                    }
+                    $transaction_id++;
+                }
+                $transactionsCache = [];
+                $productsCache = [];
+            }
+        }
+
         if ($export) {
             file_put_contents('transactions.json', json_encode($transactionsJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
         } else {
@@ -309,36 +344,33 @@ class ImportData extends Command
                 if (!in_array($transactionJson->id, $doneTransactions)) {
                     $user = $users->firstWhere('id', $oldUserIds[$transactionJson->old_user_id]);
                     if ($transactionJson->old_product_id == 7) {
-                        $transaction = new Transaction();
-                        $transaction->user_id = $user->id;
-                        $transaction->type = Transaction::TYPE_DEPOSIT;
-                        $transaction->name = 'Imported deposit on ' . $transactionJson->created_at;
-                        $transaction->price = $transactionJson->amount;
-                        $transaction->created_at = $transactionJson->created_at;
-                        $transaction->save();
-
-                        $user->balance += $transaction->price;
-                        $doneTransactions[] = $transactionJson->id;
+                        if ($transactionJson->price != 0) {
+                            $transactionJson->price = -$transactionJson->price;
+                            createTransaction([
+                                'user_id' => $user->id,
+                                'type' => Transaction::TYPE_DEPOSIT,
+                                'name' => 'Imported deposit on ' . $transactionJson->created_at,
+                                'price' => $transactionJson->price,
+                                'created_at' => $transactionJson->created_at
+                            ]);
+                            $user->balance += $transactionJson->price;
+                            $doneTransactions[] = $transactionJson->id;
+                        }
                     } else if ($transactionJson->old_product_id == 10) {
-                        $transaction = new Transaction();
-                        $transaction->user_id = $user->id;
-                        $transaction->type = Transaction::TYPE_FOOD;
-                        $transaction->name = 'Imported food transaction on ' . $transactionJson->created_at;
-                        $transaction->price = $transactionJson->price;
-                        $transaction->created_at = $transactionJson->created_at;
-                        $transaction->save();
-
-                        $user->balance -= $transaction->price;
-                        $doneTransactions[] = $transactionJson->id;
+                        if ($transactionJson->price != 0) {
+                            createTransaction([
+                                'user_id' => $user->id,
+                                'type' => Transaction::TYPE_FOOD,
+                                'name' => 'Imported food transaction on ' . $transactionJson->created_at,
+                                'price' => $transactionJson->price,
+                                'created_at' => $transactionJson->created_at
+                            ]);
+                            $user->balance -= $transactionJson->price;
+                            $doneTransactions[] = $transactionJson->id;
+                        }
                     } else {
-                        $transaction = new Transaction();
-                        $transaction->user_id = $user->id;
-                        $transaction->type = Transaction::TYPE_TRANSACTION;
-                        $transaction->name = 'Imported transaction on ' . $transactionJson->created_at;
-                        $transaction->price = 0;
-                        $transaction->created_at = $transactionJson->created_at;
-                        $transaction->save();
-
+                        $transactionProducts = [];
+                        $transactionPrice = 0;
                         for ($i = $index; $i < $index + 10 && $i < $total; $i++) {
                             $otherTransactionJson = $transactionsJson[$i];
                             if (
@@ -348,30 +380,49 @@ class ImportData extends Command
                                 $otherTransactionJson->created_at_timestamp >= $transactionJson->created_at_timestamp &&
                                 $otherTransactionJson->created_at_timestamp < $transactionJson->created_at_timestamp + 10 * 60
                             ) {
-                                $product = $products->firstWhere('id', $oldProductIds[$otherTransactionJson->old_product_id]);
-                                $transaction->price += $otherTransactionJson->price;
+                                if ($otherTransactionJson->amount > 0) {
+                                    $alreadyExists = false;
+                                    foreach ($transactionProducts as $transactionProduct) {
+                                        if ($transactionProduct['product_id'] == $oldProductIds[$otherTransactionJson->old_product_id]) {
+                                            $transactionProduct['amount'] += $otherTransactionJson->amount;
+                                            $alreadyExists = true;
+                                            break;
+                                        }
+                                    }
+                                    if (!$alreadyExists) {
+                                        $transactionProducts[] = [
+                                            'product_id' => $oldProductIds[$otherTransactionJson->old_product_id],
+                                            'amount' => $otherTransactionJson->amount
+                                        ];
+                                    }
 
-                                $transactionProduct = TransactionProduct::where('transaction_id', $transaction->id)
-                                    ->where('product_id', $product->id)->first();
-                                if ($transactionProduct != null) {
-                                    $transaction->products()->updateExistingPivot($product->id, [
-                                        'amount' => $transactionProduct->amount + $otherTransactionJson->amount
-                                    ]);
-                                } else {
-                                    $transaction->products()->attach($product->id, [ 'amount' => $otherTransactionJson->amount ]);
+                                    $product = $products->firstWhere('id', $oldProductIds[$otherTransactionJson->old_product_id]);
+                                    $product->amount -= $otherTransactionJson->amount;
+
+                                    $transactionPrice += $otherTransactionJson->price;
                                 }
-
-                                $product->amount -= $otherTransactionJson->amount;
                                 $doneTransactions[] = $otherTransactionJson->id;
                             }
                         }
-                        $transaction->save();
-                        $user->balance -= $transaction->price;
+                        if (count($transactionProducts) == 0) {
+                            continue;
+                        }
+
+                        createTransaction([
+                            'user_id' => $user->id,
+                            'type' => Transaction::TYPE_TRANSACTION,
+                            'name' => 'Imported transaction on ' . $transactionJson->created_at,
+                            'price' => $transactionPrice,
+                            'created_at' => $transactionJson->created_at
+                        ], $transactionProducts);
+                        $user->balance -= $transactionPrice;
                     }
                 }
                 echo "\033[F" . ($index + 1) . ' / ' . $total . ' = ' . round(($index + 1) / $total * 100, 2) . "% | " . $transactionJson->created_at . "\n";
             }
 
+            createTransaction(null);
+            createTransactionProduct(null);
             foreach ($users as $user) $user->save();
             foreach ($products as $product) $product->save();
         }
