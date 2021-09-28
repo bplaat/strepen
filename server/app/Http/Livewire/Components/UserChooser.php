@@ -11,6 +11,8 @@ class UserChooser extends Component
     public $inline = false;
     public $relationship = false;
     public $includeStrepenUser = false;
+    public $postsRequired = false;
+    public $inventoriesRequired = false;
 
     public $users;
     public $filteredUsers;
@@ -25,10 +27,20 @@ class UserChooser extends Component
         if ($this->includeStrepenUser) {
             $this->users = User::where('deleted', false)->where(function ($query) {
                 return $query->where('active', true)->orWhere('id', 1);
-            })->orderBy('balance', 'DESC')->get();
+            })->orderBy('balance', 'DESC')->withCount(['posts', 'inventories'])->get();
         } else {
             $this->users = User::where('active', true)->where('deleted', false)
-                ->orderBy('balance', 'DESC')->get();
+                ->orderBy('balance', 'DESC')->withCount(['posts', 'inventories'])->get();
+        }
+        if ($this->postsRequired) {
+            $this->users = $this->users->filter(function ($user) {
+                return $user->posts_count > 0;
+            });
+        }
+        if ($this->inventoriesRequired) {
+            $this->users = $this->users->filter(function ($user) {
+                return $user->inventories_count > 0;
+            });
         }
         $this->filterUsers();
 

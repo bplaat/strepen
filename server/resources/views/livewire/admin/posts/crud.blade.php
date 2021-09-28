@@ -7,7 +7,7 @@
         </div>
 
         <x-slot name="fields">
-            <livewire:components.user-chooser :userId="$user_id" inline="true" includeStrepenUser="true" relationship="true" />
+            <livewire:components.user-chooser :userId="$user_id" inline="true" includeStrepenUser="true" relationship="true" postsRequired="true" />
         </x-slot>
     </x-search-header>
 
