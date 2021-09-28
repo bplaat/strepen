@@ -6,6 +6,10 @@
             <button class="button is-link" wire:click="$set('isCreating', true)" wire:loading.attr="disabled">@lang('admin/users.crud.create_user')</button>
             <button class="button is-link" wire:click="checkBalances()" wire:loading.attr="disabled">@lang('admin/users.crud.check_balances')</button>
         </div>
+
+        <x-slot name="fields">
+            <x-user-role-chooser />
+        </x-slot>
     </x-search-header>
 
     @if ($users->count() > 0)

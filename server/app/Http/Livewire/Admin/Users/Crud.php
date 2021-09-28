@@ -12,6 +12,7 @@ class Crud extends PaginationComponent
 {
     use WithFileUploads;
 
+    public $role;
     public $user;
     public $avatar;
     public $thanks;
@@ -38,8 +39,17 @@ class Crud extends PaginationComponent
         'user.receive_news' => 'nullable|boolean'
     ];
 
+    public function __construct() {
+        parent::__construct();
+        $this->queryString[] = 'role';
+    }
+
     public function mount()
     {
+        if ($this->role != 'normal' && $this->role != 'admin') {
+            $this->role = null;
+        }
+
         $this->user = new User();
         $this->user->role = User::ROLE_NORMAL;
         $this->user->language = User::LANGUAGE_DUTCH;
@@ -48,6 +58,15 @@ class Crud extends PaginationComponent
         $this->avatar = null;
         $this->thanks = null;
         $this->isCreating = false;
+    }
+
+
+    public function search()
+    {
+        if ($this->role != 'normal' && $this->role != 'admin') {
+            $this->role = null;
+        }
+        $this->resetPage();
     }
 
     public function createUser()
@@ -81,9 +100,14 @@ class Crud extends PaginationComponent
 
     public function render()
     {
+        $users = User::search(User::select(), $this->query);
+        if ($this->role != null) {
+            if ($this->role == 'normal') $role = User::ROLE_NORMAL;
+            if ($this->role == 'admin') $role = User::ROLE_ADMIN;
+            $users = $users->where('role', $role);
+        }
         return view('livewire.admin.users.crud', [
-            'users' => User::search(User::select(), $this->query)
-                ->orderByRaw('active DESC, LOWER(IF(lastname != \'\', IF(insertion != NULL, CONCAT(lastname, \', \', insertion, \' \', firstname), CONCAT(lastname, \' \', firstname)), firstname))')
+            'users' => $users->orderByRaw('active DESC, LOWER(IF(lastname != \'\', IF(insertion != NULL, CONCAT(lastname, \', \', insertion, \' \', firstname), CONCAT(lastname, \' \', firstname)), firstname))')
                 ->paginate(config('pagination.web.limit'))->withQueryString()
         ])->layout('layouts.app', ['title' => __('admin/users.crud.title'), 'chartjs' => true]);
     }

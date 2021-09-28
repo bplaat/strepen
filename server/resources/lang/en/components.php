@@ -38,6 +38,11 @@ return [
     'products_chooser.empty' => 'No products found!',
     'products_chooser.amount' => 'amount',
 
+    // User Role Chooser blade component
+    'user_role_chooser_all' => 'All roles',
+    'user_role_chooser_normal' => 'Normals only',
+    'user_role_chooser_admin' => 'Admins only',
+
     // Transaction Type Chooser blade component
     'transaction_type_chooser_all' => 'All transactions',
     'transaction_type_chooser_transaction' => 'Transactions only',
