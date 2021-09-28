@@ -6,7 +6,7 @@
             <p>@lang('admin/inventories.item.price'): <x-money-format :money="$inventory->price" /></p>
             <ul>
                 @foreach ($inventory->products()->orderByRaw('LOWER(name)')->get() as $product)
-                    <li><b>{{ $product->name }}</b>: <x-money-format :money="$product->pivot->amount" /></li>
+                    <li><b>{{ $product->name }}</b>: <x-amount-format :amount="$product->pivot->amount" /></li>
                 @endforeach
             </ul>
         </div>
