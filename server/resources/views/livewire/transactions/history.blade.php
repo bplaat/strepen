@@ -1,6 +1,10 @@
 <div class="container">
     <x-search-header :itemName="__('transactions.history.transactions')">
         <h1 class="title is-4">@lang('transactions.history.header')</h1>
+
+        <x-slot name="fields">
+            <livewire:components.product-chooser :productId="$product_id" inline="true" relationship="true" />
+        </x-slot>
     </x-search-header>
 
     @if ($transactions->count() > 0)

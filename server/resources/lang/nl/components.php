@@ -25,6 +25,12 @@ return [
     'user_chooser.search_by_user' => 'Zoek op gebruiker...',
     'user_chooser.empty' => 'Geen gebruikers gevonden!',
 
+    // Product Chooser livewire component
+    'product_chooser.product' => 'Product',
+    'product_chooser.search_product' => 'Zoek een product...',
+    'product_chooser.search_by_product' => 'Zoek op product...',
+    'product_chooser.empty' => 'Geen producten gevonden!',
+
     // Products Chooser livewire component
     'products_chooser.products' => 'Producten',
     'products_chooser.search_product' => 'Zoek een product...',

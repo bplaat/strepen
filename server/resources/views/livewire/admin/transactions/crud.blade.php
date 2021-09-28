@@ -10,6 +10,7 @@
 
         <x-slot name="fields">
             <livewire:components.user-chooser :userId="$user_id" inline="true" includeStrepenUser="true" relationship="true" />
+            <livewire:components.product-chooser :productId="$product_id" inline="true" relationship="true" />
         </x-slot>
     </x-search-header>
 

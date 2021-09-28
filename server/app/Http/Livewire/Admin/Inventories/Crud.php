@@ -12,6 +12,8 @@ class Crud extends PaginationComponent
 {
     public $user_id;
     public $userIdTemp;
+    public $product_id;
+    public $productIdTemp;
     public $inventory;
     public $selectedProducts;
     public $isCreating = false;
@@ -25,7 +27,9 @@ class Crud extends PaginationComponent
     public function __construct() {
         parent::__construct();
         $this->queryString[] = 'user_id';
+        $this->queryString[] = 'product_id';
         $this->listeners[] = 'userChooser';
+        $this->listeners[] = 'productChooser';
         $this->listeners[] = 'selectedProducts';
     }
 
@@ -33,6 +37,9 @@ class Crud extends PaginationComponent
     {
         if ($this->user_id != 1 && User::where('id', $this->user_id)->where('active', true)->where('deleted', false)->count() == 0) {
             $this->user_id = null;
+        }
+        if (Product::where('id', $this->product_id)->where('active', true)->where('deleted', false)->count() == 0) {
+            $this->product_id = null;
         }
 
         $this->inventory = new Inventory();
@@ -44,9 +51,14 @@ class Crud extends PaginationComponent
         $this->userIdTemp = $userId;
     }
 
+    public function productChooser($productId) {
+        $this->productIdTemp = $productId;
+    }
+
     public function search()
     {
         $this->user_id = $this->userIdTemp;
+        $this->product_id = $this->productIdTemp;
         $this->resetPage();
     }
 
@@ -90,6 +102,11 @@ class Crud extends PaginationComponent
         $inventories = Inventory::search(Inventory::select(), $this->query);
         if ($this->user_id != null) {
             $inventories = $inventories->where('user_id', $this->user_id);
+        }
+        if ($this->product_id != null) {
+            $inventories = $inventories->whereHas('products', function ($query) {
+                return $query->where('product_id', $this->product_id);
+            });
         }
         return view('livewire.admin.inventories.crud', [
             'inventories' => $inventories->with(['user', 'products'])
