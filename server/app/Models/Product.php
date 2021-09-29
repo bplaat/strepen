@@ -39,13 +39,13 @@ class Product extends Model
         $this->amount = 0;
 
         // Loop through all inventories and adjust amount
-        $inventories = $this->inventories()->where('deleted', false)->orderBy('created_at')->get();
+        $inventories = $this->inventories()->where('deleted', false)->get();
         foreach ($inventories as $inventory) {
             $this->amount += $inventory->pivot->amount;
         }
 
         // Loop through all transactions and adjust amount
-        $transactions = $this->transactions()->where('deleted', false)->orderBy('created_at')->get();
+        $transactions = $this->transactions()->where('deleted', false)->get();
         foreach ($transactions as $transaction) {
             $this->amount -= $transaction->pivot->amount;
         }

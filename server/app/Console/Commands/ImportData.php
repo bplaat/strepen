@@ -100,8 +100,6 @@ class ImportData extends Command
                 }
                 echo "\033[F" . ($index + 1) . ' / ' . $total . ' = ' . round(($index + 1) / $total * 100, 2) . "%\n";
             }
-
-            $users = User::all();
         }
         echo "Importing users done!\n";
 
@@ -230,7 +228,6 @@ class ImportData extends Command
                                     $inventory->products()->attach($product->id, [ 'amount' => $otherInventoryJson->amount ]);
                                 }
 
-                                $product->amount += $otherInventoryJson->amount;
                                 $doneInventories[] = $otherInventoryJson->id;
                             }
                         }
@@ -270,7 +267,6 @@ class ImportData extends Command
                                     $transaction->products()->attach($product->id, [ 'amount' => $otherInventoryJson->amount ]);
                                 }
 
-                                $product->amount -= $otherInventoryJson->amount;
                                 $doneInventories[] = $otherInventoryJson->id;
                             }
                         }
@@ -279,8 +275,6 @@ class ImportData extends Command
                 }
                 echo "\033[F" . ($index + 1) . ' / ' . $total . ' = ' . round(($index + 1) / $total * 100, 2) . "% | " . $inventoryJson->created_at . "\n";
             }
-
-            foreach ($products as $product) $product->save();
         }
         echo "Importing inventories done!\n";
 
@@ -342,39 +336,36 @@ class ImportData extends Command
             }
             foreach ($transactionsJson as $index => $transactionJson) {
                 if (!in_array($transactionJson->id, $doneTransactions)) {
-                    $user = $users->firstWhere('id', $oldUserIds[$transactionJson->old_user_id]);
                     if ($transactionJson->old_product_id == 7) {
                         if ($transactionJson->price != 0) {
                             $transactionJson->price = -$transactionJson->price;
                             createTransaction([
-                                'user_id' => $user->id,
+                                'user_id' => $oldUserIds[$transactionJson->old_user_id],
                                 'type' => Transaction::TYPE_DEPOSIT,
                                 'name' => 'Imported deposit on ' . $transactionJson->created_at,
                                 'price' => $transactionJson->price,
                                 'created_at' => $transactionJson->created_at
                             ]);
-                            $user->balance += $transactionJson->price;
                             $doneTransactions[] = $transactionJson->id;
                         }
                     } else if ($transactionJson->old_product_id == 10) {
                         if ($transactionJson->price != 0) {
                             createTransaction([
-                                'user_id' => $user->id,
+                                'user_id' => $oldUserIds[$transactionJson->old_user_id],
                                 'type' => Transaction::TYPE_FOOD,
                                 'name' => 'Imported food transaction on ' . $transactionJson->created_at,
                                 'price' => $transactionJson->price,
                                 'created_at' => $transactionJson->created_at
                             ]);
-                            $user->balance -= $transactionJson->price;
                             $doneTransactions[] = $transactionJson->id;
                         }
                     } else {
                         $transactionProducts = [];
                         $transactionPrice = 0;
-                        for ($i = $index; $i < $index + 10 && $i < $total; $i++) {
+                        for ($i = $index; $i < $index + 25 && $i < $total; $i++) {
                             $otherTransactionJson = $transactionsJson[$i];
                             if (
-                                $oldUserIds[$otherTransactionJson->old_user_id] == $user->id &&
+                                $oldUserIds[$otherTransactionJson->old_user_id] == $oldUserIds[$transactionJson->old_user_id] &&
                                 $otherTransactionJson->old_product_id != 7 &&
                                 $otherTransactionJson->old_product_id != 10 &&
                                 $otherTransactionJson->created_at_timestamp >= $transactionJson->created_at_timestamp &&
@@ -382,7 +373,7 @@ class ImportData extends Command
                             ) {
                                 if ($otherTransactionJson->amount > 0) {
                                     $alreadyExists = false;
-                                    foreach ($transactionProducts as $transactionProduct) {
+                                    foreach ($transactionProducts as &$transactionProduct) {
                                         if ($transactionProduct['product_id'] == $oldProductIds[$otherTransactionJson->old_product_id]) {
                                             $transactionProduct['amount'] += $otherTransactionJson->amount;
                                             $alreadyExists = true;
@@ -395,10 +386,6 @@ class ImportData extends Command
                                             'amount' => $otherTransactionJson->amount
                                         ];
                                     }
-
-                                    $product = $products->firstWhere('id', $oldProductIds[$otherTransactionJson->old_product_id]);
-                                    $product->amount -= $otherTransactionJson->amount;
-
                                     $transactionPrice += $otherTransactionJson->price;
                                 }
                                 $doneTransactions[] = $otherTransactionJson->id;
@@ -409,13 +396,12 @@ class ImportData extends Command
                         }
 
                         createTransaction([
-                            'user_id' => $user->id,
+                            'user_id' => $oldUserIds[$transactionJson->old_user_id],
                             'type' => Transaction::TYPE_TRANSACTION,
                             'name' => 'Imported transaction on ' . $transactionJson->created_at,
                             'price' => $transactionPrice,
                             'created_at' => $transactionJson->created_at
                         ], $transactionProducts);
-                        $user->balance -= $transactionPrice;
                     }
                 }
                 echo "\033[F" . ($index + 1) . ' / ' . $total . ' = ' . round(($index + 1) / $total * 100, 2) . "% | " . $transactionJson->created_at . "\n";
@@ -423,9 +409,12 @@ class ImportData extends Command
 
             createTransaction(null);
             createTransactionProduct(null);
-            foreach ($users as $user) $user->save();
-            foreach ($products as $product) $product->save();
         }
         echo "Importing transactions done!\n";
+
+        // Recalculate all amounts and balances
+        if (!$export) {
+            Artisan::call('recalculate');
+        }
     }
 }

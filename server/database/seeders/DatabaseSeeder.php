@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
         $user->password = Hash::make(Str::random(32));
         $user->balance = 0;
         $user->active = false;
+        $user->receive_news = false;
         $user->save();
 
         // Create admin account

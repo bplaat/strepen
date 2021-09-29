@@ -76,17 +76,19 @@ class User extends Authenticatable
         // Recount balance
         $this->balance = 0;
 
-        // Loop through all transactions and adjust balance
-        $transactions = $this->transactions()->where('deleted', false)->orderBy('created_at')->get();
-        foreach ($transactions as $transaction) {
-            if ($transaction->type == Transaction::TYPE_TRANSACTION) {
-                $this->balance -= $transaction->price;
-            }
-            if ($transaction->type == Transaction::TYPE_DEPOSIT) {
-                $this->balance += $transaction->price;
-            }
-            if ($transaction->type == Transaction::TYPE_FOOD) {
-                $this->balance -= $transaction->price;
+        if ($this->id != 1) {
+            // Loop through all transactions and adjust balance
+            $transactions = $this->transactions()->where('deleted', false)->get();
+            foreach ($transactions as $transaction) {
+                if ($transaction->type == Transaction::TYPE_TRANSACTION) {
+                    $this->balance -= $transaction->price;
+                }
+                if ($transaction->type == Transaction::TYPE_DEPOSIT) {
+                    $this->balance += $transaction->price;
+                }
+                if ($transaction->type == Transaction::TYPE_FOOD) {
+                    $this->balance -= $transaction->price;
+                }
             }
         }
     }
