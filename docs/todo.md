@@ -4,12 +4,11 @@
 
 ## High priority
 - Better admin food insert modal
-- Bug fixes / All the whishs from the Stam Bestuur
-
-## Medium priority
+- User settings in mobile Flutter app
 - Password reset system / Initial user password
 - Notifications emails
+- Bug fixes / All the whishs from the Stam Bestuur
 
 ## Low priority
 - Publish flutter mobile app on Google Play Store
-- Finish the REST API
+- Finish the admin part of the REST API

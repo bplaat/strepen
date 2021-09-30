@@ -30,6 +30,7 @@ Route::middleware('api_key:self')->group(function () {
     Route::get('users/{user}/transactions', [ApiUsersController::class, 'showTransactions'])->name('api.users.show_transactions');
     Route::get('users/{user}/notifications', [ApiUsersController::class, 'showNotifications'])->name('api.users.show_notifications');
     Route::get('users/{user}/notifications/unread', [ApiUsersController::class, 'showUnreadNotifications'])->name('api.users.show_unread_notifications');
+    Route::post('users/{user}/edit', [ApiUsersController::class, 'edit'])->name('api.users.edit');
 
     Route::get('notifications/{notification}/read', [ApiNotificationsController::class, 'read'])->name('api.notifications.read');
 
