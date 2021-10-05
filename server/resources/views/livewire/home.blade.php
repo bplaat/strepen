@@ -16,10 +16,6 @@
     @if ($posts->count() > 0)
         {{ $posts->links() }}
 
-        @php
-            $parsedown = new Parsedown();
-        @endphp
-
         @foreach ($posts as $post)
             <div class="box content">
                 <h4>{{ $post->title }}</h4>

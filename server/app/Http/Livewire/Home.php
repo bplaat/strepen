@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Post;
 use App\Models\User;
+use \Parsedown;
 
 class Home extends PaginationComponent
 {
@@ -42,6 +43,7 @@ class Home extends PaginationComponent
             $posts = $posts->where('user_id', $this->user_id);
         }
         return view('livewire.home', [
+            'parsedown' => new Parsedown(),
             'posts' => $posts->with('user')
                 ->orderBy('created_at', 'DESC')
                 ->paginate(config('pagination.web.small_limit'))->withQueryString()
