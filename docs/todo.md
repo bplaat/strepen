@@ -9,6 +9,9 @@
 - Fix dark theme and make it default
 - Global key value settings system
 - Whitelist ips for direct kiosk access
+- Add product alcoholic boolean
+- Make users that are minors can't change there birthday
+- Make users that are minors can stripe alcoholic products
 - Bug fixes / All the whishs from the Stam Bestuur
 
 ## Low priority
