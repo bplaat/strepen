@@ -12,10 +12,10 @@
     <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#111">
     <meta name="theme-color" content="#f5f5f5">
     <link rel="manifest" href="/manifest.json">
-    @if (Auth::check() && Auth::user()->theme == \App\Models\User::THEME_DARK)
-        <link rel="stylesheet" href="/css/bulma-dark.min.css">
-    @else
+    @if (Auth::check() && Auth::user()->theme == \App\Models\User::THEME_LIGHT)
         <link rel="stylesheet" href="/css/bulma-light.min.css">
+    @else
+        <link rel="stylesheet" href="/css/bulma-dark.min.css">
     @endif
     @livewireStyles
     @if (isset($chartjs))

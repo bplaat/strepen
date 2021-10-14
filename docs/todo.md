@@ -6,7 +6,6 @@
 - Better admin food insert modal
 - Password reset system / Initial user password
 - Notifications emails
-- Fix dark theme and make it default
 - Global key value settings system
 - Whitelist ips for direct kiosk access
 - Add product alcoholic boolean

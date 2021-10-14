@@ -8,11 +8,11 @@ use Illuminate\Support\Facades\Auth;
 
 class Notifications extends Component
 {
-    public $isDark;
+    public $isLight;
 
     public function mount()
     {
-        $this->isDark = Auth::user()->theme == \App\Models\User::THEME_DARK;
+        $this->isLight = Auth::user()->theme == \App\Models\User::THEME_LIGHT;
     }
 
     public function readNotification($notificationId)
