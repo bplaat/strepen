@@ -28,7 +28,7 @@ return [
     'change_details.receive_news' => 'Ontvang nieuws',
     'change_details.receive_news_user' => 'Ontvang meldingen wanneer een nieuwe nieuwsberichten zijn geplaatst',
     'change_details.button' => 'Verander gegevens',
-    'change_details.success_message' => 'Je gegevens zijn opgeslagen',
+    'change_details.success_message' => 'Je gegevens zijn gewijzigd, als je het thema hebt gewijzigd moet u de pagina verversen om dit effectief te maken',
 
     // Change avatar form
     'change_avatar.header' => 'Verander avatar',
@@ -38,8 +38,8 @@ return [
     'change_avatar.avatar_help' => 'U kunt een vierkante .jpg- of .png-afbeelding uploaden',
     'change_avatar.change_button' => 'Verander avatar',
     'change_avatar.delete_button' => 'Verwijder avatar',
-    'change_avatar.success_message' => 'Je avatar is veranderd',
-    'change_avatar.delete_message' => 'Je avatar is verwijderd',
+    'change_avatar.success_message' => 'Je avatar is gewijzigd, ververs de pagina om dit effectief te maken',
+    'change_avatar.delete_message' => 'Je avatar is verwijderd, ververs de pagina om dit effectief te maken',
 
     // Change thanks form
     'change_thanks.header' => 'Verander bedank-gif',

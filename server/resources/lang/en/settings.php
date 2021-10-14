@@ -28,7 +28,7 @@ return [
     'change_details.receive_news' => 'Receive news',
     'change_details.receive_news_user' => 'Receive news notifications when a new news posts are placed',
     'change_details.button' => 'Change details',
-    'change_details.success_message' => 'Your details have changed',
+    'change_details.success_message' => 'Your details have changed, if you changed the the theme you need to refresh the page to make it effective',
 
     // Change avatar form
     'change_avatar.header' => 'Change avatar',
@@ -38,8 +38,8 @@ return [
     'change_avatar.avatar_help' => 'You can upload an squared .jpg or .png image',
     'change_avatar.change_button' => 'Change avatar',
     'change_avatar.delete_button' => 'Delete avatar',
-    'change_avatar.success_message' => 'Your avatar has changed',
-    'change_avatar.delete_message' => 'Your avatar has been deleted',
+    'change_avatar.success_message' => 'Your avatar has changed, refresh the page to make it effective',
+    'change_avatar.delete_message' => 'Your avatar has been deleted, refresh the page to make it effective',
 
     // Change thanks form
     'change_thanks.header' => 'Change thanks gif',
