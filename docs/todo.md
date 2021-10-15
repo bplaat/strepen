@@ -12,7 +12,6 @@
 - Bug fixes / All the whishs from the Stam Bestuur
 
 ## Low priority
-- Fix default images in mobile Flutter app
 - User settings in mobile Flutter app
 - Publish flutter mobile app on Google Play Store
 - Finish the admin part of the REST API

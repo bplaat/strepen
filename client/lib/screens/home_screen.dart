@@ -5,6 +5,7 @@ import 'home_screen_stripe_tab.dart';
 import 'home_screen_profile_tab.dart';
 import '../models/notification.dart';
 import '../services/auth_service.dart';
+import '../services/settings_service.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -22,6 +23,7 @@ class _HomeScreenState extends State {
   void initState() {
     super.initState();
     AuthService.getInstance().user(forceReload: true);
+    SettingsService.getInstance().settings(forceReload: true);
   }
 
   @override

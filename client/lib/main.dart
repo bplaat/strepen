@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'screens/home_screen.dart';
 import 'screens/login_screen.dart';
@@ -26,7 +25,7 @@ void main() async {
       accentColor: Colors.pink
     ),
 
-    initialRoute: storage.prefs.getString('token') != null ? '/home' : '/login',
+    initialRoute: storage.token != null ? '/home' : '/login',
     routes: {
       '/home': (context) => HomeScreen(),
       '/login': (context) => LoginScreen()

@@ -1,4 +1,3 @@
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../config.dart';
@@ -35,26 +34,25 @@ class AuthService {
     }
 
     StorageService storage = await StorageService.getInstance();
-    await storage.prefs.setString('token', data['token']);
-    await storage.prefs.setInt('user_id', data['user_id']);
+    storage.token = data['token'];
+    storage.userId = data['user_id'];
     return true;
   }
 
   Future logout() async {
     StorageService storage = await StorageService.getInstance();
     await http.get(Uri.parse('${API_URL}/auth/logout?api_key=${API_KEY}'), headers: {
-      'Authorization': 'Bearer ${storage.prefs.getString('token')!}'
+      'Authorization': 'Bearer ${storage.token!}'
     });
-
-    await storage.prefs.remove('token');
-    await storage.prefs.remove('user_id');
+    storage.token = null;
+    storage.userId = null;
   }
 
   Future<User> user({bool forceReload = false}) async {
     if (_user == null || forceReload) {
       StorageService storage = await StorageService.getInstance();
-      final response = await http.get(Uri.parse('${API_URL}/users/${storage.prefs.getInt('user_id')}?api_key=${API_KEY}'), headers: {
-          'Authorization': 'Bearer ${storage.prefs.getString('token')!}'
+      final response = await http.get(Uri.parse('${API_URL}/users/${storage.userId!}?api_key=${API_KEY}'), headers: {
+          'Authorization': 'Bearer ${storage.token!}'
       });
       _user = User.fromJson(json.decode(response.body));
     }
@@ -64,8 +62,8 @@ class AuthService {
   Future<List<NotificationData>> unreadNotifications({bool forceReload = false}) async {
     if (_unreadNotifications == null || forceReload) {
       StorageService storage = await StorageService.getInstance();
-      final response = await http.get(Uri.parse('${API_URL}/users/${storage.prefs.getInt('user_id')}/notifications/unread?api_key=${API_KEY}'), headers: {
-        'Authorization': 'Bearer ${storage.prefs.getString('token')!}'
+      final response = await http.get(Uri.parse('${API_URL}/users/${storage.userId!}/notifications/unread?api_key=${API_KEY}'), headers: {
+        'Authorization': 'Bearer ${storage.token!}'
       });
       final notificationsJson = json.decode(response.body)['data'];
       _unreadNotifications = notificationsJson.map<NotificationData>((json) => NotificationData.fromJson(json)).toList();
@@ -76,7 +74,7 @@ class AuthService {
   Future readNotification({required String notificationId}) async {
     StorageService storage = await StorageService.getInstance();
     await http.get(Uri.parse('${API_URL}/notifications/${notificationId}/read?api_key=${API_KEY}'), headers: {
-      'Authorization': 'Bearer ${storage.prefs.getString('token')!}'
+      'Authorization': 'Bearer ${storage.token!}'
     });
   }
 }

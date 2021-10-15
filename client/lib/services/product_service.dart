@@ -1,4 +1,3 @@
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../config.dart';
@@ -21,7 +20,7 @@ class ProductsService {
     if (_products == null || forceReload) {
       StorageService storage = await StorageService.getInstance();
       final response = await http.get(Uri.parse('${API_URL}/products?api_key=${API_KEY}'), headers: {
-        'Authorization': 'Bearer ${storage.prefs.getString('token')!}'
+        'Authorization': 'Bearer ${storage.token!}'
       });
       final productsJson = json.decode(response.body)['data'];
       _products = productsJson.map<Product>((json) => Product.fromJson(json)).toList();

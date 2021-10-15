@@ -1,4 +1,3 @@
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../config.dart';
@@ -21,7 +20,7 @@ class PostsService {
     if (_posts == null || forceReload) {
       StorageService storage = await StorageService.getInstance();
       final response = await http.get(Uri.parse('${API_URL}/posts?api_key=${API_KEY}'), headers: {
-        'Authorization': 'Bearer ${storage.prefs.getString('token')!}'
+        'Authorization': 'Bearer ${storage.token!}'
       });
       final postsJson = json.decode(response.body)['data'];
       _posts = postsJson.map<Post>((json) => Post.fromJson(json)).toList();

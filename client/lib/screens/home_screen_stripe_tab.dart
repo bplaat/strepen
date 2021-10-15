@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../models/product.dart';
 import '../models/user.dart';
 import '../services/auth_service.dart';
+import '../services/settings_service.dart';
 import '../services/product_service.dart';
 import '../services/transaction_service.dart';
 import '../config.dart';
@@ -21,8 +22,11 @@ class _HomeScreenStripeTabState extends State {
   @override
   Widget build(BuildContext context) {
     final lang = AppLocalizations.of(context)!;
-    return FutureBuilder<List<Product>>(
-      future: ProductsService.getInstance().activeProducts(forceReload: _forceReload),
+    return FutureBuilder<List<dynamic>>(
+      future: Future.wait([
+        SettingsService.getInstance().settings(),
+        ProductsService.getInstance().activeProducts(forceReload: _forceReload)
+      ]),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           print('HomeScreenStripeTab error: ${snapshot.error}');
@@ -34,7 +38,10 @@ class _HomeScreenStripeTabState extends State {
             onRefresh: () async {
               setState(() => _forceReload = true);
             },
-            child: ProductsList(products: snapshot.data!)
+            child: ProductsList(
+              settings: snapshot.data![0]!,
+              products: snapshot.data![1]!
+            )
           );
         } else {
           return Center(
@@ -47,18 +54,25 @@ class _HomeScreenStripeTabState extends State {
 }
 
 class ProductsList extends StatefulWidget {
+  final Map<String, dynamic> settings;
   final List<Product> products;
 
-  const ProductsList({Key? key, required this.products}) : super(key: key);
+  const ProductsList({
+    Key? key,
+    required this.settings,
+    required this.products
+  }) : super(key: key);
 
   @override
   State createState() {
-    return _ProductsListState(products: products);
+    return _ProductsListState(settings: settings, products: products);
   }
 }
 
 class _ProductsListState extends State {
   final ScrollController _scrollController = ScrollController();
+
+  final Map<String, dynamic> settings;
 
   final List<Product> products;
 
@@ -66,7 +80,7 @@ class _ProductsListState extends State {
 
   bool _isLoading = false;
 
-  _ProductsListState({required this.products});
+  _ProductsListState({required this.settings, required this.products});
 
   @override
   void initState() {
@@ -100,17 +114,11 @@ class _ProductsListState extends State {
                   Product product = products[index];
                   int amount = _amounts[index];
                   return ListTile(
-                    leading: product.image != null
-                      ? CachedNetworkImage(
-                        width: 56,
-                        height: 56,
-                        imageUrl: product.image!
-                      )
-                      : Image(
-                        width: 56,
-                        height: 56,
-                        image: AssetImage('assets/products/unkown.png')
-                      ),
+                    leading: CachedNetworkImage(
+                      width: 56,
+                      height: 56,
+                      imageUrl: product.image ?? settings['default_product_image']
+                    ),
                     title: Text(product.name),
                     subtitle: Text('\u20ac ${product.price.toStringAsFixed(2)}'),
                     trailing: Row(
@@ -136,7 +144,7 @@ class _ProductsListState extends State {
                         IconButton(
                           onPressed: () {
                             setState(() {
-                              if (_amounts[index] < 24) {
+                              if (_amounts[index] < settings['max_stripe_amount']) {
                                 _amounts[index]++;
                               }
                             });
@@ -177,7 +185,7 @@ class _ProductsListState extends State {
                         });
 
                         showDialog(context: context, builder: (BuildContext context){
-                          return TransactionCreatedDialog(productAmounts: productAmounts);
+                          return TransactionCreatedDialog(settings: settings, productAmounts: productAmounts);
                         });
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -208,9 +216,15 @@ class _ProductsListState extends State {
 }
 
 class TransactionCreatedDialog extends StatelessWidget {
+  final Map<String, dynamic> settings;
+
   final Map<Product, int> productAmounts;
 
-  const TransactionCreatedDialog({Key? key, required this.productAmounts}) : super(key: key);
+  const TransactionCreatedDialog({
+    Key? key,
+    required this.settings,
+    required this.productAmounts
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -245,7 +259,7 @@ class TransactionCreatedDialog extends StatelessWidget {
                           height: 256,
                           child: Card(
                             clipBehavior: Clip.antiAliasWithSaveLayer,
-                            child: CachedNetworkImage(imageUrl: user.thanks ?? '${WEBSITE_URL}/images/thanks/default.gif'),
+                            child: CachedNetworkImage(imageUrl: user.thanks ?? settings['default_user_thanks']),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16.0),
                             ),
@@ -272,17 +286,11 @@ class TransactionCreatedDialog extends StatelessWidget {
                               children: [
                                 Container(
                                   margin: EdgeInsets.only(right: 24),
-                                  child: product.image != null
-                                    ? CachedNetworkImage(
-                                      width: 56,
-                                      height: 56,
-                                      imageUrl: product.image!
-                                    )
-                                    : Image(
-                                      width: 56,
-                                      height: 56,
-                                      image: AssetImage('assets/products/unkown.png')
-                                    )
+                                  child: CachedNetworkImage(
+                                    width: 56,
+                                    height: 56,
+                                    imageUrl: product.image ?? settings['default_product_image']
+                                  )
                                 ),
                                 Expanded(
                                   flex: 1,

@@ -1,4 +1,3 @@
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'dart:convert';
@@ -32,7 +31,7 @@ class TransactionService {
 
     StorageService storage = await StorageService.getInstance();
     final response = await http.post(Uri.parse('${API_URL}/transactions'), headers: {
-      'Authorization': 'Bearer ${storage.prefs.getString('token')!}'
+      'Authorization': 'Bearer ${storage.token!}'
     }, body: body);
 
     final data = json.decode(response.body);
