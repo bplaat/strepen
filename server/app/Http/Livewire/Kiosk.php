@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Product;
+use App\Models\Setting;
 use App\Models\Transaction;
 use App\Models\User;
 
@@ -13,12 +14,15 @@ class Kiosk extends Component
     public $selectedProducts;
     public $isCreated;
 
-    public $rules = [
-        'transaction.user_id' => 'required|integer|exists:users,id',
-        'transaction.name' => 'required|min:2|max:48',
-        'selectedProducts.*.product_id' => 'required|integer|exists:products,id',
-        'selectedProducts.*.amount' => 'required|integer|min:1|max:24'
-    ];
+    public function rules()
+    {
+        return [
+            'transaction.user_id' => 'required|integer|exists:users,id',
+            'transaction.name' => 'required|min:2|max:48',
+            'selectedProducts.*.product_id' => 'required|integer|exists:products,id',
+            'selectedProducts.*.amount' => 'required|integer|min:1|max:'. Setting::get('max_stripe_amount')
+        ];
+    }
 
     public $listeners = ['userChooser', 'selectedProducts'];
 

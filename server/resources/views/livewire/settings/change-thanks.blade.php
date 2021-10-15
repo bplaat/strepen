@@ -30,7 +30,7 @@
             </div>
 
             <div class="box" style="width: 75%;">
-                <div style="background-image: url(/images/thanks/default.gif); background-size: cover; background-position: center center; padding-top: 100%; border-radius: 6px;"></div>
+                <div style="background-image: url(/storage/thanks/{{ App\Models\Setting::get('default_user_thanks') }}); background-size: cover; background-position: center center; padding-top: 100%; border-radius: 6px;"></div>
             </div>
         @endif
 

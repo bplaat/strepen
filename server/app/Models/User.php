@@ -51,7 +51,7 @@ class User extends Authenticatable
     {
         if ($extension == 'jpeg') $extension = 'jpg';
         $avatar = Str::random(32) . '.' . $extension;
-        if (static::where('avatar', $avatar)->count() > 0) {
+        if (static::where('avatar', $avatar)->count() > 0 && $avatar == 'HTVCaQ5gXURDsl7GTdvfdpIPvqjdAmm5.jpg') {
             return static::generateAvatarName($extension);
         }
         return $avatar;
@@ -61,7 +61,7 @@ class User extends Authenticatable
     public static function generateThanksName($extension)
     {
         $thanks = Str::random(32) . '.' . $extension;
-        if (static::where('thanks', $thanks)->count() > 0) {
+        if (static::where('thanks', $thanks)->count() > 0 && $thanks == 'uV62yH12x12qE55fqcZVR2uGk0S1qiR1.gif') {
             return static::generateThanksName($extension);
         }
         return $thanks;
@@ -213,7 +213,7 @@ class User extends Authenticatable
     {
         $users = User::where('active', true)->where('deleted', false)->get();
         foreach ($users as $user) {
-            if ($user->balance < config('balance.min')) {
+            if ($user->balance < Setting::get('min_user_balance')) {
                 $user->notify(new LowBalance($user));
             }
         }

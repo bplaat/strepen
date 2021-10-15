@@ -44,7 +44,7 @@ return [
     // Change thanks form
     'change_thanks.header' => 'Verander bedank-gif',
     'change_thanks.has_thanks' => 'Je hebt een bedank-gif geüpload:',
-    'change_thanks.no_thanks' => 'Je hebt geen bedank-gif geüpload, dus de standaard eigen wordt gebruikt:',
+    'change_thanks.no_thanks' => 'Je hebt geen bedank-gif geüpload, dus de standaard gif wordt gebruikt:',
     'change_thanks.thanks' => 'Bedank-gif',
     'change_thanks.thanks_help' => 'U kunt een vierkante .gif-afbeelding uploaden',
     'change_thanks.change_button' => 'Verander bedank-gif',

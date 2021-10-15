@@ -6,7 +6,7 @@
     <div class="navbar is-light is-fixed-top">
         <div class="container">
             <div class="navbar-brand">
-                <a class="navbar-item has-text-weight-bold" href="{{ route('kiosk') }}">
+                <a class="navbar-item @if (Route::currentRouteName() == 'kiosk') is-active @endif has-text-weight-bold" href="{{ route('kiosk') }}">
                     <svg xmlns="http://www.w3.org/2000/svg" style="width: 24px; height: 24px; margin-right: 10px;" viewBox="0 0 24 24">
                         <path fill="@if ($isLight) #111 @else #fff @endif"
                             d="M9.5 3C7.56 3 5.85 4.24 5.23 6.08C3.36 6.44 2 8.09 2 10C2 12.21 3.79 14 6 14V22H17V20H20C20.55 20 21 19.55 21 19V11C21 10.45 20.55 10 20 10H18V8C18 5.79 16.21 4 14 4H12.32C11.5 3.35 10.53 3 9.5 3M9.5 5C10.29 5 11.03 5.37 11.5 6H14C15.11 6 16 6.9 16 8H12C10 8 9.32 9.13 8.5 10.63C7.68 12.13 6 12 6 12C4.89 12 4 11.11 4 10C4 8.9 4.89 8 6 8H7V7.5C7 6.12 8.12 5 9.5 5M17 12H19V18H17Z" />
@@ -50,6 +50,7 @@
                                 <a class="navbar-link @if (Route::currentRouteName() == 'admin.home') is-active @endif is-arrowless"
                                     href="{{ route('admin.home') }}">@lang('layout.navbar.admin_home')</a>
                                 <div class="navbar-dropdown">
+                                    <a class="navbar-item @if (Route::currentRouteName() == 'admin.settings') is-active @endif" href="{{ route('admin.settings') }}">@lang('layout.navbar.admin_settings')</a>
                                     <a class="navbar-item @if (Route::currentRouteName() == 'admin.api_keys.crud') is-active @endif" href="{{ route('admin.api_keys.crud') }}">@lang('layout.navbar.admin_api_keys')</a>
                                     <a class="navbar-item @if (Route::currentRouteName() == 'admin.users.crud') is-active @endif" href="{{ route('admin.users.crud') }}">@lang('layout.navbar.admin_users')</a>
                                     <a class="navbar-item @if (Route::currentRouteName() == 'admin.posts.crud') is-active @endif" href="{{ route('admin.posts.crud') }}">@lang('layout.navbar.admin_posts')</a>
@@ -66,7 +67,7 @@
 
                         <a class="navbar-item @if (Route::currentRouteName() == 'balance') is-active @endif" href="{{ route('balance') }}" style="display: flex; align-items: center;">
                             <div style="width: 28px; height: 28px; border-radius: 50%; margin-right: 10px; background-size: cover; background-position: center center;
-                                background-image: url({{ Auth::user()->avatar != null ? '/storage/avatars/' . Auth::user()->avatar : '/images/avatars/mp.jpg' }});"></div>
+                                background-image: url(/storage/avatars/{{ Auth::user()->avatar != null ? Auth::user()->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
                             <span style="margin-right: 8px;">{{ Auth::user()->name }}</span>
                             <x-money-format :money="Auth::user()->balance" />
                         </a>

@@ -20,7 +20,8 @@ class Crud extends PaginationComponent
         'post.body' => 'required|min:2'
     ];
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->queryString[] = 'user_id';
         $this->listeners[] = 'userChooser';

@@ -13,14 +13,16 @@ class History extends PaginationComponent
     public $product_id;
     public $productIdTemp;
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->queryString[] = 'type';
         $this->queryString[] = 'product_id';
         $this->listeners[] = 'productChooser';
     }
 
-    public function mount() {
+    public function mount()
+    {
         if ($this->type != 'transaction' && $this->type != 'deposit' && $this->type != 'food') {
             $this->type = null;
         }

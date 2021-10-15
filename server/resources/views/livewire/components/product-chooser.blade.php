@@ -9,7 +9,7 @@
                 wire:focus="$set('isOpen', true)" wire:blur="$set('isOpen', false)">
             <span class="icon is-small is-left">
                 <div style="width: 24px; height: 24px; border-radius: 4px; background-size: cover; background-position: center center;
-                    background-image: url({{ $product != null && $product->image != null ? '/storage/products/' . $product->image : '/images/products/unkown.png' }});"></div>
+                    background-image: url(/storage/products/{{ $product != null && $product->image != null ? $product->image : App\Models\Setting::get('default_product_image') }});"></div>
             </span>
         </div>
         <div class="dropdown-menu" style="width: 100%;">
@@ -18,7 +18,7 @@
                     @foreach ($filteredProducts as $product)
                         <a href="#" wire:click.prevent="selectProduct({{ $product->id }})" class="dropdown-item" style="display: flex; align-items: center;">
                             <div style="margin-right: 12px; width: 24px; height: 24px; border-radius: 4px; background-size: cover; background-position: center center;
-                                background-image: url({{ $product->image != null ? '/storage/products/' . $product->image : '/images/products/unkown.png' }});"></div>
+                                background-image: url(/storage/products/{{ $product->image != null ? $product->image : App\Models\Setting::get('default_product_image') }});"></div>
                             <div style="flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                 {!! $productName != '' ? str_replace(' ', '&nbsp;', preg_replace('/(' . preg_quote($productName) . ')/i', '<b>$1</b>', $product->name)) : $product->name !!}
                             </div>

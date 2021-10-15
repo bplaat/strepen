@@ -1,22 +1,24 @@
 <div class="container">
-    <h1 class="title is-4">@lang('transactions.create.header')</h1>
+    <h1 class="title">@lang('transactions.create.header')</h1>
 
-    <form id="mainForm" wire:submit.prevent="$emit('getSelectedProducts')"></form>
+    <div class="box">
+        <form id="mainForm" wire:submit.prevent="$emit('getSelectedProducts')"></form>
 
-    <div class="field">
-        <label class="label" for="name">@lang('transactions.create.name')</label>
-        <div class="control">
-            <input class="input @error('transaction.name') is-danger @enderror" type="text" id="name"
-                form="mainForm" wire:model.defer="transaction.name" required>
+        <div class="field">
+            <label class="label" for="name">@lang('transactions.create.name')</label>
+            <div class="control">
+                <input class="input @error('transaction.name') is-danger @enderror" type="text" id="name"
+                    form="mainForm" wire:model.defer="transaction.name" required>
+            </div>
+            @error('transaction.name') <p class="help is-danger">{{ $message }}</p> @enderror
         </div>
-        @error('transaction.name') <p class="help is-danger">{{ $message }}</p> @enderror
-    </div>
 
-    <livewire:components.products-chooser :selectedProducts="$selectedProducts" />
+        <livewire:components.products-chooser :selectedProducts="$selectedProducts" />
 
-    <div class="field">
-        <div class="control">
-            <button type="submit" form="mainForm" class="button is-link" wire:loading.attr="disabled">@lang('transactions.create.create_transaction')</button>
+        <div class="field">
+            <div class="control">
+                <button type="submit" form="mainForm" class="button is-link" wire:loading.attr="disabled">@lang('transactions.create.create_transaction')</button>
+            </div>
         </div>
     </div>
 

@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Transactions;
 
 use Livewire\Component;
 use App\Models\Product;
+use App\Models\Setting;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,11 +14,14 @@ class Create extends Component
     public $selectedProducts;
     public $isCreated;
 
-    public $rules = [
-        'transaction.name' => 'required|min:2|max:48',
-        'selectedProducts.*.product_id' => 'required|integer|exists:products,id',
-        'selectedProducts.*.amount' => 'required|integer|min:1|max:24'
-    ];
+    public function rules()
+    {
+        return [
+            'transaction.name' => 'required|min:2|max:48',
+            'selectedProducts.*.product_id' => 'required|integer|exists:products,id',
+            'selectedProducts.*.amount' => 'required|integer|min:1|max:' . Setting::get('max_stripe_amount')
+        ];
+    }
 
     public $listeners = ['selectedProducts'];
 

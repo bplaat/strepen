@@ -39,7 +39,8 @@ class Crud extends PaginationComponent
         'user.receive_news' => 'nullable|boolean'
     ];
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->queryString[] = 'role';
     }

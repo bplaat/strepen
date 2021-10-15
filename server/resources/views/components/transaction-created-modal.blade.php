@@ -9,7 +9,7 @@
 
         <div class="modal-card-body">
             <div class="box" style="width: 50%; margin: 0 auto; margin-bottom: 24px;">
-                <div style="background-image: @if ($transaction->user->thanks != null) url(/storage/thanks/{{ $transaction->user->thanks }}) @else url(/images/thanks/default.gif) @endif;
+                <div style="background-image: @if ($transaction->user->thanks != null) url(/storage/thanks/{{ $transaction->user->thanks }}) @else url(/storage/thanks/{{ App\Models\Setting::get('default_user_thanks') }}) @endif;
                     background-size: cover; background-position: center center; padding-top: 100%; border-radius: 6px;"></div>
             </div>
 
@@ -19,7 +19,7 @@
                 <div class="media" style="display: flex; align-items: center; width: 75%; margin-left: auto; margin-right: auto;">
                     <div class="media-left">
                         <div style="width: 64px; height: 64px; border-radius: 6px; background-size: cover; background-position: center center;
-                            background-image: url({{ $product->image != null ? '/storage/products/' . $product->image : '/images/products/unkown.png' }});"></div>
+                            background-image: url(/storage/products/{{ $product->image != null ? $product->image : App\Models\Setting::get('default_product_image') }});"></div>
                     </div>
                     <div class="media-content">
                         <p>

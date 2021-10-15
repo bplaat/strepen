@@ -30,7 +30,7 @@
             </div>
 
             <div class="box" style="width: 75%;">
-                <div style="background-image: url(/images/avatars/mp.jpg); background-size: cover; background-position: center center; padding-top: 100%; border-radius: 6px;"></div>
+                <div style="background-image: url(/storage/avatars/{{ App\Models\Setting::get('default_user_avatar') }}); background-size: cover; background-position: center center; padding-top: 100%; border-radius: 6px;"></div>
             </div>
         @endif
 

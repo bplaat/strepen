@@ -11,13 +11,15 @@ class Home extends PaginationComponent
     public $user_id;
     public $userIdTemp;
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->queryString[] = 'user_id';
         $this->listeners[] = 'userChooser';
     }
 
-    public function mount() {
+    public function mount()
+    {
         if ($this->user_id != 1) {
             $user = User::where('id', $this->user_id)->where('active', true)->where('deleted', false)->withCount('posts')->first();
             if ($user == null || $user->posts_count == 0) {

@@ -24,7 +24,8 @@ class Crud extends PaginationComponent
         'selectedProducts.*.amount' => 'required|integer|min:1'
     ];
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->queryString[] = 'user_id';
         $this->queryString[] = 'product_id';

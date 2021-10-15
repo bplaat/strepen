@@ -16,7 +16,7 @@
                                     @foreach ($filteredProducts as $product)
                                         <a href="#" wire:click.prevent="addProduct({{ $product->id }})" class="dropdown-item" style="display: flex; align-items: center;">
                                             <div style="margin-right: 12px; width: 24px; height: 24px; border-radius: 3px; background-size: cover; background-position: center center;
-                                                background-image: url({{ $product->image != null ? '/storage/products/' . $product->image : '/images/products/unkown.png' }});"></div>
+                                                background-image: url(/storage/products/{{ $product->image != null ? $product->image : App\Models\Setting::get('default_product_image') }});"></div>
                                             <div style="flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                                 {!! $productName != '' ? str_replace(' ', '&nbsp;', preg_replace('/(' . preg_quote($productName) . ')/i', '<b>$1</b>', $product->name)) : $product->name !!}
                                             </div>
@@ -40,7 +40,7 @@
         <div class="media" style="display: flex; align-items: center;">
             <div class="media-left">
                 <div style="width: 64px; height: 64px; border-radius: 6px; background-size: cover; background-position: center center;
-                    background-image: url({{ $selectedProduct['product']['image'] != null ? '/storage/products/' . $selectedProduct['product']['image'] : '/images/products/unkown.png' }});"></div>
+                    background-image: url(/storage/products/{{ $selectedProduct['product']['image'] != null ? $selectedProduct['product']['image'] : App\Models\Setting::get('default_product_image') }});"></div>
             </div>
             <div class="media-content">
                 <label class="label" for="product-amount-{{ $index }}" style="font-weight: normal;">
@@ -49,7 +49,7 @@
                 </label>
                 <div class="control">
                     <input class="input @error('selectedProducts.{{ $index }}.amount') is-danger @enderror" type="number"
-                        min="1" @if (!$noMax) max="24" @endif id="product-amount-{{ $index }}" form="mainForm"
+                        min="1" @if (!$noMax) max="{{ App\Models\Setting::get('max_stripe_amount') }}" @endif id="product-amount-{{ $index }}" form="mainForm"
                         wire:model="selectedProducts.{{ $index }}.amount" required>
                 </div>
                 @error('selectedProducts.{{ $index }}.amount') <p class="help is-danger">{{ $message }}</p> @enderror

@@ -33,7 +33,7 @@ return [
     // Change avatar form
     'change_avatar.header' => 'Change avatar',
     'change_avatar.has_avatar' => 'You have uploaded an avatar:',
-    'change_avatar.no_avatar' => 'You have not uploaded an avatar, so the default own is used:',
+    'change_avatar.no_avatar' => 'You have not uploaded an avatar, so the default one is used:',
     'change_avatar.avatar' => 'Avatar image',
     'change_avatar.avatar_help' => 'You can upload an squared .jpg or .png image',
     'change_avatar.change_button' => 'Change avatar',
@@ -44,7 +44,7 @@ return [
     // Change thanks form
     'change_thanks.header' => 'Change thanks gif',
     'change_thanks.has_thanks' => 'You have uploaded an thanks gif:',
-    'change_thanks.no_thanks' => 'You have not uploaded an thanks gif, so the default own is used:',
+    'change_thanks.no_thanks' => 'You have not uploaded an thanks gif, so the default one is used:',
     'change_thanks.thanks' => 'Thanks gif',
     'change_thanks.thanks_help' => 'You can upload an squared .gif image',
     'change_thanks.change_button' => 'Change thanks gif',

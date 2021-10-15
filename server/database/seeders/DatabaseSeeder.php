@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\ApiKey;
 use App\Models\User;
+use App\Models\Setting;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -44,6 +45,37 @@ class DatabaseSeeder extends Seeder
         $apiKey->name = 'Website';
         $apiKey->key = ApiKey::generateKey();
         $apiKey->save();
+
+        // Create settings key values pares
+        $setting = new Setting();
+        $setting->key = 'min_user_balance';
+        $setting->value = 20;
+        $setting->save();
+
+        $setting = new Setting();
+        $setting->key = 'max_stripe_amount';
+        $setting->value = 24;
+        $setting->save();
+
+        $setting = new Setting();
+        $setting->key = 'kiosk_ip_whitelist';
+        $setting->value = '';
+        $setting->save();
+
+        $setting = new Setting();
+        $setting->key = 'default_user_avatar';
+        $setting->value = 'HTVCaQ5gXURDsl7GTdvfdpIPvqjdAmm5.jpg';
+        $setting->save();
+
+        $setting = new Setting();
+        $setting->key = 'default_user_thanks';
+        $setting->value = 'uV62yH12x12qE55fqcZVR2uGk0S1qiR1.gif';
+        $setting->save();
+
+        $setting = new Setting();
+        $setting->key = 'default_product_image';
+        $setting->value = '4RvFNOReec7O00D4F3os13M8kgPBHord.png';
+        $setting->save();
 
         // Create 50 random users
         // User::factory(50)->create();

@@ -29,7 +29,8 @@ class Crud extends PaginationComponent
         'transaction.price' => 'required|numeric'
     ];
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->queryString[] = 'type';
         $this->queryString[] = 'user_id';
