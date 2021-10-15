@@ -3,7 +3,6 @@
 # Todo List (before launch)
 
 ## High priority
-- Better admin food insert modal
 - Password reset system / Initial user password
 - Notifications emails
 - Bug fixes / All the whishs from the Stam Bestuur

@@ -7,7 +7,7 @@ return [
     'crud.create_transaction' => 'Maak nieuwe transactie',
     'crud.create_deposit' => 'Maak nieuwe storting',
     'crud.create_deposit_small' => 'Storting',
-    'crud.create_food' => 'Maak nieuwe eten',
+    'crud.create_food' => 'Maak nieuwe eten transacties',
     'crud.create_food_small' => 'Eten',
     'crud.transactions' => 'transacties',
     'crud.empty' => 'Geen transacties gevonden!',

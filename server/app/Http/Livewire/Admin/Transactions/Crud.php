@@ -18,6 +18,8 @@ class Crud extends PaginationComponent
     public $productIdTemp;
     public $transaction;
     public $selectedProducts;
+    public $users;
+    public $foodAmounts;
     public $isCreatingTransaction = false;
     public $isCreatingDeposit = false;
     public $isCreatingFood = false;
@@ -27,7 +29,8 @@ class Crud extends PaginationComponent
         'transaction.name' => 'required|min:2|max:48',
         'selectedProducts.*.product_id' => 'required|integer|exists:products,id',
         'selectedProducts.*.amount' => 'required|integer|min:1',
-        'transaction.price' => 'required|numeric'
+        'transaction.price' => 'required|numeric',
+        'foodAmounts.*' => 'nullable|numeric'
     ];
 
     public function __construct()
@@ -57,6 +60,11 @@ class Crud extends PaginationComponent
 
         $this->transaction = new Transaction();
         $this->selectedProducts = collect();
+
+        $this->users = User::where('active', true)->where('deleted', false)
+            ->orderByRaw('active DESC, LOWER(IF(lastname != \'\', IF(insertion != NULL, CONCAT(lastname, \', \', insertion, \' \', firstname), CONCAT(lastname, \' \', firstname)), firstname))')
+            ->get();
+        $this->foodAmounts = array_fill(0, $this->users->count(), '');
     }
 
     public function userChooser($userId) {
@@ -158,7 +166,6 @@ class Crud extends PaginationComponent
         $user->notify(new NewDeposit($this->transaction));
 
         $this->emit('clearUserChooser');
-        $this->emit('clearSelectedProducts');
         $this->mount();
         $this->isCreatingDeposit = false;
     }
@@ -173,22 +180,27 @@ class Crud extends PaginationComponent
     public function createFood()
     {
         // Validate input
-        $this->validateOnly('transaction.user_id');
         $this->validateOnly('transaction.name');
-        $this->validateOnly('transaction.price');
-        if ($this->transaction->user_id == 1) return;
+        $this->validateOnly('foodAmounts.*');
 
         // Create transaction
-        $this->transaction->type = Transaction::TYPE_FOOD;
-        $this->transaction->save();
+        foreach ($this->users as $index => $user) {
+            $foodAmount = $this->foodAmounts[$index];
+            if ($foodAmount != '') {
+                // Create food transaciton for user
+                $transaction = new Transaction();
+                $transaction->user_id = $user->id;
+                $transaction->type = Transaction::TYPE_FOOD;
+                $transaction->name = $this->transaction->name;
+                $transaction->price = $foodAmount;
+                $transaction->save();
 
-        // Recalculate balance of user
-        $user = User::find($this->transaction->user_id);
-        $user->balance -= $this->transaction->price;
-        $user->save();
+                // Recalculate balance of user
+                $user->balance -= $transaction->price;
+                $user->save();
+            }
+        }
 
-        $this->emit('clearUserChooser');
-        $this->emit('clearSelectedProducts');
         $this->mount();
         $this->isCreatingFood = false;
     }

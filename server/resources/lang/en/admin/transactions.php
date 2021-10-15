@@ -7,7 +7,7 @@ return [
     'crud.create_transaction' => 'Create new transaction',
     'crud.create_deposit' => 'Create new deposit',
     'crud.create_deposit_small' => 'Deposit',
-    'crud.create_food' => 'Create new food',
+    'crud.create_food' => 'Create new food transactions',
     'crud.create_food_small' => 'Food',
     'crud.transactions' => 'transactions',
     'crud.empty' => 'No transactions found!',

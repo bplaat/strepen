@@ -118,8 +118,6 @@
                 </div>
 
                 <div class="modal-card-body">
-                    <livewire:components.user-chooser includeStrepenUser="true" />
-
                     <div class="field">
                         <label class="label" for="name">@lang('admin/transactions.crud.name')</label>
                         <div class="control">
@@ -129,15 +127,32 @@
                         @error('transaction.name') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
 
-                    <div class="field">
-                        <label class="label" for="amount">@lang('admin/transactions.crud.amount')</label>
-                        <div class="control has-icons-left">
-                            <input class="input @error('transaction.price') is-danger @enderror" type="number" step="0.01" id="amount"
-                                wire:model.defer="transaction.price" required>
-                            <span class="icon is-small is-left">&euro;</span>
-                        </div>
-                        @error('transaction.price') <p class="help is-danger">{{ $message }}</p> @enderror
-                    </div>
+                    <table class="table is-fullwidth">
+                        <thead>
+                            <tr>
+                                <th>@lang('admin/transactions.crud.name')</th>
+                                <th>@lang('admin/transactions.crud.amount')</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($users as $index => $user)
+                                <tr>
+                                    <td style="vertical-align: middle;">
+                                        <div style="float: left; margin-right: 12px; width: 24px; height: 24px; border-radius: 50%; background-size: cover; background-position: center center;
+                                            background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
+                                        <label for="user-amount-{{ $index }}">{{ $user->name }}</label>
+                                    </td>
+                                    <td>
+                                        <div class="control has-icons-left">
+                                            <input class="input @error('transaction.price') is-danger @enderror" type="number" step="0.01" id="user-amount-{{ $index }}"
+                                                wire:model.defer="foodAmounts.{{ $index }}">
+                                            <span class="icon is-small is-left">&euro;</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
 
                 <div class="modal-card-foot">
