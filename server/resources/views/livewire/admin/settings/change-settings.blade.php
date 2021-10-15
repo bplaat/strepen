@@ -39,6 +39,15 @@
         </div>
 
         <div class="field">
+            <label class="label" for="paginationRows">@lang('admin/settings.change_settings.pagination_rows')</label>
+            <div class="control">
+                <input class="input @error('paginationRows') is-danger @enderror" type="number" id="paginationRows"
+                    wire:model.defer="paginationRows" required>
+            </div>
+            @error('paginationRows') <p class="help is-danger">{{ $message }}</p> @enderror
+        </div>
+
+        <div class="field">
             <label class="label" for="kioskIpWhitelist">@lang('admin/settings.change_settings.kiosk_ip_whitelist')</label>
             <div class="control">
                 <input class="input @error('kioskIpWhitelist') is-danger @enderror" type="text" id="kioskIpWhitelist"

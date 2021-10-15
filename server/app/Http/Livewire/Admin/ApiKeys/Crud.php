@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin\ApiKeys;
 
 use App\Http\Livewire\PaginationComponent;
 use App\Models\ApiKey;
+use App\Models\Setting;
 
 class Crud extends PaginationComponent
 {
@@ -33,7 +34,7 @@ class Crud extends PaginationComponent
         return view('livewire.admin.api_keys.crud', [
             'apiKeys' => ApiKey::search(ApiKey::select(), $this->query)
                 ->orderByRaw('LOWER(name)')
-                ->paginate(config('pagination.web.limit'))->withQueryString()
+                ->paginate(Setting::get('pagination_rows') * 3)->withQueryString()
         ])->layout('layouts.app', ['title' => __('admin/api_keys.crud.title')]);
     }
 }

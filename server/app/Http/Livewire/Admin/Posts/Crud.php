@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin\Posts;
 
 use App\Http\Livewire\PaginationComponent;
 use App\Models\Post;
+use App\Models\Setting;
 use App\Models\User;
 use App\Notifications\NewPost;
 use Illuminate\Support\Facades\Auth;
@@ -74,7 +75,7 @@ class Crud extends PaginationComponent
         return view('livewire.admin.posts.crud', [
             'posts' => $posts->with('user')
                 ->orderBy('created_at', 'DESC')
-                ->paginate(config('pagination.web.limit'))->withQueryString()
+                ->paginate(Setting::get('pagination_rows') * 3)->withQueryString()
         ])->layout('layouts.app', ['title' => __('admin/posts.crud.title')]);
     }
 }

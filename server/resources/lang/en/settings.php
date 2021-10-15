@@ -29,7 +29,7 @@ return [
     'change_details.receive_news' => 'Receive news',
     'change_details.receive_news_user' => 'Receive news notifications when a new news posts are placed',
     'change_details.button' => 'Change details',
-    'change_details.success_message' => 'Your details have changed, if you changed the the theme you need to refresh the page to make it effective',
+    'change_details.success_message' => 'Your details have changed, if you changed the the language of theme you need to refresh the page to make it effective',
 
     // Change avatar form
     'change_avatar.header' => 'Change avatar',

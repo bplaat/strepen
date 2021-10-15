@@ -10,6 +10,7 @@ return [
     'change_settings.min_user_balance' => 'Minimaal gebruikerssaldo (voor saldo-te-laag-melding)',
     'change_settings.max_stripe_amount' => 'Maximale hoeveelheid gebruikers product strepen',
     'change_settings.minor_age' => 'Minderjarige leeftijd (in jaren)',
+    'change_settings.pagination_rows' => 'Paginatie hoeveel regels',
     'change_settings.kiosk_ip_whitelist' => 'Kioskmodus IP-whitelist (voor toegang tot de kioskmodus zonder inlog)',
     'change_settings.button' => 'Wijzig instellingen',
     'change_settings.success_message' => 'Uw algemene instellingen zijn gewijzigd',

@@ -26,7 +26,7 @@ class ApiProductsController extends Controller
             if ($limit < 1) $limit = 1;
             if ($limit > 50) $limit = 50;
         } else {
-            $limit = config('pagination.api.limit');
+            $limit = 20;
         }
 
         if ($request->user() == null || $request->user()->role != User::ROLE_ADMIN) {

@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin\Products;
 
 use App\Http\Livewire\PaginationComponent;
 use App\Models\Product;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Storage;
 use Livewire\WithFileUploads;
 
@@ -49,7 +50,7 @@ class Crud extends PaginationComponent
         return view('livewire.admin.products.crud', [
             'products' => Product::search(Product::select(), $this->query)
                 ->orderByRaw('active DESC, LOWER(name) ASC')
-                ->paginate(config('pagination.web.limit'))->withQueryString()
+                ->paginate(Setting::get('pagination_rows') * 4)->withQueryString()
         ])->layout('layouts.app', ['title' => __('admin/products.crud.title'), 'chartjs' => true]);
     }
 }

@@ -10,6 +10,7 @@ return [
     'change_settings.min_user_balance' => 'Minimal user balance (for balance to low notification)',
     'change_settings.max_stripe_amount' => 'Maximal user product stripe amount',
     'change_settings.minor_age' => 'Minor age (in years)',
+    'change_settings.pagination_rows' => 'Pagination how many rows',
     'change_settings.kiosk_ip_whitelist' => 'Kiosk mode IP whitelist (to access kiosk mode without admin login)',
     'change_settings.button' => 'Change settings',
     'change_settings.success_message' => 'Your global settings has changed',

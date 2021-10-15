@@ -63,6 +63,11 @@ class DatabaseSeeder extends Seeder
         $setting->save();
 
         $setting = new Setting();
+        $setting->key = 'pagination_rows';
+        $setting->value = '4';
+        $setting->save();
+
+        $setting = new Setting();
         $setting->key = 'kiosk_ip_whitelist';
         $setting->value = '127.0.0.1, 88.159.13.135';
         $setting->save();

@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin\Transactions;
 
 use App\Http\Livewire\PaginationComponent;
 use App\Models\Product;
+use App\Models\Setting;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Notifications\NewDeposit;
@@ -212,7 +213,7 @@ class Crud extends PaginationComponent
         return view('livewire.admin.transactions.crud', [
             'transactions' => $transactions->with('products')
                 ->orderBy('created_at', 'DESC')
-                ->paginate(config('pagination.web.limit'))->withQueryString()
+                ->paginate(Setting::get('pagination_rows') * 4)->withQueryString()
         ])->layout('layouts.app', ['title' => __('admin/transactions.crud.title')]);
     }
 }

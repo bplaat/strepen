@@ -10,9 +10,9 @@ class Language
 {
     public function handle($request, $next)
     {
-        // Select dutch language when user selected
-        if (Auth::check() && Auth::user()->language == User::LANGUAGE_DUTCH) {
-            App::setLocale('nl');
+        // Select english language when user selected
+        if (Auth::check() && Auth::user()->language == User::LANGUAGE_ENGLISH) {
+            App::setLocale('en');
         }
 
         return $next($request);

@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Transactions;
 
 use App\Http\Livewire\PaginationComponent;
 use App\Models\Product;
+use App\Models\Setting;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
 
@@ -62,7 +63,7 @@ class History extends PaginationComponent
         }
         return view('livewire.transactions.history', [
             'transactions' => $transactions->orderBy('created_at', 'DESC')
-                ->paginate(config('pagination.web.limit'))->withQueryString()
+                ->paginate(Setting::get('pagination_rows') * 4)->withQueryString()
         ])->layout('layouts.app', ['title' => __('transactions.history.title')]);
     }
 }

@@ -33,7 +33,7 @@ class ApiUsersController extends Controller
             if ($limit < 1) $limit = 1;
             if ($limit > 50) $limit = 50;
         } else {
-            $limit = config('pagination.api.limit');
+            $limit = 20;
         }
 
         $users = $users->orderByRaw('active DESC, LOWER(IF(lastname != \'\', IF(insertion != NULL, CONCAT(lastname, \', \', insertion, \' \', firstname), CONCAT(lastname, \' \', firstname)), firstname))')
@@ -60,7 +60,7 @@ class ApiUsersController extends Controller
             if ($limit < 1) $limit = 1;
             if ($limit > 50) $limit = 50;
         } else {
-            $limit = config('pagination.api.limit');
+            $limit = 20;
         }
 
         $notifications = $request->user()->notifications()->paginate($limit)->withQueryString();
@@ -79,7 +79,7 @@ class ApiUsersController extends Controller
             if ($limit < 1) $limit = 1;
             if ($limit > 50) $limit = 50;
         } else {
-            $limit = config('pagination.api.limit');
+            $limit = 20;
         }
 
         $notifications = $request->user()->unreadNotifications()->paginate($limit)->withQueryString();
@@ -105,7 +105,7 @@ class ApiUsersController extends Controller
             if ($limit < 1) $limit = 1;
             if ($limit > 50) $limit = 50;
         } else {
-            $limit = config('pagination.api.limit');
+            $limit = 20;
         }
 
         $posts = $posts->paginate($limit)->withQueryString();
@@ -132,7 +132,7 @@ class ApiUsersController extends Controller
             if ($limit < 1) $limit = 1;
             if ($limit > 50) $limit = 50;
         } else {
-            $limit = config('pagination.api.limit');
+            $limit = 20;
         }
 
         $inventories = $inventories->paginate($limit)->withQueryString();
@@ -158,7 +158,7 @@ class ApiUsersController extends Controller
             if ($limit < 1) $limit = 1;
             if ($limit > 50) $limit = 50;
         } else {
-            $limit = config('pagination.api.limit');
+            $limit = 20;
         }
 
         $transactions = $transactions->paginate($limit)->withQueryString();

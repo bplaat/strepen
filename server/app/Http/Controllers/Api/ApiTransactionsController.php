@@ -27,7 +27,7 @@ class ApiTransactionsController extends Controller
             if ($limit < 1) $limit = 1;
             if ($limit > 50) $limit = 50;
         } else {
-            $limit = config('pagination.api.limit');
+            $limit = 20;
         }
 
         $transactions = $transactions->orderBy('created_at', 'DESC')->paginate($limit)->withQueryString();

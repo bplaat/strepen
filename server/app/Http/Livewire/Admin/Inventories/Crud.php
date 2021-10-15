@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin\Inventories;
 use App\Http\Livewire\PaginationComponent;
 use App\Models\Inventory;
 use App\Models\Product;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -116,7 +117,7 @@ class Crud extends PaginationComponent
         return view('livewire.admin.inventories.crud', [
             'inventories' => $inventories->with(['user', 'products'])
                 ->orderBy('created_at', 'DESC')
-                ->paginate(config('pagination.web.limit'))->withQueryString()
+                ->paginate(Setting::get('pagination_rows') * 3)->withQueryString()
         ])->layout('layouts.app', ['title' => __('admin/inventories.crud.title')]);
     }
 }

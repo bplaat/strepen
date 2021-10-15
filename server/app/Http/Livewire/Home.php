@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Post;
+use App\Models\Setting;
 use App\Models\User;
 use \Parsedown;
 
@@ -48,7 +49,7 @@ class Home extends PaginationComponent
             'parsedown' => new Parsedown(),
             'posts' => $posts->with('user')
                 ->orderBy('created_at', 'DESC')
-                ->paginate(config('pagination.web.small_limit'))->withQueryString()
+                ->paginate(Setting::get('pagination_rows'))->withQueryString()
         ])->layout('layouts.app', ['title' => __('home.title')]);
     }
 }
