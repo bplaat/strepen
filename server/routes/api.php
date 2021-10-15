@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\ApiNotificationsController;
 use App\Http\Controllers\Api\ApiPostsController;
 use App\Http\Controllers\Api\ApiProductsController;
 use App\Http\Controllers\Api\ApiInventoriesController;
+use App\Http\Controllers\Api\ApiSettingsController;
 use App\Http\Controllers\Api\ApiTransactionsController;
 use Illuminate\Support\Facades\Route;
 
@@ -48,6 +49,8 @@ Route::middleware('api_key:auth')->group(function () {
     Route::get('products/{product}', [ApiProductsController::class, 'show'])->name('api.products.show');
 
     Route::post('transactions', [ApiTransactionsController::class, 'store'])->name('api.transactions.store');
+
+    Route::get('settings', [ApiSettingsController::class, 'index'])->name('api.settings.index');
 
     Route::get('auth/logout', [ApiAuthController::class, 'logout'])->name('api.auth.logout');
 });

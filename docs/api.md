@@ -9,7 +9,8 @@ GET /api GUEST ✅
 ANY /api/auth/login GUEST ✅ (email, password)
 GET /api/auth/logout AUTH ✅
 
-GET /api/settings TODO
+GET /api/settings AUTH ✅
+POST /api/settings ADMIN ❌
 
 GET /api/users AUTH ✅ (query?, page?, limit?)
 POST /api/users ADMIN ❌
