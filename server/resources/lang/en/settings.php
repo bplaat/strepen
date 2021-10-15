@@ -16,7 +16,7 @@ return [
     'change_details.gender_female' => 'Female',
     'change_details.gender_other' => 'Other',
     'change_details.birthday' => 'Birthday',
-    'change_details.birthday_minor' => '(disabled because minor)',
+    'change_details.birthday_minor' => '(disabled because you are a minor)',
     'change_details.email' => 'Email address',
     'change_details.phone' => 'Phone',
     'change_details.address' => 'Address (street with house number)',
