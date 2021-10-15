@@ -6,7 +6,6 @@
 - Better admin food insert modal
 - Password reset system / Initial user password
 - Notifications emails
-- Make users that are minors can stripe alcoholic products
 - Bug fixes / All the whishs from the Stam Bestuur
 
 ## Low priority

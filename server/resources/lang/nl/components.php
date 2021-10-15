@@ -36,6 +36,7 @@ return [
     'products_chooser.search_product' => 'Zoek een product...',
     'products_chooser.add_product' => 'Voeg product toe',
     'products_chooser.empty' => 'Geen producten gevonden!',
+    'products_chooser.minor' => 'Er zijn minder producten beschikbaar omdat je minderjarig bent',
     'products_chooser.amount' => 'hoeveelheid',
 
     // User Role Chooser blade component

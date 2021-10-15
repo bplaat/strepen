@@ -13,6 +13,7 @@ class Kiosk extends Component
     public $transaction;
     public $selectedProducts;
     public $isCreated;
+    public $isMinor = false;
 
     public function rules()
     {
@@ -36,6 +37,16 @@ class Kiosk extends Component
 
     public function userChooser($userId) {
         $this->transaction->user_id = $userId;
+
+        $user = User::find($this->transaction->user_id);
+        if ($user != null && $user->minor) {
+            $this->isMinor = true;
+            $this->emit('isMinorProducts');
+        }
+        if ($this->isMinor && ($user == null || !$user->minor)) {
+            $this->isMinor = false;
+            $this->emit('clearMinorProducts');
+        }
     }
 
     public function selectedProducts($selectedProducts)
@@ -45,6 +56,15 @@ class Kiosk extends Component
         // Validate input
         $this->validate();
         if (count($this->selectedProducts) == 0) return;
+
+        $user = User::find($this->transaction->user_id);
+        if ($user->minor) {
+            foreach ($this->selectedProducts as $selectedProduct) {
+                if ($selectedProduct['product']['alcoholic']) {
+                    return;
+                }
+            }
+        }
 
         // Create transaction
         $this->transaction->price = 0;
@@ -65,7 +85,6 @@ class Kiosk extends Component
         }
 
         // Recalculate balance of user
-        $user = User::find($this->transaction->user_id);
         $user->balance -= $this->transaction->price;
         $user->save();
 

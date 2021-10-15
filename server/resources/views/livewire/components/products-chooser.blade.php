@@ -36,6 +36,12 @@
         </div>
     </div>
 
+    @if ($isMinor)
+        <div class="field">
+            <p class="help">@lang('components.products_chooser.minor')</p>
+        </div>
+    @endif
+
     @foreach ($selectedProducts as $index => $selectedProduct)
         <div class="media" style="display: flex; align-items: center;">
             <div class="media-left">

@@ -9,21 +9,29 @@ class ProductsChooser extends Component
 {
     public $selectedProducts;
     public $noMax = false;
+    public $isMinor = false;
 
     public $products;
     public $filteredProducts;
     public $productName;
     public $isOpen = false;
 
-    public $listeners = ['getSelectedProducts', 'clearSelectedProducts'];
+    public $listeners = ['getSelectedProducts', 'clearSelectedProducts', 'isMinorProducts', 'clearMinorProducts'];
 
     public function mount()
     {
         $this->products = Product::where('active', true)->where('deleted', false)
             ->orderByRaw('LOWER(name)')->get();
+
         $this->filteredProducts = $this->products->filter(function ($product) {
             return !$this->selectedProducts->pluck('product_id')->contains($product->id);
-        })->slice(0, 10);
+        });
+        if ($this->isMinor) {
+            $this->filteredProducts = $this->filteredProducts->filter(function ($product) {
+                return !$product->alcoholic;
+            });
+        }
+        $this->filteredProducts = $this->filteredProducts->slice(0, 10);
     }
 
     public function getSelectedProducts()
@@ -37,12 +45,29 @@ class ProductsChooser extends Component
         $this->mount();
     }
 
+    public function isMinorProducts() {
+        $this->isMinor = true;
+        $this->selectedProducts = $this->selectedProducts->where('product.alcoholic', '==', false);
+        $this->filterProducts();
+    }
+
+    public function clearMinorProducts() {
+        $this->isMinor = false;
+        $this->filterProducts();
+    }
+
     public function filterProducts()
     {
         $this->filteredProducts = $this->products->filter(function ($product) {
             return !$this->selectedProducts->pluck('product_id')->contains($product->id) &&
                 (strlen($this->productName) == 0 || stripos($product->name, $this->productName) !== false);
-        })->slice(0, 10);
+        });
+        if ($this->isMinor) {
+            $this->filteredProducts = $this->filteredProducts->filter(function ($product) {
+                return !$product->alcoholic;
+            });
+        }
+        $this->filteredProducts = $this->filteredProducts->slice(0, 10);
     }
 
     public function updatedProductName()

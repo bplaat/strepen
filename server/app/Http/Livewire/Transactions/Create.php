@@ -40,6 +40,13 @@ class Create extends Component
         // Validate input
         $this->validate();
         if (count($this->selectedProducts) == 0) return;
+        if (Auth::user()->minor) {
+            foreach ($this->selectedProducts as $selectedProduct) {
+                if ($selectedProduct['product']['alcoholic']) {
+                    return;
+                }
+            }
+        }
 
         // Create transaction
         $this->transaction->price = 0;
