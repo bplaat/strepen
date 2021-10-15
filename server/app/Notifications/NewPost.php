@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -12,6 +13,7 @@ class NewPost extends Notification
 {
     use Queueable;
 
+    public $user;
     public $post;
 
     /**
@@ -19,8 +21,9 @@ class NewPost extends Notification
      *
      * @return void
      */
-    public function __construct(Post $post)
+    public function __construct(User $user, Post $post)
     {
+        $this->user = $user;
         $this->post = $post;
     }
 
@@ -32,7 +35,7 @@ class NewPost extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', 'mail'];
     }
 
     /**
@@ -44,9 +47,11 @@ class NewPost extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->subject('Nieuw nieuws bericht op het Strepen Systeem')
+            ->greeting('Beste ' . $this->user->name . ',')
+            ->line('Er is een nieuw nieuws bericht op het Strepen Systeem geplaatst!')
+            ->action('Lees het nu!', asset('/'))
+            ->salutation('Groetjes, het stambestuur');
     }
 
     /**

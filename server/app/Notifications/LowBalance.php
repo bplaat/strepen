@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -32,7 +33,7 @@ class LowBalance extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', 'mail'];
     }
 
     /**
@@ -44,9 +45,12 @@ class LowBalance extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->subject('Te lage krediet op het Strepen Systeem')
+            ->greeting('Beste ' . $this->user->name . ',')
+            ->line('Na het invoeren van je laatst gekochte producten op de stam is gebleken dat je krediet lager dan ' . number_format(Setting::get('min_user_balance'), 2, ',', '.') . ' euro is. Je balans is op dit moment  nu' . number_format($this->user->balance, 2, ',', '.') . ' euro.')
+            ->line('Dit is volgens het stambestuur te weinig! We willen je dan ook vragen om zo snel mogelijk te verhogen! Dit kan door geld over te maken naar rekening NL69INGB0668679239 o.v.v. Hr BM Wielaard.')
+            ->line('Mocht je nog vragen hebben of denk je dat er iets niet klopt beantwoord dan dit mailtje.')
+            ->salutation('Groetjes, het stambestuur');
     }
 
     /**

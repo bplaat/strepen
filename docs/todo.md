@@ -4,7 +4,6 @@
 
 ## High priority
 - Password reset system / Initial user password
-- Notifications emails
 - Bug fixes / All the whishs from the Stam Bestuur
 
 ## Low priority
