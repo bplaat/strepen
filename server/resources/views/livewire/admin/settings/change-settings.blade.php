@@ -30,6 +30,15 @@
         </div>
 
         <div class="field">
+            <label class="label" for="minorAge">@lang('admin/settings.change_settings.minor_age')</label>
+            <div class="control">
+                <input class="input @error('minorAge') is-danger @enderror" type="number" id="minorAge"
+                    wire:model.defer="minorAge" required>
+            </div>
+            @error('minorAge') <p class="help is-danger">{{ $message }}</p> @enderror
+        </div>
+
+        <div class="field">
             <label class="label" for="kioskIpWhitelist">@lang('admin/settings.change_settings.kiosk_ip_whitelist')</label>
             <div class="control">
                 <input class="input @error('kioskIpWhitelist') is-danger @enderror" type="text" id="kioskIpWhitelist"

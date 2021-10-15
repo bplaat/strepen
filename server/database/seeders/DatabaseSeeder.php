@@ -58,6 +58,11 @@ class DatabaseSeeder extends Seeder
         $setting->save();
 
         $setting = new Setting();
+        $setting->key = 'minor_age';
+        $setting->value = 18;
+        $setting->save();
+
+        $setting = new Setting();
         $setting->key = 'kiosk_ip_whitelist';
         $setting->value = '127.0.0.1, 88.159.13.135';
         $setting->save();

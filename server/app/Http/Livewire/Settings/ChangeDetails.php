@@ -2,7 +2,9 @@
 
 namespace App\Http\Livewire\Settings;
 
+use App\Models\Setting;
 use App\Models\User;
+use DateTime;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
@@ -10,6 +12,7 @@ use Livewire\Component;
 class ChangeDetails extends Component
 {
     public $user;
+    public $oldUserBirthday;
     public $isChanged = false;
 
     public function rules()
@@ -39,6 +42,7 @@ class ChangeDetails extends Component
     public function mount()
     {
         $this->user = Auth::user();
+        $this->oldUserBirthday = $this->user->birthday;
     }
 
     public function changeDetails()
@@ -46,7 +50,11 @@ class ChangeDetails extends Component
         $this->validate();
 
         if ($this->user->gender == '') $this->user->gender = null;
-        if ($this->user->birthday == '') $this->user->birthday = null;
+        if ($this->user->birthday . '' == date('Y-m-d H:i:s')) $this->user->birthday = null;
+
+        if ($this->oldUserBirthday != null && $this->oldUserBirthday->diff(new DateTime('now'))->y < Setting::get('minor_age')) {
+            $this->user->birthday = $this->oldUserBirthday;
+        }
         $this->user->save();
 
         $this->isChanged = true;

@@ -16,6 +16,7 @@ return [
     'change_details.gender_female' => 'Vrouw',
     'change_details.gender_other' => 'Anders',
     'change_details.birthday' => 'Geboorte datum',
+    'change_details.birthday_minor' => '(uitgeschakeld vanwege minderjarig)',
     'change_details.email' => 'Email adres',
     'change_details.phone' => 'Telefoon',
     'change_details.address' => 'Adres (straatnaam met huisnummer)',

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Notifications\LowBalance;
+use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -111,6 +112,12 @@ class User extends Authenticatable
         } else {
             return $this->lastname . ' ' . $this->firstname;
         }
+    }
+
+    // Check if user is minor
+    public function getIsMinorAttribute()
+    {
+        return $this->birthday != null && $this->birthday->diff(new DateTime('now'))->y < Setting::get('minor_age');
     }
 
     // A user has many posts
