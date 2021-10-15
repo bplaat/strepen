@@ -43,7 +43,7 @@ class Crud extends PaginationComponent
     public function __construct()
     {
         parent::__construct();
-        $this->queryString[] = 'role';
+        $this->queryString['role'] = ['except' => ''];
     }
 
     public function mount()

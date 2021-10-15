@@ -39,11 +39,6 @@ return [
     'products_chooser.minor' => 'Er zijn minder producten beschikbaar omdat je minderjarig bent',
     'products_chooser.amount' => 'hoeveelheid',
 
-    // User Role Chooser blade component
-    'user_role_chooser_all' => 'Alle rolen',
-    'user_role_chooser_normal' => 'Normalen alleen',
-    'user_role_chooser_admin' => 'Admins alleen',
-
     // Transaction Type Chooser blade component
     'transaction_type_chooser_all' => 'Alle transacties',
     'transaction_type_chooser_transaction' => 'Transacties alleen',

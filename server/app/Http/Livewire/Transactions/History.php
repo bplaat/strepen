@@ -17,7 +17,7 @@ class History extends PaginationComponent
     public function __construct()
     {
         parent::__construct();
-        $this->queryString[] = 'type';
+        $this->queryString['type'] = ['except' => ''];
         $this->queryString[] = 'product_id';
         $this->listeners[] = 'productChooser';
     }

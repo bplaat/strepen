@@ -33,7 +33,7 @@ class Crud extends PaginationComponent
     public function __construct()
     {
         parent::__construct();
-        $this->queryString[] = 'type';
+        $this->queryString['type'] = ['except' => ''];
         $this->queryString[] = 'user_id';
         $this->queryString[] = 'product_id';
         $this->listeners[] = 'userChooser';

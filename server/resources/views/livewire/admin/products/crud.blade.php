@@ -5,6 +5,18 @@
         <div class="buttons">
             <button class="button is-link" wire:click="$set('isCreating', true)" wire:loading.attr="disabled">@lang('admin/products.crud.create_product')</button>
         </div>
+
+        <x-slot name="fields">
+            <div class="control" style="width: 100%;">
+                <div class="select is-fullwidth">
+                    <select id="type" wire:model.defer="alcoholic">
+                        <option value="">@lang('admin/products.crud.alcoholic_chooser_all')</option>
+                        <option value="yes">@lang('admin/products.crud.alcoholic_chooser_yes')</option>
+                        <option value="no">@lang('admin/products.crud.alcoholic_chooser_no')</option>
+                    </select>
+                </div>
+            </div>
+        </x-slot>
     </x-search-header>
 
     @if ($products->count() > 0)

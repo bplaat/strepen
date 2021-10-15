@@ -8,7 +8,15 @@
         </div>
 
         <x-slot name="fields">
-            <x-user-role-chooser />
+            <div class="control" style="width: 100%;">
+                <div class="select is-fullwidth">
+                    <select id="type" wire:model.defer="role">
+                        <option value="">@lang('admin/users.crud.role_chooser_all')</option>
+                        <option value="normal">@lang('admin/users.crud.role_chooser_normal')</option>
+                        <option value="admin">@lang('admin/users.crud.role_chooser_admin')</option>
+                    </select>
+                </div>
+            </div>
         </x-slot>
     </x-search-header>
 
