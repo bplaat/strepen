@@ -115,7 +115,7 @@ class User extends Authenticatable
     }
 
     // Check if user is minor
-    public function getIsMinorAttribute()
+    public function getMinorAttribute()
     {
         return $this->birthday != null && $this->birthday->diff(new DateTime('now'))->y < Setting::get('minor_age');
     }
@@ -149,6 +149,7 @@ class User extends Authenticatable
         }
 
         if ($user == null || $user->role != User::ROLE_ADMIN) {
+            unset($this->updated_at);
             if ($user == null || $this->id != $user->id) {
                 unset($this->gender);
                 unset($this->birthday);
@@ -164,22 +165,24 @@ class User extends Authenticatable
                 unset($this->balance);
                 unset($this->active);
                 unset($this->created_at);
+                return;
             }
-            unset($this->updated_at);
-        } else {
-            if ($this->gender == static::GENDER_MALE) $this->gender = 'male';
-            if ($this->gender == static::GENDER_FEMALE) $this->gender = 'female';
-            if ($this->gender == static::GENDER_OTHER) $this->gender = 'other';
-
-            if ($this->role == static::ROLE_NORMAL) $this->role = 'normal';
-            if ($this->role == static::ROLE_ADMIN) $this->role = 'admin';
-
-            if ($this->language == static::LANGUAGE_ENGLISH) $this->language = 'en';
-            if ($this->language == static::LANGUAGE_DUTCH) $this->language = 'nl';
-
-            if ($this->theme == static::THEME_LIGHT) $this->theme = 'light';
-            if ($this->theme == static::THEME_DARK) $this->theme = 'dark';
         }
+
+        if ($this->gender == static::GENDER_MALE) $this->gender = 'male';
+        if ($this->gender == static::GENDER_FEMALE) $this->gender = 'female';
+        if ($this->gender == static::GENDER_OTHER) $this->gender = 'other';
+
+        if ($this->role == static::ROLE_NORMAL) $this->role = 'normal';
+        if ($this->role == static::ROLE_ADMIN) $this->role = 'admin';
+
+        if ($this->language == static::LANGUAGE_ENGLISH) $this->language = 'en';
+        if ($this->language == static::LANGUAGE_DUTCH) $this->language = 'nl';
+
+        if ($this->theme == static::THEME_LIGHT) $this->theme = 'light';
+        if ($this->theme == static::THEME_DARK) $this->theme = 'dark';
+
+        $this->minor = $this->getMinorAttribute();
     }
 
     // Search by a query
@@ -219,8 +222,9 @@ class User extends Authenticatable
     public static function checkBalances()
     {
         $users = User::where('active', true)->where('deleted', false)->get();
+        $minUserBalance = Setting::get('min_user_balance');
         foreach ($users as $user) {
-            if ($user->balance < Setting::get('min_user_balance')) {
+            if ($user->balance < $minUserBalance) {
                 $user->notify(new LowBalance($user));
             }
         }

@@ -16,7 +16,7 @@ class Notification extends Model {
         unset($notification->notifiable_type);
         unset($notification->notifiable_id);
 
-        if ($user == null || $user->role != User::ROLE_ADMIN) {
+        if ($user->role != User::ROLE_ADMIN) {
             unset($notification->updated_at);
         }
     }

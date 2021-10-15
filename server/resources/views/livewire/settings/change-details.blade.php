@@ -64,10 +64,10 @@
 
             <div class="column">
                 <div class="field">
-                    <label class="label" for="birthday">@lang('settings.change_details.birthday') @if ($user->isMinor) @lang('settings.change_details.birthday_minor') @endif</label>
+                    <label class="label" for="birthday">@lang('settings.change_details.birthday') @if ($user->minor) @lang('settings.change_details.birthday_minor') @endif</label>
                     <div class="control">
                         <input class="input @error('user.birthday') is-danger @enderror" type="date" id="birthday"
-                            wire:model.defer="user.birthday" @if ($user->isMinor) disabled @endif>
+                            wire:model.defer="user.birthday" @if ($user->minor) disabled @endif>
                     </div>
                     @error('user.birthday') <p class="help is-danger">{{ $message }}</p> @enderror
                 </div>

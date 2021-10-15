@@ -26,7 +26,7 @@ class Post extends Model
     {
         $this->body = $parsedown->text($this->body);
 
-        $this->user->forApi(null); // TEMP = $user
+        $this->user->forApi(null); // TEMP: Because of check api_key middleware no check user isn't connected
 
         if ($user == null || $user->role != User::ROLE_ADMIN) {
             unset($this->updated_at);
