@@ -89,6 +89,9 @@
                     <div class="navbar-end">
                         <div class="navbar-item">
                             <div class="buttons">
+                                @if (in_array(Request::ip(), array_map('trim', explode(',', App\Models\Setting::get('kiosk_ip_whitelist')))))
+                                    <a class="button @if ($isLight) is-dark @endif" href="{{ route('admin.kiosk') }}">@lang('layout.navbar.admin_kiosk')</a>
+                                @endif
                                 <a class="button is-link" href="{{ route('auth.login') }}">@lang('layout.navbar.login')</a>
                             </div>
                         </div>
