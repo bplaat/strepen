@@ -29,11 +29,14 @@ Route::middleware('kiosk')->group(function () {
     Route::get('kiosk', App\Http\Livewire\Kiosk::class)->name('kiosk');
 });
 
+// Can kiosk routes
+Route::middleware('cankiosk')->group(function () {
+    Route::get('/admin/kiosk', [AdminController::class, 'kiosk'])->name('admin.kiosk');
+});
+
 // Admin routes
 Route::middleware('admin')->group(function () {
     Route::view('/admin', 'admin.home')->name('admin.home');
-
-    Route::get('/admin/kiosk', [AdminController::class, 'kiosk'])->name('admin.kiosk');
 
     Route::view('/admin/settings', 'admin.settings')->name('admin.settings');
 

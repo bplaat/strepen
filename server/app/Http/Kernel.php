@@ -68,6 +68,7 @@ class Kernel extends HttpKernel
 
         // Custom middleware
         'admin' => \App\Http\Middleware\VerifyAdmin::class,
+        'cankiosk' => \App\Http\Middleware\VerifyCanKiosk::class,
         'nokiosk' => \App\Http\Middleware\VerifyNoKiosk::class,
         'kiosk' => \App\Http\Middleware\VerifyKiosk::class,
         'api_key' => \App\Http\Middleware\VerifyApiKey::class

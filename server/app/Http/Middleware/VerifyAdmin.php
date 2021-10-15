@@ -9,11 +9,11 @@ class VerifyAdmin
 {
     public function handle($request, $next)
     {
-        // Verify if the authed user as the admin role
-        if (!Auth::check() || Auth::user()->role != User::ROLE_ADMIN) {
-            abort(403);
+        // Verify if the authed user is an admin
+        if (Auth::check() && Auth::user()->role == User::ROLE_ADMIN) {
+            return $next($request);
         }
 
-        return $next($request);
+        abort(403);
     }
 }

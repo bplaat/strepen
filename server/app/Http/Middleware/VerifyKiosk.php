@@ -10,10 +10,10 @@ class VerifyKiosk
     public function handle($request, $next)
     {
         // Verify if the authed user is the kiosk user
-        if (!Auth::check() || Auth::id() != 1) {
-            abort(403);
+        if (Auth::check() && Auth::id() == 1) {
+            return $next($request);
         }
 
-        return $next($request);
+        abort(403);
     }
 }

@@ -6,7 +6,6 @@
 - Better admin food insert modal
 - Password reset system / Initial user password
 - Notifications emails
-- Whitelist ips for direct kiosk access
 - Add product alcoholic boolean
 - Make users that are minors can't change there birthday
 - Make users that are minors can stripe alcoholic products

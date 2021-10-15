@@ -74,7 +74,10 @@
 
                         <div class="navbar-item">
                             <div class="buttons">
-                                @if (Auth::user()->role == App\Models\User::ROLE_ADMIN)
+                                @if (
+                                    Auth::user()->role == App\Models\User::ROLE_ADMIN ||
+                                    in_array(Request::ip(), array_map('trim', explode(',', App\Models\Setting::get('kiosk_ip_whitelist'))))
+                                )
                                     <a class="button @if ($isLight) is-dark @endif" href="{{ route('admin.kiosk') }}">@lang('layout.navbar.admin_kiosk')</a>
                                 @endif
                                 <a class="button is-link" href="{{ route('settings') }}">@lang('layout.navbar.settings')</a>
