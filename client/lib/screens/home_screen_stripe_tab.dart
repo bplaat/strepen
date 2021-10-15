@@ -24,6 +24,7 @@ class _HomeScreenStripeTabState extends State {
     final lang = AppLocalizations.of(context)!;
     return FutureBuilder<List<dynamic>>(
       future: Future.wait([
+        AuthService.getInstance().user(),
         SettingsService.getInstance().settings(),
         ProductsService.getInstance().activeProducts(forceReload: _forceReload)
       ]),
@@ -34,13 +35,17 @@ class _HomeScreenStripeTabState extends State {
             child: Text(lang.home_stripe_products_error),
           );
         } else if (snapshot.hasData) {
+          User user = snapshot.data![0]!;
+          List<Product> products = snapshot.data![2]!;
+          if (user.minor!) products = products.where((Product product) => !product.alcoholic).toList();
           return RefreshIndicator(
             onRefresh: () async {
               setState(() => _forceReload = true);
             },
             child: ProductsList(
-              settings: snapshot.data![0]!,
-              products: snapshot.data![1]!
+              user: user,
+              settings: snapshot.data![1]!,
+              products: products
             )
           );
         } else {
@@ -54,23 +59,27 @@ class _HomeScreenStripeTabState extends State {
 }
 
 class ProductsList extends StatefulWidget {
+  final User user;
   final Map<String, dynamic> settings;
   final List<Product> products;
 
   const ProductsList({
     Key? key,
+    required this.user,
     required this.settings,
     required this.products
   }) : super(key: key);
 
   @override
   State createState() {
-    return _ProductsListState(settings: settings, products: products);
+    return _ProductsListState(user: user, settings: settings, products: products);
   }
 }
 
 class _ProductsListState extends State {
   final ScrollController _scrollController = ScrollController();
+
+  final User user;
 
   final Map<String, dynamic> settings;
 
@@ -80,7 +89,11 @@ class _ProductsListState extends State {
 
   bool _isLoading = false;
 
-  _ProductsListState({required this.settings, required this.products});
+  _ProductsListState({
+    required this.user,
+    required this.settings,
+    required this.products
+  });
 
   @override
   void initState() {
@@ -159,6 +172,13 @@ class _ProductsListState extends State {
               )
             ),
 
+            if (user.minor!) ...[
+              Container(
+                margin: EdgeInsets.only(top: 16, bottom: 8),
+                child: Text(lang.home_stripe_minor, style: TextStyle(fontSize: 16, color: Colors.grey, fontStyle: FontStyle.italic), textAlign: TextAlign.center)
+              )
+            ],
+
             Container(
               margin: EdgeInsets.all(16),
               child: SizedBox(
@@ -185,7 +205,11 @@ class _ProductsListState extends State {
                         });
 
                         showDialog(context: context, builder: (BuildContext context){
-                          return TransactionCreatedDialog(settings: settings, productAmounts: productAmounts);
+                          return TransactionCreatedDialog(
+                            user: user,
+                            settings: settings,
+                            productAmounts: productAmounts
+                          );
                         });
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -216,12 +240,15 @@ class _ProductsListState extends State {
 }
 
 class TransactionCreatedDialog extends StatelessWidget {
+  final User user;
+
   final Map<String, dynamic> settings;
 
   final Map<Product, int> productAmounts;
 
   const TransactionCreatedDialog({
     Key? key,
+    required this.user,
     required this.settings,
     required this.productAmounts
   }) : super(key: key);
@@ -229,141 +256,130 @@ class TransactionCreatedDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final lang = AppLocalizations.of(context)!;
-    return FutureBuilder<User>(
-      future: AuthService.getInstance().user(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          User user = snapshot.data!;
 
-          int totalAmount = 0;
-          double totalPrice = 0;
-          for (Product product in productAmounts.keys) {
-            int amount = productAmounts[product]!;
-            totalAmount += amount;
-            totalPrice += product.price * amount;
-          }
+    int totalAmount = 0;
+    double totalPrice = 0;
+    for (Product product in productAmounts.keys) {
+      int amount = productAmounts[product]!;
+      totalAmount += amount;
+      totalPrice += product.price * amount;
+    }
 
-          return AlertDialog(
-            title: Text(lang.home_stripe_created),
-            content: Container(
-              width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.height * 0.9,
-              child: Center(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(bottom: 24),
-                        child: SizedBox(
-                          width: 256,
-                          height: 256,
-                          child: Card(
-                            clipBehavior: Clip.antiAliasWithSaveLayer,
-                            child: CachedNetworkImage(imageUrl: user.thanks ?? settings['default_user_thanks']),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16.0),
-                            ),
-                            elevation: 3
-                          )
-                        )
+    return AlertDialog(
+      title: Text(lang.home_stripe_created),
+      content: Container(
+        width: MediaQuery.of(context).size.width * 0.9,
+        height: MediaQuery.of(context).size.height * 0.9,
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(bottom: 24),
+                  child: SizedBox(
+                    width: 256,
+                    height: 256,
+                    child: Card(
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      child: CachedNetworkImage(imageUrl: user.thanks ?? settings['default_user_thanks']),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16.0),
                       ),
+                      elevation: 3
+                    )
+                  )
+                ),
 
-                      Container(
-                        margin: EdgeInsets.only(bottom: 24),
-                        child: Text(lang.home_stripe_thx, style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500))
-                      ),
+                Container(
+                  margin: EdgeInsets.only(bottom: 24),
+                  child: Text(lang.home_stripe_thx, style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500))
+                ),
 
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: productAmounts.length,
-                        itemBuilder: (context, index) {
-                          Product product = productAmounts.keys.elementAt(index);
-                          int amount = productAmounts[product]!;
-                          return Container(
-                            margin: EdgeInsets.only(bottom: 12),
-                            child: Row(
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(right: 24),
-                                  child: CachedNetworkImage(
-                                    width: 56,
-                                    height: 56,
-                                    imageUrl: product.image ?? settings['default_product_image']
-                                  )
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        margin: EdgeInsets.only(bottom: 4),
-                                        child: SizedBox(
-                                          width: double.infinity,
-                                          child: Text('${product.name}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))
-                                        )
-                                      ),
-                                      SizedBox(
-                                        width: double.infinity,
-                                        child: Text('${amount}x   \u20ac ${product.price.toStringAsFixed(2)}', style: TextStyle(color: Colors.grey))
-                                      )
-                                    ]
-                                  )
-                                ),
-                                Text('\u20ac ${(product.price * amount).toStringAsFixed(2)}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500))
-                              ]
-                            )
-                          );
-                        }
-                      ),
-
-                      Divider(),
-
-                      Row(
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: productAmounts.length,
+                  itemBuilder: (context, index) {
+                    Product product = productAmounts.keys.elementAt(index);
+                    int amount = productAmounts[product]!;
+                    return Container(
+                      margin: EdgeInsets.only(bottom: 12),
+                      child: Row(
                         children: [
                           Container(
                             margin: EdgeInsets.only(right: 24),
-                            child: SizedBox(
+                            child: CachedNetworkImage(
                               width: 56,
-                              height: 56
-                            ),
+                              height: 56,
+                              imageUrl: product.image ?? settings['default_product_image']
+                            )
                           ),
+
                           Expanded(
                             flex: 1,
-                            child: Text('${totalAmount}x', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))
+                            child: Column(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(bottom: 4),
+                                  child: SizedBox(
+                                    width: double.infinity,
+                                    child: Text('${product.name}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))
+                                  )
+                                ),
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: Text('${amount}x   \u20ac ${product.price.toStringAsFixed(2)}', style: TextStyle(color: Colors.grey))
+                                )
+                              ]
+                            )
                           ),
-                          Text('\u20ac ${totalPrice.toStringAsFixed(2)}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500))
-                        ]
-                      ),
 
-                      Container(
-                        margin: EdgeInsets.only(top: 8),
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: RaisedButton(
-                            onPressed: () => Navigator.pop(context),
-                            color: Colors.pink,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(48)),
-                            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                            child: Text(lang.home_stripe_close, style: TextStyle(color: Colors.white, fontSize: 18))
-                          )
-                        )
+                          Text('\u20ac ${(product.price * amount).toStringAsFixed(2)}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500))
+                        ]
                       )
-                    ]
+                    );
+                  }
+                ),
+
+                Divider(),
+
+                Row(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(right: 24),
+                      child: SizedBox(
+                        width: 56,
+                        height: 56
+                      ),
+                    ),
+
+                    Expanded(
+                      flex: 1,
+                      child: Text('${totalAmount}x', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))
+                    ),
+
+                    Text('\u20ac ${totalPrice.toStringAsFixed(2)}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500))
+                  ]
+                ),
+
+                Container(
+                  margin: EdgeInsets.only(top: 8),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: RaisedButton(
+                      onPressed: () => Navigator.pop(context),
+                      color: Colors.pink,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(48)),
+                      padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                      child: Text(lang.home_stripe_close, style: TextStyle(color: Colors.white, fontSize: 18))
+                    )
                   )
                 )
-              )
+              ]
             )
-          );
-        } else {
-          return AlertDialog(
-            title: Text(lang.home_stripe_created),
-            content: Center(
-              child: CircularProgressIndicator()
-            )
-          );
-        }
-      }
+          )
+        )
+      )
     );
   }
 }

@@ -4,6 +4,7 @@ class Product {
   final String? description;
   final String? image;
   final double price;
+  final bool alcoholic;
   final bool? active;
 
   Product({
@@ -12,6 +13,7 @@ class Product {
     required this.description,
     required this.image,
     required this.price,
+    required this.alcoholic,
     required this.active
   });
 
@@ -22,6 +24,7 @@ class Product {
       description: json['description'],
       image: json['image'],
       price: json['price'].toDouble(),
+      alcoholic: json['alcoholic'],
       active: json['active']
     );
   }

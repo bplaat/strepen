@@ -23,6 +23,7 @@
     "home_stripe_products_error": "An error has occurred while loading the products!",
     "home_stripe_create_error": "An error has occurred while creating the transaction!",
     "home_stripe_close": "Close",
+    "home_stripe_minor": "There are less products available because you are a minor",
     "home_stripe_stripe": "Stripe",
     "home_stripe_created": "Transaction created",
     "home_stripe_thx": "Done, thx!",

@@ -6,6 +6,7 @@ class User {
   final String? avatar;
   final String? thanks;
   final double? balance;
+  final bool? minor;
 
   User({
     required this.id,
@@ -14,7 +15,8 @@ class User {
     required this.lastname,
     required this.avatar,
     required this.thanks,
-    required this.balance
+    required this.balance,
+    required this.minor
   });
 
   String get name {
@@ -32,7 +34,8 @@ class User {
       lastname: json['lastname'],
       avatar: json['avatar'],
       thanks: json['thanks'],
-      balance: json['balance']?.toDouble()
+      balance: json['balance']?.toDouble(),
+      minor: json['minor']
     );
   }
 }

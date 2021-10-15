@@ -20,6 +20,7 @@
     "home_stripe_products_error": "Er is een fout opgetreden bij het laden van de producten!",
     "home_stripe_create_error": "Er is een fout opgetreden bij het aanmaken van de transactie!",
     "home_stripe_close": "Sluiten",
+    "home_stripe_minor": "Er zijn minder producten beschikbaar omdat je minderjarig bent",
     "home_stripe_stripe": "Strepen",
     "home_stripe_created": "Transactie gemaakt",
     "home_stripe_thx": "Bedankt, thx!",
