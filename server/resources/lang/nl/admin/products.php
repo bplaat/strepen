@@ -12,9 +12,12 @@ return [
     'crud.description' => 'Omschrijving',
     'crud.image' => 'Plaatje',
     'crud.image_help' => 'U kunt een vierkante .jpg- of .png-afbeelding uploaden',
+    'crud.alcoholic' => 'Alcoholisch',
+    'crud.alcoholic_product' => 'Dit product bevat alcohol en kan niet door minderjarigen gekocht worden',
     'crud.cancel' => 'Annuleren',
 
     // Admin products item livewire component
+    'item.alcoholic' => 'Alcoholisch',
     'item.inactive' => 'Inactief',
     'item.amount' => 'Hoeveelheid op voorraad',
     'item.show' => 'Bekijken',
@@ -31,6 +34,8 @@ return [
     'item.image' => 'Plaatje',
     'item.image_help' => 'U kunt een vierkante .jpg- of .png-afbeelding uploaden',
     'item.delete_image' => 'Verwijder product plaatje',
+    'item.alcoholic' => 'Alcoholisch',
+    'item.alcoholic_product' => 'Dit product bevat alcohol en kan niet door minderjarigen gekocht worden',
     'item.active' => 'Actief',
     'item.active_product' => 'Product zichtbaar maken in het systeem',
     'item.cancel' => 'Annuleren',

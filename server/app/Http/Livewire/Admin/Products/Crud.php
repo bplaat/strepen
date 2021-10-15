@@ -19,7 +19,8 @@ class Crud extends PaginationComponent
         'product.name' => 'required|min:2|max:48',
         'product.price' => 'required|numeric',
         'product.description' => 'nullable',
-        'image' => 'nullable|image|mimes:jpg,jpeg,png|max:1024'
+        'image' => 'nullable|image|mimes:jpg,jpeg,png|max:1024',
+        'product.alcoholic' => 'nullable|boolean'
     ];
 
     public function mount()

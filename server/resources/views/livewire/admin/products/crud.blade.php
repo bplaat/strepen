@@ -72,6 +72,14 @@
                             <p class="help">@lang('admin/products.crud.image_help')</p>
                         @enderror
                     </div>
+
+                    <div class="field">
+                        <label class="label" for="alcoholic">@lang('admin/products.crud.alcoholic')</label>
+                        <label class="checkbox" for="alcoholic">
+                            <input type="checkbox" id="alcoholic" wire:model.defer="product.alcoholic">
+                            @lang('admin/products.crud.alcoholic_product')
+                        </label>
+                    </div>
                 </div>
 
                 <div class="modal-card-foot">

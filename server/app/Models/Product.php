@@ -13,6 +13,7 @@ class Product extends Model
 
     protected $casts = [
         'price' => 'double',
+        'alcoholic' => 'boolean',
         'active' => 'boolean',
         'deleted' => 'boolean'
     ];

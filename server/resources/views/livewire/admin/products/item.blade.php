@@ -9,9 +9,15 @@
             <h4 style="font-weight: normal;">
                 <span style="font-weight: 600;">{{ $product->name }}</span>: <x-money-format :money="$product->price" />
 
-                @if (!$product->active)
-                    <span class="tag is-pulled-right is-warning">{{ Str::upper(__('admin/products.item.inactive')) }}</span>
-                @endif
+                <span class="is-pulled-right">
+                    @if ($product->alcoholic)
+                        <span class="tag is-danger">{{ Str::upper(__('admin/products.item.alcoholic')) }}</span>
+                    @endif
+
+                    @if (!$product->active)
+                        <span class="tag is-warning">{{ Str::upper(__('admin/products.item.inactive')) }}</span>
+                    @endif
+                </span>
             </h4>
             <p>@lang('admin/products.item.amount'): <x-amount-format :amount="$product->amount" /></p>
         </div>
@@ -37,9 +43,15 @@
                     <h1 class="title is-spaced is-4">
                         {{ $product->name }}
 
-                        @if (!$product->active)
-                            <span class="tag is-pulled-right is-warning">{{ Str::upper(__('admin/products.item.inactive')) }}</span>
-                        @endif
+                        <span class="is-pulled-right">
+                            @if ($product->alcoholic)
+                                <span class="tag is-danger">{{ Str::upper(__('admin/products.item.alcoholic')) }}</span>
+                            @endif
+
+                            @if (!$product->active)
+                                <span class="tag is-warning">{{ Str::upper(__('admin/products.item.inactive')) }}</span>
+                            @endif
+                        </span>
                     </h1>
 
                     <h2 class="subtitle is-5">@lang('admin/products.item.general_info')</h2>
@@ -149,12 +161,26 @@
                         @endif
                     </div>
 
-                    <div class="field">
-                        <label class="label" for="active">@lang('admin/products.item.active')</label>
-                        <label class="checkbox" for="active">
-                            <input type="checkbox" id="active" wire:model.defer="product.active">
-                            @lang('admin/products.item.active_product')
-                        </label>
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label" for="alcoholic">@lang('admin/products.item.alcoholic')</label>
+                                <label class="checkbox" for="alcoholic">
+                                    <input type="checkbox" id="alcoholic" wire:model.defer="product.alcoholic">
+                                    @lang('admin/products.item.alcoholic_product')
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="column">
+                            <div class="field">
+                                <label class="label" for="active">@lang('admin/products.item.active')</label>
+                                <label class="checkbox" for="active">
+                                    <input type="checkbox" id="active" wire:model.defer="product.active">
+                                    @lang('admin/products.item.active_product')
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

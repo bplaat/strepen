@@ -22,6 +22,7 @@ class Item extends Component
         'product.price' => 'required|numeric',
         'product.description' => 'nullable',
         'image' => 'nullable|image|mimes:jpg,jpeg,png|max:1024',
+        'product.alcoholic' => 'nullable|boolean',
         'product.active' => 'nullable|boolean'
     ];
 

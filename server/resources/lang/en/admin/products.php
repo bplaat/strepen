@@ -12,9 +12,12 @@ return [
     'crud.description' => 'Description',
     'crud.image' => 'Image',
     'crud.image_help' => 'You can upload an squared .jpg or .png image',
+    'crud.alcoholic' => 'Alcoholic',
+    'crud.alcoholic_product' => 'This product contains alcohol and can\'t be bought by minors',
     'crud.cancel' => 'Cancel',
 
     // Admin products item livewire component
+    'item.alcoholic' => 'Alcoholic',
     'item.inactive' => 'Inactive',
     'item.amount' => 'Amount in stock',
     'item.show' => 'Show',
@@ -31,6 +34,8 @@ return [
     'item.image' => 'Image',
     'item.image_help' => 'You can upload an squared .jpg or .png image',
     'item.delete_image' => 'Delete product image',
+    'item.alcoholic' => 'Alcoholic',
+    'item.alcoholic_product' => 'This product contains alcohol and can\'t be bought by minors',
     'item.active' => 'Active',
     'item.active_product' => 'Make product visible in the system',
     'item.cancel' => 'Cancel',

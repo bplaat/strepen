@@ -166,6 +166,7 @@ class ImportData extends Command
                     $product->name = $productJson->name;
                     $product->price = $productJson->price;
                     $product->active = $productJson->active;
+                    $product->alcoholic = true;
                     $product->save();
                     $oldProductIds[$productJson->id] = $product->id;
                 }
