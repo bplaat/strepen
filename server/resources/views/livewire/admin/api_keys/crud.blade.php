@@ -1,5 +1,5 @@
 <div class="container">
-    <h2 class="title is-4">@lang('admin/api_keys.crud.header')</h2>
+    <h2 class="title">@lang('admin/api_keys.crud.header')</h2>
 
     <x-search-header :itemName="__('admin/api_keys.crud.api_keys')">
         <div class="buttons">

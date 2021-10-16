@@ -1,5 +1,5 @@
 <div class="container">
-    <h2 class="title is-4">@lang('admin/users.crud.header')</h2>
+    <h2 class="title">@lang('admin/users.crud.header')</h2>
 
     <x-search-header :itemName="__('admin/users.crud.users')">
         <div class="buttons">
