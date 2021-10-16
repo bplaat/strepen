@@ -16,7 +16,6 @@ return [
     'item.edit' => 'Aanpassen',
     'item.delete' => 'Verwijderen',
     'item.edit_post' => 'Pas bericht aan',
-    'item.user' => 'Gebruiker',
     'item.title' => 'Titel',
     'item.created_at_date' => 'Aanmaak datum',
     'item.created_at_time' => 'Aanmaak tijd',

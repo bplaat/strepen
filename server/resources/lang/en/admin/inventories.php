@@ -17,7 +17,6 @@ return [
     'item.edit' => 'Edit',
     'item.delete' => 'Delete',
     'item.edit_inventory' => 'Edit inventory',
-    'item.user' => 'User',
     'item.name' => 'Name',
     'item.created_at_date' => 'Created at date',
     'item.created_at_time' => 'Created at time',

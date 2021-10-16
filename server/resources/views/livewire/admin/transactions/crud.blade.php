@@ -77,8 +77,6 @@
                 </div>
 
                 <div class="modal-card-body">
-                    <livewire:components.user-chooser includeStrepenUser="true" />
-
                     <div class="field">
                         <label class="label" for="name">@lang('admin/transactions.crud.name')</label>
                         <div class="control">
@@ -88,15 +86,59 @@
                         @error('transaction.name') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
 
-                    <div class="field">
-                        <label class="label" for="amount">@lang('admin/transactions.crud.amount')</label>
-                        <div class="control has-icons-left">
-                            <input class="input @error('transaction.price') is-danger @enderror" type="number" step="0.01" id="amount"
-                                wire:model.defer="transaction.price" required>
-                            <span class="icon is-small is-left">&euro;</span>
-                        </div>
-                        @error('transaction.price') <p class="help is-danger">{{ $message }}</p> @enderror
+                    <div class="tabs is-fullwidth">
+                        <ul>
+                            <li @if ($creatingDepositTab == 'single') class="is-active" @endif>
+                                <a href="#" wire:click.prevent="$set('creatingDepositTab', 'single')">@lang('admin/transactions.crud.single')</a>
+                            </li>
+                            <li @if ($creatingDepositTab == 'multiple') class="is-active" @endif>
+                                <a href="#" wire:click.prevent="$set('creatingDepositTab', 'multiple')">@lang('admin/transactions.crud.multiple')</a>
+                            </li>
+                        </ul>
                     </div>
+
+                    @if ($creatingDepositTab == 'single')
+                        <livewire:components.user-chooser />
+
+                        <div class="field">
+                            <label class="label" for="amount">@lang('admin/transactions.crud.amount')</label>
+                            <div class="control has-icons-left">
+                                <input class="input @error('transaction.price') is-danger @enderror" type="number" step="0.01" id="amount"
+                                    wire:model.defer="transaction.price" required>
+                                <span class="icon is-small is-left">&euro;</span>
+                            </div>
+                            @error('transaction.price') <p class="help is-danger">{{ $message }}</p> @enderror
+                        </div>
+                    @endif
+
+                    @if ($creatingDepositTab == 'multiple')
+                        <table class="table is-fullwidth">
+                            <thead>
+                                <tr>
+                                    <th>@lang('admin/transactions.crud.name')</th>
+                                    <th>@lang('admin/transactions.crud.amount')</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($users as $index => $user)
+                                    <tr>
+                                        <td style="vertical-align: middle;">
+                                            <div style="float: left; margin-right: 12px; width: 24px; height: 24px; border-radius: 50%; background-size: cover; background-position: center center;
+                                                background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
+                                            <label for="user-amount-{{ $index }}">{{ $user->name }}</label>
+                                        </td>
+                                        <td>
+                                            <div class="control has-icons-left">
+                                                <input class="input @error('transaction.price') is-danger @enderror" type="number" step="0.01" id="user-amount-{{ $index }}"
+                                                    wire:model.defer="userAmounts.{{ $index }}">
+                                                <span class="icon is-small is-left">&euro;</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @endif
                 </div>
 
                 <div class="modal-card-foot">
@@ -127,32 +169,59 @@
                         @error('transaction.name') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
 
-                    <table class="table is-fullwidth">
-                        <thead>
-                            <tr>
-                                <th>@lang('admin/transactions.crud.name')</th>
-                                <th>@lang('admin/transactions.crud.amount')</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($users as $index => $user)
+                    <div class="tabs is-fullwidth">
+                        <ul>
+                            <li @if ($creatingFoodTab == 'single') class="is-active" @endif>
+                                <a href="#" wire:click.prevent="$set('creatingFoodTab', 'single')">@lang('admin/transactions.crud.single')</a>
+                            </li>
+                            <li @if ($creatingFoodTab == 'multiple') class="is-active" @endif>
+                                <a href="#" wire:click.prevent="$set('creatingFoodTab', 'multiple')">@lang('admin/transactions.crud.multiple')</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    @if ($creatingFoodTab == 'single')
+                        <livewire:components.user-chooser />
+
+                        <div class="field">
+                            <label class="label" for="amount">@lang('admin/transactions.crud.amount')</label>
+                            <div class="control has-icons-left">
+                                <input class="input @error('transaction.price') is-danger @enderror" type="number" step="0.01" id="amount"
+                                    wire:model.defer="transaction.price" required>
+                                <span class="icon is-small is-left">&euro;</span>
+                            </div>
+                            @error('transaction.price') <p class="help is-danger">{{ $message }}</p> @enderror
+                        </div>
+                    @endif
+
+                    @if ($creatingFoodTab == 'multiple')
+                        <table class="table is-fullwidth">
+                            <thead>
                                 <tr>
-                                    <td style="vertical-align: middle;">
-                                        <div style="float: left; margin-right: 12px; width: 24px; height: 24px; border-radius: 50%; background-size: cover; background-position: center center;
-                                            background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
-                                        <label for="user-amount-{{ $index }}">{{ $user->name }}</label>
-                                    </td>
-                                    <td>
-                                        <div class="control has-icons-left">
-                                            <input class="input @error('transaction.price') is-danger @enderror" type="number" step="0.01" id="user-amount-{{ $index }}"
-                                                wire:model.defer="foodAmounts.{{ $index }}">
-                                            <span class="icon is-small is-left">&euro;</span>
-                                        </div>
-                                    </td>
+                                    <th>@lang('admin/transactions.crud.name')</th>
+                                    <th>@lang('admin/transactions.crud.amount')</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($users as $index => $user)
+                                    <tr>
+                                        <td style="vertical-align: middle;">
+                                            <div style="float: left; margin-right: 12px; width: 24px; height: 24px; border-radius: 50%; background-size: cover; background-position: center center;
+                                                background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
+                                            <label for="user-amount-{{ $index }}">{{ $user->name }}</label>
+                                        </td>
+                                        <td>
+                                            <div class="control has-icons-left">
+                                                <input class="input @error('transaction.price') is-danger @enderror" type="number" step="0.01" id="user-amount-{{ $index }}"
+                                                    wire:model.defer="userAmounts.{{ $index }}">
+                                                <span class="icon is-small is-left">&euro;</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @endif
                 </div>
 
                 <div class="modal-card-foot">
