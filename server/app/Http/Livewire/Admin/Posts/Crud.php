@@ -31,7 +31,11 @@ class Crud extends PaginationComponent
     public function mount()
     {
         if ($this->user_id != 1) {
-            $user = User::where('id', $this->user_id)->where('active', true)->where('deleted', false)->withCount('posts')->first();
+            $user = User::where('id', $this->user_id)->where('active', true)->where('deleted', false)->withCount([
+                'posts' => function ($query) {
+                    return $query->where('deleted', false);
+                }
+            ])->first();
             if ($user == null || $user->posts_count == 0) {
                 $this->user_id = null;
             }

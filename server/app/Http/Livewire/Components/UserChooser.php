@@ -27,11 +27,19 @@ class UserChooser extends Component
         if ($this->includeStrepenUser) {
             $this->users = User::where('deleted', false)->where(function ($query) {
                 return $query->where('active', true)->orWhere('id', 1);
-            })->orderBy('balance', 'DESC')->withCount(['posts', 'inventories'])->get();
+            });
         } else {
-            $this->users = User::where('active', true)->where('deleted', false)
-                ->orderBy('balance', 'DESC')->withCount(['posts', 'inventories'])->get();
+            $this->users = User::where('active', true)->where('deleted', false);
         }
+        $this->users = $this->users->orderBy('balance', 'DESC')->withCount([
+            'posts' => function ($query) {
+                return $query->where('deleted', false);
+            },
+            'inventories' => function ($query) {
+                return $query->where('deleted', false);
+            }
+        ])->get();
+
         if ($this->postsRequired) {
             $this->users = $this->users->filter(function ($user) {
                 return $user->posts_count > 0;
