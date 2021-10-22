@@ -51,10 +51,12 @@
 
         <div class="field">
             <div class="control">
-                <button class="button is-link" type="submit">@lang('admin/settings.change_default_thanks.change_button')</button>
-                @if (App\Models\Setting::get('default_user_thanks') != 'uV62yH12x12qE55fqcZVR2uGk0S1qiR1.gif')
-                    <a class="button is-danger" wire:click="deleteThanks" wire:loading.attr="disabled">@lang('admin/settings.change_default_thanks.delete_button')</a>
-                @endif
+                <div class="buttons">
+                    <button class="button is-link" type="submit">@lang('admin/settings.change_default_thanks.change_button')</button>
+                    @if (App\Models\Setting::get('default_user_thanks') != 'uV62yH12x12qE55fqcZVR2uGk0S1qiR1.gif')
+                        <a class="button is-danger" wire:click="deleteThanks" wire:loading.attr="disabled">@lang('admin/settings.change_default_thanks.delete_button')</a>
+                    @endif
+                </div>
             </div>
         </div>
     </form>

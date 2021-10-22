@@ -6,13 +6,20 @@
             rel="next" class="pagination-next" @if (!$paginator->hasMorePages()) disabled @endif>@lang('pagination.next')</a>
 
         <ul class="pagination-list">
+            @php
+                $totalPages = ceil($paginator->total() / $paginator->count());
+            @endphp
             @foreach ($elements as $element)
                 @if (is_string($element))
                     <span class="pagination-ellipsis">&hellip;</span>
                 @endif
                 @if (is_array($element))
                     @foreach ($element as $page => $url)
-                        <li>
+                        <li
+                            @if (count($element) == 2 && in_array(1, array_keys($element)) && $page != 1) class="is-hidden-touch" @endif
+                            @if (count($element) > 2 && ($page < $paginator->currentPage() - 1 || $page > $paginator->currentPage() + 1)) class="is-hidden-touch" @endif
+                            @if (count($element) == 2 && in_array($totalPages, array_keys($element)) && $page != $totalPages) class="is-hidden-touch" @endif
+                        >
                             <a class="pagination-link @if ($page == $paginator->currentPage()) is-current @endif"
                                 wire:click="gotoPage({{ $page }})"
                                 wire:loading.attr="disabled">{{ $page }}</a>

@@ -3,7 +3,7 @@
         <label class="label" for="productName">@lang('components.products_chooser.products')</label>
         <div class="control">
             <form wire:submit.prevent="addFirstProduct">
-                <div class="field has-addons">
+                <div class="field has-addons is-block-mobile">
                     <div class="dropdown @if($isOpen) is-active @endif" style="width: 100%;">
                         <div class="dropdown-trigger control" style="width: 100%;">
                             <input class="input" type="text" placeholder="@lang('components.products_chooser.search_product')"
@@ -29,7 +29,7 @@
                         </div>
                     </div>
                     <div class="control">
-                        <button class="button is-link" type="submit">@lang('components.products_chooser.add_product')</button>
+                        <button class="button is-link" type="submit" style="width: 100%;">@lang('components.products_chooser.add_product')</button>
                     </div>
                 </div>
             </form>

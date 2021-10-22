@@ -16,7 +16,7 @@
             <h2 class="title" style="margin-bottom: 24px; text-align: center;">@lang('components.transaction_created_modal_thx')</h2>
 
             @foreach ($transaction->products as $product)
-                <div class="media" style="display: flex; align-items: center; width: 75%; margin-left: auto; margin-right: auto;">
+                <div class="media" style="display: flex; align-items: center; max-width: 360px; margin-left: auto; margin-right: auto;">
                     <div class="media-left">
                         <div style="width: 64px; height: 64px; border-radius: 6px; background-size: cover; background-position: center center;
                             background-image: url(/storage/products/{{ $product->image != null ? $product->image : App\Models\Setting::get('default_product_image') }});"></div>
@@ -34,7 +34,7 @@
                 </div>
             @endforeach
 
-            <div class="media" style="display: flex; align-items: center; width: 75%; margin-left: auto; margin-right: auto; margin-bottom: 16px;">
+            <div class="media" style="display: flex; align-items: center; max-width: 360px; margin-left: auto; margin-right: auto; margin-bottom: 16px;">
                 <div class="media-left">
                     <div style="width: 64px;"></div>
                 </div>

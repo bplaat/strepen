@@ -51,10 +51,12 @@
 
         <div class="field">
             <div class="control">
-                <button class="button is-link" type="submit">@lang('admin/settings.change_default_product_image.change_button')</button>
-                @if (App\Models\Setting::get('default_product_image') != '4RvFNOReec7O00D4F3os13M8kgPBHord.png')
-                    <a class="button is-danger" wire:click="deleteImage" wire:loading.attr="disabled">@lang('admin/settings.change_default_product_image.delete_button')</a>
-                @endif
+                <div class="buttons">
+                    <button class="button is-link" type="submit">@lang('admin/settings.change_default_product_image.change_button')</button>
+                    @if (App\Models\Setting::get('default_product_image') != '4RvFNOReec7O00D4F3os13M8kgPBHord.png')
+                        <a class="button is-danger" wire:click="deleteImage" wire:loading.attr="disabled">@lang('admin/settings.change_default_product_image.delete_button')</a>
+                    @endif
+                </div>
             </div>
         </div>
     </form>

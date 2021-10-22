@@ -51,10 +51,12 @@
 
         <div class="field">
             <div class="control">
-                <button class="button is-link" type="submit">@lang('settings.change_thanks.change_button')</button>
-                @if (Auth::user()->thanks != null)
-                    <a class="button is-danger" wire:click="deleteThanks" wire:loading.attr="disabled">@lang('settings.change_thanks.delete_button')</a>
-                @endif
+                <div class="buttons">
+                    <button class="button is-link" type="submit">@lang('settings.change_thanks.change_button')</button>
+                    @if (Auth::user()->thanks != null)
+                        <a class="button is-danger" wire:click="deleteThanks" wire:loading.attr="disabled">@lang('settings.change_thanks.delete_button')</a>
+                    @endif
+                </div>
             </div>
         </div>
     </form>

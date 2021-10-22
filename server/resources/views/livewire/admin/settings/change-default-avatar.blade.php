@@ -51,10 +51,12 @@
 
         <div class="field">
             <div class="control">
-                <button class="button is-link" type="submit">@lang('admin/settings.change_default_avatar.change_button')</button>
-                @if (App\Models\Setting::get('default_user_avatar') != 'HTVCaQ5gXURDsl7GTdvfdpIPvqjdAmm5.jpg')
-                    <a class="button is-danger" wire:click="deleteAvatar" wire:loading.attr="disabled">@lang('admin/settings.change_default_avatar.delete_button')</a>
-                @endif
+                <div class="buttons">
+                    <button class="button is-link" type="submit">@lang('admin/settings.change_default_avatar.change_button')</button>
+                    @if (App\Models\Setting::get('default_user_avatar') != 'HTVCaQ5gXURDsl7GTdvfdpIPvqjdAmm5.jpg')
+                        <a class="button is-danger" wire:click="deleteAvatar" wire:loading.attr="disabled">@lang('admin/settings.change_default_avatar.delete_button')</a>
+                    @endif
+                </div>
             </div>
         </div>
     </form>
