@@ -11,11 +11,11 @@ Route::middleware('nokiosk')->group(function () {
 
 // Normal routes
 Route::middleware(['auth', 'nokiosk'])->group(function () {
-    Route::get('stripe', App\Http\Livewire\Transactions\Create::class)->name('transactions.create');
+    Route::get('/stripe', App\Http\Livewire\Transactions\Create::class)->name('transactions.create');
 
-    Route::get('transactions', App\Http\Livewire\Transactions\History::class)->name('transactions.history');
+    Route::get('/transactions', App\Http\Livewire\Transactions\History::class)->name('transactions.history');
 
-    Route::get('notifications', App\Http\Livewire\Notifications::class)->name('notifications');
+    Route::get('/notifications', App\Http\Livewire\Notifications::class)->name('notifications');
 
     Route::view('/balance', 'balance')->name('balance');
 
@@ -26,7 +26,7 @@ Route::middleware(['auth', 'nokiosk'])->group(function () {
 
 // Kiosk routes
 Route::middleware('kiosk')->group(function () {
-    Route::get('kiosk', App\Http\Livewire\Kiosk::class)->name('kiosk');
+    Route::get('/kiosk', App\Http\Livewire\Kiosk::class)->name('kiosk');
 });
 
 // Can kiosk routes
@@ -56,4 +56,8 @@ Route::middleware('admin')->group(function () {
 // Guest routes
 Route::middleware('guest')->group(function () {
     Route::get('/auth/login', App\Http\Livewire\Auth\Login::class)->name('auth.login');
+
+    Route::get('/auth/forgot-password', App\Http\Livewire\Auth\ForgotPassword::class)->name('auth.forgot_password');
+
+    Route::get('/auth/reset-password/{token}', App\Http\Livewire\Auth\ResetPassword::class)->name('password.reset');
 });

@@ -3,7 +3,7 @@
 return [
     // Settings page
     'title' => 'Settings',
-    'breadcrumb' => 'Settings',
+    'header' => 'Settings',
 
     // Change details form
     'change_details.header' => 'Change details',
