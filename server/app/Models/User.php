@@ -193,7 +193,8 @@ class User extends Authenticatable
                 $query->where('firstname', 'LIKE', '%' . $searchQuery . '%')
                     ->orWhere('insertion', 'LIKE', '%' . $searchQuery . '%')
                     ->orWhere('lastname', 'LIKE', '%' . $searchQuery . '%')
-                    ->orWhere('email', 'LIKE', '%' . $searchQuery . '%');
+                    ->orWhere('email', 'LIKE', '%' . $searchQuery . '%')
+                    ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%');
             });
     }
 

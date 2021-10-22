@@ -84,7 +84,8 @@ class Product extends Model
         return $query->where('deleted', false)
             ->where(function ($query) use ($searchQuery) {
                 $query->where('name', 'LIKE', '%' . $searchQuery . '%')
-                    ->orWhere('description', 'LIKE', '%' . $searchQuery . '%');
+                    ->orWhere('description', 'LIKE', '%' . $searchQuery . '%')
+                    ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%');
             });
     }
 

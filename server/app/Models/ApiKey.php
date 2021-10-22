@@ -28,6 +28,9 @@ class ApiKey extends Model
     public static function search($query, $searchQuery)
     {
         return $query->where('deleted', false)
-            ->where('name', 'LIKE', '%' . $searchQuery . '%');
+            ->where(function ($query) use ($searchQuery) {
+                $query->where('name', 'LIKE', '%' . $searchQuery . '%')
+                    ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%');
+            });
     }
 }
