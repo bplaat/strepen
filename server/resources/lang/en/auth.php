@@ -16,7 +16,7 @@ return [
     'forgot_password.title' => 'Forgot password',
     'forgot_password.header' => 'Forgot password',
     'forgot_password.email' => 'Email address',
-    'forgot_password.reset_password' => 'Reset password',
+    'forgot_password.reset_password' => 'Send reset password email',
     'forgot_password.success_message' => 'An email with the reset link is send to your email address',
     'forgot_password.error_message' => 'There went something wrong when resetting your password, please try again later',
 

@@ -90,7 +90,7 @@ class ImportData extends Command
                         $user->firstname = $firstname;
                         $user->lastname = $lastname;
                         $user->email = $userJson->email;
-                        $user->password = Hash::make('strepen');
+                        $user->password = Hash::make(Str::random(32));
                         $user->receive_news = $userJson->receive_news;
                         $user->balance = 0;
                         $user->active = $userJson->active;

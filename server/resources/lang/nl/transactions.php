@@ -3,14 +3,14 @@
 return [
     // Transactions create livewire component
     'create.title' => 'Strepen',
-    'create.header' => 'Streep producten op je persoonlijke account',
+    'create.header' => 'Streep producten op uw persoonlijke account',
     'create.create_transaction' => 'Nieuwe transactie maken',
     'create.name' => 'Naam',
     'create.name_default' => 'Transactie op',
 
     // Transactions history livewire component
     'history.title' => 'Geschiedenis',
-    'history.header' => 'Je persoonlijke streepgeschiedenis',
+    'history.header' => 'Uw persoonlijke streepgeschiedenis',
     'history.transactions' => 'strepen',
     'history.empty' => 'Geen strepen gevonden!',
     'history.transaction_from' => 'Transactie op :transaction.created_at',

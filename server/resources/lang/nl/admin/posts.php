@@ -22,5 +22,5 @@ return [
     'item.body' => 'Tekst (ondersteund :markdown_link)',
     'item.cancel' => 'Annuleren',
     'item.delete_post' => 'Verwijder bericht',
-    'item.delete_description' => 'Weet je zeker dat je dit bericht wilt verwijderen?'
+    'item.delete_description' => 'Weet u zeker dat u dit bericht wilt verwijderen?'
 ];

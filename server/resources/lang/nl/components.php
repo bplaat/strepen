@@ -9,7 +9,7 @@ return [
     'notifications.empty' => 'Geen ongelezen notificaties',
 
     'notifications.new_deposit_header' => 'Nieuwe storting',
-    'notifications.new_deposit_start' => 'Je hebt een nieuwe storting ontvangen<br>van',
+    'notifications.new_deposit_start' => 'U hebt een nieuwe storting ontvangen<br>van',
     'notifications.new_deposit_end' => 'op',
 
     'notifications.new_post_header' => 'Nieuw nieuws bericht',
@@ -17,7 +17,7 @@ return [
 
     'notifications.low_balance_header' => 'Balans te laag',
     'notifications.low_balance_start' => 'Jouw balans van',
-    'notifications.low_balance_end' => 'is te laag<br> stort wat geld om je schuld te vereffen',
+    'notifications.low_balance_end' => 'is te laag<br> stort wat geld om uw schuld te vereffen',
 
     // User Chooser livewire component
     'user_chooser.user' => 'Gebruiker',
@@ -36,7 +36,7 @@ return [
     'products_chooser.search_product' => 'Zoek een product...',
     'products_chooser.add_product' => 'Voeg product toe',
     'products_chooser.empty' => 'Geen producten gevonden!',
-    'products_chooser.minor' => 'Er zijn minder producten beschikbaar omdat je minderjarig bent',
+    'products_chooser.minor' => 'Er zijn minder producten beschikbaar omdat u minderjarig bent',
     'products_chooser.amount' => 'hoeveelheid',
 
     // Transaction Type Chooser blade component

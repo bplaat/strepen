@@ -19,7 +19,7 @@
                 <div class="navbar-end">
                     <div class="navbar-item">
                         <div class="buttons">
-                            <a class="button @if ($isLight) is-dark @endif" href="javascript:alert('Nee nee nee, je mag deze prachtige plek niet verlaten!')">@lang('layout.navbar.in_kiosk')</a>
+                            <a class="button @if ($isLight) is-dark @endif" href="javascript:alert('Nee nee nee, u mag deze prachtige plek niet verlaten!')">@lang('layout.navbar.in_kiosk')</a>
                         </div>
                     </div>
                 </div>

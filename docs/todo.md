@@ -3,7 +3,6 @@
 # Todo List (before launch)
 
 ## High priority
-- Initial user password notification?
 - Bug fixes / All the whishs from the Stam Bestuur
 
 ## Low priority

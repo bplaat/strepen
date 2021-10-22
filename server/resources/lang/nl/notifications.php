@@ -8,7 +8,7 @@ return [
     'unread' => 'Ongelezen',
 
     'new_deposit_header' => 'Nieuwe storting',
-    'new_deposit_start' => 'Je hebt een nieuwe storting van ontvangen',
+    'new_deposit_start' => 'U hebt een nieuwe storting van ontvangen',
     'new_deposit_end' => 'op',
 
     'new_post_header' => 'Nieuw nieuws bericht',
@@ -16,5 +16,5 @@ return [
 
     'low_balance_header' => 'Balans te laag',
     'low_balance_start' => 'Jouw balans van',
-    'low_balance_end' => 'is te laag<br> stort wat geld om je schuld te vereffen'
+    'low_balance_end' => 'is te laag<br> stort wat geld om uw schuld te vereffen'
 ];
