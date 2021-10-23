@@ -15,7 +15,7 @@
 
             <h2 class="title" style="margin-bottom: 24px; text-align: center;">@lang('components.transaction_created_modal_thx')</h2>
 
-            @foreach ($transaction->products as $product)
+            @foreach ($transaction->products()->orderByRaw('LOWER(name)')->get() as $product)
                 <div class="media" style="display: flex; align-items: center; max-width: 360px; margin-left: auto; margin-right: auto;">
                     <div class="media-left">
                         <div style="width: 64px; height: 64px; border-radius: 6px; background-size: cover; background-position: center center;
