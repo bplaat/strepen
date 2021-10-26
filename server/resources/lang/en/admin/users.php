@@ -44,7 +44,6 @@ return [
 
     // Admin users item livewire component
     'item.inactive' => 'Inactive',
-    'item.written_by' => 'Written by :user.name on :user.created_at',
     'item.balance' => 'Balance',
     'item.hijack' => 'Hijack',
     'item.show' => 'Show',
