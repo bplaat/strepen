@@ -50,8 +50,8 @@
             </div>
             <div class="media-content">
                 <label class="label" for="product-amount-{{ $index }}" style="font-weight: normal;">
-                    <b>{{ $selectedProduct['product']['name'] }}</b> (<x-money-format :money="$selectedProduct['product']['price']" />) <b>@lang('components.products_chooser.amount')</b>
-                    <button type="button" class="delete is-pulled-right" wire:click="deleteProduct({{ $selectedProduct['product_id'] }})"></button>
+                    <b>{{ $selectedProduct['product']['name'] }}</b> (<x-money-format :money="$selectedProduct['product']['price']" />) <b class="is-hidden-mobile">@lang('components.products_chooser.amount')</b>
+                    <button type="button" class="delete is-pulled-right" style="transform: translateY(3px);" wire:click="deleteProduct({{ $selectedProduct['product_id'] }})"></button>
                 </label>
                 <div class="control">
                     <input class="input @error('selectedProducts.{{ $index }}.amount') is-danger @enderror" type="number"

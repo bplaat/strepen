@@ -9,7 +9,7 @@
             <h4 style="font-weight: normal;">
                 <span style="font-weight: 600;">{{ $product->name }}</span>: <x-money-format :money="$product->price" />
 
-                <span class="is-pulled-right">
+                <span class="is-pulled-right is-hidden-touch">
                     @if ($product->alcoholic)
                         <span class="tag is-danger">{{ Str::upper(__('admin/products.item.alcoholic')) }}</span>
                     @endif
@@ -19,6 +19,17 @@
                     @endif
                 </span>
             </h4>
+
+            <p class="is-display-touch is-hidden-desktop">
+                @if ($product->alcoholic)
+                    <span class="tag is-danger">{{ Str::upper(__('admin/products.item.alcoholic')) }}</span>
+                @endif
+
+                @if (!$product->active)
+                    <span class="tag is-warning">{{ Str::upper(__('admin/products.item.inactive')) }}</span>
+                @endif
+            </p>
+
             <p>@lang('admin/products.item.amount'): <x-amount-format :amount="$product->amount" /></p>
         </div>
 
@@ -33,7 +44,7 @@
         <div class="modal is-active">
             <div class="modal-background" wire:click="$set('isShowing', false)"></div>
 
-            <div class="modal-card" style="width: 50%;">
+            <div class="modal-card">
                 <div class="modal-card-head">
                     <p class="modal-card-title">@lang('admin/products.item.show_product')</p>
                     <button type="button" class="delete" wire:click="$set('isShowing', false)"></button>
@@ -43,7 +54,7 @@
                     <h1 class="title is-spaced is-4">
                         {{ $product->name }}
 
-                        <span class="is-pulled-right">
+                        <span class="is-pulled-right is-hidden-touch">
                             @if ($product->alcoholic)
                                 <span class="tag is-danger">{{ Str::upper(__('admin/products.item.alcoholic')) }}</span>
                             @endif
@@ -53,6 +64,16 @@
                             @endif
                         </span>
                     </h1>
+
+                    <p class="is-display-touch is-hidden-desktop">
+                        @if ($product->alcoholic)
+                            <span class="tag is-danger">{{ Str::upper(__('admin/products.item.alcoholic')) }}</span>
+                        @endif
+
+                        @if (!$product->active)
+                            <span class="tag is-warning">{{ Str::upper(__('admin/products.item.inactive')) }}</span>
+                        @endif
+                    </p>
 
                     <h2 class="subtitle is-5">@lang('admin/products.item.general_info')</h2>
                     <p>@lang('admin/products.item.price'): <x-money-format :money="$product->price" /></p>

@@ -4,7 +4,7 @@
             <h4>
                 {{ $user->name }}
 
-                <span class="is-pulled-right">
+                <span class="is-pulled-right is-hidden-touch">
                     @if ($user->role == App\Models\User::ROLE_NORMAL)
                         <span class="tag is-success">{{ Str::upper(__('admin/users.item.role_normal')) }}</span>
                     @endif
@@ -18,6 +18,20 @@
                     @endif
                 </span>
             </h4>
+
+            <p class="is-display-touch is-hidden-desktop">
+                @if ($user->role == App\Models\User::ROLE_NORMAL)
+                    <span class="tag is-success">{{ Str::upper(__('admin/users.item.role_normal')) }}</span>
+                @endif
+
+                @if ($user->role == App\Models\User::ROLE_ADMIN)
+                    <span class="tag is-danger">{{ Str::upper(__('admin/users.item.role_admin')) }}</span>
+                @endif
+
+                @if (!$user->active)
+                    <span class="tag is-warning">{{ Str::upper(__('admin/users.item.inactive')) }}</span>
+                @endif
+            </p>
 
             <p>@lang('admin/users.item.balance'): <x-money-format :money="$user->balance" /></p>
         </div>
@@ -36,7 +50,7 @@
         <div class="modal is-active">
             <div class="modal-background" wire:click="$set('isShowing', false)"></div>
 
-            <div class="modal-card" style="width: 50%;">
+            <div class="modal-card">
                 <div class="modal-card-head">
                     <p class="modal-card-title">@lang('admin/users.item.show_user')</p>
                     <button type="button" class="delete" wire:click="$set('isShowing', false)"></button>
@@ -46,7 +60,7 @@
                     <h1 class="title is-spaced is-4">
                         {{ $user->name }}
 
-                        <span class="is-pulled-right">
+                        <span class="is-pulled-right is-hidden-mobile">
                             @if ($user->role == App\Models\User::ROLE_NORMAL)
                                 <span class="tag is-success">{{ Str::upper(__('admin/users.item.role_normal')) }}</span>
                             @endif
@@ -60,6 +74,20 @@
                             @endif
                         </span>
                     </h1>
+
+                    <p class="is-display-mobile is-hidden-tablet">
+                        @if ($user->role == App\Models\User::ROLE_NORMAL)
+                            <span class="tag is-success">{{ Str::upper(__('admin/users.item.role_normal')) }}</span>
+                        @endif
+
+                        @if ($user->role == App\Models\User::ROLE_ADMIN)
+                            <span class="tag is-danger">{{ Str::upper(__('admin/users.item.role_admin')) }}</span>
+                        @endif
+
+                        @if (!$user->active)
+                            <span class="tag is-warning">{{ Str::upper(__('admin/users.item.inactive')) }}</span>
+                        @endif
+                    </p>
 
                     @if ($user->avatar != null)
                         <h2 class="subtitle is-5">@lang('admin/users.item.avatar')</h2>

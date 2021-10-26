@@ -3,12 +3,17 @@
         <div class="card-content content" style="flex: 1; margin-bottom: 0;">
             <h4>
                 {{ $apiKey->name }}
-                <span class="is-pulled-right">
-                    @if (!$apiKey->active)
-                        <span class="tag is-warning">{{ Str::upper(__('admin/api_keys.item.inactive')) }}</span>
-                    @endif
-                </span>
+                @if (!$apiKey->active)
+                    <span class="tag is-warning is-pulled-right is-hidden-touch">{{ Str::upper(__('admin/api_keys.item.inactive')) }}</span>
+                @endif
             </h4>
+
+            @if (!$apiKey->active)
+                <p class="is-display-touch is-hidden-desktop">
+                    <span class="tag is-warning">{{ Str::upper(__('admin/api_keys.item.inactive')) }}</span>
+                </p>
+            @endif
+
             <p>@lang('admin/api_keys.item.key'): <code>{{ $apiKey->key }}</code></p>
             <p>@lang('admin/api_keys.item.requests'): <b>{{ $apiKey->requests }}</b></p>
         </div>
