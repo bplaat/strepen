@@ -44,7 +44,7 @@ class User extends Authenticatable
         'receive_news' => 'boolean',
         'balance' => 'double',
         'active' => 'boolean',
-        'delted' => 'boolean'
+        'deleted' => 'boolean'
     ];
 
     // Generate a random avatar name

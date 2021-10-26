@@ -31,7 +31,7 @@ class Crud extends PaginationComponent
         'user.postcode' => 'nullable|min:2|max:32',
         'user.city' => 'nullable|min:2|max:255',
         'user.password' => 'required|min:6',
-        'user.password_confirmation' => 'required|same:user.password_confirmation',
+        'user.password_confirmation' => 'required|same:user.password',
         'avatar' => 'nullable|image|mimes:jpg,jpeg,png|max:1024',
         'thanks' => 'nullable|image|mimes:gif|max:2048',
         'user.role' => 'required|integer|digits_between:' . User::ROLE_NORMAL . ',' . User::ROLE_ADMIN,
