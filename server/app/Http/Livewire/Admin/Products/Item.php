@@ -38,10 +38,12 @@ class Item extends Component
                 Storage::delete('public/products/' . $this->product->image);
             }
             $this->product->image = $imageName;
+            $this->image = null;
         }
 
         $this->isEditing = false;
         $this->product->save();
+        $this->emitUp('refresh');
     }
 
     public function deleteImage()
@@ -51,6 +53,7 @@ class Item extends Component
         }
         $this->product->image = null;
         $this->product->save();
+        $this->emitUp('refresh');
     }
 
     public function deleteProduct()

@@ -39,6 +39,7 @@ class Item extends Component
         $this->post->created_at = $this->createdAtDate . ' ' . $this->createdAtTime;
         $this->post->save();
         $this->isEditing = false;
+        $this->emitUp('refresh');
     }
 
     public function deletePost()

@@ -35,6 +35,7 @@ class ChangeDefaultThanks extends Component
 
         // Update global thanks
         Setting::set('default_user_thanks', $thanksName);
+        $this->thanks = null;
         $this->isChanged = true;
     }
 

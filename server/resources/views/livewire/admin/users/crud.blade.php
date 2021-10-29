@@ -48,7 +48,7 @@
                     <div class="columns">
                         <div class="column">
                             <div class="field">
-                                <label class="label" for="firstname">@lang('admin/users.item.firstname')</label>
+                                <label class="label" for="firstname">@lang('admin/users.crud.firstname')</label>
                                 <div class="control">
                                     <input class="input @error('user.firstname') is-danger @enderror" type="text" id="firstname"
                                         wire:model.defer="user.firstname" required>
@@ -59,7 +59,7 @@
 
                         <div class="column">
                             <div class="field">
-                                <label class="label" for="insertion">@lang('admin/users.item.insertion')</label>
+                                <label class="label" for="insertion">@lang('admin/users.crud.insertion')</label>
                                 <div class="control">
                                     <input class="input @error('user.insertion') is-danger @enderror" type="text" id="insertion"
                                         wire:model.defer="user.insertion">
@@ -70,7 +70,7 @@
 
                         <div class="column">
                             <div class="field">
-                                <label class="label" for="lastname">@lang('admin/users.item.lastname')</label>
+                                <label class="label" for="lastname">@lang('admin/users.crud.lastname')</label>
                                 <div class="control">
                                     <input class="input @error('user.lastname') is-danger @enderror" type="text" id="lastname"
                                         wire:model.defer="user.lastname" required>
@@ -83,14 +83,14 @@
                     <div class="columns">
                         <div class="column">
                             <div class="field">
-                                <label class="label" for="gender">@lang('admin/users.item.gender')</label>
+                                <label class="label" for="gender">@lang('admin/users.crud.gender')</label>
                                 <div class="control">
                                     <div class="select is-fullwidth @error('user.gender') is-danger @enderror">
                                         <select id="gender" wire:model.defer="user.gender">
-                                            <option value="">@lang('admin/users.item.gender_null')</option>
-                                            <option value="{{ App\Models\User::GENDER_MALE }}">@lang('admin/users.item.gender_male')</option>
-                                            <option value="{{ App\Models\User::GENDER_FEMALE }}">@lang('admin/users.item.gender_female')</option>
-                                            <option value="{{ App\Models\User::GENDER_OTHER }}">@lang('admin/users.item.gender_other')</option>
+                                            <option value="">@lang('admin/users.crud.gender_null')</option>
+                                            <option value="{{ App\Models\User::GENDER_MALE }}">@lang('admin/users.crud.gender_male')</option>
+                                            <option value="{{ App\Models\User::GENDER_FEMALE }}">@lang('admin/users.crud.gender_female')</option>
+                                            <option value="{{ App\Models\User::GENDER_OTHER }}">@lang('admin/users.crud.gender_other')</option>
                                         </select>
                                     </div>
                                 </div>
@@ -100,7 +100,7 @@
 
                         <div class="column">
                             <div class="field">
-                                <label class="label" for="birthday">@lang('admin/users.item.birthday')</label>
+                                <label class="label" for="birthday">@lang('admin/users.crud.birthday')</label>
                                 <div class="control">
                                     <input class="input @error('user.birthday') is-danger @enderror" type="date" id="birthday" wire:model.defer="user.birthday">
                                 </div>
@@ -112,7 +112,7 @@
                     <div class="columns">
                         <div class="column">
                             <div class="field">
-                                <label class="label" for="email">@lang('admin/users.item.email')</label>
+                                <label class="label" for="email">@lang('admin/users.crud.email')</label>
                                 <div class="control">
                                     <input class="input @error('user.email') is-danger @enderror" type="email" id="email" wire:model.defer="user.email" required>
                                 </div>
@@ -122,7 +122,7 @@
 
                         <div class="column">
                             <div class="field">
-                                <label class="label" for="phone">@lang('admin/users.item.phone')</label>
+                                <label class="label" for="phone">@lang('admin/users.crud.phone')</label>
                                 <div class="control">
                                     <input class="input @error('userPhone') is-danger @enderror" type="tel" id="phone" wire:model.defer="user.phone">
                                 </div>
@@ -134,7 +134,7 @@
                     <div class="columns">
                         <div class="column">
                             <div class="field">
-                                <label class="label" for="address">@lang('admin/users.item.address')</label>
+                                <label class="label" for="address">@lang('admin/users.crud.address')</label>
                                 <div class="control">
                                     <input class="input @error('user.address') is-danger @enderror" type="text" id="address" wire:model.defer="user.address">
                                 </div>
@@ -144,7 +144,7 @@
 
                         <div class="column">
                             <div class="field">
-                                <label class="label" for="postcode">@lang('admin/users.item.postcode')</label>
+                                <label class="label" for="postcode">@lang('admin/users.crud.postcode')</label>
                                 <div class="control">
                                     <input class="input @error('user.postcode') is-danger @enderror" type="text" id="postcode" wire:model.defer="user.postcode">
                                 </div>
@@ -156,7 +156,7 @@
 
                         <div class="column">
                             <div class="field">
-                                <label class="label" for="city">@lang('admin/users.item.city')</label>
+                                <label class="label" for="city">@lang('admin/users.crud.city')</label>
                                 <div class="control">
                                     <input class="input @error('user.city') is-danger @enderror" type="text" id="city" wire:model.defer="user.city">
                                 </div>

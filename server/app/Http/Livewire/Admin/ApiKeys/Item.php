@@ -21,6 +21,7 @@ class Item extends Component
         $this->validate();
         $this->apiKey->save();
         $this->isEditing = false;
+        $this->emitUp('refresh');
     }
 
     public function deleteApiKey()

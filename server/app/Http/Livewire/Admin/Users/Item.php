@@ -72,6 +72,7 @@ class Item extends Component
                 Storage::delete('public/avatars/' . $this->user->avatar);
             }
             $this->user->avatar = $avatarName;
+            $this->avatar = null;
         }
 
         if ($this->thanks != null) {
@@ -82,10 +83,13 @@ class Item extends Component
                 Storage::delete('public/thanks/' . $this->user->thanks);
             }
             $this->user->thanks = $thanksName;
+            $this->thanks = null;
         }
 
         $this->isEditing = false;
         $this->user->save();
+        $this->emitUp('refresh');
+
         $this->newPassword = null;
         $this->newPasswordConfirmation = null;
     }
@@ -103,6 +107,7 @@ class Item extends Component
         }
         $this->user->avatar = null;
         $this->user->save();
+        $this->emitUp('refresh');
     }
 
     public function deleteThanks()
@@ -112,6 +117,7 @@ class Item extends Component
         }
         $this->user->thanks = null;
         $this->user->save();
+        $this->emitUp('refresh');
     }
 
     public function deleteUser()

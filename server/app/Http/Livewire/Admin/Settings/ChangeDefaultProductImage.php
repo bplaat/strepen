@@ -35,6 +35,7 @@ class ChangeDefaultProductImage extends Component
 
         // Update global image
         Setting::set('default_product_image', $imageName);
+        $this->image = null;
         $this->isChanged = true;
     }
 

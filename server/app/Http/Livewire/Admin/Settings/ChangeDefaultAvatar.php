@@ -35,6 +35,7 @@ class ChangeDefaultAvatar extends Component
 
         // Update global avatar
         Setting::set('default_user_avatar', $avatarName);
+        $this->avatar = null;
         $this->isChanged = true;
     }
 

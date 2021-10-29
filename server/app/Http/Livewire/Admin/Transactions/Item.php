@@ -112,6 +112,7 @@ class Item extends Component
         $user->save();
 
         $this->isEditing = false;
+        $this->emitUp('refresh');
     }
 
     public function editTransaction()

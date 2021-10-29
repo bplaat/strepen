@@ -38,6 +38,7 @@ class ChangeAvatar extends Component
         $user->avatar = $avatarName;
         $user->save();
 
+        $this->avatar = null;
         $this->isChanged = true;
     }
 

@@ -79,6 +79,7 @@ class Item extends Component
         }
 
         $this->isEditing = false;
+        $this->emitUp('refresh');
     }
 
     public function deleteInventory()

@@ -38,6 +38,7 @@ class ChangeThanks extends Component
         $user->thanks = $thanksName;
         $user->save();
 
+        $this->thanks = null;
         $this->isChanged = true;
     }
 
