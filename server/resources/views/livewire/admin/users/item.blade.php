@@ -1,5 +1,10 @@
-<div class="column is-one-third">
+<div class="column is-one-quarter">
     <div class="card" style="display: flex; flex-direction: column; height: 100%; margin-bottom: 0; overflow: hidden;">
+        <div class="card-avatar">
+            <div class="avatar has-background-link" style="@if ($user->avatar != null) background-image: url(/storage/avatars/{{ $user->avatar }}); @endif
+                background-size: cover; background-position: center center; padding-top: 100%;"></div>
+        </div>
+
         <div class="card-content content" style="flex: 1; margin-bottom: 0;">
             <h4>
                 {{ $user->name }}

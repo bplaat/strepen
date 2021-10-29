@@ -109,7 +109,7 @@ class Crud extends PaginationComponent
         }
         return view('livewire.admin.users.crud', [
             'users' => $users->orderByRaw('active DESC, LOWER(IF(lastname != \'\', IF(insertion != NULL, CONCAT(lastname, \', \', insertion, \' \', firstname), CONCAT(lastname, \' \', firstname)), firstname))')
-                ->paginate(Setting::get('pagination_rows') * 3)->withQueryString()
+                ->paginate(Setting::get('pagination_rows') * 4)->withQueryString()
         ])->layout('layouts.app', ['title' => __('admin/users.crud.title'), 'chartjs' => true]);
     }
 }
