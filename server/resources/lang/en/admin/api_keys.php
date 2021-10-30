@@ -22,5 +22,5 @@ return [
     'item.active_api_key' => 'Make api key usable for the REST API',
     'item.cancel' => 'Cancel',
     'item.delete_api_key' => 'Delete api key',
-    'item.delete_description' => 'Are you sure you want to delete this api key?'
+    'item.delete_description' => 'Are you sure you want to delete this api key and all it\'s history?'
 ];
