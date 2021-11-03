@@ -11,7 +11,7 @@ return [
     'change_details.insertion' => 'Tussenvoegsel',
     'change_details.lastname' => 'Achternaam',
     'change_details.gender' => 'Geslacht',
-    'change_details.gender_null' => 'Onbekent',
+    'change_details.gender_null' => 'Onbekend',
     'change_details.gender_male' => 'Man',
     'change_details.gender_female' => 'Vrouw',
     'change_details.gender_other' => 'Anders',
