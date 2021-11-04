@@ -1,14 +1,16 @@
 [&laquo; Back to the README.md](../README.md)
 
-# Todo List (before launch)
+# Todo List
 
-## High priority
-- Better product amount charts
-- Better leaderboards
+## High priority (before launch)
+- Basic admin product amount chart
 - Bug fixes / All the whishs from the Stam Bestuur
 
-## Low priority
+## Low priority (after launch)
 - User settings in mobile Flutter app
 - Publish flutter mobile app on Google Play Store
+- Better leaderboards more controls
+- Better admin user charts
+- Better admin product charts
 - Remove all inline styles to a proper stylesheet
 - Finish the admin part of the REST API
