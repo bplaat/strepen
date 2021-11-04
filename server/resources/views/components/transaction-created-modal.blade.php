@@ -1,7 +1,7 @@
 <div class="modal is-active">
     <div class="modal-background" wire:click="closeCreated"></div>
 
-    <form wire:submit.prevent="createPost" class="modal-card">
+    <div class="modal-card">
         <div class="modal-card-head">
             <p class="modal-card-title">@lang('components.transaction_created_modal_header')</p>
             <button type="button" class="delete" wire:click="closeCreated"></button>
@@ -50,5 +50,7 @@
         <div class="modal-card-foot">
             <button type="button" class="button is-link" style="margin: 0 auto;" wire:click="closeCreated" wire:loading.attr="disabled">@lang('components.transaction_created_modal_close')</button>
         </div>
-    </form>
+    </div>
+
+    <script>window.scrollTo({top: 0, behavior: 'smooth'});</script>
 </div>

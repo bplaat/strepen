@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Components;
 
 use App\Models\Product;
+use App\Models\Setting;
 use Livewire\Component;
 
 class ProductsChooser extends Component
@@ -10,6 +11,7 @@ class ProductsChooser extends Component
     public $selectedProducts;
     public $noMax = false;
     public $isMinor = false;
+    public $isBigMode = false;
 
     public $products;
     public $filteredProducts;
@@ -23,20 +25,36 @@ class ProductsChooser extends Component
         $this->products = Product::where('active', true)->where('deleted', false)
             ->orderByRaw('LOWER(name)')->get();
 
-        $this->filteredProducts = $this->products->filter(function ($product) {
-            return !$this->selectedProducts->pluck('product_id')->contains($product->id);
-        });
-        if ($this->isMinor) {
-            $this->filteredProducts = $this->filteredProducts->filter(function ($product) {
-                return !$product->alcoholic;
+        if ($this->isBigMode) {
+            foreach ($this->products as $product) {
+                if ($this->isMinor && $product->alcoholic) {
+                    continue;
+                }
+
+                $selectedProduct = [];
+                $selectedProduct['product_id'] = $product->id;
+                $selectedProduct['product'] = $product;
+                $selectedProduct['amount'] = 0;
+                $this->selectedProducts->push($selectedProduct);
+            }
+        } else {
+            $this->filteredProducts = $this->products->filter(function ($product) {
+                return !$this->selectedProducts->pluck('product_id')->contains($product->id);
             });
+            if ($this->isMinor) {
+                $this->filteredProducts = $this->filteredProducts->filter(function ($product) {
+                    return !$product->alcoholic;
+                });
+            }
+            $this->filteredProducts = $this->filteredProducts->slice(0, 10);
         }
-        $this->filteredProducts = $this->filteredProducts->slice(0, 10);
     }
 
     public function getSelectedProducts()
     {
-        $this->emitUp('selectedProducts', $this->selectedProducts);
+        $this->emitUp('selectedProducts', $this->selectedProducts->filter(function ($selectedProduct) {
+            return $selectedProduct['amount'] > 0;
+        }));
     }
 
     public function clearSelectedProducts()
@@ -48,12 +66,19 @@ class ProductsChooser extends Component
     public function isMinorProducts() {
         $this->isMinor = true;
         $this->selectedProducts = $this->selectedProducts->where('product.alcoholic', '==', false);
-        $this->filterProducts();
+        if (!$this->isBigMode) {
+            $this->filterProducts();
+        }
     }
 
     public function clearMinorProducts() {
         $this->isMinor = false;
-        $this->filterProducts();
+        if ($this->isBigMode) {
+            $this->selectedProducts = collect();
+            $this->mount();
+        } else {
+            $this->filterProducts();
+        }
     }
 
     public function filterProducts()
@@ -98,6 +123,30 @@ class ProductsChooser extends Component
     public function deleteProduct($productId)
     {
         $this->selectedProducts = $this->selectedProducts->where('product_id', '!=', $productId);
+    }
+
+    public function decrementProductAmount($productId)
+    {
+        $this->selectedProducts = $this->selectedProducts->map(function ($selectedProduct) use ($productId) {
+            if ($selectedProduct['product_id'] == $productId) {
+                if ($selectedProduct['amount'] > 0) {
+                    $selectedProduct['amount'] -= 1;
+                }
+            }
+            return $selectedProduct;
+        });
+    }
+
+    public function incrementProductAmount($productId)
+    {
+        $this->selectedProducts = $this->selectedProducts->map(function ($selectedProduct) use ($productId) {
+            if ($selectedProduct['product_id'] == $productId) {
+                if ($selectedProduct['amount'] < Setting::get('max_stripe_amount')) {
+                    $selectedProduct['amount'] += 1;
+                }
+            }
+            return $selectedProduct;
+        });
     }
 
     public function render()

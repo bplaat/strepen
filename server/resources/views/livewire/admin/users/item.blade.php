@@ -1,30 +1,10 @@
 <div class="column is-one-quarter">
     <div class="card" style="display: flex; flex-direction: column; height: 100%; margin-bottom: 0; overflow: hidden;">
-        <div class="card-avatar">
-            <div class="avatar has-background-link" style="@if ($user->avatar != null) background-image: url(/storage/avatars/{{ $user->avatar }}); @endif
+        <div class="card-image">
+            <div class="image has-background-link" style="@if ($user->avatar != null) background-image: url(/storage/avatars/{{ $user->avatar }}); @endif
                 background-size: cover; background-position: center center; padding-top: 100%;"></div>
-        </div>
 
-        <div class="card-content content" style="flex: 1; margin-bottom: 0;">
-            <h4>
-                {{ $user->name }}
-
-                <span class="is-pulled-right is-hidden-touch">
-                    @if ($user->role == App\Models\User::ROLE_NORMAL)
-                        <span class="tag is-success">{{ Str::upper(__('admin/users.item.role_normal')) }}</span>
-                    @endif
-
-                    @if ($user->role == App\Models\User::ROLE_ADMIN)
-                        <span class="tag is-danger">{{ Str::upper(__('admin/users.item.role_admin')) }}</span>
-                    @endif
-
-                    @if (!$user->active)
-                        <span class="tag is-warning">{{ Str::upper(__('admin/users.item.inactive')) }}</span>
-                    @endif
-                </span>
-            </h4>
-
-            <p class="is-display-touch is-hidden-desktop">
+            <div style="position: absolute; top: 8px; right: 8px;">
                 @if ($user->role == App\Models\User::ROLE_NORMAL)
                     <span class="tag is-success">{{ Str::upper(__('admin/users.item.role_normal')) }}</span>
                 @endif
@@ -36,8 +16,11 @@
                 @if (!$user->active)
                     <span class="tag is-warning">{{ Str::upper(__('admin/users.item.inactive')) }}</span>
                 @endif
-            </p>
+            </div>
+        </div>
 
+        <div class="card-content content" style="flex: 1; margin-bottom: 0;">
+            <h4>{{ $user->name }}</h4>
             <p>@lang('admin/users.item.balance'): <x-money-format :money="$user->balance" /></p>
         </div>
 

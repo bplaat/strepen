@@ -15,11 +15,11 @@
             @error('transaction.name') <p class="help is-danger">{{ $message }}</p> @enderror
         </div>
 
-        <livewire:components.products-chooser :selectedProducts="$selectedProducts" />
+        <livewire:components.products-chooser :selectedProducts="$selectedProducts" :isBigMode="true" />
 
         <div class="field">
             <div class="control">
-                <button type="submit" form="mainForm" class="button is-link" wire:loading.attr="disabled">@lang('kiosk.create_transaction')</button>
+                <button type="submit" form="mainForm" class="button is-link is-fullwidth" style="padding: 32px;" wire:loading.attr="disabled">@lang('kiosk.create_transaction')</button>
             </div>
         </div>
     </div>

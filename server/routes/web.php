@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Support\Facades\Route;
 
 // Main routes
@@ -21,7 +19,7 @@ Route::middleware(['auth', 'nokiosk'])->group(function () {
 
     Route::view('/settings', 'settings')->name('settings');
 
-    Route::get('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
+    Route::get('/auth/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('auth.logout');
 });
 
 // Kiosk routes
@@ -31,7 +29,7 @@ Route::middleware('kiosk')->group(function () {
 
 // Can kiosk routes
 Route::middleware('cankiosk')->group(function () {
-    Route::get('/admin/kiosk', [AdminController::class, 'kiosk'])->name('admin.kiosk');
+    Route::get('/admin/kiosk', [App\Http\Controllers\Admin\AdminController::class, 'kiosk'])->name('admin.kiosk');
 });
 
 // Admin routes

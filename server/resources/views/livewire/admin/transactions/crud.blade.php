@@ -55,7 +55,7 @@
                         @error('transaction.name') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
 
-                    <livewire:components.products-chooser :selectedProducts="$selectedProducts" noMax="true" />
+                    <livewire:components.products-chooser :selectedProducts="$selectedProducts" :noMax="true" />
                 </div>
 
                 <div class="modal-card-foot">

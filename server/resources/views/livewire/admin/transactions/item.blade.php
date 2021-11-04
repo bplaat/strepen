@@ -79,7 +79,7 @@
                     </div>
 
                     @if ($transaction->type == \App\Models\Transaction::TYPE_TRANSACTION)
-                        <livewire:components.products-chooser :selectedProducts="$selectedProducts" noMax="true" />
+                        <livewire:components.products-chooser :selectedProducts="$selectedProducts" :noMax="true" />
                     @endif
 
                     @if ($transaction->type == \App\Models\Transaction::TYPE_DEPOSIT || $transaction->type == \App\Models\Transaction::TYPE_FOOD)

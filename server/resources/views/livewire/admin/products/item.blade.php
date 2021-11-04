@@ -3,24 +3,8 @@
         <div class="card-image">
             <div class="image has-background-link" style="@if ($product->image != null) background-image: url(/storage/products/{{ $product->image }}); @endif
                 background-size: cover; background-position: center center; padding-top: 100%;"></div>
-        </div>
 
-        <div class="card-content content" style="flex: 1; margin-bottom: 0;">
-            <h4 style="font-weight: normal;">
-                <span style="font-weight: 600;">{{ $product->name }}</span>: <x-money-format :money="$product->price" />
-
-                <span class="is-pulled-right is-hidden-touch">
-                    @if ($product->alcoholic)
-                        <span class="tag is-danger">{{ Str::upper(__('admin/products.item.alcoholic')) }}</span>
-                    @endif
-
-                    @if (!$product->active)
-                        <span class="tag is-warning">{{ Str::upper(__('admin/products.item.inactive')) }}</span>
-                    @endif
-                </span>
-            </h4>
-
-            <p class="is-display-touch is-hidden-desktop">
+            <div style="position: absolute; top: 8px; right: 8px;">
                 @if ($product->alcoholic)
                     <span class="tag is-danger">{{ Str::upper(__('admin/products.item.alcoholic')) }}</span>
                 @endif
@@ -28,7 +12,13 @@
                 @if (!$product->active)
                     <span class="tag is-warning">{{ Str::upper(__('admin/products.item.inactive')) }}</span>
                 @endif
-            </p>
+            </div>
+        </div>
+
+        <div class="card-content content" style="flex: 1; margin-bottom: 0;">
+            <h4 style="font-weight: normal;">
+                <span style="font-weight: 600;">{{ $product->name }}</span>: <x-money-format :money="$product->price" />
+            </h4>
 
             <p>@lang('admin/products.item.amount'): <x-amount-format :amount="$product->amount" /></p>
         </div>
