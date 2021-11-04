@@ -4,6 +4,7 @@ return [
     // Layout navbar
     'navbar.transactions_create' => 'Strepen',
     'navbar.transactions_history' => 'Geschiedenis',
+    'navbar.leaderboards' => 'Leaderboards',
     'navbar.admin_home' => 'Admin',
     'navbar.admin_settings' => 'Instellingen',
     'navbar.admin_api_keys' => 'Api Sleutels',

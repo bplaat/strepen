@@ -199,23 +199,65 @@ class User extends Authenticatable
     }
 
     // Get balance chart data
-    public function getBalanceChart()
+    public function getBalanceChart($beginDate, $endDate)
     {
+        $startDate = strtotime($beginDate);
+        $endDate = strtotime($endDate);
+
+        $firstTransaction = $this->transactions()->orderBy('created_at')->first();
+        if ($firstTransaction != null) {
+            $startDate = max($startDate, strtotime($firstTransaction->created_at->format('Y-m-d')));
+        }
+
+        $endDate = min($endDate, strtotime(date('Y-m-d')));
+
+        $transactions = $this->transactions()->where('deleted', false)->orderBy('created_at')
+            ->where('created_at', '<=', date('Y-m-d H:i:s', $endDate + 24 * 60 * 60 - 1))
+            ->get();
+
+        $days = ($endDate - $startDate) / (24 * 60 * 60);
         $balance = 0;
         $balanceData = [];
-        $transactions = $this->transactions()->where('deleted', false)->orderBy('created_at')->get();
-        foreach ($transactions as $transaction) {
-            if ($transaction->type == Transaction::TYPE_TRANSACTION) {
-                $balance -= $transaction->price;
+        $index = 0;
+        $tansactionCount = $transactions->count();
+
+        while (
+            $index < $tansactionCount &&
+            strtotime($transactions[$index]->created_at) < $startDate
+        ) {
+            if ($transactions[$index]->type == Transaction::TYPE_TRANSACTION) {
+                $balance -= $transactions[$index]->price;
             }
-            if ($transaction->type == Transaction::TYPE_DEPOSIT) {
-                $balance += $transaction->price;
+            if ($transactions[$index]->type == Transaction::TYPE_DEPOSIT) {
+                $balance += $transactions[$index]->price;
             }
-            if ($transaction->type == Transaction::TYPE_FOOD) {
-                $balance -= $transaction->price;
+            if ($transactions[$index]->type == Transaction::TYPE_FOOD) {
+                $balance -= $transactions[$index]->price;
             }
-            $balanceData[] = [ $transaction->created_at->format('Y-m-d'), $balance ];
+            $index++;
         }
+
+        for ($day = 0; $day < $days; $day++) {
+            $dayTime = $startDate + $day * (24 * 60 * 60);
+            while (
+                $index < $tansactionCount &&
+                strtotime($transactions[$index]->created_at) >= $dayTime &&
+                strtotime($transactions[$index]->created_at) < $dayTime + (24 * 60 * 60)
+            ) {
+                if ($transactions[$index]->type == Transaction::TYPE_TRANSACTION) {
+                    $balance -= $transactions[$index]->price;
+                }
+                if ($transactions[$index]->type == Transaction::TYPE_DEPOSIT) {
+                    $balance += $transactions[$index]->price;
+                }
+                if ($transactions[$index]->type == Transaction::TYPE_FOOD) {
+                    $balance -= $transactions[$index]->price;
+                }
+                $index++;
+            }
+            $balanceData[] = [ date('Y-m-d', $dayTime), $balance ];
+        }
+
         return $balanceData;
     }
 

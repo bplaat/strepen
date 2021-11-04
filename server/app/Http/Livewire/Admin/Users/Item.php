@@ -20,6 +20,7 @@ class Item extends Component
     public $avatar;
     public $thanks;
     public $isShowing = false;
+    public $startDate;
     public $isEditing = false;
     public $isDeleting = false;
 
@@ -51,6 +52,21 @@ class Item extends Component
             'user.receive_news' => 'nullable|boolean',
             'user.active' => 'nullable|boolean'
         ];
+    }
+
+    public function mount()
+    {
+        $firstTransaction = $this->user->transactions()->orderBy('created_at')->first();
+        if ($firstTransaction != null) {
+            $maxDiff = 365 * 24 * 60 * 60;
+            if (time() - $firstTransaction->created_at->getTimestamp() < $maxDiff) {
+                $this->startDate = $firstTransaction->created_at->format('Y-m-d');
+            } else {
+                $this->startDate = date('Y-m-d', time() - $maxDiff);
+            }
+        } else {
+            $this->startDate = date('Y-m-d');
+        }
     }
 
     public function editUser()

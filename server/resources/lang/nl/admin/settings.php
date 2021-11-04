@@ -41,7 +41,7 @@ return [
     'change_default_product_image.header' => 'Standaard product afbeelding wijzigen',
     'change_default_product_image.has_image' => 'U hebt een standaard product afbeelding geüpload:',
     'change_default_product_image.no_image' => 'U hebt geen standaard product afbeelding geüpload, dus de standaardafbeelding wordt gebruikt:',
-    'change_default_product_image.image' => 'Standaard afbeelding van product afbeelding',
+    'change_default_product_image.image' => 'Standaard product afbeelding',
     'change_default_product_image.image_help' => 'U kunt een vierkante .jpg of .png afbeelding uploaden',
     'change_default_product_image.change_button' => 'Standaard product afbeelding wijzigen',
     'change_default_product_image.delete_button' => 'Verwijder standaard product afbeelding',

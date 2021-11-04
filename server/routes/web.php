@@ -7,6 +7,11 @@ Route::middleware('nokiosk')->group(function () {
     Route::get('/', App\Http\Livewire\Home::class)->name('home');
 });
 
+// Auth routes
+Route::middleware('auth')->group(function () {
+    Route::view('/leaderboards', 'leaderboards')->name('leaderboards');
+});
+
 // Normal routes
 Route::middleware(['auth', 'nokiosk'])->group(function () {
     Route::get('/stripe', App\Http\Livewire\Transactions\Create::class)->name('transactions.create');
@@ -15,7 +20,7 @@ Route::middleware(['auth', 'nokiosk'])->group(function () {
 
     Route::get('/notifications', App\Http\Livewire\Notifications::class)->name('notifications');
 
-    Route::view('/balance', 'balance')->name('balance');
+    Route::get('/balance', App\Http\Livewire\Balance::class)->name('balance');
 
     Route::view('/settings', 'settings')->name('settings');
 

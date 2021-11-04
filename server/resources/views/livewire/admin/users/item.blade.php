@@ -128,7 +128,8 @@
                     @endif
 
                     <h2 class="subtitle is-5">@lang('admin/users.item.balance_info')</h2>
-                    <canvas id="balance_chart_canvas"></canvas>
+
+                    <canvas id="balance_chart_canvas" wire:ignore></canvas>
 
                     <script>
                     new Chart(document.getElementById('balance_chart_canvas').getContext('2d'), {
@@ -136,12 +137,17 @@
                         data: {
                             datasets: [{
                                 label: 'Balance (\u20ac)',
-                                data: @json($user->getBalanceChart()),
+                                data: @json($user->getBalanceChart($startDate, date('Y-m-d'))),
                                 borderColor: getComputedStyle(document.querySelector('.is-link')).backgroundColor,
                                 tension: 0.1
                             }]
                         },
                         options: {
+                            elements: {
+                                point:{
+                                    radius: 0
+                                }
+                            },
                             animation: false
                         }
                     });
