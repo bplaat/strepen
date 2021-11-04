@@ -38,8 +38,11 @@ class Create extends Component
         $this->selectedProducts = collect($selectedProducts);
 
         // Validate input
+        $this->emit('validateComponents');
         $this->validate();
+
         if (count($this->selectedProducts) == 0) return;
+
         if (Auth::user()->minor) {
             foreach ($this->selectedProducts as $selectedProduct) {
                 if ($selectedProduct['product']['alcoholic']) {

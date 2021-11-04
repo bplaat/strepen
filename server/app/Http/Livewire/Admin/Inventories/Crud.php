@@ -78,7 +78,9 @@ class Crud extends PaginationComponent
         $this->selectedProducts = collect($selectedProducts);
 
         // Validate input
+        $this->emit('validateComponents');
         $this->validate();
+
         if (count($this->selectedProducts) == 0) return;
 
         // Create inventory

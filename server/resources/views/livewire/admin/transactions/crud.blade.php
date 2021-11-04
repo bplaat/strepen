@@ -44,7 +44,7 @@
                 </div>
 
                 <div class="modal-card-body">
-                    <livewire:components.user-chooser includeStrepenUser="true" />
+                    <livewire:components.user-chooser includeStrepenUser="true" validate="true" />
 
                     <div class="field">
                         <label class="label" for="name">@lang('admin/transactions.crud.name')</label>
@@ -55,7 +55,7 @@
                         @error('transaction.name') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
 
-                    <livewire:components.products-chooser :selectedProducts="$selectedProducts" :noMax="true" />
+                    <livewire:components.products-chooser :selectedProducts="$selectedProducts" noMax="true" validate="true" />
                 </div>
 
                 <div class="modal-card-foot">
@@ -98,7 +98,7 @@
                     </div>
 
                     @if ($creatingDepositTab == 'single')
-                        <livewire:components.user-chooser />
+                        <livewire:components.user-chooser validate="true" />
 
                         <div class="field">
                             <label class="label" for="amount">@lang('admin/transactions.crud.amount')</label>
@@ -181,7 +181,7 @@
                     </div>
 
                     @if ($creatingFoodTab == 'single')
-                        <livewire:components.user-chooser />
+                        <livewire:components.user-chooser validate="true" />
 
                         <div class="field">
                             <label class="label" for="amount">@lang('admin/transactions.crud.amount')</label>

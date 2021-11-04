@@ -8,6 +8,7 @@ use Livewire\Component;
 class UserChooser extends Component
 {
     public $userId;
+    public $validate = false;
     public $inline = false;
     public $relationship = false;
     public $includeStrepenUser = false;
@@ -19,8 +20,9 @@ class UserChooser extends Component
     public $userName;
     public $user;
     public $isOpen = false;
+    public $isValid = true;
 
-    public $listeners = ['clearUserChooser'];
+    public $listeners = ['validateComponents', 'clearUserChooser'];
 
     public function mount()
     {
@@ -54,6 +56,13 @@ class UserChooser extends Component
 
         if ($this->userId != null) {
             $this->selectUser($this->userId);
+        }
+    }
+
+    public function validateComponents()
+    {
+        if ($this->validate) {
+            $this->isValid = $this->user != null;
         }
     }
 

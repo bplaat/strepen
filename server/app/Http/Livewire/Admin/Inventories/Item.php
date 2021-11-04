@@ -53,7 +53,9 @@ class Item extends Component
         $this->selectedProducts = collect($selectedProducts);
 
         // Validate input
+        $this->emit('validateComponents');
         $this->validate();
+
         if (count($this->selectedProducts) == 0) return;
 
         // Edit inventory

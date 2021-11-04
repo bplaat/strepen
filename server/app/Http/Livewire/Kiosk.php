@@ -54,7 +54,9 @@ class Kiosk extends Component
         $this->selectedProducts = collect($selectedProducts);
 
         // Validate input
+        $this->emit('validateComponents');
         $this->validate();
+
         if (count($this->selectedProducts) == 0) return;
 
         $user = User::find($this->transaction->user_id);

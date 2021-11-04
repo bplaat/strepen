@@ -2,6 +2,13 @@
     @if ($isBigMode)
         <label class="label" for="productName">@lang('components.products_chooser.products')</label>
 
+        @if (!$isValid)
+            <div class="notification is-danger">
+                <button class="delete" wire:click="$set('isValid', true)"></button>
+                <p>@lang('components.products_chooser.empty_error')</p>
+            </div>
+        @endif
+
         @if ($isMinor)
             <div class="field">
                 <p class="help">@lang('components.products_chooser.minor')</p>
@@ -49,6 +56,14 @@
     @else
         <div class="field">
             <label class="label" for="productName">@lang('components.products_chooser.products')</label>
+
+            @if (!$isValid)
+                <div class="notification is-danger">
+                    <button class="delete" wire:click="$set('isValid', true)"></button>
+                    <p>@lang('components.products_chooser.empty_error')</p>
+                </div>
+            @endif
+
             <div class="control">
                 <form wire:submit.prevent="addFirstProduct">
                     <div class="field has-addons is-block-mobile">

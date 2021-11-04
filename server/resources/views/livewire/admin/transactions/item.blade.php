@@ -43,7 +43,7 @@
                 </div>
 
                 <div class="modal-card-body">
-                    <livewire:components.user-chooser :userId="$transaction->user_id" includeStrepenUser="true" />
+                    <livewire:components.user-chooser :userId="$transaction->user_id" includeStrepenUser="true" validate="true" />
 
                     <div class="field">
                         <label class="label" for="name">@lang('admin/transactions.item.name')</label>
@@ -79,7 +79,7 @@
                     </div>
 
                     @if ($transaction->type == \App\Models\Transaction::TYPE_TRANSACTION)
-                        <livewire:components.products-chooser :selectedProducts="$selectedProducts" :noMax="true" />
+                        <livewire:components.products-chooser :selectedProducts="$selectedProducts" noMax="true" validate="true" />
                     @endif
 
                     @if ($transaction->type == \App\Models\Transaction::TYPE_DEPOSIT || $transaction->type == \App\Models\Transaction::TYPE_FOOD)

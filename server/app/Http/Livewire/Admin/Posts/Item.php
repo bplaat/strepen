@@ -35,9 +35,12 @@ class Item extends Component
 
     public function editPost()
     {
+        $this->emit('validateComponents');
         $this->validate();
+
         $this->post->created_at = $this->createdAtDate . ' ' . $this->createdAtTime;
         $this->post->save();
+
         $this->isEditing = false;
         $this->emitUp('refresh');
     }

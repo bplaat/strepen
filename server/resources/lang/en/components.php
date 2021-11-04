@@ -24,12 +24,14 @@ return [
     'user_chooser.search_user' => 'Search an user...',
     'user_chooser.search_by_user' => 'Search by user...',
     'user_chooser.empty' => 'No users found!',
+    'user_chooser.empty_error' => 'You must select an user',
 
     // Product Chooser livewire component
     'product_chooser.product' => 'Product',
     'product_chooser.search_product' => 'Search an product...',
     'product_chooser.search_by_product' => 'Search by product...',
     'product_chooser.empty' => 'No products found!',
+    'product_chooser.empty_error' => 'You must select an product',
 
     // Products Chooser livewire component
     'products_chooser.products' => 'Products',
@@ -38,6 +40,7 @@ return [
     'products_chooser.empty' => 'No products found!',
     'products_chooser.minor' => 'There are less products available because you are a minor',
     'products_chooser.amount' => 'amount',
+    'products_chooser.empty_error' => 'You must select at least one product',
 
     // Transaction Type Chooser blade component
     'transaction_type_chooser_all' => 'All transactions',

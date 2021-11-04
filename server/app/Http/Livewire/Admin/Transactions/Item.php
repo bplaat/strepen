@@ -58,6 +58,9 @@ class Item extends Component
         $this->selectedProducts = collect($selectedProducts);
 
         // Validate same input
+        if ($this->transaction->type == Transaction::TYPE_TRANSACTION) {
+            $this->emit('validateComponents');
+        }
         $this->validateOnly('transaction.user_id');
         $this->validateOnly('transaction.name');
         $this->validateOnly('createdAtDate');
@@ -67,6 +70,7 @@ class Item extends Component
             // Validate input
             $this->validateOnly('selectedProducts.*.product_id');
             $this->validateOnly('selectedProducts.*.amount');
+
             if (count($this->selectedProducts) == 0) return;
 
             // Edit transaction

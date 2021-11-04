@@ -4,7 +4,7 @@ return [
     // Transactions create livewire component
     'create.title' => 'Stripe',
     'create.header' => 'Stripe products on your personal account',
-    'create.create_transaction' => 'Create new transaction',
+    'create.create_transaction' => 'Stripe',
     'create.name' => 'Name',
     'create.name_default' => 'Transaction on',
 

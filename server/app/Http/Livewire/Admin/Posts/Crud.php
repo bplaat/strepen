@@ -57,7 +57,9 @@ class Crud extends PaginationComponent
 
     public function createPost()
     {
+        $this->emit('validateComponents');
         $this->validate();
+
         $this->post->user_id = Auth::id();
         $this->post->save();
 

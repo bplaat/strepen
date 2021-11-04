@@ -24,12 +24,14 @@ return [
     'user_chooser.search_user' => 'Zoek een gebruiker...',
     'user_chooser.search_by_user' => 'Zoek op gebruiker...',
     'user_chooser.empty' => 'Geen gebruikers gevonden!',
+    'user_chooser.empty_error' => 'U moet een gebruiker selecteren',
 
     // Product Chooser livewire component
     'product_chooser.product' => 'Product',
     'product_chooser.search_product' => 'Zoek een product...',
     'product_chooser.search_by_product' => 'Zoek op product...',
     'product_chooser.empty' => 'Geen producten gevonden!',
+    'product_chooser.empty_error' => 'U moet een product selecteren',
 
     // Products Chooser livewire component
     'products_chooser.products' => 'Producten',
@@ -38,6 +40,7 @@ return [
     'products_chooser.empty' => 'Geen producten gevonden!',
     'products_chooser.minor' => 'Er zijn minder producten beschikbaar omdat u minderjarig bent',
     'products_chooser.amount' => 'hoeveelheid',
+    'products_chooser.empty_error' => 'U moet minstens een product selecteren',
 
     // Transaction Type Chooser blade component
     'transaction_type_chooser_all' => 'Alle transacties',

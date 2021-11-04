@@ -9,6 +9,7 @@ use Livewire\Component;
 class ProductsChooser extends Component
 {
     public $selectedProducts;
+    public $validate = false;
     public $noMax = false;
     public $isMinor = false;
     public $isBigMode = false;
@@ -17,8 +18,9 @@ class ProductsChooser extends Component
     public $filteredProducts;
     public $productName;
     public $isOpen = false;
+    public $isValid = true;
 
-    public $listeners = ['getSelectedProducts', 'clearSelectedProducts', 'isMinorProducts', 'clearMinorProducts'];
+    public $listeners = ['validateComponents', 'getSelectedProducts', 'clearSelectedProducts', 'isMinorProducts', 'clearMinorProducts'];
 
     public function mount()
     {
@@ -47,6 +49,15 @@ class ProductsChooser extends Component
                 });
             }
             $this->filteredProducts = $this->filteredProducts->slice(0, 10);
+        }
+    }
+
+    public function validateComponents()
+    {
+        if ($this->validate) {
+            $this->isValid = $this->selectedProducts->filter(function ($selectedProduct) {
+                return $selectedProduct['amount'] > 0;
+            })->count() > 0;
         }
     }
 

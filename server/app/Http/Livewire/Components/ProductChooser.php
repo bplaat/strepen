@@ -8,6 +8,7 @@ use Livewire\Component;
 class ProductChooser extends Component
 {
     public $productId;
+    public $validate = false;
     public $inline = false;
     public $relationship = false;
 
@@ -16,8 +17,9 @@ class ProductChooser extends Component
     public $productName;
     public $product;
     public $isOpen = false;
+    public $isValid = true;
 
-    public $listeners = ['clearProductChooser'];
+    public $listeners = ['validateComponents', 'clearProductChooser'];
 
     public function mount()
     {
@@ -36,6 +38,13 @@ class ProductChooser extends Component
         $this->product = null;
         $this->emitUp('productChooser', null);
         $this->mount();
+    }
+
+    public function validateComponents()
+    {
+        if ($this->validate) {
+            $this->isValid = $this->product != null;
+        }
     }
 
     public function filterProducts()

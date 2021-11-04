@@ -30,7 +30,7 @@
                 </div>
 
                 <div class="modal-card-body">
-                    <livewire:components.user-chooser :userId="$inventory->user_id" includeStrepenUser="true" />
+                    <livewire:components.user-chooser :userId="$inventory->user_id" includeStrepenUser="true" validate="true" />
 
                     <div class="field">
                         <label class="label" for="name">@lang('admin/inventories.item.name')</label>
@@ -65,7 +65,7 @@
                         </div>
                     </div>
 
-                    <livewire:components.products-chooser :selectedProducts="$selectedProducts" :noMax="true" />
+                    <livewire:components.products-chooser :selectedProducts="$selectedProducts" noMax="true" validate="true" />
                 </div>
 
                 <div class="modal-card-foot">

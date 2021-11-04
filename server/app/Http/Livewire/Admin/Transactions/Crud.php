@@ -102,10 +102,12 @@ class Crud extends PaginationComponent
         $this->selectedProducts = collect($selectedProducts);
 
         // Validate input
+        $this->emit('validateComponents');
         $this->validateOnly('transaction.user_id');
         $this->validateOnly('transaction.name');
         $this->validateOnly('selectedProducts.*.product_id');
         $this->validateOnly('selectedProducts.*.amount');
+
         if ($this->selectedProducts->count() == 0) return;
 
         // Create transaction

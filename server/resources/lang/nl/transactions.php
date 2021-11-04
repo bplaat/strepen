@@ -4,7 +4,7 @@ return [
     // Transactions create livewire component
     'create.title' => 'Strepen',
     'create.header' => 'Streep producten op uw persoonlijke account',
-    'create.create_transaction' => 'Nieuwe transactie maken',
+    'create.create_transaction' => 'Strepen',
     'create.name' => 'Naam',
     'create.name_default' => 'Transactie op',
 

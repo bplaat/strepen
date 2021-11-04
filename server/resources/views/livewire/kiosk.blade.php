@@ -4,7 +4,7 @@
     <div class="box">
         <form id="mainForm" wire:submit.prevent="$emit('getSelectedProducts')"></form>
 
-        <livewire:components.user-chooser />
+        <livewire:components.user-chooser validate="true" />
 
         <div class="field">
             <label class="label" for="name">@lang('kiosk.name')</label>
@@ -15,7 +15,7 @@
             @error('transaction.name') <p class="help is-danger">{{ $message }}</p> @enderror
         </div>
 
-        <livewire:components.products-chooser :selectedProducts="$selectedProducts" :isBigMode="true" />
+        <livewire:components.products-chooser :selectedProducts="$selectedProducts" isBigMode="true" validate="true" />
 
         <div class="field">
             <div class="control">
