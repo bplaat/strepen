@@ -3,8 +3,10 @@
 return [
     // Home page
     'title' => 'Home',
-    'header_auth' => 'Welkom :user.firstname!',
-    'header_guest' => 'Welkom op het nieuwe Strepen Systeem!',
+    'auth_header' => 'Welkom :user.firstname!',
+    'guest_header' => 'Welkom op het nieuwe Strepen Systeem!',
+    'guest_login_description' => 'Login met uw personlijke account om deze website te gebruiken',
+    'guest_kiosk_description' => 'Of klik op de Kiosk knop in de top rechter rand om in de Kiosk modus te gaan',
     'latest_posts' => 'Laatste berichten',
     'posts' => 'berichten',
     'posts_empty' => 'Geen berichten gevonden!',

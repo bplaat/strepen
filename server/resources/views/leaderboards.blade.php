@@ -170,6 +170,12 @@
                             ->where('deleted', false)
                             ->where('user_id', $user->id)
                             ->where('type', App\Models\Transaction::TYPE_TRANSACTION)
+                            ->sum('price')
+                            + DB::table('transactions')
+                            ->where('deleted', false)
+                            ->where('user_id', $user->id)
+                            ->where('type', App\Models\Transaction::TYPE_FOOD)
+                            ->where('price', '>', 0)
                             ->sum('price');
                         return $user;
                     });

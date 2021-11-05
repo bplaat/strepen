@@ -3,8 +3,10 @@
 return [
     // Home page
     'title' => 'Home',
-    'header_auth' => 'Welcome :user.firstname!',
-    'header_guest' => 'Welcome on the new Strepen system!',
+    'auth_header' => 'Welcome :user.firstname!',
+    'guest_header' => 'Welcome on the new Strepen system!',
+    'guest_login_description' => 'Login with your personal account to access this site',
+    'guest_kiosk_description' => 'Or click on the Kiosk button in the top right corner to go into Kiosk mode',
     'latest_posts' => 'Latest posts',
     'posts' => 'posts',
     'posts_empty' => 'No posts found!',
