@@ -7,6 +7,7 @@ use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -199,50 +200,53 @@ class User extends Authenticatable
     }
 
     // Get balance chart data
-    public function getBalanceChart($beginDate, $endDate)
+    public function getBalanceChart($startDate, $endDate)
     {
-        $startDate = strtotime($beginDate);
-        $endDate = strtotime($endDate);
-
-        $firstTransaction = $this->transactions()->orderBy('created_at')->first();
+        // Covert start and end date to timestamp
+        $firstTransaction = $this->transactions()->where('deleted', false)->orderBy('created_at')->first();
         if ($firstTransaction != null) {
-            $startDate = max($startDate, strtotime($firstTransaction->created_at->format('Y-m-d')));
+            $startDate = max(strtotime($startDate), $firstTransaction->created_at->getTimestamp());
+        } else {
+            $startDate = strtotime(date('Y-m-d'));
         }
+        $endDate = min(strtotime($endDate), strtotime(date('Y-m-d')));
 
-        $endDate = min($endDate, strtotime(date('Y-m-d')));
+        // Get the deposits price sum and transactions price sum before start date
+        $startDepositsPrice = DB::table('transactions')
+            ->where('user_id', $this->id)
+            ->where('deleted', false)
+            ->where('type', Transaction::TYPE_DEPOSIT)
+            ->where('created_at', '<', date('Y-m-d H:i:s', $startDate))
+            ->sum('price');
 
+        $startTransactionsPrice = DB::table('transactions')
+            ->where('user_id', $this->id)
+            ->where('deleted', false)
+            ->where(function ($query) {
+                $query->where('type', Transaction::TYPE_TRANSACTION)
+                    ->orWhere('type', Transaction::TYPE_FOOD);
+            })
+            ->where('created_at', '<', date('Y-m-d H:i:s', $startDate))
+            ->sum('price');
+
+        // Get the rest of the transactions between this time
         $transactions = $this->transactions()->where('deleted', false)->orderBy('created_at')
-            ->where('created_at', '<=', date('Y-m-d H:i:s', $endDate + 24 * 60 * 60 - 1))
+            ->where('created_at', '>=', date('Y-m-d H:i:s', $startDate))
+            ->where('created_at', '<', date('Y-m-d H:i:s', $endDate + 24 * 60 * 60))
             ->get();
 
-        $days = ($endDate - $startDate) / (24 * 60 * 60);
-        $balance = 0;
+        // Loop trough days
+        $balance = $startDepositsPrice - $startTransactionsPrice;
+        $days = ($endDate - $startDate + 1) / (24 * 60 * 60);
         $balanceData = [];
         $index = 0;
-        $tansactionCount = $transactions->count();
-
-        while (
-            $index < $tansactionCount &&
-            strtotime($transactions[$index]->created_at) < $startDate
-        ) {
-            if ($transactions[$index]->type == Transaction::TYPE_TRANSACTION) {
-                $balance -= $transactions[$index]->price;
-            }
-            if ($transactions[$index]->type == Transaction::TYPE_DEPOSIT) {
-                $balance += $transactions[$index]->price;
-            }
-            if ($transactions[$index]->type == Transaction::TYPE_FOOD) {
-                $balance -= $transactions[$index]->price;
-            }
-            $index++;
-        }
-
         for ($day = 0; $day < $days; $day++) {
             $dayTime = $startDate + $day * (24 * 60 * 60);
+            // Ajust balance by using the transactions of that day
             while (
-                $index < $tansactionCount &&
-                strtotime($transactions[$index]->created_at) >= $dayTime &&
-                strtotime($transactions[$index]->created_at) < $dayTime + (24 * 60 * 60)
+                $index < $transactions->count() &&
+                $transactions[$index]->created_at->getTimestamp() >= $dayTime &&
+                $transactions[$index]->created_at->getTimestamp() < $dayTime + (24 * 60 * 60)
             ) {
                 if ($transactions[$index]->type == Transaction::TYPE_TRANSACTION) {
                     $balance -= $transactions[$index]->price;

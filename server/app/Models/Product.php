@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class Product extends Model
@@ -90,26 +91,70 @@ class Product extends Model
     }
 
     // Get amount chart data
-    public function getAmountChart()
+    public function getAmountChart($startDate, $endDate)
     {
-        $amount = 0;
+        // Covert start and end date to timestamp
+        $firstTransaction = $this->transactions()->where('deleted', false)->orderBy('created_at')->first();
+        $firstInventory = $this->inventories()->where('deleted', false)->orderBy('created_at')->first();
+        if ($firstTransaction != null && $firstInventory != null) {
+            $oldestItem = $firstTransaction->created_at->getTimestamp() < $firstInventory->created_at->getTimestamp()
+                ? $firstTransaction
+                : $firstInventory;
+            $startDate = max(strtotime($startDate), $oldestItem->created_at->getTimestamp());
+        } else {
+            $startDate = strtotime(date('Y-m-d'));
+        }
+        $endDate = min(strtotime($endDate), strtotime(date('Y-m-d')));
+
+        // Get the inventory amount sum and transaction amount sum before start date
+        $startInventoryAmount = DB::table('inventory_product')
+            ->join('inventories', 'inventories.id', 'inventory_id')
+            ->where('deleted', false)
+            ->where('product_id', $this->id)
+            ->where('inventories.created_at', '<', date('Y-m-d H:i:s', $startDate))
+            ->sum('amount');
+
+        $startTransactionAmount = DB::table('transaction_product')
+            ->join('transactions', 'transactions.id', 'transaction_id')
+            ->where('deleted', false)
+            ->where('product_id', $this->id)
+            ->where('transactions.created_at', '<', date('Y-m-d H:i:s', $startDate))
+            ->sum('amount');
+
+        // Get the rest of the inventories and transactions between this time
+        $inventories = $this->inventories()->where('deleted', false)
+            ->where('inventories.created_at', '>=', date('Y-m-d H:i:s', $startDate))
+            ->where('inventories.created_at', '<', date('Y-m-d H:i:s', $endDate + 24 * 60 * 60))
+            ->get();
+        $transactions = $this->transactions()->where('deleted', false)
+            ->where('transactions.created_at', '>=', date('Y-m-d H:i:s', $startDate))
+            ->where('transactions.created_at', '<', date('Y-m-d H:i:s', $endDate + 24 * 60 * 60))
+            ->get();
+        $items = collect($transactions)->concat($inventories)->sortBy('created_at')->values();
+
+        // Loop trough days
+        $amount = $startInventoryAmount - $startTransactionAmount;
+        $days = ($endDate - $startDate + 1) / (24 * 60 * 60);
         $amountData = [];
-
-        $inventories = $this->inventories()->where('deleted', false)->orderBy('created_at')->get();
-        foreach ($inventories as $inventory) {
-            $amount += $inventory->pivot->amount;
-            $amountData[] = [ $inventory->created_at->format('Y-m-d'), $amount ];
+        $index = 0;
+        for ($day = 0; $day < $days; $day++) {
+            $dayTime = $startDate + $day * (24 * 60 * 60);
+            // Ajust balance by using the transactions of that day
+            while (
+                $index < $items->count() &&
+                $items[$index]->created_at->getTimestamp() >= $dayTime &&
+                $items[$index]->created_at->getTimestamp() < $dayTime + (24 * 60 * 60)
+            ) {
+                if (get_class($items[$index]) == Inventory::class) {
+                    $amount += $items[$index]->pivot->amount;
+                }
+                if (get_class($items[$index]) == Transaction::class) {
+                    $amount -= $items[$index]->pivot->amount;
+                }
+                $index++;
+            }
+            $amountData[] = [ date('Y-m-d', $dayTime), $amount ];
         }
-
-        $transactions = $this->transactions()->where('deleted', false)->orderBy('created_at')->get();
-        foreach ($transactions as $transaction) {
-            $amount -= $transaction->pivot->amount;
-            $amountData[] = [ $transaction->created_at->format('Y-m-d'), $amount ];
-        }
-
-        usort($amountData, function ($a, $b) {
-            return strcmp($a[0], $b[0]);
-        });
 
         return $amountData;
     }

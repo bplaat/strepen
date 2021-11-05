@@ -14,6 +14,7 @@ class Item extends Component
     public $product;
     public $image;
     public $isShowing = false;
+    public $startDate;
     public $isEditing = false;
     public $isDeleting = false;
 
@@ -25,6 +26,25 @@ class Item extends Component
         'product.alcoholic' => 'nullable|boolean',
         'product.active' => 'nullable|boolean'
     ];
+
+    public function mount()
+    {
+        $firstTransaction = $this->product->transactions()->where('deleted', false)->orderBy('created_at')->first();
+        $firstInventory = $this->product->inventories()->where('deleted', false)->orderBy('created_at')->first();
+        if ($firstTransaction != null && $firstInventory != null) {
+            $oldestItem = $firstTransaction->created_at->getTimestamp() < $firstInventory->created_at->getTimestamp()
+                ? $firstTransaction
+                : $firstInventory;
+            $maxDiff = 365 * 24 * 60 * 60;
+            if (time() - $oldestItem->created_at->getTimestamp() < $maxDiff) {
+                $this->startDate = $oldestItem->created_at->format('Y-m-d');
+            } else {
+                $this->startDate = date('Y-m-d', time() - $maxDiff);
+            }
+        } else {
+            $this->startDate = date('Y-m-d');
+        }
+    }
 
     public function editProduct()
     {

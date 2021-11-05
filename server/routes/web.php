@@ -3,9 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 // Main routes
-Route::middleware('nokiosk')->group(function () {
-    Route::get('/', App\Http\Livewire\Home::class)->name('home');
-});
+Route::get('/', App\Http\Livewire\Home::class)->name('home');
 
 // Auth routes
 Route::middleware('auth')->group(function () {

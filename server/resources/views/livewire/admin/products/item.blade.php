@@ -34,48 +34,62 @@
         <div class="modal is-active">
             <div class="modal-background" wire:click="$set('isShowing', false)"></div>
 
-            <div class="modal-card">
+            <div class="modal-card is-large">
                 <div class="modal-card-head">
                     <p class="modal-card-title">@lang('admin/products.item.show_product')</p>
                     <button type="button" class="delete" wire:click="$set('isShowing', false)"></button>
                 </div>
 
                 <div class="modal-card-body content">
-                    <h1 class="title is-spaced is-4">
-                        {{ $product->name }}
+                    <div class="columns">
+                        <div class="column is-half">
+                            <h1 class="title is-spaced is-4">
+                                {{ $product->name }}
 
-                        <span class="is-pulled-right is-hidden-touch">
-                            @if ($product->alcoholic)
-                                <span class="tag is-danger">{{ Str::upper(__('admin/products.item.alcoholic')) }}</span>
+                                <span class="is-pulled-right is-hidden-touch">
+                                    @if ($product->alcoholic)
+                                        <span class="tag is-danger">{{ Str::upper(__('admin/products.item.alcoholic')) }}</span>
+                                    @endif
+
+                                    @if (!$product->active)
+                                        <span class="tag is-warning">{{ Str::upper(__('admin/products.item.inactive')) }}</span>
+                                    @endif
+                                </span>
+                            </h1>
+
+                            <p class="is-display-touch is-hidden-desktop">
+                                @if ($product->alcoholic)
+                                    <span class="tag is-danger">{{ Str::upper(__('admin/products.item.alcoholic')) }}</span>
+                                @endif
+
+                                @if (!$product->active)
+                                    <span class="tag is-warning">{{ Str::upper(__('admin/products.item.inactive')) }}</span>
+                                @endif
+                            </p>
+
+                            <h2 class="subtitle is-5">@lang('admin/products.item.image')</h2>
+                            <div class="box" style="width: 50%;">
+                                <div style="background-image: url(/storage/products/{{ $product->image != null ? $product->image : App\Models\Setting::get('default_product_image') }}); background-size: cover; background-position: center center; padding-top: 100%; border-radius: 6px;"></div>
+                            </div>
+
+                            <h2 class="subtitle is-5">@lang('admin/products.item.general_info')</h2>
+                            <p>@lang('admin/products.item.price'): <x-money-format :money="$product->price" /></p>
+                            <p>@lang('admin/products.item.amount'): <x-amount-format :amount="$product->amount" /></p>
+                            @if ($product->description != null)
+                                <p>@lang('admin/products.item.description'): <i>{{ $product->description }}</i></p>
+                            @else
+                                <p>@lang('admin/products.item.description'): @lang('admin/products.item.description_unkown')</p>
                             @endif
+                        </div>
 
-                            @if (!$product->active)
-                                <span class="tag is-warning">{{ Str::upper(__('admin/products.item.inactive')) }}</span>
-                            @endif
-                        </span>
-                    </h1>
+                        <div class="column is-half">
+                            <h2 class="subtitle is-5">@lang('admin/products.item.amount_info')</h2>
 
-                    <p class="is-display-touch is-hidden-desktop">
-                        @if ($product->alcoholic)
-                            <span class="tag is-danger">{{ Str::upper(__('admin/products.item.alcoholic')) }}</span>
-                        @endif
+                            <p>{{ $startDate }} - {{ date('Y-m-d') }}</p>
 
-                        @if (!$product->active)
-                            <span class="tag is-warning">{{ Str::upper(__('admin/products.item.inactive')) }}</span>
-                        @endif
-                    </p>
-
-                    <h2 class="subtitle is-5">@lang('admin/products.item.general_info')</h2>
-                    <p>@lang('admin/products.item.price'): <x-money-format :money="$product->price" /></p>
-                    <p>@lang('admin/products.item.amount'): <x-amount-format :amount="$product->amount" /></p>
-                    @if ($product->description != null)
-                        <p>@lang('admin/products.item.description'): <i>{{ $product->description }}</i></p>
-                    @else
-                        <p>@lang('admin/products.item.description'): @lang('admin/products.item.description_unkown')</p>
-                    @endif
-
-                    <h2 class="subtitle is-5">@lang('admin/products.item.amount_info')</h2>
-                    <canvas id="amount_chart_canvas"></canvas>
+                            <canvas id="amount_chart_canvas"></canvas>
+                        </div>
+                    </div>
 
                     <script>
                     new Chart(document.getElementById('amount_chart_canvas').getContext('2d'), {
@@ -83,7 +97,7 @@
                         data: {
                             datasets: [{
                                 label: 'Amount',
-                                data: @json($product->getAmountChart()),
+                                data: @json($product->getAmountChart($startDate, date('Y-m-d'))),
                                 borderColor: getComputedStyle(document.querySelector('.is-link')).backgroundColor,
                                 tension: 0.1
                             }]

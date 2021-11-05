@@ -17,6 +17,9 @@
     @else
         <link rel="stylesheet" href="/css/bulma-dark.min.css">
     @endif
+    <style>
+    @media (min-width: 1024px) {.modal-card.is-large{width:75vw}}
+    </style>
     @livewireStyles
     @if (isset($chartjs))
         <script src="/js/chart.min.js"></script>

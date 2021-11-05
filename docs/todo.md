@@ -3,7 +3,7 @@
 # Todo List
 
 ## High priority (before launch)
-- Basic admin product amount chart
+- Remove all inline styles to a proper stylesheet
 - Bug fixes / All the whishs from the Stam Bestuur
 
 ## Low priority (after launch)
@@ -12,5 +12,4 @@
 - Better leaderboards more controls
 - Better admin user charts
 - Better admin product charts
-- Remove all inline styles to a proper stylesheet
 - Finish the admin part of the REST API

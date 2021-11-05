@@ -7,7 +7,7 @@ return [
     'best_balance_header' => 'Best stammers',
     'worst_balance_header' => 'Wall of shame',
     'best_spenders_header' => 'Biggest spenders',
-    'worst_spenders_header' => 'Most thrifty',
+    'worst_spenders_header' => 'Most frugal',
     'name' => 'Name',
     'balance' => 'Balance',
     'amount' => 'Amount'

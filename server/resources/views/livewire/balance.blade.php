@@ -24,15 +24,6 @@
 
     <script>
     document.addEventListener('livewire:load', function () {
-        const chartOptions = {
-            elements: {
-                point:{
-                    radius: 0
-                }
-            },
-            animation: false
-        };
-
         let chart = new Chart(document.getElementById('balance_chart_canvas').getContext('2d'), {
             type: 'line',
             data: {
@@ -43,7 +34,9 @@
                     tension: 0.1
                 }]
             },
-            options: chartOptions
+            options: {
+                animation: false
+            }
         });
 
         @this.on('refreshChart', (data) => {
@@ -58,7 +51,9 @@
                         tension: 0.1
                     }]
                 },
-                options: chartOptions
+                options: {
+                    animation: false
+                }
             });
         });
     });
