@@ -1,9 +1,9 @@
 <?php
 
 return [
-    // Leaderbords component
-    'title' => 'Leaderbords',
-    'header' => 'Leaderbords',
+    // Leaderboards component
+    'title' => 'Leaderboards',
+    'header' => 'Leaderboards',
     'best_beer_header' => 'Most beers (off all time)',
     'best_soda_header' => 'Most soda\'s (off all time)',
     'best_balance_header' => 'Best stammers (off the moment)',

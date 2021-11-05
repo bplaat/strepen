@@ -163,16 +163,21 @@
                 </div>
             </div>
 
+            @php
+                $spendingUsers = App\Models\User::where('deleted', false)->where('active', true)->get()
+                    ->map(function ($user) { // Very slow
+                        $user->spending = DB::table('transactions')
+                            ->where('deleted', false)
+                            ->where('user_id', $user->id)
+                            ->where('type', App\Models\Transaction::TYPE_TRANSACTION)
+                            ->sum('price');
+                        return $user;
+                    });
+            @endphp
+
             <div class="column is-half">
                 <div class="box" style="height: 100%;">
                     <h2 class="title is-4" style="text-align: center;">@lang('leaderboards.best_spenders_header')</h2>
-
-                    @php
-                        $users = App\Models\User::where('deleted', false)->where('active', true)
-                            ->withSum('transactions', 'price')
-                            ->orderByDesc('transactions_sum_price')
-                            ->limit(10)->get();
-                    @endphp
 
                     <table class="table is-fullwidth">
                         <thead>
@@ -183,7 +188,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($users as $index => $user)
+                            @foreach ($spendingUsers->sortByDesc('spending')->values()->slice(0, 10) as $index => $user)
                                 <tr>
                                     <td><x-index-medal :index="$index" /></td>
                                     <td style="vertical-align: middle;">
@@ -191,7 +196,7 @@
                                             background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
                                         <label for="user-amount-{{ $index }}">{{ $user->name }}</label>
                                     </td>
-                                    <td><x-money-format :money="$user->transactions_sum_price" /></td>
+                                    <td><x-money-format :money="$user->spending" /></td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -203,13 +208,6 @@
                 <div class="box" style="height: 100%;">
                     <h2 class="title is-4" style="text-align: center;">@lang('leaderboards.worst_spenders_header')</h2>
 
-                    @php
-                        $users = App\Models\User::where('deleted', false)->where('active', true)
-                            ->withSum('transactions', 'price')
-                            ->orderBy('transactions_sum_price')
-                            ->limit(10)->get();
-                    @endphp
-
                     <table class="table is-fullwidth">
                         <thead>
                             <tr>
@@ -219,7 +217,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($users as $index => $user)
+                            @foreach ($spendingUsers->sortBy('spending')->values()->slice(0, 10) as $index => $user)
                                 <tr>
                                     <td><x-index-medal :index="$index" /></td>
                                     <td style="vertical-align: middle;">
@@ -227,7 +225,7 @@
                                             background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
                                         <label for="user-amount-{{ $index }}">{{ $user->name }}</label>
                                     </td>
-                                    <td><x-money-format :money="$user->transactions_sum_price" /></td>
+                                    <td><x-money-format :money="$user->spending" /></td>
                                 </tr>
                             @endforeach
                         </tbody>
