@@ -7,7 +7,7 @@
         <div class="columns is-multiline">
             @foreach ($notifications as $notification)
                 <div class="column is-one-third">
-                    <div class="box" style="height: 100%;">
+                    <div class="box">
                         @if ($notification->type == 'App\Notifications\NewDeposit')
                             @php
                                 $transaction = App\Models\Transaction::find($notification->data['transaction_id']);

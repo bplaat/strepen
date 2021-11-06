@@ -15,7 +15,7 @@
         <div class="columns is-multiline">
             @foreach ($transactions as $transaction)
                 <div class="column is-one-quarter">
-                    <div class="card" style="height: 100%;">
+                    <div class="card">
                         <div class="card-content content">
                             <h4>{{ $transaction->name }}</h4>
 

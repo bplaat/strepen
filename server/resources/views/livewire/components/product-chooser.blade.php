@@ -8,20 +8,16 @@
                 wire:model="productName" id="productName" autocomplete="off" wire:keydown.enter.prevent="selectFirstProduct"
                 wire:focus="$set('isOpen', true)" wire:blur="$set('isOpen', false)">
             <span class="icon is-small is-left">
-                <div style="width: 24px; height: 24px; border-radius: 4px; background-size: cover; background-position: center center;
-                    background-image: url(/storage/products/{{ $product != null && $product->image != null ? $product->image : App\Models\Setting::get('default_product_image') }});"></div>
+                <div class="image is-small is-rounded" style="background-image: url(/storage/products/{{ $product != null && $product->image != null ? $product->image : App\Models\Setting::get('default_product_image') }});"></div>
             </span>
         </div>
         <div class="dropdown-menu" style="width: 100%;">
             <div class="dropdown-content">
                 @if ($filteredProducts->count() > 0)
                     @foreach ($filteredProducts as $product)
-                        <a href="#" wire:click.prevent="selectProduct({{ $product->id }})" class="dropdown-item" style="display: flex; align-items: center;">
-                            <div style="margin-right: 12px; width: 24px; height: 24px; border-radius: 4px; background-size: cover; background-position: center center;
-                                background-image: url(/storage/products/{{ $product->image != null ? $product->image : App\Models\Setting::get('default_product_image') }});"></div>
-                            <div style="flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                {!! $productName != '' ? str_replace(' ', '&nbsp;', preg_replace('/(' . preg_quote($productName) . ')/i', '<b>$1</b>', $product->name)) : $product->name !!}
-                            </div>
+                        <a href="#" wire:click.prevent="selectProduct({{ $product->id }})" class="dropdown-item">
+                            <div class="image is-small is-rounded is-inline" style="background-image: url(/storage/products/{{ $product->image != null ? $product->image : App\Models\Setting::get('default_product_image') }});"></div>
+                            {!! $productName != '' ? str_replace(' ', '&nbsp;', preg_replace('/(' . preg_quote($productName) . ')/i', '<b>$1</b>', $product->name)) : $product->name !!}
                         </a>
                     @endforeach
                 @else

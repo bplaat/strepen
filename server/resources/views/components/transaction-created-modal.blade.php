@@ -9,17 +9,15 @@
 
         <div class="modal-card-body">
             <div class="box" style="width: 50%; margin: 0 auto; margin-bottom: 24px;">
-                <div style="background-image: @if ($transaction->user->thanks != null) url(/storage/thanks/{{ $transaction->user->thanks }}) @else url(/storage/thanks/{{ App\Models\Setting::get('default_user_thanks') }}) @endif;
-                    background-size: cover; background-position: center center; padding-top: 100%; border-radius: 6px;"></div>
+                <div class="image is-square is-rounded" style="background-image: @if ($transaction->user->thanks != null) url(/storage/thanks/{{ $transaction->user->thanks }}) @else url(/storage/thanks/{{ App\Models\Setting::get('default_user_thanks') }}) @endif;"></div>
             </div>
 
             <h2 class="title" style="margin-bottom: 24px; text-align: center;">@lang('components.transaction_created_modal_thx')</h2>
 
             @foreach ($transaction->products()->orderByRaw('LOWER(name)')->get() as $product)
-                <div class="media" style="display: flex; align-items: center; max-width: 360px; margin-left: auto; margin-right: auto;">
+                <div class="media" style="align-items: center; max-width: 360px; margin-left: auto; margin-right: auto;">
                     <div class="media-left">
-                        <div style="width: 64px; height: 64px; border-radius: 6px; background-size: cover; background-position: center center;
-                            background-image: url(/storage/products/{{ $product->image != null ? $product->image : App\Models\Setting::get('default_product_image') }});"></div>
+                        <div class="image is-large is-rounded" style="background-image: url(/storage/products/{{ $product->image != null ? $product->image : App\Models\Setting::get('default_product_image') }});"></div>
                     </div>
                     <div class="media-content">
                         <p>
@@ -34,7 +32,7 @@
                 </div>
             @endforeach
 
-            <div class="media" style="display: flex; align-items: center; max-width: 360px; margin-left: auto; margin-right: auto; margin-bottom: 16px;">
+            <div class="media" style="align-items: center; max-width: 360px; margin-left: auto; margin-right: auto; margin-bottom: 16px;">
                 <div class="media-left">
                     <div style="width: 64px;"></div>
                 </div>
@@ -48,7 +46,7 @@
         </div>
 
         <div class="modal-card-foot">
-            <button type="button" class="button is-link" style="margin: 0 auto;" wire:click="closeCreated" wire:loading.attr="disabled">@lang('components.transaction_created_modal_close')</button>
+            <button type="button" class="button is-link is-fullwidth p-5" " wire:click="closeCreated" wire:loading.attr="disabled">@lang('components.transaction_created_modal_close')</button>
         </div>
     </div>
 

@@ -1,10 +1,9 @@
 <div class="column is-one-quarter">
-    <div class="card" style="display: flex; flex-direction: column; height: 100%; margin-bottom: 0; overflow: hidden;">
+    <div class="card">
         <div class="card-image">
-            <div class="image has-background-link" style="@if ($user->avatar != null) background-image: url(/storage/avatars/{{ $user->avatar }}); @endif
-                background-size: cover; background-position: center center; padding-top: 100%;"></div>
+            <div class="image is-square has-background-link" style="@if ($user->avatar != null) background-image: url(/storage/avatars/{{ $user->avatar }}); @endif"></div>
 
-            <div style="position: absolute; top: 8px; right: 8px;">
+            <div class="card-image-tags">
                 @if ($user->role == App\Models\User::ROLE_NORMAL)
                     <span class="tag is-success">{{ Str::upper(__('admin/users.item.role_normal')) }}</span>
                 @endif
@@ -19,7 +18,7 @@
             </div>
         </div>
 
-        <div class="card-content content" style="flex: 1; margin-bottom: 0;">
+        <div class="card-content content">
             <h4>{{ $user->name }}</h4>
             <p>@lang('admin/users.item.balance'): <x-money-format :money="$user->balance" /></p>
         </div>
@@ -82,14 +81,14 @@
                             <div class="columns">
                                 <div class="column">
                                     <h2 class="subtitle is-5">@lang('admin/users.item.avatar')</h2>
-                                    <div class="box">
-                                        <div style="background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }}); background-size: cover; background-position: center center; padding-top: 100%; border-radius: 6px;"></div>
+                                    <div class="box not-fullheight">
+                                        <div class="image is-square is-rounded" style="background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
                                     </div>
                                 </div>
                                 <div class="column">
                                     <h2 class="subtitle is-5">@lang('admin/users.item.thanks')</h2>
-                                    <div class="box">
-                                        <div style="background-image: url(/storage/thanks/{{ $user->thanks != null ? $user->thanks : App\Models\Setting::get('default_user_thanks') }}); background-size: cover; background-position: center center; padding-top: 100%; border-radius: 6px;"></div>
+                                    <div class="box not-fullheight">
+                                        <div class="image is-square is-rounded" style="background-image: url(/storage/thanks/{{ $user->thanks != null ? $user->thanks : App\Models\Setting::get('default_user_thanks') }});"></div>
                                     </div>
                                 </div>
                             </div>
@@ -324,7 +323,7 @@
                                 <label class="label" for="avatar">@lang('admin/users.item.avatar')</label>
                                 @if ($user->avatar != null)
                                     <div class="box" style="width: 100%;">
-                                        <div style="background-image: url(/storage/avatars/{{ $user->avatar }}); background-size: cover; background-position: center center; padding-top: 100%; border-radius: 6px;"></div>
+                                        <div class="image is-square is-rounded" style="background-image: url(/storage/avatars/{{ $user->avatar }});"></div>
                                     </div>
                                 @endif
                             </div>
@@ -354,7 +353,7 @@
                                 <label class="label" for="thanks">@lang('admin/users.item.thanks')</label>
                                 @if ($user->thanks != null)
                                     <div class="box" style="width: 100%;">
-                                        <div style="background-image: url(/storage/thanks/{{ $user->thanks }}); background-size: cover; background-position: center center; padding-top: 100%; border-radius: 6px;"></div>
+                                        <div class="image is-square is-rounded" style="background-image: url(/storage/thanks/{{ $user->thanks }});"></div>
                                     </div>
                                 @endif
                             </div>

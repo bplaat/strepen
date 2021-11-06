@@ -6,8 +6,8 @@
 
         <div class="columns is-multiline">
             <div class="column is-half">
-                <div class="box" style="height: 100%;">
-                    <h2 class="title is-4" style="text-align: center;">@lang('leaderboards.best_beer_header')</h2>
+                <div class="box">
+                    <h2 class="title is-4 has-text-centered">@lang('leaderboards.best_beer_header')</h2>
 
                     @php
                         $beerProductId = 1; // Weird constant
@@ -28,7 +28,7 @@
                     <table class="table is-fullwidth">
                         <thead>
                             <tr>
-                                <th style="width: 24px; text-align: center;">#</th>
+                                <th class="medal-column">#</th>
                                 <th>@lang('leaderboards.name')</th>
                                 <th style="width: 30%;">@lang('leaderboards.amount')</th>
                             </tr>
@@ -38,9 +38,8 @@
                                 <tr>
                                     <td><x-index-medal :index="$index" /></td>
                                     <td style="vertical-align: middle;">
-                                        <div style="float: left; margin-right: 12px; width: 24px; height: 24px; border-radius: 50%; background-size: cover; background-position: center center;
-                                            background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
-                                        <label for="user-amount-{{ $index }}">{{ $user->name }}</label>
+                                        <div class="image is-small is-round is-inline" style="background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
+                                        {{ $user->name }}
                                     </td>
                                     <td><x-amount-format :amount="$user->amount" /></td>
                                 </tr>
@@ -51,8 +50,8 @@
             </div>
 
             <div class="column is-half">
-                <div class="box" style="height: 100%;">
-                    <h2 class="title is-4" style="text-align: center;">@lang('leaderboards.best_soda_header')</h2>
+                <div class="box">
+                    <h2 class="title is-4 has-text-centered">@lang('leaderboards.best_soda_header')</h2>
 
                     @php
                         $sodaProductId = 2; // Weird constant
@@ -73,7 +72,7 @@
                     <table class="table is-fullwidth">
                         <thead>
                             <tr>
-                                <th style="width: 24px; text-align: center;">#</th>
+                                <th class="medal-column">#</th>
                                 <th>@lang('leaderboards.name')</th>
                                 <th style="width: 30%;">@lang('leaderboards.amount')</th>
                             </tr>
@@ -83,9 +82,8 @@
                                 <tr>
                                     <td><x-index-medal :index="$index" /></td>
                                     <td style="vertical-align: middle;">
-                                        <div style="float: left; margin-right: 12px; width: 24px; height: 24px; border-radius: 50%; background-size: cover; background-position: center center;
-                                            background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
-                                        <label for="user-amount-{{ $index }}">{{ $user->name }}</label>
+                                        <div class="image is-small is-round is-inline" style="background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
+                                        {{ $user->name }}
                                     </td>
                                     <td><x-amount-format :amount="$user->amount" /></td>
                                 </tr>
@@ -96,8 +94,8 @@
             </div>
 
             <div class="column is-half">
-                <div class="box" style="height: 100%;">
-                    <h2 class="title is-4" style="text-align: center;">@lang('leaderboards.best_balance_header')</h2>
+                <div class="box">
+                    <h2 class="title is-4 has-text-centered">@lang('leaderboards.best_balance_header')</h2>
 
                     @php
                         $users = App\Models\User::where('deleted', false)->where('active', true)
@@ -107,7 +105,7 @@
                     <table class="table is-fullwidth">
                         <thead>
                             <tr>
-                                <th style="width: 24px; text-align: center;">#</th>
+                                <th class="medal-column">#</th>
                                 <th>@lang('leaderboards.name')</th>
                                 <th style="width: 30%;">@lang('leaderboards.balance')</th>
                             </tr>
@@ -117,9 +115,8 @@
                                 <tr>
                                     <td><x-index-medal :index="$index" /></td>
                                     <td style="vertical-align: middle;">
-                                        <div style="float: left; margin-right: 12px; width: 24px; height: 24px; border-radius: 50%; background-size: cover; background-position: center center;
-                                            background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
-                                        <label for="user-amount-{{ $index }}">{{ $user->name }}</label>
+                                        <div class="image is-small is-round is-inline" style="background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
+                                        {{ $user->name }}
                                     </td>
                                     <td><x-money-format :money="$user->balance" /></td>
                                 </tr>
@@ -130,8 +127,8 @@
             </div>
 
             <div class="column is-half">
-                <div class="box" style="height: 100%;">
-                    <h2 class="title is-4" style="text-align: center;">@lang('leaderboards.worst_balance_header')</h2>
+                <div class="box">
+                    <h2 class="title is-4 has-text-centered">@lang('leaderboards.worst_balance_header')</h2>
 
                     @php
                         $users = App\Models\User::where('deleted', false)->where('active', true)
@@ -141,7 +138,7 @@
                     <table class="table is-fullwidth">
                         <thead>
                             <tr>
-                                <th style="width: 24px; text-align: center;">#</th>
+                                <th class="medal-column">#</th>
                                 <th>@lang('leaderboards.name')</th>
                                 <th style="width: 30%;">@lang('leaderboards.balance')</th>
                             </tr>
@@ -151,9 +148,8 @@
                                 <tr>
                                     <td><x-index-medal :index="$index" /></td>
                                     <td style="vertical-align: middle;">
-                                        <div style="float: left; margin-right: 12px; width: 24px; height: 24px; border-radius: 50%; background-size: cover; background-position: center center;
-                                            background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
-                                        <label for="user-amount-{{ $index }}">{{ $user->name }}</label>
+                                        <div class="image is-small is-round is-inline" style="background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
+                                        {{ $user->name }}
                                     </td>
                                     <td><x-money-format :money="$user->balance" /></td>
                                 </tr>
@@ -182,13 +178,13 @@
             @endphp
 
             <div class="column is-half">
-                <div class="box" style="height: 100%;">
-                    <h2 class="title is-4" style="text-align: center;">@lang('leaderboards.best_spenders_header')</h2>
+                <div class="box">
+                    <h2 class="title is-4 has-text-centered">@lang('leaderboards.best_spenders_header')</h2>
 
                     <table class="table is-fullwidth">
                         <thead>
                             <tr>
-                                <th style="width: 24px; text-align: center;">#</th>
+                                <th class="medal-column">#</th>
                                 <th>@lang('leaderboards.name')</th>
                                 <th style="width: 30%;">@lang('leaderboards.amount')</th>
                             </tr>
@@ -198,9 +194,8 @@
                                 <tr>
                                     <td><x-index-medal :index="$index" /></td>
                                     <td style="vertical-align: middle;">
-                                        <div style="float: left; margin-right: 12px; width: 24px; height: 24px; border-radius: 50%; background-size: cover; background-position: center center;
-                                            background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
-                                        <label for="user-amount-{{ $index }}">{{ $user->name }}</label>
+                                        <div class="image is-small is-round is-inline" style="background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
+                                        {{ $user->name }}
                                     </td>
                                     <td><x-money-format :money="$user->spending" /></td>
                                 </tr>
@@ -211,13 +206,13 @@
             </div>
 
             <div class="column is-half">
-                <div class="box" style="height: 100%;">
-                    <h2 class="title is-4" style="text-align: center;">@lang('leaderboards.worst_spenders_header')</h2>
+                <div class="box">
+                    <h2 class="title is-4 has-text-centered">@lang('leaderboards.worst_spenders_header')</h2>
 
                     <table class="table is-fullwidth">
                         <thead>
                             <tr>
-                                <th style="width: 24px; text-align: center;">#</th>
+                                <th class="medal-column">#</th>
                                 <th>@lang('leaderboards.name')</th>
                                 <th style="width: 30%;">@lang('leaderboards.amount')</th>
                             </tr>
@@ -227,9 +222,8 @@
                                 <tr>
                                     <td><x-index-medal :index="$index" /></td>
                                     <td style="vertical-align: middle;">
-                                        <div style="float: left; margin-right: 12px; width: 24px; height: 24px; border-radius: 50%; background-size: cover; background-position: center center;
-                                            background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
-                                        <label for="user-amount-{{ $index }}">{{ $user->name }}</label>
+                                        <div class="image is-small is-round is-inline" style="background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
+                                        {{ $user->name }}
                                     </td>
                                     <td><x-money-format :money="$user->spending" /></td>
                                 </tr>

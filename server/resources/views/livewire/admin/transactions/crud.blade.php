@@ -123,8 +123,7 @@
                                 @foreach ($users as $index => $user)
                                     <tr>
                                         <td style="vertical-align: middle;">
-                                            <div style="float: left; margin-right: 12px; width: 24px; height: 24px; border-radius: 50%; background-size: cover; background-position: center center;
-                                                background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
+                                            <div class="image is-small is-round is-inline" style="background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
                                             <label for="user-amount-{{ $index }}">{{ $user->name }}</label>
                                         </td>
                                         <td>
@@ -206,8 +205,7 @@
                                 @foreach ($users as $index => $user)
                                     <tr>
                                         <td style="vertical-align: middle;">
-                                            <div style="float: left; margin-right: 12px; width: 24px; height: 24px; border-radius: 50%; background-size: cover; background-position: center center;
-                                                background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
+                                            <div class="image is-small is-round is-inline" style="background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
                                             <label for="user-amount-{{ $index }}">{{ $user->name }}</label>
                                         </td>
                                         <td>

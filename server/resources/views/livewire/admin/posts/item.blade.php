@@ -1,9 +1,9 @@
 <div class="column is-one-third">
-    <div class="card" style="display: flex; flex-direction: column; height: 100%; margin-bottom: 0; overflow: hidden;">
-        <div class="card-content content" style="flex: 1; margin-bottom: 0;">
+    <div class="card">
+        <div class="card-content content">
             <h4>{{ $post->title }}</h4>
             <p><i>@lang('admin/posts.item.written_by', ['user.name' => $post->user != null ? $post->user->name : '?', 'post.created_at' => $post->created_at->format('Y-m-d H:i')])</i></p>
-            <pre style="white-space: pre-wrap;">{{  Str::limit(str_replace(["\r", "\n"], '', $post->body), 240) }}</pre>
+            <pre>{{  Str::limit(str_replace(["\r", "\n"], '', $post->body), 240) }}</pre>
         </div>
 
         <div class="card-footer">

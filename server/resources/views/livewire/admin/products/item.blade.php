@@ -1,10 +1,9 @@
 <div class="column is-one-quarter">
-    <div class="card" style="display: flex; flex-direction: column; height: 100%; margin-bottom: 0; overflow: hidden;">
+    <div class="card">
         <div class="card-image">
-            <div class="image has-background-link" style="@if ($product->image != null) background-image: url(/storage/products/{{ $product->image }}); @endif
-                background-size: cover; background-position: center center; padding-top: 100%;"></div>
+            <div class="image is-square has-background-link" style="@if ($product->image != null) background-image: url(/storage/products/{{ $product->image }}); @endif"></div>
 
-            <div style="position: absolute; top: 8px; right: 8px;">
+            <div class="card-image-tags">
                 @if ($product->alcoholic)
                     <span class="tag is-danger">{{ Str::upper(__('admin/products.item.alcoholic')) }}</span>
                 @endif
@@ -15,8 +14,8 @@
             </div>
         </div>
 
-        <div class="card-content content" style="flex: 1; margin-bottom: 0;">
-            <h4 style="font-weight: normal;">
+        <div class="card-content content">
+            <h4 style="font-weight: 400;">
                 <span style="font-weight: 600;">{{ $product->name }}</span>: <x-money-format :money="$product->price" />
             </h4>
 
@@ -68,8 +67,8 @@
                             </p>
 
                             <h2 class="subtitle is-5">@lang('admin/products.item.image')</h2>
-                            <div class="box" style="width: 50%;">
-                                <div style="background-image: url(/storage/products/{{ $product->image != null ? $product->image : App\Models\Setting::get('default_product_image') }}); background-size: cover; background-position: center center; padding-top: 100%; border-radius: 6px;"></div>
+                            <div class="box not-fullheight" style="width: 50%;">
+                                <div class="image is-square is-rounded" style="background-image: url(/storage/products/{{ $product->image != null ? $product->image : App\Models\Setting::get('default_product_image') }});"></div>
                             </div>
 
                             <h2 class="subtitle is-5">@lang('admin/products.item.general_info')</h2>
@@ -155,7 +154,7 @@
                         <label class="label" for="image">@lang('admin/products.item.image')</label>
                         @if ($product->image != null)
                             <div class="box" style="width: 50%;">
-                                <div style="background-image: url(/storage/products/{{ $product->image }}); background-size: cover; background-position: center center; padding-top: 100%; border-radius: 6px;"></div>
+                                <div class="image is-square is-rounded" style="background-image: url(/storage/products/{{ $product->image }});"></div>
                             </div>
                         @endif
                     </div>

@@ -22,7 +22,7 @@
             </div>
 
             <div class="box" style="width: 75%;">
-                <div style="background-image: url(/storage/avatars/{{ App\Models\Setting::get('default_user_avatar') }}); background-size: cover; background-position: center center; padding-top: 100%; border-radius: 6px;"></div>
+                <div class="image is-square is-rounded" style="background-image: url(/storage/avatars/{{ App\Models\Setting::get('default_user_avatar') }});"></div>
             </div>
         @else
             <div class="field">
@@ -30,7 +30,7 @@
             </div>
 
             <div class="box" style="width: 75%;">
-                <div style="background-image: url(/storage/avatars/HTVCaQ5gXURDsl7GTdvfdpIPvqjdAmm5.jpg); background-size: cover; background-position: center center; padding-top: 100%; border-radius: 6px;"></div>
+                <div class="image is-square is-rounded" style="background-image: url(/storage/avatars/HTVCaQ5gXURDsl7GTdvfdpIPvqjdAmm5.jpg);"></div>
             </div>
         @endif
 

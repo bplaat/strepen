@@ -1,6 +1,6 @@
 <div class="column is-one-third">
-    <div class="card" style="display: flex; flex-direction: column; height: 100%; margin-bottom: 0; overflow: hidden;">
-        <div class="card-content content" style="flex: 1; margin-bottom: 0;">
+    <div class="card">
+        <div class="card-content content">
             <h4>{{ $inventory->name }}</h4>
             <p><i>@lang('admin/inventories.item.created_by', ['user.name' => $inventory->user != null ? $inventory->user->name : '?', 'inventory.created_at' => $inventory->created_at->format('Y-m-d H:i')])</i></p>
             <p>@lang('admin/inventories.item.price'): <x-money-format :money="$inventory->price" /></p>

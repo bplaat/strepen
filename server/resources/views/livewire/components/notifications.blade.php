@@ -15,7 +15,7 @@
                         @php
                             $transaction = App\Models\Transaction::find($notification->data['transaction_id']);
                         @endphp
-                        <h1 class="title is-6" style="width: 100%; line-height: 12px; margin-bottom: 4px;">
+                        <h1 class="title is-6 mb-1" style="width: 100%; line-height: 12px;">
                             @lang('components.notifications.new_deposit_header')
                             <button type="button" class="delete is-small is-pulled-right" wire:click.prevent="readNotification('{{ $notification->id }}')"></button>
                         </h1>
@@ -30,7 +30,7 @@
                         @php
                             $post = App\Models\Post::find($notification->data['post_id']);
                         @endphp
-                        <h1 class="title is-6" style="width: 100%; line-height: 12px; margin-bottom: 4px;">
+                        <h1 class="title is-6 mb-1" style="width: 100%; line-height: 12px;">
                             @lang('components.notifications.new_post_header')
                             <button type="button" class="delete is-small is-pulled-right" wire:click.prevent="readNotification('{{ $notification->id }}')"></button>
                         </h1>
@@ -41,7 +41,7 @@
                 @if ($notification->type == 'App\Notifications\LowBalance')
                     <a class="navbar-item" href="{{ route('balance') }}"
                         style="flex-direction: column; text-align: center; padding: 12px 16px;">
-                        <h1 class="title is-6" style="width: 100%; line-height: 12px; margin-bottom: 4px;">
+                        <h1 class="title is-6 mb-1" style="width: 100%; line-height: 12px;">
                             @lang('components.notifications.low_balance_header')
                             <button type="button" class="delete is-small is-pulled-right" wire:click.prevent="readNotification('{{ $notification->id }}')"></button>
                         </h1>

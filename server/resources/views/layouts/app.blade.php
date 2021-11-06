@@ -17,9 +17,7 @@
     @else
         <link rel="stylesheet" href="/css/bulma-dark.min.css">
     @endif
-    <style>
-    @media (min-width: 1024px) {.modal-card.is-large{width:75vw}}
-    </style>
+    <link rel="stylesheet" href="/css/style.css?v={{ config('app.version') }}">
     @livewireStyles
     @if (isset($chartjs))
         <script src="/js/chart.min.js"></script>
@@ -39,7 +37,7 @@
         </div>
     </div>
 
-    <script src="/js/script.js"></script>
+    <script src="/js/script.js?v={{ config('app.version') }}"></script>
     @livewireScripts
 </body>
 </html>

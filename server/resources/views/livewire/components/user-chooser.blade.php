@@ -8,20 +8,16 @@
                 wire:model="userName" id="userName" autocomplete="off" wire:keydown.enter.prevent="selectFirstUser"
                 wire:focus="$set('isOpen', true)" wire:blur="$set('isOpen', false)">
             <span class="icon is-small is-left">
-                <div style="width: 24px; height: 24px; border-radius: 50%; background-size: cover; background-position: center center;
-                    background-image: url(/storage/avatars/{{ $user != null && $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
+                <div class="image is-small is-round" style="background-image: url(/storage/avatars/{{ $user != null && $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
             </span>
         </div>
         <div class="dropdown-menu" style="width: 100%;">
             <div class="dropdown-content">
                 @if ($filteredUsers->count() > 0)
                     @foreach ($filteredUsers as $user)
-                        <a href="#" wire:click.prevent="selectUser({{ $user->id }})" class="dropdown-item" style="display: flex; align-items: center;">
-                            <div style="margin-right: 12px; width: 24px; height: 24px; border-radius: 50%; background-size: cover; background-position: center center;
-                                background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
-                            <div style="flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                {!! $userName != '' ? str_replace(' ', '&nbsp;', preg_replace('/(' . preg_quote($userName) . ')/i', '<b>$1</b>', $user->name)) : $user->name !!}
-                            </div>
+                        <a href="#" wire:click.prevent="selectUser({{ $user->id }})" class="dropdown-item">
+                            <div class="image is-small is-round is-inline" style="background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
+                            {!! $userName != '' ? str_replace(' ', '&nbsp;', preg_replace('/(' . preg_quote($userName) . ')/i', '<b>$1</b>', $user->name)) : $user->name !!}
                         </a>
                     @endforeach
                 @else

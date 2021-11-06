@@ -22,7 +22,7 @@
             </div>
 
             <div class="box" style="width: 75%;">
-                <div style="background-image: url(/storage/products/{{ App\Models\Setting::get('default_product_image') }}); background-size: cover; background-position: center center; padding-top: 100%; border-radius: 6px;"></div>
+                <div class="image is-square is-rounded" style="background-image: url(/storage/products/{{ App\Models\Setting::get('default_product_image') }});"></div>
             </div>
         @else
             <div class="field">
@@ -30,7 +30,7 @@
             </div>
 
             <div class="box" style="width: 75%;">
-                <div style="background-image: url(/storage/products/4RvFNOReec7O00D4F3os13M8kgPBHord.png); background-size: cover; background-position: center center; padding-top: 100%; border-radius: 6px;"></div>
+                <div class="image is-square is-rounded" style="background-image: url(/storage/products/4RvFNOReec7O00D4F3os13M8kgPBHord.png);"></div>
             </div>
         @endif
 

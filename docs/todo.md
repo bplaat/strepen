@@ -3,7 +3,6 @@
 # Todo List
 
 ## High priority (before launch)
-- Remove all inline styles to a proper stylesheet
 - Bug fixes / All the whishs from the Stam Bestuur
 
 ## Low priority (after launch)

@@ -1,4 +1,4 @@
-<div style="margin: 1.5em 0;">
+<div class="my-5">
     @if ($isChanged)
         <div class="notification is-success">
             <button class="delete" wire:click="$set('isChanged', false)"></button>

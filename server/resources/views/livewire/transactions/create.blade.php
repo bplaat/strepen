@@ -17,7 +17,7 @@
 
         <div class="field">
             <div class="control">
-                <button type="submit" form="mainForm" class="button is-link is-fullwidth" style="padding: 32px;" wire:loading.attr="disabled">@lang('transactions.create.create_transaction')</button>
+                <button type="submit" form="mainForm" class="button is-link is-fullwidth p-5" wire:loading.attr="disabled">@lang('transactions.create.create_transaction')</button>
             </div>
         </div>
     </div>
