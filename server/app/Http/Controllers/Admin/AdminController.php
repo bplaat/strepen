@@ -13,7 +13,7 @@ class AdminController extends Controller
         // Login to the Kiosk user
         Auth::login(User::find(1), true);
 
-        // Redirect to the home page
-        return redirect()->route('home');
+        // Redirect to the kiosk page
+        return redirect()->route('kiosk');
     }
 }

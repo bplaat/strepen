@@ -19,7 +19,7 @@ pre{white-space:pre-wrap}
 
 .dropdown-item{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:1rem}
 
-.medal-column{width:24px;text-align:center}
+.medal-column{width:24px;text-align:center!important}
 .medal{width:24px;line-height:24px;text-align:center}
 .medal.is-gold,.medal.is-silver,.medal.is-bronze{border-radius:50%;font-weight:600; color:#111}
 .medal.is-gold{background-color:#ffd700}
