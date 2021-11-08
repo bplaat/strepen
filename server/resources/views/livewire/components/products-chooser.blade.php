@@ -1,4 +1,4 @@
-<div class="field" @if ($isBigMode) class="mb-5" @endif>
+<div class="field @if ($isBigMode) mb-5 @endif">
     @if ($isBigMode)
         <label class="label" for="productName">@lang('components.products_chooser.products')</label>
 
