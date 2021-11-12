@@ -2,17 +2,24 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Inventory;
+use App\Models\Transaction;
 use Livewire\Component;
 
 class Leaderboards extends Component
 {
     public $range;
+    public $oldestItemDate;
     public $startDate;
 
     public $queryString = ['range' => ['except' => '']];
 
     public function mount()
     {
+        $firstTransaction = Transaction::where('deleted', false)->orderBy('created_at')->first();
+        $firstInventory = Inventory::where('deleted', false)->orderBy('created_at')->first();
+        $this->oldestItemDate = date('Y-m-d', min($firstTransaction->created_at->getTimestamp(), $firstInventory->created_at->getTimestamp()));
+
         if (
             $this->range != 'month_to_date' && $this->range != 'month' && $this->range != 'half_year' && $this->range != 'year' &&
             $this->range != 'two_year' && $this->range != 'five_year' && $this->range != 'everything'
@@ -27,7 +34,7 @@ class Leaderboards extends Component
             $this->startDate = date('Y-m-d', time() - 30 * 24 * 60 * 60);
         }
         if ($this->range == 'half_year') {
-            $this->startDate = date('Y-m-d', time() - 132 * 24 * 60 * 60);
+            $this->startDate = date('Y-m-d', time() - 182 * 24 * 60 * 60);
         }
         if ($this->range == null) {
             $this->startDate = date('Y-01-01');
@@ -42,7 +49,7 @@ class Leaderboards extends Component
             $this->startDate = date('Y-m-d', time() - 5 * 356 * 24 * 60 * 60);
         }
         if ($this->range == 'everything') {
-            $this->startDate = date('Y-m-d', 0);
+            $this->startDate = $this->oldestItemDate;
         }
     }
 

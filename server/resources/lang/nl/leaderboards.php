@@ -4,6 +4,7 @@ return [
     // Leaderboards component
     'title' => 'Leaderboards',
     'header' => 'Leaderboards',
+    'range_chooser_from' => 'vanaf',
     'range_chooser_month_to_date' => 'Deze maand',
     'range_chooser_month' => 'Laatste maand',
     'range_chooser_half_year' => 'Laatste half jaar',
@@ -12,7 +13,7 @@ return [
     'range_chooser_two_year' => 'Laatste twee jaar',
     'range_chooser_five_year' => 'Laatste vijf jaar',
     'range_chooser_everything' => 'Altijd',
-    'select' => 'Select',
+    'select' => 'Selecteren',
     'best_beer_header' => 'Meeste biertjes',
     'best_soda_header' => 'Meeste frisdrankjes',
     'best_snack_header' => 'Meeste snacks',

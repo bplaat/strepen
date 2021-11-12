@@ -9,14 +9,14 @@
                     <div class="control" style="width: 100%;">
                         <div class="select is-fullwidth">
                             <select wire:model.defer="range">
-                                <option value="month_to_date">@lang('leaderboards.range_chooser_month_to_date')</option>
-                                <option value="month">@lang('leaderboards.range_chooser_month')</option>
-                                <option value="half_year">@lang('leaderboards.range_chooser_half_year')</option>
-                                <option value="null">@lang('leaderboards.range_chooser_year_to_date')</option>
-                                <option value="year">@lang('leaderboards.range_chooser_year')</option>
-                                <option value="two_year">@lang('leaderboards.range_chooser_two_year')</option>
-                                <option value="five_year">@lang('leaderboards.range_chooser_five_year')</option>
-                                <option value="everything">@lang('leaderboards.range_chooser_everything')</option>
+                                <option value="month_to_date">@lang('leaderboards.range_chooser_month_to_date') (@lang('leaderboards.range_chooser_from') {{ date('Y-m-01') }})</option>
+                                <option value="month">@lang('leaderboards.range_chooser_month') (@lang('leaderboards.range_chooser_from') {{ date('Y-m-d', time() - 30 * 24 * 60 * 60) }})</option>
+                                <option value="half_year">@lang('leaderboards.range_chooser_half_year') (@lang('leaderboards.range_chooser_from') {{ date('Y-m-d', time() - 182 * 24 * 60 * 60) }})</option>
+                                <option value="null">@lang('leaderboards.range_chooser_year_to_date') (@lang('leaderboards.range_chooser_from') {{ date('Y-01-01') }})</option>
+                                <option value="year">@lang('leaderboards.range_chooser_year') (@lang('leaderboards.range_chooser_from') {{ date('Y-m-d', time() - 365 * 24 * 60 * 60) }})</option>
+                                <option value="two_year">@lang('leaderboards.range_chooser_two_year') (@lang('leaderboards.range_chooser_from') {{ date('Y-m-d', time() - 2 * 365 * 24 * 60 * 60) }})</option>
+                                <option value="five_year">@lang('leaderboards.range_chooser_five_year') (@lang('leaderboards.range_chooser_from') {{ date('Y-m-d', time() - 5 * 365 * 24 * 60 * 60) }})</option>
+                                <option value="everything">@lang('leaderboards.range_chooser_everything') (@lang('leaderboards.range_chooser_from') {{ $oldestItemDate }})</option>
                             </select>
                         </div>
                     </div>

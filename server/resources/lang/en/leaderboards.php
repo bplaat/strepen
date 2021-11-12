@@ -4,6 +4,7 @@ return [
     // Leaderboards component
     'title' => 'Leaderboards',
     'header' => 'Leaderboards',
+    'range_chooser_from' => 'from',
     'range_chooser_month_to_date' => 'This month',
     'range_chooser_month' => 'Last month',
     'range_chooser_half_year' => 'Last half year',
