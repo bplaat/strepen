@@ -6,39 +6,42 @@ use Livewire\Component;
 
 class Leaderboards extends Component
 {
-    public $type;
+    public $range;
     public $startDate;
 
-    public $queryString = ['type' => ['except' => '']];
+    public $queryString = ['range' => ['except' => '']];
 
     public function mount()
     {
         if (
-            $this->type != 'month' && $this->type != 'half_year' && $this->type != 'year' &&
-            $this->type != 'two_year' && $this->type != 'five_year' && $this->type != 'everything'
+            $this->range != 'month_to_date' && $this->range != 'month' && $this->range != 'half_year' && $this->range != 'year' &&
+            $this->range != 'two_year' && $this->range != 'five_year' && $this->range != 'everything'
         ) {
-            $this->type = null;
+            $this->range = null;
         }
 
-        if ($this->type == 'month') {
+        if ($this->range == 'month_to_date') {
             $this->startDate = date('Y-m-01');
         }
-        if ($this->type == 'half_year') {
-            $this->startDate = date('Y-m-d', time() - ceil(356 / 2) * 24 * 60 * 60);
+        if ($this->range == 'month') {
+            $this->startDate = date('Y-m-d', time() - 30 * 24 * 60 * 60);
         }
-        if ($this->type == null) {
+        if ($this->range == 'half_year') {
+            $this->startDate = date('Y-m-d', time() - 132 * 24 * 60 * 60);
+        }
+        if ($this->range == null) {
             $this->startDate = date('Y-01-01');
         }
-        if ($this->type == 'year') {
+        if ($this->range == 'year') {
             $this->startDate = date('Y-m-d', time() - 356 * 24 * 60 * 60);
         }
-        if ($this->type == 'two_year') {
+        if ($this->range == 'two_year') {
             $this->startDate = date('Y-m-d', time() - 2 * 356 * 24 * 60 * 60);
         }
-        if ($this->type == 'five_year') {
+        if ($this->range == 'five_year') {
             $this->startDate = date('Y-m-d', time() - 5 * 356 * 24 * 60 * 60);
         }
-        if ($this->type == 'everything') {
+        if ($this->range == 'everything') {
             $this->startDate = date('Y-m-d', 0);
         }
     }

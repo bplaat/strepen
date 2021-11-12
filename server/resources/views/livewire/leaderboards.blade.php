@@ -8,14 +8,15 @@
                 <div class="field has-addons is-block-mobile">
                     <div class="control" style="width: 100%;">
                         <div class="select is-fullwidth">
-                            <select wire:model.defer="type">
-                                <option value="month">@lang('leaderboards.type_chooser_month')</option>
-                                <option value="half_year">@lang('leaderboards.type_chooser_half_year')</option>
-                                <option value="null">@lang('leaderboards.type_chooser_year_to_date')</option>
-                                <option value="year">@lang('leaderboards.type_chooser_year')</option>
-                                <option value="two_year">@lang('leaderboards.type_chooser_two_year')</option>
-                                <option value="five_year">@lang('leaderboards.type_chooser_five_year')</option>
-                                <option value="everything">@lang('leaderboards.type_chooser_everything')</option>
+                            <select wire:model.defer="range">
+                                <option value="month_to_date">@lang('leaderboards.range_chooser_month_to_date')</option>
+                                <option value="month">@lang('leaderboards.range_chooser_month')</option>
+                                <option value="half_year">@lang('leaderboards.range_chooser_half_year')</option>
+                                <option value="null">@lang('leaderboards.range_chooser_year_to_date')</option>
+                                <option value="year">@lang('leaderboards.range_chooser_year')</option>
+                                <option value="two_year">@lang('leaderboards.range_chooser_two_year')</option>
+                                <option value="five_year">@lang('leaderboards.range_chooser_five_year')</option>
+                                <option value="everything">@lang('leaderboards.range_chooser_everything')</option>
                             </select>
                         </div>
                     </div>
@@ -45,6 +46,7 @@
                                 ->sum('amount');
                             return $user;
                         })
+                        ->sortBy('sortName')
                         ->sortByDesc('amount')->values()
                         ->slice(0, 10);
                 @endphp
@@ -54,7 +56,15 @@
                         <tr>
                             <th class="medal-column">#</th>
                             <th>@lang('leaderboards.name')</th>
-                            <th style="width: 30%;">@lang('leaderboards.amount')</th>
+                            <th style="width: @if ($range != 'month_to_date' && $range != 'month') 20% @else 40% @endif;">
+                                @lang('leaderboards.amount')
+                            </th>
+                            @if ($range == 'half_year' || $range == null || $range == 'year')
+                                <th style="width: 20%;">@lang('leaderboards.change_month')</th>
+                            @endif
+                            @if ($range == 'two_year' || $range == 'five_year' || $range == 'everything')
+                                <th style="width: 20%;">@lang('leaderboards.change_year')</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -66,6 +76,30 @@
                                     {{ $user->name }}
                                 </td>
                                 <td><x-amount-format :amount="$user->amount" /></td>
+
+                                @if ($range == 'half_year' || $range == null || $range == 'year')
+                                    <td>
+                                        <x-change-format :change="DB::table('transaction_product')
+                                            ->join('transactions', 'transactions.id', 'transaction_id')
+                                            ->where('deleted', false)
+                                            ->where('user_id', $user->id)
+                                            ->where('product_id', $beerProductId)
+                                            ->where('transactions.created_at', '>=', date('Y-m-d', time() - 30 * 24 * 60 * 60))
+                                            ->sum('amount')" />
+                                    </td>
+                                @endif
+
+                                @if ($range == 'two_year' || $range == 'five_year' || $range == 'everything')
+                                    <td>
+                                        <x-change-format :change="DB::table('transaction_product')
+                                            ->join('transactions', 'transactions.id', 'transaction_id')
+                                            ->where('deleted', false)
+                                            ->where('user_id', $user->id)
+                                            ->where('product_id', $beerProductId)
+                                            ->where('transactions.created_at', '>=', date('Y-m-d', time() - 365 * 24 * 60 * 60))
+                                            ->sum('amount')" />
+                                    </td>
+                                @endif
                             </tr>
                         @endforeach
                     </tbody>
@@ -90,6 +124,7 @@
                                 ->sum('amount');
                             return $user;
                         })
+                        ->sortBy('sortName')
                         ->sortByDesc('amount')->values()
                         ->slice(0, 10);
                 @endphp
@@ -99,7 +134,15 @@
                         <tr>
                             <th class="medal-column">#</th>
                             <th>@lang('leaderboards.name')</th>
-                            <th style="width: 30%;">@lang('leaderboards.amount')</th>
+                            <th style="width: @if ($range != 'month_to_date' && $range != 'month') 20% @else 40% @endif;">
+                                @lang('leaderboards.amount')
+                            </th>
+                            @if ($range == 'half_year' || $range == null || $range == 'year')
+                                <th style="width: 20%;">@lang('leaderboards.change_month')</th>
+                            @endif
+                            @if ($range == 'two_year' || $range == 'five_year' || $range == 'everything')
+                                <th style="width: 20%;">@lang('leaderboards.change_year')</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -111,6 +154,30 @@
                                     {{ $user->name }}
                                 </td>
                                 <td><x-amount-format :amount="$user->amount" /></td>
+
+                                @if ($range == 'half_year' || $range == null || $range == 'year')
+                                    <td>
+                                        <x-change-format :change="DB::table('transaction_product')
+                                            ->join('transactions', 'transactions.id', 'transaction_id')
+                                            ->where('deleted', false)
+                                            ->where('user_id', $user->id)
+                                            ->where('product_id', $sodaProductId)
+                                            ->where('transactions.created_at', '>=', date('Y-m-d', time() - 30 * 24 * 60 * 60))
+                                            ->sum('amount')" />
+                                    </td>
+                                @endif
+
+                                @if ($range == 'two_year' || $range == 'five_year' || $range == 'everything')
+                                    <td>
+                                        <x-change-format :change="DB::table('transaction_product')
+                                            ->join('transactions', 'transactions.id', 'transaction_id')
+                                            ->where('deleted', false)
+                                            ->where('user_id', $user->id)
+                                            ->where('product_id', $sodaProductId)
+                                            ->where('transactions.created_at', '>=', date('Y-m-d', time() - 365 * 24 * 60 * 60))
+                                            ->sum('amount')" />
+                                    </td>
+                                @endif
                             </tr>
                         @endforeach
                     </tbody>
@@ -126,7 +193,7 @@
                 @php
                     $candybarProductId = 3; // Weird constant
                     $chipsProductId = 4; // Weird constant
-                    $sodaUsers = App\Models\User::where('deleted', false)->where('active', true)->get()
+                    $snackUsers = App\Models\User::where('deleted', false)->where('active', true)->get()
                         ->map(function ($user) use ($candybarProductId, $chipsProductId, $startDate) { // Very slow
                             $user->amount = DB::table('transaction_product')
                                 ->join('transactions', 'transactions.id', 'transaction_id')
@@ -140,6 +207,7 @@
                                 ->sum('amount');
                             return $user;
                         })
+                        ->sortBy('sortName')
                         ->sortByDesc('amount')->values()
                         ->slice(0, 10);
                 @endphp
@@ -149,11 +217,19 @@
                         <tr>
                             <th class="medal-column">#</th>
                             <th>@lang('leaderboards.name')</th>
-                            <th style="width: 30%;">@lang('leaderboards.amount')</th>
+                            <th style="width: @if ($range != 'month_to_date' && $range != 'month') 20% @else 40% @endif;">
+                                @lang('leaderboards.amount')
+                            </th>
+                            @if ($range == 'half_year' || $range == null || $range == 'year')
+                                <th style="width: 20%;">@lang('leaderboards.change_month')</th>
+                            @endif
+                            @if ($range == 'two_year' || $range == 'five_year' || $range == 'everything')
+                                <th style="width: 20%;">@lang('leaderboards.change_year')</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($sodaUsers as $index => $user)
+                        @foreach ($snackUsers as $index => $user)
                             <tr>
                                 <td><x-index-medal :index="$index" /></td>
                                 <td style="vertical-align: middle;">
@@ -161,6 +237,36 @@
                                     {{ $user->name }}
                                 </td>
                                 <td><x-amount-format :amount="$user->amount" /></td>
+
+                                @if ($range == 'half_year' || $range == null || $range == 'year')
+                                    <td>
+                                        <x-change-format :change="DB::table('transaction_product')
+                                            ->join('transactions', 'transactions.id', 'transaction_id')
+                                            ->where('deleted', false)
+                                            ->where('user_id', $user->id)
+                                            ->where(function ($query) use ($candybarProductId, $chipsProductId) {
+                                                $query->where('product_id', $candybarProductId)
+                                                    ->orWhere('product_id', $chipsProductId);
+                                            })
+                                            ->where('transactions.created_at', '>=', date('Y-m-d', time() - 30 * 24 * 60 * 60))
+                                            ->sum('amount')" />
+                                    </td>
+                                @endif
+
+                                @if ($range == 'two_year' || $range == 'five_year' || $range == 'everything')
+                                    <td>
+                                        <x-change-format :change="DB::table('transaction_product')
+                                            ->join('transactions', 'transactions.id', 'transaction_id')
+                                            ->where('deleted', false)
+                                            ->where('user_id', $user->id)
+                                            ->where(function ($query) use ($candybarProductId, $chipsProductId) {
+                                                $query->where('product_id', $candybarProductId)
+                                                    ->orWhere('product_id', $chipsProductId);
+                                            })
+                                            ->where('transactions.created_at', '>=', date('Y-m-d', time() - 365 * 24 * 60 * 60))
+                                            ->sum('amount')" />
+                                    </td>
+                                @endif
                             </tr>
                         @endforeach
                     </tbody>
@@ -189,7 +295,10 @@
                                 ->where('transactions.created_at', '>=', $startDate)
                                 ->sum('price');
                             return $user;
-                        });
+                        })
+                        ->sortBy('sortName')
+                        ->sortByDesc('spending')->values()
+                        ->slice(0, 10);
                 @endphp
 
                 <table class="table is-fullwidth">
@@ -197,11 +306,19 @@
                         <tr>
                             <th class="medal-column">#</th>
                             <th>@lang('leaderboards.name')</th>
-                            <th style="width: 30%;">@lang('leaderboards.amount')</th>
+                            <th style="width: @if ($range != 'month_to_date' && $range != 'month') 20% @else 40% @endif;">
+                                @lang('leaderboards.cost')
+                            </th>
+                            @if ($range == 'half_year' || $range == null || $range == 'year')
+                                <th style="width: 20%;">@lang('leaderboards.change_month')</th>
+                            @endif
+                            @if ($range == 'two_year' || $range == 'five_year' || $range == 'everything')
+                                <th style="width: 20%;">@lang('leaderboards.change_year')</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($spendingUsers->sortByDesc('spending')->values()->slice(0, 10) as $index => $user)
+                        @foreach ($spendingUsers as $index => $user)
                             <tr>
                                 <td><x-index-medal :index="$index" /></td>
                                 <td style="vertical-align: middle;">
@@ -209,6 +326,42 @@
                                     {{ $user->name }}
                                 </td>
                                 <td><x-money-format :money="$user->spending" /></td>
+
+                                @if ($range == 'half_year' || $range == null || $range == 'year')
+                                    <td>
+                                        <x-change-format :change="DB::table('transactions')
+                                            ->where('deleted', false)
+                                            ->where('user_id', $user->id)
+                                            ->where('type', App\Models\Transaction::TYPE_TRANSACTION)
+                                            ->where('created_at', '>=', date('Y-m-d', time() - 30 * 24 * 60 * 60))
+                                            ->sum('price')
+                                            + DB::table('transactions')
+                                            ->where('deleted', false)
+                                            ->where('user_id', $user->id)
+                                            ->where('type', App\Models\Transaction::TYPE_FOOD)
+                                            ->where('price', '>', 0)
+                                            ->where('created_at', '>=', date('Y-m-d', time() - 30 * 24 * 60 * 60))
+                                            ->sum('price')" isMoney="true" />
+                                    </td>
+                                @endif
+
+                                @if ($range == 'two_year' || $range == 'five_year' || $range == 'everything')
+                                    <td>
+                                        <x-change-format :change="DB::table('transactions')
+                                            ->where('deleted', false)
+                                            ->where('user_id', $user->id)
+                                            ->where('type', App\Models\Transaction::TYPE_TRANSACTION)
+                                            ->where('created_at', '>=', date('Y-m-d', time() - 365 * 24 * 60 * 60))
+                                            ->sum('price')
+                                            + DB::table('transactions')
+                                            ->where('deleted', false)
+                                            ->where('user_id', $user->id)
+                                            ->where('type', App\Models\Transaction::TYPE_FOOD)
+                                            ->where('price', '>', 0)
+                                            ->where('created_at', '>=', date('Y-m-d', time() - 365 * 24 * 60 * 60))
+                                            ->sum('price')" isMoney="true" />
+                                    </td>
+                                @endif
                             </tr>
                         @endforeach
                     </tbody>
@@ -230,7 +383,15 @@
                         <tr>
                             <th class="medal-column">#</th>
                             <th>@lang('leaderboards.name')</th>
-                            <th style="width: 30%;">@lang('leaderboards.balance')</th>
+                            <th style="width: @if ($range != 'month_to_date' && $range != 'month') 20% @else 40% @endif;">
+                                @lang('leaderboards.balance')
+                            </th>
+                            @if ($range == 'half_year' || $range == null || $range == 'year')
+                                <th style="width: 20%;">@lang('leaderboards.change_month')</th>
+                            @endif
+                            @if ($range == 'two_year' || $range == 'five_year' || $range == 'everything')
+                                <th style="width: 20%;">@lang('leaderboards.change_year')</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -242,6 +403,48 @@
                                     {{ $user->name }}
                                 </td>
                                 <td><x-money-format :money="$user->balance" /></td>
+
+                                @if ($range == 'half_year' || $range == null || $range == 'year')
+                                    <td>
+                                        <x-change-format :change="DB::table('transactions')
+                                            ->where('deleted', false)
+                                            ->where('user_id', $user->id)
+                                            ->where('type', App\Models\Transaction::TYPE_DEPOSIT)
+                                            ->where('created_at', '>=', date('Y-m-d', time() - 30 * 24 * 60 * 60))
+                                            ->sum('price')
+                                            -
+                                            DB::table('transactions')
+                                            ->where('deleted', false)
+                                            ->where('user_id', $user->id)
+                                            ->where(function ($query) {
+                                                $query->where('type', App\Models\Transaction::TYPE_TRANSACTION)
+                                                    ->orWhere('type', App\Models\Transaction::TYPE_FOOD);
+                                            })
+                                            ->where('created_at', '>=', date('Y-m-d', time() - 30 * 24 * 60 * 60))
+                                            ->sum('price')" isMoney="true" />
+                                    </td>
+                                @endif
+
+                                @if ($range == 'two_year' || $range == 'five_year' || $range == 'everything')
+                                    <td>
+                                        <x-change-format :change="DB::table('transactions')
+                                            ->where('deleted', false)
+                                            ->where('user_id', $user->id)
+                                            ->where('type', App\Models\Transaction::TYPE_DEPOSIT)
+                                            ->where('created_at', '>=', date('Y-m-d', time() - 365 * 24 * 60 * 60))
+                                            ->sum('price')
+                                            -
+                                            DB::table('transactions')
+                                            ->where('deleted', false)
+                                            ->where('user_id', $user->id)
+                                            ->where(function ($query) {
+                                                $query->where('type', App\Models\Transaction::TYPE_TRANSACTION)
+                                                    ->orWhere('type', App\Models\Transaction::TYPE_FOOD);
+                                            })
+                                            ->where('created_at', '>=', date('Y-m-d', time() - 365 * 24 * 60 * 60))
+                                            ->sum('price')" isMoney="true" />
+                                    </td>
+                                @endif
                             </tr>
                         @endforeach
                     </tbody>
@@ -263,7 +466,15 @@
                         <tr>
                             <th class="medal-column">#</th>
                             <th>@lang('leaderboards.name')</th>
-                            <th style="width: 30%;">@lang('leaderboards.balance')</th>
+                            <th style="width: @if ($range != 'month_to_date' && $range != 'month') 20% @else 40% @endif;">
+                                @lang('leaderboards.balance')
+                            </th>
+                            @if ($range == 'half_year' || $range == null || $range == 'year')
+                                <th style="width: 20%;">@lang('leaderboards.change_month')</th>
+                            @endif
+                            @if ($range == 'two_year' || $range == 'five_year' || $range == 'everything')
+                                <th style="width: 20%;">@lang('leaderboards.change_year')</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -275,6 +486,48 @@
                                     {{ $user->name }}
                                 </td>
                                 <td><x-money-format :money="$user->balance" /></td>
+
+                                @if ($range == 'half_year' || $range == null || $range == 'year')
+                                    <td>
+                                        <x-change-format :change="DB::table('transactions')
+                                            ->where('deleted', false)
+                                            ->where('user_id', $user->id)
+                                            ->where('type', App\Models\Transaction::TYPE_DEPOSIT)
+                                            ->where('created_at', '>=', date('Y-m-d', time() - 30 * 24 * 60 * 60))
+                                            ->sum('price')
+                                            -
+                                            DB::table('transactions')
+                                            ->where('deleted', false)
+                                            ->where('user_id', $user->id)
+                                            ->where(function ($query) {
+                                                $query->where('type', App\Models\Transaction::TYPE_TRANSACTION)
+                                                    ->orWhere('type', App\Models\Transaction::TYPE_FOOD);
+                                            })
+                                            ->where('created_at', '>=', date('Y-m-d', time() - 30 * 24 * 60 * 60))
+                                            ->sum('price')" isMoney="true" />
+                                    </td>
+                                @endif
+
+                                @if ($range == 'two_year' || $range == 'five_year' || $range == 'everything')
+                                    <td>
+                                        <x-change-format :change="DB::table('transactions')
+                                            ->where('deleted', false)
+                                            ->where('user_id', $user->id)
+                                            ->where('type', App\Models\Transaction::TYPE_DEPOSIT)
+                                            ->where('created_at', '>=', date('Y-m-d', time() - 365 * 24 * 60 * 60))
+                                            ->sum('price')
+                                            -
+                                            DB::table('transactions')
+                                            ->where('deleted', false)
+                                            ->where('user_id', $user->id)
+                                            ->where(function ($query) {
+                                                $query->where('type', App\Models\Transaction::TYPE_TRANSACTION)
+                                                    ->orWhere('type', App\Models\Transaction::TYPE_FOOD);
+                                            })
+                                            ->where('created_at', '>=', date('Y-m-d', time() - 365 * 24 * 60 * 60))
+                                            ->sum('price')" isMoney="true" />
+                                    </td>
+                                @endif
                             </tr>
                         @endforeach
                     </tbody>
