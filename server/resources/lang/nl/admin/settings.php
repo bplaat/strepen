@@ -17,8 +17,8 @@ return [
 
     // Change avatar form
     'change_default_avatar.header' => 'Standaard avatar wijzigen',
-    'change_default_avatar.has_avatar' => 'U hebt een standaard avatar geüpload:',
-    'change_default_avatar.no_avatar' => 'U hebt geen standaard avatar geüpload, dus de standaard avatar wordt gebruikt:',
+    'change_default_avatar.has_avatar' => 'U heeft een standaard avatar geüpload:',
+    'change_default_avatar.no_avatar' => 'U heeft geen standaard avatar geüpload, dus de standaard avatar wordt gebruikt:',
     'change_default_avatar.avatar' => 'Standaard avatar afbeelding',
     'change_default_avatar.avatar_help' => 'U kunt een vierkante .jpg of .png afbeelding uploaden',
     'change_default_avatar.change_button' => 'Standaard avatar wijzigen',
@@ -28,8 +28,8 @@ return [
 
     // Change thanks form
     'change_default_thanks.header' => 'Standaard bedankt gif wijzigen',
-    'change_default_thanks.has_thanks' => 'U hebt een standaard bedank-gif geüpload:',
-    'change_default_thanks.no_thanks' => 'U hebt geen standaard gif geupload, dus de standaard gif wordt gebruikt:',
+    'change_default_thanks.has_thanks' => 'U heeft een standaard bedank-gif geüpload:',
+    'change_default_thanks.no_thanks' => 'U heeft geen standaard gif geupload, dus de standaard gif wordt gebruikt:',
     'change_default_thanks.thanks' => 'Standaard bedankt gif',
     'change_default_thanks.thanks_help' => 'U kunt een vierkante .gif-afbeelding uploaden',
     'change_default_thanks.change_button' => 'Wijzig standaard bedankt gif',
@@ -39,8 +39,8 @@ return [
 
     // Change product image form
     'change_default_product_image.header' => 'Standaard product afbeelding wijzigen',
-    'change_default_product_image.has_image' => 'U hebt een standaard product afbeelding geüpload:',
-    'change_default_product_image.no_image' => 'U hebt geen standaard product afbeelding geüpload, dus de standaardafbeelding wordt gebruikt:',
+    'change_default_product_image.has_image' => 'U heeft een standaard product afbeelding geüpload:',
+    'change_default_product_image.no_image' => 'U heeft geen standaard product afbeelding geüpload, dus de standaardafbeelding wordt gebruikt:',
     'change_default_product_image.image' => 'Standaard product afbeelding',
     'change_default_product_image.image_help' => 'U kunt een vierkante .jpg of .png afbeelding uploaden',
     'change_default_product_image.change_button' => 'Standaard product afbeelding wijzigen',

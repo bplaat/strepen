@@ -9,7 +9,7 @@ return [
     'notifications.empty' => 'Geen ongelezen notificaties',
 
     'notifications.new_deposit_header' => 'Nieuwe storting',
-    'notifications.new_deposit_start' => 'U hebt een nieuwe storting ontvangen<br>van',
+    'notifications.new_deposit_start' => 'U heeft een nieuwe storting ontvangen<br>van',
     'notifications.new_deposit_end' => 'op',
 
     'notifications.new_post_header' => 'Nieuw nieuws bericht',

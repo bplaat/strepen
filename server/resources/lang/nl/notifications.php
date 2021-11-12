@@ -8,7 +8,7 @@ return [
     'unread' => 'Ongelezen',
 
     'new_deposit_header' => 'Nieuwe storting',
-    'new_deposit_start' => 'U hebt een nieuwe storting van ontvangen',
+    'new_deposit_start' => 'U heeft een nieuwe storting van ontvangen',
     'new_deposit_end' => 'op',
 
     'new_post_header' => 'Nieuw nieuws bericht',
