@@ -7,7 +7,7 @@ Route::get('/', App\Http\Livewire\Home::class)->name('home');
 
 // Auth routes
 Route::middleware('auth')->group(function () {
-    Route::view('/leaderboards', 'leaderboards')->name('leaderboards');
+    Route::get('/leaderboards', App\Http\Livewire\Leaderboards::class)->name('leaderboards');
 });
 
 // Normal routes
