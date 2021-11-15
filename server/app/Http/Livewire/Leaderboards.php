@@ -3,11 +3,13 @@
 namespace App\Http\Livewire;
 
 use App\Models\Inventory;
+use App\Models\Setting;
 use App\Models\Transaction;
 use Livewire\Component;
 
 class Leaderboards extends Component
 {
+    public $enabled;
     public $range;
     public $oldestItemDate;
     public $startDate;
@@ -16,6 +18,8 @@ class Leaderboards extends Component
 
     public function mount()
     {
+        $this->enabled = Setting::get('leaderboards_enabled') == 'true';
+
         $firstTransaction = Transaction::where('deleted', false)->orderBy('created_at')->first();
         $firstInventory = Inventory::where('deleted', false)->orderBy('created_at')->first();
         $this->oldestItemDate = date('Y-m-d', min($firstTransaction->created_at->getTimestamp(), $firstInventory->created_at->getTimestamp()));

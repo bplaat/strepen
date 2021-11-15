@@ -26,5 +26,7 @@ return [
     'change_month' => '&#9650;\&#9660; Month',
     'change_year' => '&#9650;\&#9660; Year',
     'cost' => 'Cost',
-    'balance' => 'Balance'
+    'balance' => 'Balance',
+    'disabled_header' => 'Leaderboards are disabled',
+    'disabled_info' => 'Your admins has disabled the leaderboards page for the moment'
 ];

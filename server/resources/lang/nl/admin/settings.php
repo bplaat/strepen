@@ -12,6 +12,8 @@ return [
     'change_settings.minor_age' => 'Minderjarige leeftijd (in jaren)',
     'change_settings.pagination_rows' => 'Paginatie hoeveel regels',
     'change_settings.kiosk_ip_whitelist' => 'Kioskmodus IP-whitelist (voor toegang tot de kioskmodus zonder inlog)',
+    'change_settings.leaderboards_enabled' => 'Leaderboards pagina inschakelen',
+    'change_settings.leaderboards_enabled_info' => 'Schakel de leaderboards pagina in zodat iedereen deze kan zien',
     'change_settings.button' => 'Wijzig instellingen',
     'change_settings.success_message' => 'Uw algemene instellingen zijn gewijzigd',
 

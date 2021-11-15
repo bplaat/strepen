@@ -57,6 +57,14 @@
         </div>
 
         <div class="field">
+            <label class="label" for="leaderboardsEnabled">@lang('admin/settings.change_settings.leaderboards_enabled')</label>
+            <label class="checkbox" for="leaderboardsEnabled">
+                <input type="checkbox" id="leaderboardsEnabled" wire:model.defer="leaderboardsEnabled">
+                @lang('admin/settings.change_settings.leaderboards_enabled_info')
+            </label>
+        </div>
+
+        <div class="field">
             <div class="control">
                 <button class="button is-link" type="submit">@lang('admin/settings.change_settings.button')</button>
             </div>

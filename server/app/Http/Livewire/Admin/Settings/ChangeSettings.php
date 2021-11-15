@@ -20,6 +20,7 @@ class ChangeSettings extends Component
         'minorAge' => 'required|integer|min:1',
         'paginationRows' => 'required|integer|min:1|max:10',
         'kioskIpWhitelist' => 'nullable|min:7',
+        'leaderboardsEnabled' => 'nullable|boolean'
     ];
 
     public function mount()
@@ -29,6 +30,7 @@ class ChangeSettings extends Component
         $this->minorAge = Setting::get('minor_age');
         $this->paginationRows = Setting::get('pagination_rows');
         $this->kioskIpWhitelist = Setting::get('kiosk_ip_whitelist');
+        $this->leaderboardsEnabled = Setting::get('leaderboards_enabled') == 'true';
     }
 
     public function changeDetails()
@@ -39,6 +41,7 @@ class ChangeSettings extends Component
         Setting::set('minor_age', $this->minorAge);
         Setting::set('pagination_rows', $this->paginationRows);
         Setting::set('kiosk_ip_whitelist', $this->kioskIpWhitelist);
+        Setting::set('leaderboards_enabled', $this->leaderboardsEnabled == true ? 'true' : 'false');
         $this->isChanged = true;
     }
 

@@ -87,6 +87,11 @@ class DatabaseSeeder extends Seeder
         $setting->value = '4RvFNOReec7O00D4F3os13M8kgPBHord.png';
         $setting->save();
 
+        $setting = new Setting();
+        $setting->key = 'leaderboards_enabled';
+        $setting->value = 'true';
+        $setting->save();
+
         // Create 50 random users
         // User::factory(50)->create();
     }
