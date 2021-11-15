@@ -19,7 +19,7 @@
                         <div class="card-content content">
                             <h4>{{ $transaction->name }}</h4>
 
-                            @if ($transaction->type == \App\Models\Transaction::TYPE_TRANSACTION)
+                            @if ($transaction->type == App\Models\Transaction::TYPE_TRANSACTION)
                                 <p><i>@lang('transactions.history.transaction_from', ['transaction.created_at' => $transaction->created_at->format('Y-m-d H:i')])</i></p>
                                 <p>@lang('transactions.history.cost'): <x-money-format :money="$transaction->price" /></p>
                                 <ul>
@@ -29,12 +29,12 @@
                                 </ul>
                             @endif
 
-                            @if ($transaction->type == \App\Models\Transaction::TYPE_DEPOSIT)
+                            @if ($transaction->type == App\Models\Transaction::TYPE_DEPOSIT)
                                 <p><i>@lang('transactions.history.deposit_for', ['transaction.created_at' => $transaction->created_at->format('Y-m-d H:i')])</i></p>
                                 <p>@lang('transactions.history.amount'): <x-money-format :money="$transaction->price" /></p>
                             @endif
 
-                            @if ($transaction->type == \App\Models\Transaction::TYPE_FOOD)
+                            @if ($transaction->type == App\Models\Transaction::TYPE_FOOD)
                                 <p><i>@lang('transactions.history.food_for', ['transaction.created_at' => $transaction->created_at->format('Y-m-d H:i')])</i></p>
                                 <p>@lang('transactions.history.amount'): <x-money-format :money="$transaction->price" /></p>
                             @endif

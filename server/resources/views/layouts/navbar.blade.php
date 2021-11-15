@@ -1,5 +1,5 @@
 @php
-    $isLight = Auth::check() && Auth::user()->theme == \App\Models\User::THEME_LIGHT;
+    $isLight = Auth::check() && Auth::user()->theme == App\Models\User::THEME_LIGHT;
 @endphp
 
 @if (Auth::check() && Auth::id() == 1)

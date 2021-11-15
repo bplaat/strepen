@@ -3,7 +3,7 @@
         <div class="card-content content">
             <h4>{{ $transaction->name }}</h4>
 
-            @if ($transaction->type == \App\Models\Transaction::TYPE_TRANSACTION)
+            @if ($transaction->type == App\Models\Transaction::TYPE_TRANSACTION)
                 <p><i>@lang('admin/transactions.item.transaction_from', ['user.name' => $transaction->user != null ? $transaction->user->name : '?', 'transaction.created_at' => $transaction->created_at->format('Y-m-d H:i')])</i></p>
                 <p>@lang('admin/transactions.item.cost'): <x-money-format :money="$transaction->price" /></p>
                 <ul>
@@ -13,12 +13,12 @@
                 </ul>
             @endif
 
-            @if ($transaction->type == \App\Models\Transaction::TYPE_DEPOSIT)
+            @if ($transaction->type == App\Models\Transaction::TYPE_DEPOSIT)
                 <p><i>@lang('admin/transactions.item.deposit_for', ['user.name' => $transaction->user != null ? $transaction->user->name : '?', 'transaction.created_at' => $transaction->created_at->format('Y-m-d H:i')])</i></p>
                 <p>@lang('admin/transactions.item.amount'): <x-money-format :money="$transaction->price" /></p>
             @endif
 
-            @if ($transaction->type == \App\Models\Transaction::TYPE_FOOD)
+            @if ($transaction->type == App\Models\Transaction::TYPE_FOOD)
                 <p><i>@lang('admin/transactions.item.food_for', ['user.name' => $transaction->user != null ? $transaction->user->name : '?', 'transaction.created_at' => $transaction->created_at->format('Y-m-d H:i')])</i></p>
                 <p>@lang('admin/transactions.item.amount'): <x-money-format :money="$transaction->price" /></p>
             @endif
@@ -78,11 +78,11 @@
                         </div>
                     </div>
 
-                    @if ($transaction->type == \App\Models\Transaction::TYPE_TRANSACTION)
+                    @if ($transaction->type == App\Models\Transaction::TYPE_TRANSACTION)
                         <livewire:components.products-chooser :selectedProducts="$selectedProducts" noMax="true" validate="true" />
                     @endif
 
-                    @if ($transaction->type == \App\Models\Transaction::TYPE_DEPOSIT || $transaction->type == \App\Models\Transaction::TYPE_FOOD)
+                    @if ($transaction->type == App\Models\Transaction::TYPE_DEPOSIT || $transaction->type == App\Models\Transaction::TYPE_FOOD)
                         <div class="field">
                             <label class="label" for="amount">@lang('admin/transactions.item.amount')</label>
                             <div class="control has-icons-left">
