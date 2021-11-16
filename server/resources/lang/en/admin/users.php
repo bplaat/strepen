@@ -5,7 +5,7 @@ return [
     'crud.title' => 'Users - Admin',
     'crud.header' => 'Users',
     'crud.create_user' => 'Create new user',
-    'crud.check_balances' => 'Check user balances',
+    'crud.check_balances' => 'Check balances',
     'crud.users' => 'users',
     'crud.role_chooser_all' => 'All roles',
     'crud.role_chooser_normal' => 'Normals only',

@@ -6,11 +6,13 @@
             @if ($transaction->type == App\Models\Transaction::TYPE_TRANSACTION)
                 <p><i>@lang('admin/transactions.item.transaction_from', ['user.name' => $transaction->user != null ? $transaction->user->name : '?', 'transaction.created_at' => $transaction->created_at->format('Y-m-d H:i')])</i></p>
                 <p>@lang('admin/transactions.item.cost'): <x-money-format :money="$transaction->price" /></p>
-                <ul>
-                    @foreach ($transaction->products()->orderByRaw('LOWER(name)')->get() as $product)
-                        <li><b>{{ $product->name }}</b>: <x-amount-format :amount="$product->pivot->amount" /></li>
-                    @endforeach
-                </ul>
+
+                @foreach ($transaction->products()->orderByRaw('LOWER(name)')->get() as $product)
+                    <p>
+                        <div class="image is-small is-round is-inline" style="background-image: url(/storage/products/{{ $product->image != null ? $product->image : App\Models\Setting::get('default_product_image') }});"></div>
+                        <b>{{ $product->name }}</b>: <x-amount-format :amount="$product->pivot->amount" />
+                    </p>
+                @endforeach
             @endif
 
             @if ($transaction->type == App\Models\Transaction::TYPE_DEPOSIT)
