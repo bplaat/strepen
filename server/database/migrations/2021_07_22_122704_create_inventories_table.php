@@ -16,7 +16,7 @@ class CreateInventoriesTable extends Migration
         Schema::create('inventories', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('name')->nullable();
+            $table->string('name');
             $table->decimal('price', 12, 3);
             $table->boolean('deleted')->default(false);
             $table->timestamps();
