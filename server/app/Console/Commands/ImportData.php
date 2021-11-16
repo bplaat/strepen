@@ -22,7 +22,7 @@ class ImportData extends Command
      *
      * @var string
      */
-    protected $signature = 'import-data {url} {export=false}';
+    protected $signature = 'import-data {url} {--export}';
 
     /**
      * The console command description.
@@ -49,22 +49,29 @@ class ImportData extends Command
     public function handle()
     {
         $url = $this->argument('url');
-        $export = $this->argument('export') == 'true';
+        $export = $this->option('export');
 
-        // Refresh database
         if (!$export) {
+            // Refresh database
             Artisan::call('migrate:fresh --seed');
+        } else {
+            // Create export directory
+            $exportDirectory = 'Strepen export on ' . date('Y-m-d H.i.s');
+            mkdir($exportDirectory);
         }
 
-        // Get all the user information
-        echo "Importing all users...\n\n";
-        $oldUserIds = [ 181 => 2 ];
-        $data = file_get_contents($url . '/bonnen/index.php?id=15&newsId=' . urlencode('0 UNION SELECT \'\', \'\', \'\', CONCAT(\'{"id":\', id, \',"name":"\', naam, \'","email":"\', email, \'","active":\', active, \',"receive_news":\', mailinglist, \'}\') FROM stamleden'), false, stream_context_create([
+        // File get contents context
+        $http_context = stream_context_create([
             'ssl' => [
                 'verify_peer' => false,
                 'verify_peer_name' => false
             ]
-        ]));
+        ]);
+
+        // Get all the user information
+        echo "Importing all users...\n\n";
+        $oldUserIds = [ 181 => 2 ];
+        $data = file_get_contents($url . '/bonnen/index.php?id=15&newsId=' . urlencode('0 UNION SELECT \'\', \'\', \'\', CONCAT(\'{"old_user_id":\', id, \',"name":"\', naam, \'","email":"\', email, \'","active":\', active, \',"receive_news":\', mailinglist, \'}\') FROM stamleden'), false, $http_context);
         preg_match_all('/<p>\{([^\}]+)/m', $data, $itemsJson);
         $usersJson = [];
         foreach ($itemsJson[1] as $itemJson) {
@@ -72,7 +79,7 @@ class ImportData extends Command
         }
 
         if ($export) {
-            file_put_contents('users.json', json_encode($usersJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+            file_put_contents($exportDirectory . '/users.json', json_encode($usersJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
         } else {
             $total = count($usersJson);
             foreach ($usersJson as $index => $userJson) {
@@ -97,7 +104,7 @@ class ImportData extends Command
                         $user->active = $userJson->active;
                         $user->save();
                     }
-                    $oldUserIds[$userJson->id] = $user->id;
+                    $oldUserIds[$userJson->old_user_id] = $user->id;
                 }
                 echo "\033[F" . ($index + 1) . ' / ' . $total . ' = ' . round(($index + 1) / $total * 100, 2) . "%\n";
             }
@@ -106,22 +113,17 @@ class ImportData extends Command
 
         // Get all the posts information
         echo "Importing all posts...\n\n";
-        $data = file_get_contents($url . '/bonnen/index.php?id=15&newsId=' . urlencode('0 UNION SELECT \'\', \'\', id, CONCAT(\'{"title":"\', onderwerp, \'","body":"\', TO_BASE64(bericht), \'","created_at":"\', datum, \'"}\') FROM nieuws'), false, stream_context_create([
-            'ssl' => [
-                'verify_peer' => false,
-                'verify_peer_name' => false
-            ]
-        ]));
+        $data = file_get_contents($url . '/bonnen/index.php?id=15&newsId=' . urlencode('0 UNION SELECT \'\', \'\', id, CONCAT(\'{"title":"\', onderwerp, \'","body":"\', TO_BASE64(bericht), \'","created_at":"\', datum, \'"}\') FROM nieuws'), false, $http_context);
         preg_match_all('/<p>\{([^\}]+)/m', $data, $itemsJson);
         $postsJson = [];
         foreach ($itemsJson[1] as $itemJson) {
             $postJson = json_decode('{' . str_replace("\n", '', $itemJson) . '}');
-            $postJson->body = str_replace('<br />', "\n", base64_decode($postJson->body));
+            $postJson->body = str_replace("\r\n", "\n\n", str_replace('<br />', '', base64_decode($postJson->body)));
             $postsJson[] = $postJson;
         }
 
         if ($export) {
-            file_put_contents('posts.json', json_encode($postsJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+            file_put_contents($exportDirectory . '/posts.json', json_encode($postsJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
         } else {
             $total = count($postsJson);
             foreach ($postsJson as $index => $postJson) {
@@ -145,12 +147,7 @@ class ImportData extends Command
         // Get all the product information
         echo "Importing all products...\n\n";
         $oldProductIds = [];
-        $data = file_get_contents($url . '/bonnen/index.php?id=15&newsId=' . urlencode('0 UNION SELECT \'\', \'\', id, CONCAT(\'{"id":\', id, \',"name":"\', omschrijving, \'","price":\', prijs, \',"active":\', active, \'}\') FROM product'), false, stream_context_create([
-            'ssl' => [
-                'verify_peer' => false,
-                'verify_peer_name' => false
-            ]
-        ]));
+        $data = file_get_contents($url . '/bonnen/index.php?id=15&newsId=' . urlencode('0 UNION SELECT \'\', \'\', id, CONCAT(\'{"old_product_id":\', id, \',"name":"\', omschrijving, \'","price":\', prijs, \',"active":\', active, \'}\') FROM product'), false, $http_context);
         preg_match_all('/<p>\{([^\}]+)/m', $data, $itemsJson);
         $productsJson = [];
         foreach ($itemsJson[1] as $itemJson) {
@@ -158,18 +155,18 @@ class ImportData extends Command
         }
 
         if ($export) {
-            file_put_contents('products.json', json_encode($productsJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+            file_put_contents($exportDirectory . '/products.json', json_encode($productsJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
         } else {
             $total = count($productsJson);
             foreach ($productsJson as $index => $productJson) {
-                if ($productJson->id != 7 && $productJson->id != 10) {
+                if ($productJson->old_product_id != 7 && $productJson->old_product_id != 10) {
                     $product = new Product();
                     $product->name = $productJson->name;
                     $product->price = $productJson->price;
                     $product->active = $productJson->active;
                     $product->alcoholic = true;
                     $product->save();
-                    $oldProductIds[$productJson->id] = $product->id;
+                    $oldProductIds[$productJson->old_product_id] = $product->id;
                 }
                 echo "\033[F" . ($index + 1) . ' / ' . $total . ' = ' . round(($index + 1) / $total * 100, 2) . "%\n";
             }
@@ -180,12 +177,7 @@ class ImportData extends Command
 
         // Get all inventory information
         echo "Importing all inventories...\n\n";
-        $data = file_get_contents($url . '/bonnen/index.php?id=15&newsId=' . urlencode('0 UNION SELECT \'\', \'\', \'\', CONCAT(\'{"id":\', id, \',"old_product_id":\', product_id, \',"amount":\', aantal, \',"action":"\', actie, \'","created_at":"\', datum, \'"}\') FROM inkoop'), false, stream_context_create([
-            'ssl' => [
-                'verify_peer' => false,
-                'verify_peer_name' => false
-            ]
-        ]));
+        $data = file_get_contents($url . '/bonnen/index.php?id=15&newsId=' . urlencode('0 UNION SELECT \'\', \'\', \'\', CONCAT(\'{"old_inventory_id":\', id, \',"old_product_id":\', product_id, \',"amount":\', aantal, \',"action":"\', actie, \'","created_at":"\', datum, \'"}\') FROM inkoop'), false, $http_context);
         preg_match_all('/<p>\{([^\}]+)/m', $data, $itemsJson);
         $inventoriesJson = [];
         foreach ($itemsJson[1] as $itemJson) {
@@ -193,12 +185,12 @@ class ImportData extends Command
         }
 
         if ($export) {
-            file_put_contents('inventories.json', json_encode($inventoriesJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+            file_put_contents($exportDirectory . '/inventories.json', json_encode($inventoriesJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
         } else {
             $total = count($inventoriesJson);
             $doneInventories = [];
             foreach ($inventoriesJson as $index => $inventoryJson) {
-                if (!in_array($inventoryJson->id, $doneInventories)) {
+                if (!in_array($inventoryJson->old_inventory_id, $doneInventories)) {
                     if ($inventoryJson->amount > 0) {
                         $inventory = new Inventory();
                         $inventory->user_id = 1;
@@ -210,7 +202,7 @@ class ImportData extends Command
                         for ($i = $index; $i < $index + 10 && $i < $total; $i++) {
                             $otherInventoryJson = $inventoriesJson[$i];
                             if (
-                                !in_array($otherInventoryJson->id, $doneInventories) &&
+                                !in_array($otherInventoryJson->old_inventory_id, $doneInventories) &&
                                 $otherInventoryJson->amount > 0 &&
                                 $otherInventoryJson->old_product_id != 7 &&
                                 $otherInventoryJson->old_product_id != 10 &&
@@ -230,7 +222,7 @@ class ImportData extends Command
                                     $inventory->products()->attach($product->id, [ 'amount' => $otherInventoryJson->amount ]);
                                 }
 
-                                $doneInventories[] = $otherInventoryJson->id;
+                                $doneInventories[] = $otherInventoryJson->old_inventory_id;
                             }
                         }
                         $inventory->save();
@@ -248,7 +240,7 @@ class ImportData extends Command
                         for ($i = $index; $i < $index + 10 && $i < $total; $i++) {
                             $otherInventoryJson = $inventoriesJson[$i];
                             if (
-                                !in_array($otherInventoryJson->id, $doneInventories) &&
+                                !in_array($otherInventoryJson->old_inventory_id, $doneInventories) &&
                                 $otherInventoryJson->amount < 0 &&
                                 $otherInventoryJson->old_product_id != 7 &&
                                 $otherInventoryJson->old_product_id != 10 &&
@@ -269,7 +261,7 @@ class ImportData extends Command
                                     $transaction->products()->attach($product->id, [ 'amount' => $otherInventoryJson->amount ]);
                                 }
 
-                                $doneInventories[] = $otherInventoryJson->id;
+                                $doneInventories[] = $otherInventoryJson->old_inventory_id;
                             }
                         }
                         $transaction->save();
@@ -282,12 +274,7 @@ class ImportData extends Command
 
         // Get all transactions information
         echo "Importing all transactions...\n\n";
-        $data = file_get_contents($url . '/bonnen/index.php?id=15&newsId=' . urlencode('0 UNION SELECT \'\', \'\', \'\', CONCAT(\'{"id":\', id, \',"old_user_id":\', lid_id, \',"old_product_id":\', product_id, \',"amount":\', aantal, \',"price":"\', prijs, \'","created_at":"\', datum, \'"}\') FROM schuld'), false, stream_context_create([
-            'ssl' => [
-                'verify_peer' => false,
-                'verify_peer_name' => false
-            ]
-        ]));
+        $data = file_get_contents($url . '/bonnen/index.php?id=15&newsId=' . urlencode('0 UNION SELECT \'\', \'\', \'\', CONCAT(\'{"old_transaction_id":\', id, \',"old_user_id":\', lid_id, \',"old_product_id":\', product_id, \',"amount":\', aantal, \',"price":"\', prijs, \'","created_at":"\', datum, \'"}\') FROM schuld'), false, $http_context);
         preg_match_all('/<p>\{([^\}]+)/m', $data, $itemsJson);
         $transactionsJson = [];
         foreach ($itemsJson[1] as $itemJson) {
@@ -329,7 +316,7 @@ class ImportData extends Command
         }
 
         if ($export) {
-            file_put_contents('transactions.json', json_encode($transactionsJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+            file_put_contents($exportDirectory . '/transactions.json', json_encode($transactionsJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
         } else {
             $total = count($transactionsJson);
             $doneTransactions = [];
@@ -337,7 +324,7 @@ class ImportData extends Command
                 $transactionJson->created_at_timestamp = strtotime($transactionJson->created_at);
             }
             foreach ($transactionsJson as $index => $transactionJson) {
-                if (!in_array($transactionJson->id, $doneTransactions)) {
+                if (!in_array($transactionJson->old_transaction_id, $doneTransactions)) {
                     if ($transactionJson->old_product_id == 7) {
                         if ($transactionJson->price != 0) {
                             $transactionJson->price = -$transactionJson->price;
@@ -348,7 +335,7 @@ class ImportData extends Command
                                 'price' => $transactionJson->price,
                                 'created_at' => $transactionJson->created_at
                             ]);
-                            $doneTransactions[] = $transactionJson->id;
+                            $doneTransactions[] = $transactionJson->old_transaction_id;
                         }
                     } else if ($transactionJson->old_product_id == 10) {
                         if ($transactionJson->price != 0) {
@@ -359,7 +346,7 @@ class ImportData extends Command
                                 'price' => $transactionJson->price,
                                 'created_at' => $transactionJson->created_at
                             ]);
-                            $doneTransactions[] = $transactionJson->id;
+                            $doneTransactions[] = $transactionJson->old_transaction_id;
                         }
                     } else {
                         $transactionProducts = [];
@@ -390,7 +377,7 @@ class ImportData extends Command
                                     }
                                     $transactionPrice += $otherTransactionJson->price;
                                 }
-                                $doneTransactions[] = $otherTransactionJson->id;
+                                $doneTransactions[] = $otherTransactionJson->old_transaction_id;
                             }
                         }
                         if (count($transactionProducts) == 0) {
