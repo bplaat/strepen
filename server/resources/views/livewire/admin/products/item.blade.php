@@ -1,7 +1,7 @@
 <div class="column is-one-quarter">
     <div class="card">
         <div class="card-image">
-            <div class="image is-square" style="background-image: url(/storage/products/{{ $product->image != null ? $product->image : App\Models\Setting::get('default_product_image') }});"></div>
+            <div class="image is-square" style="background-image: url(/storage/products/{{ $product->image ?? App\Models\Setting::get('default_product_image') }});"></div>
 
             <div class="card-image-tags">
                 @if ($product->alcoholic)
@@ -68,7 +68,7 @@
 
                             <h2 class="subtitle is-5">@lang('admin/products.item.image')</h2>
                             <div class="box not-fullheight" style="width: 50%;">
-                                <div class="image is-square is-rounded" style="background-image: url(/storage/products/{{ $product->image != null ? $product->image : App\Models\Setting::get('default_product_image') }});"></div>
+                                <div class="image is-square is-rounded" style="background-image: url(/storage/products/{{ $product->image ?? App\Models\Setting::get('default_product_image') }});"></div>
                             </div>
 
                             <h2 class="subtitle is-5">@lang('admin/products.item.general_info')</h2>

@@ -72,7 +72,7 @@
                         <livewire:components.notifications />
 
                         <a class="navbar-item @if (Route::currentRouteName() == 'balance') is-active @endif" href="{{ route('balance') }}" style="display: flex; align-items: center;">
-                            <div class="image is-medium is-round is-inline" style="background-image: url(/storage/avatars/{{ Auth::user()->avatar != null ? Auth::user()->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
+                            <div class="image is-medium is-round is-inline" style="background-image: url(/storage/avatars/{{ Auth::user()->avatar ?? App\Models\Setting::get('default_user_avatar') }});"></div>
                             <span class="mr-3">{{ Auth::user()->name }}</span>
                             <x-money-format :money="Auth::user()->balance" />
                         </a>

@@ -1,7 +1,7 @@
 <div class="column is-one-quarter">
     <div class="card">
         <div class="card-image">
-            <div class="image is-square"style="background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
+            <div class="image is-square"style="background-image: url(/storage/avatars/{{ $user->avatar ?? App\Models\Setting::get('default_user_avatar') }});"></div>
 
             <div class="card-image-tags">
                 @if ($user->role == App\Models\User::ROLE_NORMAL)
@@ -82,13 +82,13 @@
                                 <div class="column">
                                     <h2 class="subtitle is-5">@lang('admin/users.item.avatar')</h2>
                                     <div class="box not-fullheight">
-                                        <div class="image is-square is-rounded" style="background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
+                                        <div class="image is-square is-rounded" style="background-image: url(/storage/avatars/{{ $user->avatar ?? App\Models\Setting::get('default_user_avatar') }});"></div>
                                     </div>
                                 </div>
                                 <div class="column">
                                     <h2 class="subtitle is-5">@lang('admin/users.item.thanks')</h2>
                                     <div class="box not-fullheight">
-                                        <div class="image is-square is-rounded" style="background-image: url(/storage/thanks/{{ $user->thanks != null ? $user->thanks : App\Models\Setting::get('default_user_thanks') }});"></div>
+                                        <div class="image is-square is-rounded" style="background-image: url(/storage/thanks/{{ $user->thanks ?? App\Models\Setting::get('default_user_thanks') }});"></div>
                                     </div>
                                 </div>
                             </div>

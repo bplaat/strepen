@@ -123,7 +123,7 @@
                                 @foreach ($users as $index => $user)
                                     <tr>
                                         <td style="vertical-align: middle;">
-                                            <div class="image is-small is-round is-inline" style="background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
+                                            <div class="image is-small is-round is-inline" style="background-image: url(/storage/avatars/{{ $user->avatar ?? App\Models\Setting::get('default_user_avatar') }});"></div>
                                             <label for="user-amount-{{ $index }}">{{ $user->name }}</label>
                                         </td>
                                         <td>
@@ -205,7 +205,7 @@
                                 @foreach ($users as $index => $user)
                                     <tr>
                                         <td style="vertical-align: middle;">
-                                            <div class="image is-small is-round is-inline" style="background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
+                                            <div class="image is-small is-round is-inline" style="background-image: url(/storage/avatars/{{ $user->avatar ?? App\Models\Setting::get('default_user_avatar') }});"></div>
                                             <label for="user-amount-{{ $index }}">{{ $user->name }}</label>
                                         </td>
                                         <td>

@@ -17,7 +17,7 @@
             @foreach ($transaction->products()->orderByRaw('LOWER(name)')->get() as $product)
                 <div class="media" style="align-items: center; max-width: 360px; margin-left: auto; margin-right: auto;">
                     <div class="media-left">
-                        <div class="image is-large is-rounded" style="background-image: url(/storage/products/{{ $product->image != null ? $product->image : App\Models\Setting::get('default_product_image') }});"></div>
+                        <div class="image is-large is-rounded" style="background-image: url(/storage/products/{{ $product->image ?? App\Models\Setting::get('default_product_image') }});"></div>
                     </div>
                     <div class="media-content">
                         <p>

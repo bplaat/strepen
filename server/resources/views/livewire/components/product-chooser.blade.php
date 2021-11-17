@@ -16,7 +16,7 @@
                 @if ($filteredProducts->count() > 0)
                     @foreach ($filteredProducts as $product)
                         <a href="#" wire:click.prevent="selectProduct({{ $product->id }})" class="dropdown-item">
-                            <div class="image is-small is-rounded is-inline" style="background-image: url(/storage/products/{{ $product->image != null ? $product->image : App\Models\Setting::get('default_product_image') }});"></div>
+                            <div class="image is-small is-rounded is-inline" style="background-image: url(/storage/products/{{ $product->image ?? App\Models\Setting::get('default_product_image') }});"></div>
                             {!! $productName != '' ? str_replace(' ', '&nbsp;', preg_replace('/(' . preg_quote($productName) . ')/i', '<b>$1</b>', $product->name)) : $product->name !!}
                         </a>
                     @endforeach

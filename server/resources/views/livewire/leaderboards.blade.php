@@ -73,7 +73,7 @@
                                 <tr>
                                     <td><x-index-medal :index="$index" /></td>
                                     <td style="vertical-align: middle;">
-                                        <div class="image is-small is-round is-inline" style="background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
+                                        <div class="image is-small is-round is-inline" style="background-image: url(/storage/avatars/{{ $user->avatar ?? App\Models\Setting::get('default_user_avatar') }});"></div>
                                         {{ $user->name }}
                                     </td>
                                     <td><x-amount-format :amount="$user->amount" /></td>
@@ -151,7 +151,7 @@
                                 <tr>
                                     <td><x-index-medal :index="$index" /></td>
                                     <td style="vertical-align: middle;">
-                                        <div class="image is-small is-round is-inline" style="background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
+                                        <div class="image is-small is-round is-inline" style="background-image: url(/storage/avatars/{{ $user->avatar ?? App\Models\Setting::get('default_user_avatar') }});"></div>
                                         {{ $user->name }}
                                     </td>
                                     <td><x-amount-format :amount="$user->amount" /></td>
@@ -234,7 +234,7 @@
                                 <tr>
                                     <td><x-index-medal :index="$index" /></td>
                                     <td style="vertical-align: middle;">
-                                        <div class="image is-small is-round is-inline" style="background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
+                                        <div class="image is-small is-round is-inline" style="background-image: url(/storage/avatars/{{ $user->avatar ?? App\Models\Setting::get('default_user_avatar') }});"></div>
                                         {{ $user->name }}
                                     </td>
                                     <td><x-amount-format :amount="$user->amount" /></td>
@@ -323,7 +323,7 @@
                                 <tr>
                                     <td><x-index-medal :index="$index" /></td>
                                     <td style="vertical-align: middle;">
-                                        <div class="image is-small is-round is-inline" style="background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
+                                        <div class="image is-small is-round is-inline" style="background-image: url(/storage/avatars/{{ $user->avatar ?? App\Models\Setting::get('default_user_avatar') }});"></div>
                                         {{ $user->name }}
                                     </td>
                                     <td><x-money-format :money="$user->spending" /></td>
@@ -400,7 +400,7 @@
                                 <tr>
                                     <td><x-index-medal :index="$index" /></td>
                                     <td style="vertical-align: middle;">
-                                        <div class="image is-small is-round is-inline" style="background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
+                                        <div class="image is-small is-round is-inline" style="background-image: url(/storage/avatars/{{ $user->avatar ?? App\Models\Setting::get('default_user_avatar') }});"></div>
                                         {{ $user->name }}
                                     </td>
                                     <td><x-money-format :money="$user->balance" /></td>
@@ -483,7 +483,7 @@
                                 <tr>
                                     <td><x-index-medal :index="$index" /></td>
                                     <td style="vertical-align: middle;">
-                                        <div class="image is-small is-round is-inline" style="background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
+                                        <div class="image is-small is-round is-inline" style="background-image: url(/storage/avatars/{{ $user->avatar ?? App\Models\Setting::get('default_user_avatar') }});"></div>
                                         {{ $user->name }}
                                     </td>
                                     <td><x-money-format :money="$user->balance" /></td>

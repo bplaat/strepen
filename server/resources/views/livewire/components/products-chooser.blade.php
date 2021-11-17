@@ -21,7 +21,7 @@
                 <div class="column is-one-quarter">
                     <div class="card">
                         <div class="card-image">
-                            <div class="image is-square" style="background-image: url(/storage/products/{{ $selectedProduct['product']['image'] != null ? $selectedProduct['product']['image'] : App\Models\Setting::get('default_product_image') }});"></div>
+                            <div class="image is-square" style="background-image: url(/storage/products/{{ $selectedProduct['product']['image'] ?? App\Models\Setting::get('default_product_image') }});"></div>
 
                             @if ($selectedProduct['product']['alcoholic'])
                                 <div class="card-image-tags">
@@ -76,7 +76,7 @@
                                     @if ($filteredProducts->count() > 0)
                                         @foreach ($filteredProducts as $product)
                                             <a href="#" wire:click.prevent="addProduct({{ $product->id }})" class="dropdown-item">
-                                                <div class="image is-small is-rounded is-inline" style="background-image: url(/storage/products/{{ $product->image != null ? $product->image : App\Models\Setting::get('default_product_image') }});"></div>
+                                                <div class="image is-small is-rounded is-inline" style="background-image: url(/storage/products/{{ $product->image ?? App\Models\Setting::get('default_product_image') }});"></div>
                                                 {!! $productName != '' ? str_replace(' ', '&nbsp;', preg_replace('/(' . preg_quote($productName) . ')/i', '<b>$1</b>', $product->name)) : $product->name !!}
                                             </a>
                                         @endforeach
@@ -103,7 +103,7 @@
         @foreach ($selectedProducts as $index => $selectedProduct)
             <div class="media" style="align-items: center;">
                 <div class="media-left">
-                    <div class="image is-large is-rounded" style="background-image: url(/storage/products/{{ $selectedProduct['product']['image'] != null ? $selectedProduct['product']['image'] : App\Models\Setting::get('default_product_image') }});"></div>
+                    <div class="image is-large is-rounded" style="background-image: url(/storage/products/{{ $selectedProduct['product']['image'] ?? App\Models\Setting::get('default_product_image') }});"></div>
                 </div>
                 <div class="media-content">
                     <label class="label" for="product-amount-{{ $index }}" style="font-weight: 400;">
