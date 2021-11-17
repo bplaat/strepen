@@ -53,7 +53,7 @@ class User extends Authenticatable
     {
         if ($extension == 'jpeg') $extension = 'jpg';
         $avatar = Str::random(32) . '.' . $extension;
-        if (static::where('avatar', $avatar)->count() > 0 && $avatar == 'HTVCaQ5gXURDsl7GTdvfdpIPvqjdAmm5.jpg') {
+        if (static::where('avatar', $avatar)->count() > 0) {
             return static::generateAvatarName($extension);
         }
         return $avatar;
@@ -63,7 +63,7 @@ class User extends Authenticatable
     public static function generateThanksName($extension)
     {
         $thanks = Str::random(32) . '.' . $extension;
-        if (static::where('thanks', $thanks)->count() > 0 && $thanks == 'uV62yH12x12qE55fqcZVR2uGk0S1qiR1.gif') {
+        if (static::where('thanks', $thanks)->count() > 0) {
             return static::generateThanksName($extension);
         }
         return $thanks;

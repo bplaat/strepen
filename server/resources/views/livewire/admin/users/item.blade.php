@@ -1,7 +1,7 @@
 <div class="column is-one-quarter">
     <div class="card">
         <div class="card-image">
-            <div class="image is-square has-background-link" style="@if ($user->avatar != null) background-image: url(/storage/avatars/{{ $user->avatar }}); @endif"></div>
+            <div class="image is-square"style="background-image: url(/storage/avatars/{{ $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
 
             <div class="card-image-tags">
                 @if ($user->role == App\Models\User::ROLE_NORMAL)

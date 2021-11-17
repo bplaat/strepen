@@ -16,7 +16,7 @@
     <form class="box" wire:submit.prevent="changeImage">
         <h2 class="title is-4">@lang('admin/settings.change_default_product_image.header')</h2>
 
-        @if (App\Models\Setting::get('default_product_image') != '4RvFNOReec7O00D4F3os13M8kgPBHord.png')
+        @if (App\Models\Setting::get('default_product_image') != 'default.png')
             <div class="field">
                 <p>@lang('admin/settings.change_default_product_image.has_image')</p>
             </div>
@@ -30,7 +30,7 @@
             </div>
 
             <div class="box" style="width: 75%;">
-                <div class="image is-square is-rounded" style="background-image: url(/storage/products/4RvFNOReec7O00D4F3os13M8kgPBHord.png);"></div>
+                <div class="image is-square is-rounded" style="background-image: url(/storage/products/default.png);"></div>
             </div>
         @endif
 
@@ -53,7 +53,7 @@
             <div class="control">
                 <div class="buttons">
                     <button class="button is-link" type="submit">@lang('admin/settings.change_default_product_image.change_button')</button>
-                    @if (App\Models\Setting::get('default_product_image') != '4RvFNOReec7O00D4F3os13M8kgPBHord.png')
+                    @if (App\Models\Setting::get('default_product_image') != 'default.png')
                         <a class="button is-danger" wire:click="deleteImage" wire:loading.attr="disabled">@lang('admin/settings.change_default_product_image.delete_button')</a>
                     @endif
                 </div>

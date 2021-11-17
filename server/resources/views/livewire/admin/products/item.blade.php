@@ -1,7 +1,7 @@
 <div class="column is-one-quarter">
     <div class="card">
         <div class="card-image">
-            <div class="image is-square has-background-link" style="@if ($product->image != null) background-image: url(/storage/products/{{ $product->image }}); @endif"></div>
+            <div class="image is-square" style="background-image: url(/storage/products/{{ $product->image != null ? $product->image : App\Models\Setting::get('default_product_image') }});"></div>
 
             <div class="card-image-tags">
                 @if ($product->alcoholic)

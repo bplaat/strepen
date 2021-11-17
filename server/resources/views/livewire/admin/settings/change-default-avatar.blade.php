@@ -16,7 +16,7 @@
     <form class="box" wire:submit.prevent="changeAvatar">
         <h2 class="title is-4">@lang('admin/settings.change_default_avatar.header')</h2>
 
-        @if (App\Models\Setting::get('default_user_avatar') != 'HTVCaQ5gXURDsl7GTdvfdpIPvqjdAmm5.jpg')
+        @if (App\Models\Setting::get('default_user_avatar') != 'default.png')
             <div class="field">
                 <p>@lang('admin/settings.change_default_avatar.has_avatar')</p>
             </div>
@@ -30,7 +30,7 @@
             </div>
 
             <div class="box" style="width: 75%;">
-                <div class="image is-square is-rounded" style="background-image: url(/storage/avatars/HTVCaQ5gXURDsl7GTdvfdpIPvqjdAmm5.jpg);"></div>
+                <div class="image is-square is-rounded" style="background-image: url(/storage/avatars/default.png);"></div>
             </div>
         @endif
 
@@ -53,7 +53,7 @@
             <div class="control">
                 <div class="buttons">
                     <button class="button is-link" type="submit">@lang('admin/settings.change_default_avatar.change_button')</button>
-                    @if (App\Models\Setting::get('default_user_avatar') != 'HTVCaQ5gXURDsl7GTdvfdpIPvqjdAmm5.jpg')
+                    @if (App\Models\Setting::get('default_user_avatar') != 'default.png')
                         <a class="button is-danger" wire:click="deleteAvatar" wire:loading.attr="disabled">@lang('admin/settings.change_default_avatar.delete_button')</a>
                     @endif
                 </div>

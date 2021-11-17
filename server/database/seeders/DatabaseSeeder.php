@@ -74,17 +74,17 @@ class DatabaseSeeder extends Seeder
 
         $setting = new Setting();
         $setting->key = 'default_user_avatar';
-        $setting->value = 'HTVCaQ5gXURDsl7GTdvfdpIPvqjdAmm5.jpg';
+        $setting->value = 'default.png';
         $setting->save();
 
         $setting = new Setting();
         $setting->key = 'default_user_thanks';
-        $setting->value = 'uV62yH12x12qE55fqcZVR2uGk0S1qiR1.gif';
+        $setting->value = 'default.gif';
         $setting->save();
 
         $setting = new Setting();
         $setting->key = 'default_product_image';
-        $setting->value = '4RvFNOReec7O00D4F3os13M8kgPBHord.png';
+        $setting->value = 'default.png';
         $setting->save();
 
         $setting = new Setting();

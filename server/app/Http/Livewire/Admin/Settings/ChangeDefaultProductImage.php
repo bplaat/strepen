@@ -29,7 +29,7 @@ class ChangeDefaultProductImage extends Component
         $this->image->storeAs('public/products', $imageName);
 
         // Delete old global image when not default
-        if (Setting::get('default_product_image') != '4RvFNOReec7O00D4F3os13M8kgPBHord.png') {
+        if (Setting::get('default_product_image') != 'default.png') {
             Storage::delete('public/products/' . Setting::get('default_product_image'));
         }
 
@@ -42,12 +42,12 @@ class ChangeDefaultProductImage extends Component
     public function deleteImage()
     {
         // Delete global image
-        if (Setting::get('default_product_image') != '4RvFNOReec7O00D4F3os13M8kgPBHord.png') {
+        if (Setting::get('default_product_image') != 'default.png') {
             Storage::delete('public/products/' . Setting::get('default_product_image'));
         }
 
         // Update global image to default one
-        Setting::set('default_product_image', '4RvFNOReec7O00D4F3os13M8kgPBHord.png');
+        Setting::set('default_product_image', 'default.png');
         $this->isDeleted = true;
     }
 

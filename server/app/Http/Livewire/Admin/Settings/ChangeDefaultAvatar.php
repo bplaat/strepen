@@ -29,7 +29,7 @@ class ChangeDefaultAvatar extends Component
         $this->avatar->storeAs('public/avatars', $avatarName);
 
         // Delete old global avatar when not default
-        if (Setting::get('default_user_avatar') != 'HTVCaQ5gXURDsl7GTdvfdpIPvqjdAmm5.jpg') {
+        if (Setting::get('default_user_avatar') != 'default.png') {
             Storage::delete('public/avatars/' . Setting::get('default_user_avatar'));
         }
 
@@ -42,12 +42,12 @@ class ChangeDefaultAvatar extends Component
     public function deleteAvatar()
     {
         // Delete global avatar
-        if (Setting::get('default_user_avatar') != 'HTVCaQ5gXURDsl7GTdvfdpIPvqjdAmm5.jpg') {
+        if (Setting::get('default_user_avatar') != 'default.png') {
             Storage::delete('public/avatars/' . Setting::get('default_user_avatar'));
         }
 
         // Update global avatar to default one
-        Setting::set('default_user_avatar', 'HTVCaQ5gXURDsl7GTdvfdpIPvqjdAmm5.jpg');
+        Setting::set('default_user_avatar', 'default.png');
         $this->isDeleted = true;
     }
 

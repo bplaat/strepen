@@ -29,7 +29,7 @@ class ChangeDefaultThanks extends Component
         $this->thanks->storeAs('public/thanks', $thanksName);
 
         // Delete old global thanks when not default
-        if (Setting::get('default_user_thanks') != 'uV62yH12x12qE55fqcZVR2uGk0S1qiR1.gif') {
+        if (Setting::get('default_user_thanks') != 'default.gif') {
             Storage::delete('public/thanks/' . Setting::get('default_user_thanks'));
         }
 
@@ -42,12 +42,12 @@ class ChangeDefaultThanks extends Component
     public function deleteThanks()
     {
         // Delete global thanks
-        if (Setting::get('default_user_thanks') != 'uV62yH12x12qE55fqcZVR2uGk0S1qiR1.gif') {
+        if (Setting::get('default_user_thanks') != 'default.gif') {
             Storage::delete('public/thanks/' . Setting::get('default_user_thanks'));
         }
 
         // Update global thanks to default one
-        Setting::set('default_user_thanks', 'uV62yH12x12qE55fqcZVR2uGk0S1qiR1.gif');
+        Setting::set('default_user_thanks', 'default.gif');
         $this->isDeleted = true;
     }
 

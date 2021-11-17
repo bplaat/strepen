@@ -16,7 +16,7 @@
     <form class="box" wire:submit.prevent="changeThanks">
         <h2 class="title is-4">@lang('admin/settings.change_default_thanks.header')</h2>
 
-        @if (App\Models\Setting::get('default_user_thanks') != 'uV62yH12x12qE55fqcZVR2uGk0S1qiR1.gif')
+        @if (App\Models\Setting::get('default_user_thanks') != 'default.gif')
             <div class="field">
                 <p>@lang('admin/settings.change_default_thanks.has_thanks')</p>
             </div>
@@ -30,7 +30,7 @@
             </div>
 
             <div class="box" style="width: 75%;">
-                <div class="image is-square is-rounded" style="background-image: url(/storage/thanks/uV62yH12x12qE55fqcZVR2uGk0S1qiR1.gif);"></div>
+                <div class="image is-square is-rounded" style="background-image: url(/storage/thanks/default.gif);"></div>
             </div>
         @endif
 
@@ -53,7 +53,7 @@
             <div class="control">
                 <div class="buttons">
                     <button class="button is-link" type="submit">@lang('admin/settings.change_default_thanks.change_button')</button>
-                    @if (App\Models\Setting::get('default_user_thanks') != 'uV62yH12x12qE55fqcZVR2uGk0S1qiR1.gif')
+                    @if (App\Models\Setting::get('default_user_thanks') != 'default.gif')
                         <a class="button is-danger" wire:click="deleteThanks" wire:loading.attr="disabled">@lang('admin/settings.change_default_thanks.delete_button')</a>
                     @endif
                 </div>
