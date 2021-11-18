@@ -42,7 +42,7 @@ class _HomeScreenProfileTabState extends State {
               child: SingleChildScrollView(
                 physics: AlwaysScrollableScrollPhysics(),
                 child: Padding(
-                  padding: EdgeInsets.all(16.0),
+                  padding: EdgeInsets.all(16),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -55,7 +55,7 @@ class _HomeScreenProfileTabState extends State {
                             clipBehavior: Clip.antiAliasWithSaveLayer,
                             child: CachedNetworkImage(imageUrl: user.avatar ?? settings['default_user_avatar']),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(96.0),
+                              borderRadius: BorderRadius.circular(96),
                             ),
                             elevation: 3
                           )
@@ -76,7 +76,7 @@ class _HomeScreenProfileTabState extends State {
                           margin: EdgeInsets.symmetric(vertical: 8),
                           child: Text(
                             '\u20ac ${user.balance!.toStringAsFixed(2)}',
-                            style: TextStyle(fontSize: 24, color: user.balance! < 0 ? Colors.red : Colors.black , fontWeight: FontWeight.w500),
+                            style: TextStyle(fontSize: 24, color: user.balance! < 0 ? Colors.red : null, fontWeight: FontWeight.w500),
                             textAlign: TextAlign.center
                           )
                         )

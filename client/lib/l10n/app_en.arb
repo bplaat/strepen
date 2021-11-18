@@ -1,6 +1,7 @@
 {
     "home_posts": "News posts",
     "home_stripe": "Stripe",
+    "home_history": "Your stripe history",
     "home_profile": "Your profile",
     "home_notifications": "Notifications",
     "home_new_deposit": "New deposit of \u20ac {transaction_amount}",
@@ -12,6 +13,7 @@
     "home_unread_notifications_empty": "No unread notifications",
     "home_posts_short": "Posts",
     "home_stripe_short": "Stripe",
+    "home_history_short": "History",
     "home_profile_short": "Profile",
 
     "home_posts_error": "An error has occurred while loading the posts!",
@@ -27,6 +29,15 @@
     "home_stripe_stripe": "Stripe",
     "home_stripe_created": "Transaction created",
     "home_stripe_thx": "Done, thx!",
+
+    "home_history_error": "An error has occurred while loading your stripe history!",
+    "home_history_transaction_on": "Transaction on {transaction_created_at}",
+    "@home_history_transaction_on": { "placeholders": { "transaction_created_at": {} } },
+    "home_history_deposit_on": "Deposit on {transaction_created_at}",
+    "@home_history_deposit_on": { "placeholders": { "transaction_created_at": {} } },
+    "home_history_food_on": "Food on {transaction_created_at}",
+    "@home_history_food_on": { "placeholders": { "transaction_created_at": {} } },
+    "home_history_amount": "Amount",
 
     "home_profile_error": "An error has occurred while loading your user information!",
     "home_profile_more": "Go to the Strepen website for\nmore settings and options",

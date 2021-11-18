@@ -127,10 +127,17 @@ class _ProductsListState extends State {
                   Product product = products[index];
                   int amount = _amounts[index];
                   return ListTile(
-                    leading: CachedNetworkImage(
+                    leading: SizedBox(
                       width: 56,
                       height: 56,
-                      imageUrl: product.image ?? settings['default_product_image']
+                      child: Card(
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        child: CachedNetworkImage(imageUrl: product.image ?? settings['default_product_image']),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        elevation: 2
+                      )
                     ),
                     title: Text(product.name),
                     subtitle: Text('\u20ac ${product.price.toStringAsFixed(2)}'),
@@ -256,15 +263,6 @@ class TransactionCreatedDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final lang = AppLocalizations.of(context)!;
-
-    int totalAmount = 0;
-    double totalPrice = 0;
-    for (Product product in productAmounts.keys) {
-      int amount = productAmounts[product]!;
-      totalAmount += amount;
-      totalPrice += product.price * amount;
-    }
-
     return AlertDialog(
       title: Text(lang.home_stripe_created),
       content: Container(
@@ -283,7 +281,7 @@ class TransactionCreatedDialog extends StatelessWidget {
                       clipBehavior: Clip.antiAliasWithSaveLayer,
                       child: CachedNetworkImage(imageUrl: user.thanks ?? settings['default_user_thanks']),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16.0),
+                        borderRadius: BorderRadius.circular(16),
                       ),
                       elevation: 3
                     )
@@ -295,72 +293,7 @@ class TransactionCreatedDialog extends StatelessWidget {
                   child: Text(lang.home_stripe_thx, style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500))
                 ),
 
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: productAmounts.length,
-                  itemBuilder: (context, index) {
-                    Product product = productAmounts.keys.elementAt(index);
-                    int amount = productAmounts[product]!;
-                    return Container(
-                      margin: EdgeInsets.only(bottom: 12),
-                      child: Row(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(right: 24),
-                            child: CachedNetworkImage(
-                              width: 56,
-                              height: 56,
-                              imageUrl: product.image ?? settings['default_product_image']
-                            )
-                          ),
-
-                          Expanded(
-                            flex: 1,
-                            child: Column(
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(bottom: 4),
-                                  child: SizedBox(
-                                    width: double.infinity,
-                                    child: Text('${product.name}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))
-                                  )
-                                ),
-                                SizedBox(
-                                  width: double.infinity,
-                                  child: Text('${amount}x   \u20ac ${product.price.toStringAsFixed(2)}', style: TextStyle(color: Colors.grey))
-                                )
-                              ]
-                            )
-                          ),
-
-                          Text('\u20ac ${(product.price * amount).toStringAsFixed(2)}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500))
-                        ]
-                      )
-                    );
-                  }
-                ),
-
-                Divider(),
-
-                Row(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(right: 24),
-                      child: SizedBox(
-                        width: 56,
-                        height: 56
-                      ),
-                    ),
-
-                    Expanded(
-                      flex: 1,
-                      child: Text('${totalAmount}x', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))
-                    ),
-
-                    Text('\u20ac ${totalPrice.toStringAsFixed(2)}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500))
-                  ]
-                ),
+                TransactionProductsTable(products: productAmounts, settings: settings),
 
                 Container(
                   margin: EdgeInsets.only(top: 8),
@@ -380,6 +313,109 @@ class TransactionCreatedDialog extends StatelessWidget {
           )
         )
       )
+    );
+  }
+}
+
+class TransactionProductsTable extends StatelessWidget {
+  final Map<Product, int> products;
+
+  final Map<String, dynamic> settings;
+
+  const TransactionProductsTable({
+    Key? key,
+    required this.products,
+    required this.settings
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final lang = AppLocalizations.of(context)!;
+
+    int totalAmount = 0;
+    double totalPrice = 0;
+    for (Product product in products.keys) {
+      int amount = products[product]!;
+      totalAmount += amount;
+      totalPrice += amount * product.price;
+    }
+
+    return Column(
+      children: [
+        ListView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: products.length,
+          itemBuilder: (context, index) {
+            Product product = products.keys.elementAt(index);
+            int amount = products[product]!;
+            return Container(
+              margin: EdgeInsets.only(bottom: 8),
+              child: Row(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(right: 16),
+                    child: SizedBox(
+                      width: 56,
+                      height: 56,
+                      child: Card(
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        child: CachedNetworkImage(imageUrl: product.image ?? settings['default_product_image']),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        elevation: 2
+                      )
+                    )
+                  ),
+
+                  Expanded(
+                    flex: 1,
+                    child: Column(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(bottom: 4),
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: Text('${product.name}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))
+                          )
+                        ),
+                        SizedBox(
+                          width: double.infinity,
+                          child: Text('${amount}x   \u20ac ${product.price.toStringAsFixed(2)}', style: TextStyle(color: Colors.grey))
+                        )
+                      ]
+                    )
+                  ),
+
+                  Text('\u20ac ${(product.price * amount).toStringAsFixed(2)}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500))
+                ]
+              )
+            );
+          }
+        ),
+
+        Divider(),
+
+        Row(
+          children: [
+            Container(
+              margin: EdgeInsets.only(right: 16),
+              child: SizedBox(
+                width: 56,
+                height: 56
+              ),
+            ),
+
+            Expanded(
+              flex: 1,
+              child: Text('${totalAmount}x', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))
+            ),
+
+            Text('\u20ac ${totalPrice.toStringAsFixed(2)}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500))
+          ]
+        )
+      ]
     );
   }
 }

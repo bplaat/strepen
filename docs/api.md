@@ -18,7 +18,7 @@ GET /api/users/check_balances ADMIN ✅
 GET /api/users/{user} AUTH ✅
 GET /api/users/{user}/notifications SELF ✅ (page?, limit?)
 GET /api/users/{user}/notifications/unread SELF ✅ (page?, limit?)
-GET /api/users/{user}/posts GUEST ✅ (query?, page?, limit?)
+GET /api/users/{user}/posts AUTH ✅ (query?, page?, limit?)
 GET /api/users/{user}/inventories ADMIN ✅ (query?, page?, limit?)
 GET /api/users/{user}/transactions SELF ✅ (query?, page?, limit?)
 POST /api/users/{user/edit SELF ✅ (
@@ -31,9 +31,9 @@ GET /api/users/{user}/delete ADMIN ❌
 
 GET /api/notifications/{notification}/read SELF ✅
 
-GET /api/posts GUEST ✅ (query?, page?, limit?)
+GET /api/posts AUTH ✅ (query?, page?, limit?)
 POST /api/posts ADMIN ❌
-GET /api/posts/{post} GUEST ✅
+GET /api/posts/{post} AUTH ✅
 POST /api/posts/{post}/edit ADMIN ❌
 GET /api/posts/{post}/delete ADMIN ❌
 

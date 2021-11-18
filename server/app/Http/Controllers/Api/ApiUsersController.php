@@ -108,7 +108,7 @@ class ApiUsersController extends Controller
             $limit = 20;
         }
 
-        $posts = $posts->paginate($limit)->withQueryString();
+        $posts = $posts->orderBy('created_at', 'DESC')->paginate($limit)->withQueryString();
         $parsedown = new Parsedown();
         foreach ($posts as $post) {
             $post->forApi($request->user(), $parsedown);
@@ -135,7 +135,7 @@ class ApiUsersController extends Controller
             $limit = 20;
         }
 
-        $inventories = $inventories->paginate($limit)->withQueryString();
+        $inventories = $inventories->orderBy('created_at', 'DESC')->paginate($limit)->withQueryString();
         foreach ($inventories as $inventory) {
             $inventory->forApi($request->user());
         }
@@ -161,7 +161,7 @@ class ApiUsersController extends Controller
             $limit = 20;
         }
 
-        $transactions = $transactions->paginate($limit)->withQueryString();
+        $transactions = $transactions->orderBy('created_at', 'DESC')->paginate($limit)->withQueryString();
         foreach ($transactions as $transaction) {
             $transaction->forApi($request->user());
         }

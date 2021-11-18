@@ -2,6 +2,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../config.dart';
 import '../models/user.dart';
+import '../models/transaction.dart';
 import '../models/notification.dart';
 import 'storage_service.dart';
 
@@ -11,6 +12,8 @@ class AuthService {
   User? _user;
 
   List<NotificationData>? _unreadNotifications;
+
+  List<Transaction>? _transactions;
 
   static AuthService getInstance() {
     if (_instance == null) {
@@ -76,5 +79,17 @@ class AuthService {
     await http.get(Uri.parse('${API_URL}/notifications/${notificationId}/read?api_key=${API_KEY}'), headers: {
       'Authorization': 'Bearer ${storage.token!}'
     });
+  }
+
+  Future<List<Transaction>> transactions({bool forceReload = false}) async {
+    if (_transactions == null || forceReload) {
+      StorageService storage = await StorageService.getInstance();
+      final response = await http.get(Uri.parse('${API_URL}/users/${storage.userId!}/transactions?api_key=${API_KEY}'), headers: {
+        'Authorization': 'Bearer ${storage.token!}'
+      });
+      final transactionsJson = json.decode(response.body)['data'];
+      _transactions = transactionsJson.map<Transaction>((json) => Transaction.fromJson(json)).toList();
+    }
+    return _transactions!;
   }
 }

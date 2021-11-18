@@ -1,6 +1,7 @@
 {
     "home_posts": "Nieuws berichten",
     "home_stripe": "Strepen",
+    "home_history": "Jouw strepen geschiedenis",
     "home_profile": "Jouw profiel",
     "home_notifications": "Notificaties",
     "home_new_deposit": "Nieuwe storting van \u20ac {transaction_amount}",
@@ -10,6 +11,7 @@
     "home_unread_notifications_empty": "Geen ongelezen notificaties",
     "home_posts_short": "Berichten",
     "home_stripe_short": "Strepen",
+    "home_history_short": "Geschiedenis",
     "home_profile_short": "Profiel",
 
     "home_posts_error": "Er is een fout opgetreden bij het laden van de berichten!",
@@ -24,6 +26,15 @@
     "home_stripe_stripe": "Strepen",
     "home_stripe_created": "Transactie gemaakt",
     "home_stripe_thx": "Bedankt, thx!",
+
+    "home_history_error": "Er is een fout opgetreden bij het laden van jouw strepen geschiedenis!",
+    "home_history_transaction_on": "Transactie op {transaction_created_at}",
+    "@home_history_transaction_on": { "placeholders": { "transaction_created_at": {} } },
+    "home_history_deposit_on": "Storting op {transaction_created_at}",
+    "@home_history_deposit_on": { "placeholders": { "transaction_created_at": {} } },
+    "home_history_food_on": "Eten op {transaction_created_at}",
+    "@home_history_food_on": { "placeholders": { "transaction_created_at": {} } },
+    "home_history_amount": "Hoeveelheid",
 
     "home_profile_error": "Er is een fout opgetreden tijdens het laden van uw gebruikersinformatie!",
     "home_profile_more": "Ga naar de Strepen website voor\nmeer instellingen en opties",

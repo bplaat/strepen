@@ -13,9 +13,9 @@ return [
     'history.header' => 'Uw persoonlijke streepgeschiedenis',
     'history.transactions' => 'strepen',
     'history.empty' => 'Geen strepen gevonden!',
-    'history.transaction_from' => 'Transactie op :transaction.created_at',
-    'history.deposit_for' => 'Storting op :transaction.created_at',
-    'history.food_for' => 'Eten op :transaction.created_at',
+    'history.transaction_on' => 'Transactie op :transaction.created_at',
+    'history.deposit_on' => 'Storting op :transaction.created_at',
+    'history.food_on' => 'Eten op :transaction.created_at',
     'history.cost' => 'Kosten',
     'history.amount' => 'Hoeveelheid'
 ];

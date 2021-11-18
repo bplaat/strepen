@@ -44,6 +44,10 @@ Route::middleware('api_key:self')->group(function () {
 Route::middleware('api_key:auth')->group(function () {
     Route::get('users', [ApiUsersController::class, 'index'])->name('api.users.index');
     Route::get('users/{user}', [ApiUsersController::class, 'show'])->name('api.users.show');
+    Route::get('users/{user}/posts', [ApiUsersController::class, 'showPosts'])->name('api.users.show_posts');
+
+    Route::get('posts', [ApiPostsController::class, 'index'])->name('api.posts.index');
+    Route::get('posts/{post}', [ApiPostsController::class, 'show'])->name('api.posts.show');
 
     Route::get('products', [ApiProductsController::class, 'index'])->name('api.products.index');
     Route::get('products/{product}', [ApiProductsController::class, 'show'])->name('api.products.show');
@@ -57,10 +61,5 @@ Route::middleware('api_key:auth')->group(function () {
 
 // Api guest routes
 Route::middleware('api_key:guest')->group(function () {
-    Route::get('users/{user}/posts', [ApiUsersController::class, 'showPosts'])->name('api.users.show_posts');
-
-    Route::get('posts', [ApiPostsController::class, 'index'])->name('api.posts.index');
-    Route::get('posts/{post}', [ApiPostsController::class, 'show'])->name('api.posts.show');
-
     Route::any('auth/login', [ApiAuthController::class, 'login'])->name('api.auth.login');
 });

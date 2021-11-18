@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'home_screen_posts_tab.dart';
 import 'home_screen_stripe_tab.dart';
+import 'home_screen_history_tab.dart';
 import 'home_screen_profile_tab.dart';
 import '../models/notification.dart';
 import '../services/auth_service.dart';
@@ -29,7 +30,7 @@ class _HomeScreenState extends State {
     final lang = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: Text([lang.home_posts, lang.home_stripe, lang.home_profile][_currentPageIndex]),
+        title: Text([lang.home_posts, lang.home_stripe, lang.home_history, lang.home_profile][_currentPageIndex]),
         actions: [
           NotificationsButton(pageController: _pageController)
         ]
@@ -43,11 +44,13 @@ class _HomeScreenState extends State {
         children: [
           HomeScreenPostsTab(),
           HomeScreenStripeTab(),
+          HomeScreenHistoryTab(),
           HomeScreenProfileTab()
         ]
       ),
 
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         onTap: (index) {
           _pageController.animateToPage(index, duration: Duration(milliseconds: 300), curve: Curves.ease);
           setState(() => _currentPageIndex = index);
@@ -56,11 +59,15 @@ class _HomeScreenState extends State {
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.email),
-            title: Text(lang.home_posts_short),
+            title: Text(lang.home_posts_short)
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.edit),
-            title: Text(lang.home_stripe_short),
+            title: Text(lang.home_stripe_short)
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.history),
+            title: Text(lang.home_history_short)
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
@@ -109,7 +116,7 @@ class _NotificationsButtonState extends State {
                       onTap: () async {
                         await AuthService.getInstance().readNotification(notificationId: notification.id);
                         setState(() => forceReload = true);
-                        pageController.animateToPage(2, duration: Duration(milliseconds: 300), curve: Curves.ease);
+                        pageController.animateToPage(3, duration: Duration(milliseconds: 300), curve: Curves.ease);
                       },
                       child: Text(lang.home_new_deposit(notification.data['amount'].toStringAsFixed(2))),
                     );
@@ -131,7 +138,7 @@ class _NotificationsButtonState extends State {
                       onTap: () async {
                         await AuthService.getInstance().readNotification(notificationId: notification.id);
                         setState(() => forceReload = true);
-                        pageController.animateToPage(2, duration: Duration(milliseconds: 300), curve: Curves.ease);
+                        pageController.animateToPage(3, duration: Duration(milliseconds: 300), curve: Curves.ease);
                       },
                       child: Text(lang.home_low_balance(notification.data['balance'].toStringAsFixed(2))),
                     );

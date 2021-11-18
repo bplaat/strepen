@@ -73,6 +73,11 @@ class DatabaseSeeder extends Seeder
         $setting->save();
 
         $setting = new Setting();
+        $setting->key = 'leaderboards_enabled';
+        $setting->value = 'true';
+        $setting->save();
+
+        $setting = new Setting();
         $setting->key = 'default_user_avatar';
         $setting->value = 'default.png';
         $setting->save();
@@ -85,11 +90,6 @@ class DatabaseSeeder extends Seeder
         $setting = new Setting();
         $setting->key = 'default_product_image';
         $setting->value = 'default.png';
-        $setting->save();
-
-        $setting = new Setting();
-        $setting->key = 'leaderboards_enabled';
-        $setting->value = 'true';
         $setting->save();
 
         // Create 50 random users
