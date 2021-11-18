@@ -192,13 +192,7 @@ class ImportData extends Command
             foreach ($inventoriesJson as $index => $inventoryJson) {
                 if (!in_array($inventoryJson->old_inventory_id, $doneInventories)) {
                     if ($inventoryJson->amount > 0) {
-                        $inventory = new Inventory();
-                        $inventory->user_id = 1;
-                        $inventory->name = 'Imported inventory on ' . $inventoryJson->created_at;
-                        $inventory->price = 0;
-                        $inventory->created_at = $inventoryJson->created_at;
-                        $inventory->save();
-
+                        $inventory = null;
                         for ($i = $index; $i < $index + 10 && $i < $total; $i++) {
                             $otherInventoryJson = $inventoriesJson[$i];
                             if (
@@ -209,6 +203,15 @@ class ImportData extends Command
                                 strtotime($otherInventoryJson->created_at) >= strtotime($inventoryJson->created_at) &&
                                 strtotime($otherInventoryJson->created_at) < strtotime($inventoryJson->created_at) + 10 * 60
                             ) {
+                                if ($inventory == null) {
+                                    $inventory = new Inventory();
+                                    $inventory->user_id = 1;
+                                    $inventory->name = 'Imported inventory on ' . $inventoryJson->created_at;
+                                    $inventory->price = 0;
+                                    $inventory->created_at = $inventoryJson->created_at;
+                                    $inventory->save();
+                                }
+
                                 $product = $products->firstWhere('id', $oldProductIds[$otherInventoryJson->old_product_id]);
                                 $inventory->price += $product->price * $otherInventoryJson->amount;
 
@@ -225,7 +228,9 @@ class ImportData extends Command
                                 $doneInventories[] = $otherInventoryJson->old_inventory_id;
                             }
                         }
-                        $inventory->save();
+                        if ($inventory != null) {
+                            $inventory->save();
+                        }
                     }
 
                     if ($inventoryJson->amount < 0) {
