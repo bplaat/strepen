@@ -14,21 +14,14 @@
 
         <div class="columns is-multiline">
             @foreach ($transactions as $transaction)
-                <div class="column is-one-quarter">
+                <div class="column is-one-third">
                     <div class="card">
                         <div class="card-content content">
                             <h4>{{ $transaction->name }}</h4>
 
                             @if ($transaction->type == App\Models\Transaction::TYPE_TRANSACTION)
                                 <p><i>@lang('transactions.history.transaction_on', ['transaction.created_at' => $transaction->created_at->format('Y-m-d H:i')])</i></p>
-                                <p>@lang('transactions.history.cost'): <x-money-format :money="$transaction->price" /></p>
-
-                                @foreach ($transaction->products()->orderByRaw('LOWER(name)')->get() as $product)
-                                    <p>
-                                        <div class="image is-small is-rounded is-inline" style="background-image: url(/storage/products/{{ $product->image ?? App\Models\Setting::get('default_product_image') }});"></div>
-                                        <b>{{ $product->name }}</b>: <x-amount-format :amount="$product->pivot->amount" />
-                                    </p>
-                                @endforeach
+                                <x-products-amounts :products="$transaction->products()->orderByRaw('LOWER(name)')->get()" />
                             @endif
 
                             @if ($transaction->type == App\Models\Transaction::TYPE_DEPOSIT)

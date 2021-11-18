@@ -13,7 +13,6 @@ return [
 
     // Admin inventories item livewire component
     'item.created_by' => 'Gemaakt door :user.name op :inventory.created_at',
-    'item.price' => 'Prijs',
     'item.edit' => 'Aanpassen',
     'item.delete' => 'Verwijderen',
     'item.edit_inventory' => 'Pas voorraad aan',

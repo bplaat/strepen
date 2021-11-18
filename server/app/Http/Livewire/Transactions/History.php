@@ -63,7 +63,7 @@ class History extends PaginationComponent
         }
         return view('livewire.transactions.history', [
             'transactions' => $transactions->orderBy('created_at', 'DESC')
-                ->paginate(Setting::get('pagination_rows') * 4)->withQueryString()
+                ->paginate(Setting::get('pagination_rows') * 3)->withQueryString()
         ])->layout('layouts.app', ['title' => __('transactions.history.title')]);
     }
 }

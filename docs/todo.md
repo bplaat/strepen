@@ -3,6 +3,7 @@
 # Todo List
 
 ## High priority (before launch)
+- Flutter paged infinite scroll / add transaction update profile automatic
 - Bug fixes / All the whishs from the Stam Bestuur
 
 ## Low priority (after launch)

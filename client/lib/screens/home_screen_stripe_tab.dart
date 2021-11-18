@@ -293,7 +293,7 @@ class TransactionCreatedDialog extends StatelessWidget {
                   child: Text(lang.home_stripe_thx, style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500))
                 ),
 
-                TransactionProductsTable(products: productAmounts, settings: settings),
+                TransactionProductsAmounts(products: productAmounts, settings: settings),
 
                 Container(
                   margin: EdgeInsets.only(top: 8),
@@ -317,12 +317,12 @@ class TransactionCreatedDialog extends StatelessWidget {
   }
 }
 
-class TransactionProductsTable extends StatelessWidget {
+class TransactionProductsAmounts extends StatelessWidget {
   final Map<Product, int> products;
 
   final Map<String, dynamic> settings;
 
-  const TransactionProductsTable({
+  const TransactionProductsAmounts({
     Key? key,
     required this.products,
     required this.settings

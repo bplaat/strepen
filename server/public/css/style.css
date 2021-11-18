@@ -10,7 +10,7 @@ pre{white-space:pre-wrap}
 .image.is-square{padding-top:100%}
 .image.is-small{width:24px;height:24px}
 .image.is-medium{width:28px;height:28px}
-.image.is-large{width:64px;height:64px}
+.image.is-large{width:56px;height:56px}
 .image.is-round{border-radius:50%}
 .image.is-rounded{border-radius:6px}
 .image.is-inline{float:left;margin-right:12px}

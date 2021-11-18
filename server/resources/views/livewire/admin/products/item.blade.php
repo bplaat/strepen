@@ -15,8 +15,8 @@
         </div>
 
         <div class="card-content content">
-            <h4 style="font-weight: 400;">
-                <span style="font-weight: 600;">{{ $product->name }}</span>: <x-money-format :money="$product->price" />
+            <h4 style="font-weight: 600;">
+                {{ $product->name }}: <x-money-format :money="$product->price" :isBold="false" />
             </h4>
 
             <p>@lang('admin/products.item.amount'): <x-amount-format :amount="$product->amount" /></p>

@@ -24,7 +24,6 @@ return [
     'item.transaction_from' => 'Transactie van :user.name op :transaction.created_at',
     'item.deposit_for' => 'Storting voor :user.name op :transaction.created_at',
     'item.food_for' => 'Eten voor :user.name op :transaction.created_at',
-    'item.cost' => 'Kosten',
     'item.amount' => 'Hoeveelheid',
     'item.edit' => 'Aanpassen',
     'item.delete' => 'Verwijderen',

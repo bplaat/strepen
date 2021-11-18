@@ -14,34 +14,8 @@
 
             <h2 class="title" style="margin-bottom: 24px; text-align: center;">@lang('components.transaction_created_modal_thx')</h2>
 
-            @foreach ($transaction->products()->orderByRaw('LOWER(name)')->get() as $product)
-                <div class="media" style="align-items: center; max-width: 360px; margin-left: auto; margin-right: auto;">
-                    <div class="media-left">
-                        <div class="image is-large is-rounded" style="background-image: url(/storage/products/{{ $product->image ?? App\Models\Setting::get('default_product_image') }});"></div>
-                    </div>
-                    <div class="media-content">
-                        <p>
-                            <b>{{ $product->name }}</b>
-                            (<x-money-format :money="$product->price" />)
-                        </p>
-                        <p><x-amount-format :amount="$product->pivot->amount" /></p>
-                    </div>
-                    <div class="media-right">
-                        <p><x-money-format :money="$product->price * $product->pivot->amount" /></p>
-                    </div>
-                </div>
-            @endforeach
-
-            <div class="media" style="align-items: center; max-width: 360px; margin-left: auto; margin-right: auto; margin-bottom: 16px;">
-                <div class="media-left">
-                    <div style="width: 64px;"></div>
-                </div>
-                <div class="media-content">
-                    <p><x-amount-format :amount="$transaction->products->pluck('pivot.amount')->sum()" /></p>
-                </div>
-                <div class="media-right">
-                    <p><x-money-format :money="$transaction->price" /></p>
-                </div>
+            <div style="max-width: 360px; margin-left: auto; margin-right: auto; margin-bottom: 16px;">
+                <x-products-amounts :products="$transaction->products()->orderByRaw('LOWER(name)')->get()" />
             </div>
         </div>
 

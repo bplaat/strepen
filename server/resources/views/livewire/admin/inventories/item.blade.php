@@ -3,14 +3,7 @@
         <div class="card-content content">
             <h4>{{ $inventory->name }}</h4>
             <p><i>@lang('admin/inventories.item.created_by', ['user.name' => $inventory->user != null ? $inventory->user->name : '?', 'inventory.created_at' => $inventory->created_at->format('Y-m-d H:i')])</i></p>
-            <p>@lang('admin/inventories.item.price'): <x-money-format :money="$inventory->price" /></p>
-
-            @foreach ($inventory->products()->orderByRaw('LOWER(name)')->get() as $product)
-                <p>
-                    <div class="image is-small is-rounded is-inline" style="background-image: url(/storage/products/{{ $product->image ?? App\Models\Setting::get('default_product_image') }});"></div>
-                    <b>{{ $product->name }}</b>: <x-amount-format :amount="$product->pivot->amount" />
-                </p>
-            @endforeach
+            <x-products-amounts :products="$inventory->products()->orderByRaw('LOWER(name)')->get()" />
         </div>
 
         <div class="card-footer">

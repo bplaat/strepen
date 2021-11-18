@@ -31,8 +31,8 @@
                         </div>
 
                         <div class="card-content content">
-                            <h4 class="mb-5" style="font-weight: 400;">
-                                <span style="font-weight: 600;">{{ $selectedProduct['product']['name'] }}</span>: <x-money-format :money="$selectedProduct['product']['price']" />
+                            <h4 class="mb-5" style="font-weight: 600;">
+                                {{ $selectedProduct['product']['name'] }}: <x-money-format :money="$selectedProduct['product']['price']" :isBold="false" />
                             </h4>
 
                             <div class="columns is-mobile">
@@ -106,8 +106,8 @@
                     <div class="image is-large is-rounded" style="background-image: url(/storage/products/{{ $selectedProduct['product']['image'] ?? App\Models\Setting::get('default_product_image') }});"></div>
                 </div>
                 <div class="media-content">
-                    <label class="label" for="product-amount-{{ $index }}" style="font-weight: 400;">
-                        <b>{{ $selectedProduct['product']['name'] }}</b> (<x-money-format :money="$selectedProduct['product']['price']" />) <b class="is-hidden-mobile">@lang('components.products_chooser.amount')</b>
+                    <label class="label" for="product-amount-{{ $index }}" style="font-weight: 600;">
+                        {{ $selectedProduct['product']['name'] }} (<x-money-format :money="$selectedProduct['product']['price']" :isBold="false" />) <span class="is-hidden-mobile">@lang('components.products_chooser.amount')</span>
                         <button type="button" class="delete is-pulled-right" style="transform: translateY(3px);" wire:click="deleteProduct({{ $selectedProduct['product_id'] }})"></button>
                     </label>
                     <div class="control">

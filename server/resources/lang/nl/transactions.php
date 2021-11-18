@@ -16,6 +16,5 @@ return [
     'history.transaction_on' => 'Transactie op :transaction.created_at',
     'history.deposit_on' => 'Storting op :transaction.created_at',
     'history.food_on' => 'Eten op :transaction.created_at',
-    'history.cost' => 'Kosten',
     'history.amount' => 'Hoeveelheid'
 ];
