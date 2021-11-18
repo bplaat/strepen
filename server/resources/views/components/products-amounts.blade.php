@@ -7,11 +7,11 @@
             <p class="mb-0"><b>{{ $product->name }}</b></p>
             <p class="has-text-grey">
                 <span class="mr-2"><x-amount-format :amount="$product->pivot->amount" :isBold="false" /></span>
-                <x-money-format :money="$product->price" :isBold="false" />
+                @if ($totalPrice != null && $totalPrice != $realTotalPrice) ? @else <x-money-format :money="$product->price" :isBold="false" /> @endif
             </p>
         </div>
         <div class="media-right">
-            <p><x-money-format :money="$product->price * $product->pivot->amount" /></p>
+            <p>@if ($totalPrice != null && $totalPrice != $realTotalPrice) ? @else <x-money-format :money="$product->price * $product->pivot->amount" /> @endif</p>
         </div>
     </div>
 @endforeach
@@ -24,6 +24,6 @@
         <p><x-amount-format :amount="$products->pluck('pivot.amount')->sum()" /></p>
     </div>
     <div class="media-right">
-        <p><x-money-format :money="$products->reduce(function ($price, $product) { return $price + $product->pivot->amount * $product->price; })" /></p>
+        <p><x-money-format :money="$totalPrice ?? $realTotalPrice" /></p>
     </div>
 </div>

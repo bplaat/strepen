@@ -20,7 +20,7 @@
                             <button type="button" class="delete is-small is-pulled-right" wire:click.prevent="readNotification('{{ $notification->id }}')"></button>
                         </h1>
                         <p>@lang('components.notifications.new_deposit_start') <x-money-format :money="$transaction->price" />
-                            @lang('components.notifications.new_deposit_end') {{ $transaction->created_at->format('Y-m-d H:i:s') }}</p>
+                            @lang('components.notifications.new_deposit_end') {{ $transaction->created_at->format('Y-m-d H:i:') }}</p>
                     </a>
                 @endif
 
@@ -34,7 +34,7 @@
                             @lang('components.notifications.new_post_header')
                             <button type="button" class="delete is-small is-pulled-right" wire:click.prevent="readNotification('{{ $notification->id }}')"></button>
                         </h1>
-                        <p>@lang('components.notifications.new_post_text', ['post.created_at' => $post->created_at->format('Y-m-d H:i:s')])</p>
+                        <p>@lang('components.notifications.new_post_text', ['post.created_at' => $post->created_at->format('Y-m-d H:i')])</p>
                     </a>
                 @endif
 

@@ -24,7 +24,7 @@
                                 </p>
                             @endif
                             <p>@lang('notifications.new_deposit_start') <x-money-format :money="$transaction->price" />
-                                @lang('notifications.new_deposit_end') {{ $transaction->created_at->format('Y-m-d H:i:s') }}</p>
+                                @lang('notifications.new_deposit_end') {{ $transaction->created_at->format('Y-m-d H:i') }}</p>
                         @endif
 
                         @if ($notification->type == 'App\Notifications\NewPost')
@@ -42,7 +42,7 @@
                                     <span class="tag is-warning">{{ Str::upper(__('notifications.unread')) }}</span>
                                 </p>
                             @endif
-                            <p>@lang('notifications.new_post_text', ['post.created_at' => $post->created_at->format('Y-m-d H:i:s')])</p>
+                            <p>@lang('notifications.new_post_text', ['post.created_at' => $post->created_at->format('Y-m-d H:i')])</p>
                         @endif
 
                         @if ($notification->type == 'App\Notifications\LowBalance')

@@ -21,7 +21,7 @@
 
                             @if ($transaction->type == App\Models\Transaction::TYPE_TRANSACTION)
                                 <p><i>@lang('transactions.history.transaction_on', ['transaction.created_at' => $transaction->created_at->format('Y-m-d H:i')])</i></p>
-                                <x-products-amounts :products="$transaction->products()->orderByRaw('LOWER(name)')->get()" />
+                                <x-products-amounts :products="$transaction->products()->orderByRaw('LOWER(name)')->get()" :totalPrice="$transaction->price" />
                             @endif
 
                             @if ($transaction->type == App\Models\Transaction::TYPE_DEPOSIT)
