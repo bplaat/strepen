@@ -10,7 +10,7 @@ class ProductsAmounts extends Component
     public $totalPrice;
     public $realTotalPrice;
 
-    public function __construct($products, $totalPrice)
+    public function __construct($products, $totalPrice = null)
     {
         $this->products = $products;
         $this->totalPrice = $totalPrice;

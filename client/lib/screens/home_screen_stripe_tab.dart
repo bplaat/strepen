@@ -293,7 +293,7 @@ class TransactionCreatedDialog extends StatelessWidget {
                   child: Text(lang.home_stripe_thx, style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500))
                 ),
 
-                TransactionProductsAmounts(products: productAmounts, settings: settings),
+                TransactionProductsAmounts(products: productAmounts, totalPrice: null, settings: settings),
 
                 Container(
                   margin: EdgeInsets.only(top: 8),
@@ -320,11 +320,14 @@ class TransactionCreatedDialog extends StatelessWidget {
 class TransactionProductsAmounts extends StatelessWidget {
   final Map<Product, int> products;
 
+  final double? totalPrice;
+
   final Map<String, dynamic> settings;
 
   const TransactionProductsAmounts({
     Key? key,
     required this.products,
+    required this.totalPrice,
     required this.settings
   }) : super(key: key);
 
@@ -333,11 +336,11 @@ class TransactionProductsAmounts extends StatelessWidget {
     final lang = AppLocalizations.of(context)!;
 
     int totalAmount = 0;
-    double totalPrice = 0;
+    double realTotalPrice = 0;
     for (Product product in products.keys) {
       int amount = products[product]!;
       totalAmount += amount;
-      totalPrice += amount * product.price;
+      realTotalPrice += amount * product.price;
     }
 
     return Column(
@@ -382,13 +385,13 @@ class TransactionProductsAmounts extends StatelessWidget {
                         ),
                         SizedBox(
                           width: double.infinity,
-                          child: Text('${amount}x   \u20ac ${product.price.toStringAsFixed(2)}', style: TextStyle(color: Colors.grey))
+                          child: Text('${amount}x    \u20ac ${totalPrice != null && totalPrice != realTotalPrice ? '?' : product.price.toStringAsFixed(2)}', style: TextStyle(color: Colors.grey))
                         )
                       ]
                     )
                   ),
 
-                  Text('\u20ac ${(product.price * amount).toStringAsFixed(2)}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500))
+                  Text('\u20ac ${totalPrice != null && totalPrice != realTotalPrice ? '?' : (product.price * amount).toStringAsFixed(2)}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500))
                 ]
               )
             );
@@ -412,7 +415,7 @@ class TransactionProductsAmounts extends StatelessWidget {
               child: Text('${totalAmount}x', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))
             ),
 
-            Text('\u20ac ${totalPrice.toStringAsFixed(2)}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500))
+            Text('\u20ac ${(totalPrice ?? realTotalPrice).toStringAsFixed(2)}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500))
           ]
         )
       ]

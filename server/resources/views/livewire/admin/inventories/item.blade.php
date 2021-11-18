@@ -3,7 +3,7 @@
         <div class="card-content content">
             <h4>{{ $inventory->name }}</h4>
             <p><i>@lang('admin/inventories.item.created_by', ['user.name' => $inventory->user != null ? $inventory->user->name : '?', 'inventory.created_at' => $inventory->created_at->format('Y-m-d H:i')])</i></p>
-            <x-products-amounts :products="$inventory->products()->orderByRaw('LOWER(name)')->get()" :totalPrice="$inventory->price" />
+            <x-products-amounts :products="$inventory->products()->orderByRaw('LOWER(name)')->get()" />
         </div>
 
         <div class="card-footer">

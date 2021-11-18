@@ -90,7 +90,7 @@ class TransactionList extends StatelessWidget {
                       child: Text(lang.home_history_transaction_on(DateFormat('yyyy-MM-dd kk:mm').format(transaction.created_at)), style: TextStyle(color: Colors.grey))
                     ),
 
-                    TransactionProductsAmounts(products: transaction.products!, settings: settings)
+                    TransactionProductsAmounts(products: transaction.products!, totalPrice: transaction.price, settings: settings)
                   ],
 
                   if (transaction.type == 'deposit') ...[
