@@ -6,7 +6,6 @@ import '../models/user.dart';
 import '../services/auth_service.dart';
 import '../services/settings_service.dart';
 import '../services/product_service.dart';
-import '../services/transaction_service.dart';
 import '../config.dart';
 
 class HomeScreenStripeTab extends StatefulWidget {
@@ -158,7 +157,10 @@ class _ProductsListState extends State {
 
                         Container(
                           margin: EdgeInsets.symmetric(horizontal: 16),
-                          child: Text(amount.toString(), style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500))
+                          child: SizedBox(
+                            width: 16,
+                            child: Text(amount.toString(), style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500), textAlign: TextAlign.center)
+                          )
                         ),
 
                         IconButton(
@@ -204,7 +206,7 @@ class _ProductsListState extends State {
                     if (productAmounts.length > 0) {
                       setState(() => _isLoading = true);
 
-                      if (await TransactionService.getInstance().create(productAmounts: productAmounts)) {
+                      if (await AuthService.getInstance().createTransaction(productAmounts: productAmounts)) {
                         setState(() {
                           for (int i = 0; i < products.length; i++) {
                             _amounts[i] = 0;

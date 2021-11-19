@@ -52,6 +52,7 @@ class _LoginScreenState extends State {
                     margin: EdgeInsets.symmetric(vertical: 8),
                     child: TextField(
                       controller: _emailController,
+                      autocorrect: false,
                       style: TextStyle(fontSize: 18),
                       decoration: InputDecoration(
                         border: OutlineInputBorder(

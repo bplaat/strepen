@@ -5,7 +5,7 @@ class User {
   final String lastname;
   final String? avatar;
   final String? thanks;
-  final double? balance;
+  double? balance;
   final bool? minor;
 
   User({

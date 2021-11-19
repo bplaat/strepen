@@ -4,7 +4,7 @@
 
 ## High priority (before launch)
 - Eten inventory items
-- Flutter paged infinite scroll / add transaction update profile automatic
+- Flutter paged infinite scroll
 - Bug fixes / All the whishs from the Stam Bestuur
 
 ## Low priority (after launch)
