@@ -93,9 +93,10 @@ class ApiTransactionsController extends Controller
         $user->save();
 
         // Return success message
+        $transaction->forApi($request->user());
         return [
             'message' => 'Your transaction is successfully created',
-            'transaction_id' => $transaction->id
+            'transaction' => $transaction
         ];
     }
 }
