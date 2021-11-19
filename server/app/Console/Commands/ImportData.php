@@ -13,6 +13,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ImportData extends Command
@@ -59,6 +60,21 @@ class ImportData extends Command
             $exportDirectory = 'Strepen export on ' . date('Y-m-d H.i.s');
             mkdir($exportDirectory);
         }
+
+        // Remove all old storage items
+        echo "Removing all old storage items...\n";
+        Storage::deleteDirectory('livewire-tmp');
+        $files = [
+            ...Storage::files('public/avatars'),
+            ...Storage::files('public/products'),
+            ...Storage::files('public/thanks')
+        ];
+        foreach ($files as $file) {
+            if (!str_contains($file, 'default') && !str_contains($file, User::find(2)->avatar)) {
+                Storage::delete($file);
+            }
+        }
+        echo "Removing old storage items done!\n";
 
         // File get contents context
         $http_context = stream_context_create([
