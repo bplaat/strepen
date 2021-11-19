@@ -102,6 +102,7 @@ class ImportData extends Command
                         $user->receive_news = $userJson->receive_news;
                         $user->balance = 0;
                         $user->active = $userJson->active;
+                        $user->checkGravatarAvatar();
                         $user->save();
                     }
                     $oldUserIds[$userJson->old_user_id] = $user->id;
@@ -189,19 +190,23 @@ class ImportData extends Command
         } else {
             $total = count($inventoriesJson);
             $doneInventories = [];
+            foreach ($inventoriesJson as $inventoryJson) {
+                $inventoryJson->created_at_timestamp = strtotime($inventoryJson->created_at);
+            }
+
             foreach ($inventoriesJson as $index => $inventoryJson) {
                 if (!in_array($inventoryJson->old_inventory_id, $doneInventories)) {
                     if ($inventoryJson->amount > 0) {
                         $inventory = null;
-                        for ($i = $index; $i < $index + 10 && $i < $total; $i++) {
+                        for ($i = $index; $i < $index + 25 && $i < $total; $i++) {
                             $otherInventoryJson = $inventoriesJson[$i];
                             if (
                                 !in_array($otherInventoryJson->old_inventory_id, $doneInventories) &&
                                 $otherInventoryJson->amount > 0 &&
                                 $otherInventoryJson->old_product_id != 7 &&
                                 $otherInventoryJson->old_product_id != 10 &&
-                                strtotime($otherInventoryJson->created_at) >= strtotime($inventoryJson->created_at) &&
-                                strtotime($otherInventoryJson->created_at) < strtotime($inventoryJson->created_at) + 10 * 60
+                                $otherInventoryJson->created_at_timestamp >= $inventoryJson->created_at_timestamp &&
+                                $otherInventoryJson->created_at_timestamp < $inventoryJson->created_at_timestamp + 60
                             ) {
                                 if ($inventory == null) {
                                     $inventory = new Inventory();
@@ -234,24 +239,27 @@ class ImportData extends Command
                     }
 
                     if ($inventoryJson->amount < 0) {
-                        $transaction = new Transaction();
-                        $transaction->user_id = 1;
-                        $transaction->type = Transaction::TYPE_TRANSACTION;
-                        $transaction->name = 'Imported negative inventory on ' . $inventoryJson->created_at;
-                        $transaction->price = 0;
-                        $transaction->created_at = $inventoryJson->created_at;
-                        $transaction->save();
-
-                        for ($i = $index; $i < $index + 10 && $i < $total; $i++) {
+                        $transaction = null;
+                        for ($i = $index; $i < $index + 25 && $i < $total; $i++) {
                             $otherInventoryJson = $inventoriesJson[$i];
                             if (
                                 !in_array($otherInventoryJson->old_inventory_id, $doneInventories) &&
                                 $otherInventoryJson->amount < 0 &&
                                 $otherInventoryJson->old_product_id != 7 &&
                                 $otherInventoryJson->old_product_id != 10 &&
-                                strtotime($otherInventoryJson->created_at) >= strtotime($inventoryJson->created_at) &&
-                                strtotime($otherInventoryJson->created_at) < strtotime($inventoryJson->created_at) + 10 * 60
+                                $otherInventoryJson->created_at_timestamp >= $inventoryJson->created_at_timestamp &&
+                                $otherInventoryJson->created_at_timestamp < $inventoryJson->created_at_timestamp + 60
                             ) {
+                                if ($transaction == null) {
+                                    $transaction = new Transaction();
+                                    $transaction->user_id = 1;
+                                    $transaction->type = Transaction::TYPE_TRANSACTION;
+                                    $transaction->name = 'Imported negative inventory on ' . $inventoryJson->created_at;
+                                    $transaction->price = 0;
+                                    $transaction->created_at = $inventoryJson->created_at;
+                                    $transaction->save();
+                                }
+
                                 $otherInventoryJson->amount = -$otherInventoryJson->amount;
                                 $product = $products->firstWhere('id', $oldProductIds[$otherInventoryJson->old_product_id]);
                                 $transaction->price += $product->price * $otherInventoryJson->amount;
@@ -269,7 +277,9 @@ class ImportData extends Command
                                 $doneInventories[] = $otherInventoryJson->old_inventory_id;
                             }
                         }
-                        $transaction->save();
+                        if ($transaction != null) {
+                            $transaction->save();
+                        }
                     }
                 }
                 echo "\033[F" . ($index + 1) . ' / ' . $total . ' = ' . round(($index + 1) / $total * 100, 2) . "% | " . $inventoryJson->created_at . "\n";
@@ -328,6 +338,7 @@ class ImportData extends Command
             foreach ($transactionsJson as $transactionJson) {
                 $transactionJson->created_at_timestamp = strtotime($transactionJson->created_at);
             }
+
             foreach ($transactionsJson as $index => $transactionJson) {
                 if (!in_array($transactionJson->old_transaction_id, $doneTransactions)) {
                     if ($transactionJson->old_product_id == 7) {
@@ -363,7 +374,7 @@ class ImportData extends Command
                                 $otherTransactionJson->old_product_id != 7 &&
                                 $otherTransactionJson->old_product_id != 10 &&
                                 $otherTransactionJson->created_at_timestamp >= $transactionJson->created_at_timestamp &&
-                                $otherTransactionJson->created_at_timestamp < $transactionJson->created_at_timestamp + 10 * 60
+                                $otherTransactionJson->created_at_timestamp < $transactionJson->created_at_timestamp + 60
                             ) {
                                 if ($otherTransactionJson->amount > 0) {
                                     $alreadyExists = false;

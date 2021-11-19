@@ -265,6 +265,20 @@ class User extends Authenticatable
         return $balanceData;
     }
 
+    // Check gravatar for avatar
+    public function checkGravatarAvatar() {
+        $headers = implode('\n', get_headers('https://www.gravatar.com/avatar/' . md5($this->email) . '?d=404'));
+        if (str_contains($headers, '200 OK') && (str_contains($headers, 'Content-Type: image/jpeg') || str_contains($headers, 'Content-Type: image/png'))) {
+            if (str_contains($headers, 'Content-Type: image/jpeg')) {
+                $this->avatar = static::generateAvatarName('jpg');
+            }
+            if (str_contains($headers, 'Content-Type: image/png')) {
+                $this->avatar = static::generateAvatarName('png');
+            }
+            file_put_contents(storage_path('app/public/avatars/') . $this->avatar, file_get_contents('https://www.gravatar.com/avatar/' . md5($this->email) . '?s=512'));
+        }
+    }
+
     // Send all users that have a to low balance an low balance notification
     public static function checkBalances()
     {

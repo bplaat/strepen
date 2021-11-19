@@ -38,6 +38,7 @@ class DatabaseSeeder extends Seeder
         $user->password = Hash::make('admin123');
         $user->role = User::ROLE_ADMIN;
         $user->balance = 0;
+        $user->checkGravatarAvatar();
         $user->save();
 
         // Create website api key
