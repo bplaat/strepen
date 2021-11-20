@@ -9,7 +9,7 @@
                 @endif
 
                 @if ($user->role == App\Models\User::ROLE_MANAGER)
-                    <span class="tag is-warning">{{ Str::upper(__('admin/users.item.role_manager')) }}</span>
+                    <span class="tag is-link">{{ Str::upper(__('admin/users.item.role_manager')) }}</span>
                 @endif
 
                 @if ($user->role == App\Models\User::ROLE_ADMIN)
@@ -64,7 +64,7 @@
                                     @endif
 
                                     @if ($user->role == App\Models\User::ROLE_MANAGER)
-                                        <span class="tag is-warning">{{ Str::upper(__('admin/users.item.role_manager')) }}</span>
+                                        <span class="tag is-link">{{ Str::upper(__('admin/users.item.role_manager')) }}</span>
                                     @endif
 
                                     @if ($user->role == App\Models\User::ROLE_ADMIN)
@@ -78,12 +78,12 @@
                             </h1>
 
                             <p class="is-display-mobile is-hidden-tablet">
-                                @if ($user == App\Models\User::ROLE_NORMAL)
+                                @if ($user->role == App\Models\User::ROLE_NORMAL)
                                     <span class="tag is-success">{{ Str::upper(__('admin/users.item.role_normal')) }}</span>
                                 @endif
 
                                 @if ($user->role == App\Models\User::ROLE_MANAGER)
-                                    <span class="tag is-warning">{{ Str::upper(__('admin/users.item.role_manager')) }}</span>
+                                    <span class="tag is-link">{{ Str::upper(__('admin/users.item.role_manager')) }}</span>
                                 @endif
 
                                 @if ($user->role == App\Models\User::ROLE_ADMIN)

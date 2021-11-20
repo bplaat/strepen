@@ -31,10 +31,14 @@ class Item extends Component
     {
         $firstTransaction = $this->product->transactions()->where('deleted', false)->orderBy('created_at')->first();
         $firstInventory = $this->product->inventories()->where('deleted', false)->orderBy('created_at')->first();
-        if ($firstTransaction != null && $firstInventory != null) {
-            $oldestItem = $firstTransaction->created_at->getTimestamp() < $firstInventory->created_at->getTimestamp()
-                ? $firstTransaction
-                : $firstInventory;
+        if ($firstTransaction != null || $firstInventory != null) {
+            $oldestItem = $firstTransaction ?? $firstInventory;
+            if ($firstTransaction != null && $firstInventory != null) {
+                $firstTransaction->created_at->getTimestamp() < $firstInventory->created_at->getTimestamp()
+                    ? $firstTransaction
+                    : $firstInventory;
+            }
+
             $maxDiff = 365 * 24 * 60 * 60;
             if (time() - $oldestItem->created_at->getTimestamp() < $maxDiff) {
                 $this->startDate = $oldestItem->created_at->format('Y-m-d');

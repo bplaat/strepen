@@ -89,10 +89,14 @@ class Product extends Model
         // Covert start and end date to timestamp
         $firstTransaction = $this->transactions()->where('deleted', false)->orderBy('created_at')->first();
         $firstInventory = $this->inventories()->where('deleted', false)->orderBy('created_at')->first();
-        if ($firstTransaction != null && $firstInventory != null) {
-            $oldestItem = $firstTransaction->created_at->getTimestamp() < $firstInventory->created_at->getTimestamp()
-                ? $firstTransaction
-                : $firstInventory;
+        if ($firstTransaction != null || $firstInventory != null) {
+            $oldestItem = $firstTransaction ?? $firstInventory;
+            if ($firstTransaction != null && $firstInventory != null) {
+                $firstTransaction->created_at->getTimestamp() < $firstInventory->created_at->getTimestamp()
+                    ? $firstTransaction
+                    : $firstInventory;
+            }
+
             $startDate = max(strtotime($startDate), $oldestItem->created_at->getTimestamp());
         } else {
             $startDate = strtotime(date('Y-m-d'));
