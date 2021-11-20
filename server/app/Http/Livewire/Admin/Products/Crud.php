@@ -34,6 +34,7 @@ class Crud extends PaginationComponent
     public function mount()
     {
         $this->product = new Product();
+        $this->product->alcoholic = false;
         $this->image = null;
         $this->isCreating = false;
     }

@@ -74,7 +74,7 @@ class Item extends Component
             ]);
         }
 
-        // Recalculate amounts of all products (SLOW!!!)
+        // Recalculate amounts of all products (Very slow)
         foreach (Product::all() as $product) {
             $product->recalculateAmount();
             $product->save();
@@ -90,8 +90,8 @@ class Item extends Component
         $this->inventory->deleted = true;
         $this->inventory->save();
 
-        // Recalculate amounts of all products (SLOW!!!)
-        foreach (Product::all() as $product) {
+        // Recalculate amounts of all inventory products
+        foreach ($this->inventory->products as $product) {
             $product->recalculateAmount();
             $product->save();
         }

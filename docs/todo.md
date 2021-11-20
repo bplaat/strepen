@@ -2,14 +2,16 @@
 
 # Todo List
 
-## High priority (before launch)
-- Eten inventory items
+## High priority
+- Bugs wanneer spullen verwijderen
+- New role super admin
 - Flutter paged infinite scroll
-- Bug fixes / All the whishs from the Stam Bestuur
-
-## Low priority (after launch)
 - User settings in mobile Flutter app
 - Publish flutter mobile app on Google Play Store
+- Bug fixes / All the whishs from the Stam Bestuur
+
+## Low priority
 - Better admin user charts
 - Better admin product charts
 - Finish the admin part of the REST API
+- Unit / Features tests

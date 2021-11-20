@@ -87,7 +87,7 @@ class Item extends Component
                 ]);
             }
 
-            // Recalculate amounts of all products (SLOW!!!)
+            // Recalculate amounts of all products (Very slow)
             foreach (Product::all() as $product) {
                 $product->recalculateAmount();
                 $product->save();
@@ -135,16 +135,15 @@ class Item extends Component
         $this->isDeleting = false;
 
         // Delete and recalculate user balance
-        $userId = $this->transaction->user_id;
         $this->transaction->deleted = true;
         $this->transaction->save();
 
-        $user = User::find($userId);
+        $user = $this->transaction->user;
         $user->recalculateBalance();
         $user->save();
 
-        // Recalculate amounts of all products (SLOW!!!)
-        foreach (Product::all() as $product) {
+        // Recalculate amounts of all inventory products
+        foreach ($this->transaction->products as $product) {
             $product->recalculateAmount();
             $product->save();
         }
