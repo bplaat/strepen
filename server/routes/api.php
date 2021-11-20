@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('', [ApiController::class, 'home'])->name('api.home');
 
-// Api admin routes
-Route::middleware('api_key:admin')->group(function () {
+// Api manager routes
+Route::middleware('api_key:manager')->group(function () {
     Route::get('users/check_balances', [ApiUsersController::class, 'checkBalances'])->name('api.users.check_balances');
     Route::get('users/{user}/inventories', [ApiUsersController::class, 'showInventories'])->name('api.users.show_inventories');
 

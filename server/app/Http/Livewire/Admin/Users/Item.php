@@ -15,6 +15,7 @@ class Item extends Component
     use WithFileUploads;
 
     public $user;
+    public $oldRole;
     public $newPassword;
     public $newPasswordConfirmation;
     public $avatar;
@@ -26,7 +27,7 @@ class Item extends Component
 
     public function rules()
     {
-        return [
+        $rules = [
             'user.firstname' => 'required|min:2|max:48',
             'user.insertion' => 'nullable|max:16',
             'user.lastname' => 'required|min:2|max:48',
@@ -46,16 +47,24 @@ class Item extends Component
             'newPasswordConfirmation' => $this->newPassword != null ? ['required', 'same:newPassword'] : [],
             'avatar' => 'nullable|image|mimes:jpg,jpeg,png|max:1024',
             'thanks' => 'nullable|image|mimes:gif|max:2048',
-            'user.role' => 'required|integer|digits_between:' . User::ROLE_NORMAL . ',' . User::ROLE_ADMIN,
             'user.language' => 'required|integer|digits_between:' . User::LANGUAGE_ENGLISH . ',' . User::LANGUAGE_DUTCH,
             'user.theme' => 'required|integer|digits_between:' . User::THEME_LIGHT . ',' . User::THEME_DARK,
             'user.receive_news' => 'nullable|boolean',
             'user.active' => 'nullable|boolean'
         ];
+        if (Auth::user()->role == User::ROLE_MANAGER) {
+            $rules['user.role'] = 'required|integer|digits_between:' . User::ROLE_NORMAL . ',' . User::ROLE_MANAGER;
+        }
+        if (Auth::user()->role == User::ROLE_ADMIN) {
+            $rules['user.role'] = 'required|integer|digits_between:' . User::ROLE_NORMAL . ',' . User::ROLE_ADMIN;
+        }
+        return $rules;
     }
 
     public function mount()
     {
+        $this->oldRole = $this->user->role;
+
         $firstTransaction = $this->user->transactions()->where('deleted', false)->orderBy('created_at')->first();
         if ($firstTransaction != null) {
             $maxDiff = 365 * 24 * 60 * 60;
@@ -102,6 +111,10 @@ class Item extends Component
             $this->thanks = null;
         }
 
+        if (Auth::user()->role == User::ROLE_MANAGER && $this->oldRole == User::ROLE_ADMIN) {
+            $this->user->role = User::ROLE_ADMIN;
+        }
+
         $this->isEditing = false;
         $this->user->save();
         $this->emitUp('refresh');
@@ -139,9 +152,14 @@ class Item extends Component
     public function deleteUser()
     {
         $this->isDeleting = false;
-        $this->user->deleted = true;
-        $this->user->update();
-        $this->emitUp('refresh');
+        if (
+            (Auth::user()->role == User::ROLE_MANAGER && $this->user->role != User::ROLE_ADMIN) ||
+            Auth::user()->role == User::ROLE_ADMIN
+        ) {
+            $this->user->deleted = true;
+            $this->user->update();
+            $this->emitUp('refresh');
+        }
     }
 
     public function render()

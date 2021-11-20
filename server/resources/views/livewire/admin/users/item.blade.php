@@ -8,6 +8,10 @@
                     <span class="tag is-success">{{ Str::upper(__('admin/users.item.role_normal')) }}</span>
                 @endif
 
+                @if ($user->role == App\Models\User::ROLE_MANAGER)
+                    <span class="tag is-warning">{{ Str::upper(__('admin/users.item.role_manager')) }}</span>
+                @endif
+
                 @if ($user->role == App\Models\User::ROLE_ADMIN)
                     <span class="tag is-danger">{{ Str::upper(__('admin/users.item.role_admin')) }}</span>
                 @endif
@@ -26,10 +30,15 @@
         <div class="card-footer">
             <a href="#" class="card-footer-item" wire:click.prevent="$set('isShowing', true)">@lang('admin/users.item.show')</a>
             <a href="#" class="card-footer-item" wire:click.prevent="$set('isEditing', true)">@lang('admin/users.item.edit')</a>
-            @if ($user->id != Auth::id())
-                <a href="#" class="card-footer-item has-text-danger" wire:click.prevent="hijackUser">@lang('admin/users.item.hijack')</a>
+            @if (
+                (Auth::user()->role == App\Models\User::ROLE_MANAGER && $user->role != App\Models\User::ROLE_ADMIN) ||
+                Auth::user()->role == App\Models\User::ROLE_ADMIN
+            )
+                @if ($user->id != Auth::id())
+                    <a href="#" class="card-footer-item has-text-danger" wire:click.prevent="hijackUser">@lang('admin/users.item.hijack')</a>
+                @endif
+                <a href="#" class="card-footer-item has-text-danger" wire:click.prevent="$set('isDeleting', true)">@lang('admin/users.item.delete')</a>
             @endif
-            <a href="#" class="card-footer-item has-text-danger" wire:click.prevent="$set('isDeleting', true)">@lang('admin/users.item.delete')</a>
         </div>
     </div>
 
@@ -54,6 +63,10 @@
                                         <span class="tag is-success">{{ Str::upper(__('admin/users.item.role_normal')) }}</span>
                                     @endif
 
+                                    @if ($user->role == App\Models\User::ROLE_MANAGER)
+                                        <span class="tag is-warning">{{ Str::upper(__('admin/users.item.role_manager')) }}</span>
+                                    @endif
+
                                     @if ($user->role == App\Models\User::ROLE_ADMIN)
                                         <span class="tag is-danger">{{ Str::upper(__('admin/users.item.role_admin')) }}</span>
                                     @endif
@@ -65,8 +78,12 @@
                             </h1>
 
                             <p class="is-display-mobile is-hidden-tablet">
-                                @if ($user->role == App\Models\User::ROLE_NORMAL)
+                                @if ($user == App\Models\User::ROLE_NORMAL)
                                     <span class="tag is-success">{{ Str::upper(__('admin/users.item.role_normal')) }}</span>
+                                @endif
+
+                                @if ($user->role == App\Models\User::ROLE_MANAGER)
+                                    <span class="tag is-warning">{{ Str::upper(__('admin/users.item.role_manager')) }}</span>
                                 @endif
 
                                 @if ($user->role == App\Models\User::ROLE_ADMIN)
@@ -383,13 +400,22 @@
                                 <label class="label" for="role">@lang('admin/users.item.role')</label>
                                 <div class="control">
                                     <div class="select is-fullwidth @error('user.role') is-danger @enderror">
-                                        <select id="role" wire:model.defer="user.role">
+                                        <select id="role" wire:model.defer="user.role" @if (Auth::user()->role == App\Models\User::ROLE_MANAGER && $user->role == App\Models\User::ROLE_ADMIN) disabled @endif>
                                             <option value="{{ App\Models\User::ROLE_NORMAL }}">@lang('admin/users.item.role_normal')</option>
-                                            <option value="{{ App\Models\User::ROLE_ADMIN }}">@lang('admin/users.item.role_admin')</option>
+                                            <option value="{{ App\Models\User::ROLE_MANAGER }}">@lang('admin/users.item.role_manager')</option>
+                                            @if ((Auth::user()->role == App\Models\User::ROLE_MANAGER && $user->role == App\Models\User::ROLE_ADMIN) || Auth::user()->role == App\Models\User::ROLE_ADMIN)
+                                                <option value="{{ App\Models\User::ROLE_ADMIN }}">@lang('admin/users.item.role_admin')</option>
+                                            @endif
                                         </select>
                                     </div>
                                 </div>
-                                @error('user.role') <p class="help is-danger">{{ $message }}</p> @enderror
+                                @error('user.role')
+                                    <p class="help is-danger">{{ $message }}</p>
+                                @else
+                                    @if (Auth::user()->role == App\Models\User::ROLE_MANAGER && $user->role == App\Models\User::ROLE_ADMIN)
+                                        <p class="help">@lang('admin/users.item.role_manager_help')</p>
+                                    @endif
+                                @enderror
                             </div>
                         </div>
 

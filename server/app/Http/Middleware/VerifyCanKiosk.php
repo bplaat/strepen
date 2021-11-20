@@ -16,8 +16,8 @@ class VerifyCanKiosk
             return $next($request);
         }
 
-        // Or verify if the authed user is an admin
-        if (Auth::check() && Auth::user()->role == User::ROLE_ADMIN) {
+        // Or verify if the authed user is a manager or an admin
+        if (Auth::check() && (Auth::user()->role == User::ROLE_MANAGER || Auth::user()->role == User::ROLE_ADMIN)) {
             return $next($request);
         }
 

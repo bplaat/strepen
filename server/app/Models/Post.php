@@ -28,7 +28,7 @@ class Post extends Model
 
         $this->user->forApi(null); // TEMP: Because of check api_key middleware no check user isn't connected
 
-        if ($user == null || $user->role != User::ROLE_ADMIN) {
+        if ($user == null || ($user->role != User::ROLE_MANAGER && $user->role != User::ROLE_ADMIN)) {
             unset($this->updated_at);
         }
     }

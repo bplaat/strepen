@@ -13,6 +13,7 @@
                     <select id="type" wire:model.defer="role">
                         <option value="">@lang('admin/users.crud.role_chooser_all')</option>
                         <option value="normal">@lang('admin/users.crud.role_chooser_normal')</option>
+                        <option value="manager">@lang('admin/users.crud.role_chooser_manager')</option>
                         <option value="admin">@lang('admin/users.crud.role_chooser_admin')</option>
                     </select>
                 </div>
@@ -170,10 +171,10 @@
                             <div class="field">
                                 <label class="label" for="password">@lang('admin/users.crud.password')</label>
                                 <div class="control">
-                                    <input class="input @error('user.password') is-danger @enderror" type="password" id="password"
-                                        wire:model.defer="user.password" required>
+                                    <input class="input @error('user._password') is-danger @enderror" type="password" id="password"
+                                        wire:model.defer="user._password" required>
                                 </div>
-                                @error('user.password')
+                                @error('user._password')
                                     <p class="help is-danger">{{ $message }}</p>
                                 @enderror
                             </div>
@@ -228,7 +229,10 @@
                                     <div class="select is-fullwidth @error('user.role') is-danger @enderror">
                                         <select id="role" wire:model.defer="user.role">
                                             <option value="{{ App\Models\User::ROLE_NORMAL }}">@lang('admin/users.crud.role_normal')</option>
-                                            <option value="{{ App\Models\User::ROLE_ADMIN }}">@lang('admin/users.crud.role_admin')</option>
+                                            <option value="{{ App\Models\User::ROLE_MANAGER }}">@lang('admin/users.crud.role_manager')</option>
+                                            @if (Auth::user()->role == App\Models\User::ROLE_ADMIN)
+                                                <option value="{{ App\Models\User::ROLE_ADMIN }}">@lang('admin/users.crud.role_admin')</option>
+                                            @endif
                                         </select>
                                     </div>
                                 </div>

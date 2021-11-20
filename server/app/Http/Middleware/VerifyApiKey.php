@@ -44,6 +44,15 @@ class VerifyApiKey
                     }
                 }
 
+                // Check manager
+                if ($type == 'manager') {
+                    if ($request->user()->role != User::ROLE_MANAGER && $request->user()->role != User::ROLE_ADMIN) {
+                        return response(['errors' => [
+                            'token' => 'The authed user is not a manager or an admin'
+                        ]], 403);
+                    }
+                }
+
                 // Check admin
                 if ($type == 'admin') {
                     if ($request->user()->role != User::ROLE_ADMIN) {

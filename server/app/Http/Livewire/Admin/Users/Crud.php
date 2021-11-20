@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin\Users;
 use App\Http\Livewire\PaginationComponent;
 use App\Models\User;
 use App\Models\Setting;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Livewire\WithFileUploads;
@@ -19,26 +20,35 @@ class Crud extends PaginationComponent
     public $thanks;
     public $isCreating;
 
-    public $rules = [
-        'user.firstname' => 'required|min:2|max:48',
-        'user.insertion' => 'nullable|max:16',
-        'user.lastname' => 'required|min:2|max:48',
-        'user.gender' => 'nullable|integer|digits_between:' . User::GENDER_MALE . ',' . User::GENDER_OTHER,
-        'user.birthday' => 'nullable|date',
-        'user.email' => 'required|email|max:255|unique:users,email',
-        'user.phone' => 'nullable|max:255',
-        'user.address' => 'nullable|min:2|max:255',
-        'user.postcode' => 'nullable|min:2|max:32',
-        'user.city' => 'nullable|min:2|max:255',
-        'user.password' => 'required|min:6',
-        'user.password_confirmation' => 'required|same:user.password',
-        'avatar' => 'nullable|image|mimes:jpg,jpeg,png|max:1024',
-        'thanks' => 'nullable|image|mimes:gif|max:2048',
-        'user.role' => 'required|integer|digits_between:' . User::ROLE_NORMAL . ',' . User::ROLE_ADMIN,
-        'user.language' => 'required|integer|digits_between:' . User::LANGUAGE_ENGLISH . ',' . User::LANGUAGE_DUTCH,
-        'user.theme' => 'required|integer|digits_between:' . User::THEME_LIGHT . ',' . User::THEME_DARK,
-        'user.receive_news' => 'nullable|boolean'
-    ];
+    public function rules()
+    {
+        $rules = [
+            'user.firstname' => 'required|min:2|max:48',
+            'user.insertion' => 'nullable|max:16',
+            'user.lastname' => 'required|min:2|max:48',
+            'user.gender' => 'nullable|integer|digits_between:' . User::GENDER_MALE . ',' . User::GENDER_OTHER,
+            'user.birthday' => 'nullable|date',
+            'user.email' => 'required|email|max:255|unique:users,email',
+            'user.phone' => 'nullable|max:255',
+            'user.address' => 'nullable|min:2|max:255',
+            'user.postcode' => 'nullable|min:2|max:32',
+            'user.city' => 'nullable|min:2|max:255',
+            'user._password' => 'required|min:6',
+            'user.password_confirmation' => 'required|same:user._password',
+            'avatar' => 'nullable|image|mimes:jpg,jpeg,png|max:1024',
+            'thanks' => 'nullable|image|mimes:gif|max:2048',
+            'user.language' => 'required|integer|digits_between:' . User::LANGUAGE_ENGLISH . ',' . User::LANGUAGE_DUTCH,
+            'user.theme' => 'required|integer|digits_between:' . User::THEME_LIGHT . ',' . User::THEME_DARK,
+            'user.receive_news' => 'nullable|boolean'
+        ];
+        if (Auth::user()->role == User::ROLE_MANAGER) {
+            $rules['user.role'] = 'required|integer|digits_between:' . User::ROLE_NORMAL . ',' . User::ROLE_MANAGER;
+        }
+        if (Auth::user()->role == User::ROLE_ADMIN) {
+            $rules['user.role'] = 'required|integer|digits_between:' . User::ROLE_NORMAL . ',' . User::ROLE_ADMIN;
+        }
+        return $rules;
+    }
 
     public function __construct()
     {
@@ -48,7 +58,7 @@ class Crud extends PaginationComponent
 
     public function mount()
     {
-        if ($this->role != 'normal' && $this->role != 'admin') {
+        if ($this->role != 'normal' && $this->role != 'manager' && $this->role != 'admin') {
             $this->role = null;
         }
 
@@ -64,7 +74,7 @@ class Crud extends PaginationComponent
 
     public function search()
     {
-        if ($this->role != 'normal' && $this->role != 'admin') {
+        if ($this->role != 'normal' && $this->role != 'manager' && $this->role != 'admin') {
             $this->role = null;
         }
         $this->resetPage();
@@ -74,7 +84,8 @@ class Crud extends PaginationComponent
     {
         $this->validate();
 
-        $this->user->password = Hash::make($this->user->password);
+        $this->user->password = Hash::make($this->user->_password);
+        unset($this->user->_password);
         unset($this->user->password_confirmation);
 
         if ($this->avatar != null) {
@@ -104,6 +115,7 @@ class Crud extends PaginationComponent
         $users = User::search(User::select(), $this->query);
         if ($this->role != null) {
             if ($this->role == 'normal') $role = User::ROLE_NORMAL;
+            if ($this->role == 'manager') $role = User::ROLE_MANAGER;
             if ($this->role == 'admin') $role = User::ROLE_ADMIN;
             $users = $users->where('role', $role);
         }

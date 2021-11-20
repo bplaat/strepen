@@ -53,7 +53,7 @@ class ApiTransactionsController extends Controller
             'products.*.product_id' => 'required|integer|exists:products,id',
             'products.*.amount' => 'required|integer|min:1'
         ];
-        if ($request->user()->role == User::ROLE_ADMIN && $request->input('user_id')) {
+        if (($request->user()->role == User::ROLE_MANAGER || $request->user()->role == User::ROLE_ADMIN) && $request->input('user_id')) {
             $rules['user_id'] = 'required|integer|exists:users,id';
         }
         $validation = Validator::make($request->all(), $rules);

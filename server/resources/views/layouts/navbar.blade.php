@@ -51,13 +51,15 @@
                         <a class="navbar-item @if (Route::currentRouteName() == 'transactions.history') is-active @endif" href="{{ route('transactions.history') }}">@lang('layout.navbar.transactions_history')</a>
                         <a class="navbar-item @if (Route::currentRouteName() == 'leaderboards') is-active @endif" href="{{ route('leaderboards') }}">@lang('layout.navbar.leaderboards')</a>
 
-                        @if (Auth::user()->role == App\Models\User::ROLE_ADMIN)
+                        @if (Auth::user()->role == App\Models\User::ROLE_MANAGER || Auth::user()->role == App\Models\User::ROLE_ADMIN)
                             <div class="navbar-item has-dropdown is-hoverable">
                                 <a class="navbar-link @if (Route::currentRouteName() == 'admin.home') is-active @endif is-arrowless"
                                     href="{{ route('admin.home') }}">@lang('layout.navbar.admin_home')</a>
                                 <div class="navbar-dropdown">
-                                    <a class="navbar-item @if (Route::currentRouteName() == 'admin.settings') is-active @endif" href="{{ route('admin.settings') }}">@lang('layout.navbar.admin_settings')</a>
-                                    <a class="navbar-item @if (Route::currentRouteName() == 'admin.api_keys.crud') is-active @endif" href="{{ route('admin.api_keys.crud') }}">@lang('layout.navbar.admin_api_keys')</a>
+                                    @if (Auth::user()->role == App\Models\User::ROLE_ADMIN)
+                                        <a class="navbar-item @if (Route::currentRouteName() == 'admin.settings') is-active @endif" href="{{ route('admin.settings') }}">@lang('layout.navbar.admin_settings')</a>
+                                        <a class="navbar-item @if (Route::currentRouteName() == 'admin.api_keys.crud') is-active @endif" href="{{ route('admin.api_keys.crud') }}">@lang('layout.navbar.admin_api_keys')</a>
+                                    @endif
                                     <a class="navbar-item @if (Route::currentRouteName() == 'admin.users.crud') is-active @endif" href="{{ route('admin.users.crud') }}">@lang('layout.navbar.admin_users')</a>
                                     <a class="navbar-item @if (Route::currentRouteName() == 'admin.posts.crud') is-active @endif" href="{{ route('admin.posts.crud') }}">@lang('layout.navbar.admin_posts')</a>
                                     <a class="navbar-item @if (Route::currentRouteName() == 'admin.products.crud') is-active @endif" href="{{ route('admin.products.crud') }}">@lang('layout.navbar.admin_products')</a>
@@ -80,6 +82,7 @@
                         <div class="navbar-item">
                             <div class="buttons">
                                 @if (
+                                    Auth::user()->role == App\Models\User::ROLE_MANAGER ||
                                     Auth::user()->role == App\Models\User::ROLE_ADMIN ||
                                     in_array(Request::ip(), array_map('trim', explode(',', App\Models\Setting::get('kiosk_ip_whitelist'))))
                                 )

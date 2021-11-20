@@ -37,7 +37,7 @@ class Transaction extends Model
     // Turn model to api data
     public function forApi($user)
     {
-        if ($user == null || $user->role != User::ROLE_ADMIN) {
+        if ($user == null || ($user->role != User::ROLE_MANAGER && $user->role != User::ROLE_ADMIN)) {
             unset($this->updated_at);
         }
 

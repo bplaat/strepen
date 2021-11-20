@@ -65,7 +65,7 @@ class Product extends Model
             $this->image = asset('/storage/products/' . $this->image);
         }
 
-        if ($user->role != User::ROLE_ADMIN) {
+        if ($user->role != User::ROLE_MANAGER && $user->role != User::ROLE_ADMIN) {
             unset($this->active);
             unset($this->created_at);
             unset($this->updated_at);

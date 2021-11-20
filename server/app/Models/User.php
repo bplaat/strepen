@@ -20,9 +20,10 @@ class User extends Authenticatable
     const GENDER_FEMALE = 1;
     const GENDER_OTHER = 2;
 
-    // A user can be normal or an admin
+    // A user can be normal, a manager or an admin
     const ROLE_NORMAL = 0;
-    const ROLE_ADMIN = 1;
+    const ROLE_MANAGER = 1;
+    const ROLE_ADMIN = 2;
 
     // A user can select the english and the dutch language
     const LANGUAGE_ENGLISH = 0;
@@ -149,7 +150,7 @@ class User extends Authenticatable
             $this->thanks = asset('/storage/thanks/' . $this->thanks);
         }
 
-        if ($user == null || $user->role != User::ROLE_ADMIN) {
+        if ($user == null || ($user->role != User::ROLE_MANAGER && $user->role != User::ROLE_ADMIN)) {
             unset($this->updated_at);
             if ($user == null || $this->id != $user->id) {
                 unset($this->gender);
@@ -175,6 +176,7 @@ class User extends Authenticatable
         if ($this->gender == static::GENDER_OTHER) $this->gender = 'other';
 
         if ($this->role == static::ROLE_NORMAL) $this->role = 'normal';
+        if ($this->role == static::ROLE_MANAGER) $this->role = 'manager';
         if ($this->role == static::ROLE_ADMIN) $this->role = 'admin';
 
         if ($this->language == static::LANGUAGE_ENGLISH) $this->language = 'en';

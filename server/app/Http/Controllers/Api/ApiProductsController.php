@@ -29,7 +29,7 @@ class ApiProductsController extends Controller
             $limit = 20;
         }
 
-        if ($request->user() == null || $request->user()->role != User::ROLE_ADMIN) {
+        if ($request->user() == null || ($request->user()->role != User::ROLE_MANAGER && $request->user()->role != User::ROLE_ADMIN)) {
             $products = $products->where('active', true);
         }
 

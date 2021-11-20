@@ -35,13 +35,9 @@ Route::middleware('cankiosk')->group(function () {
     Route::get('/admin/kiosk', [App\Http\Controllers\Admin\AdminController::class, 'kiosk'])->name('admin.kiosk');
 });
 
-// Admin routes
-Route::middleware('admin')->group(function () {
+// Manager routes
+Route::middleware('manager')->group(function () {
     Route::view('/admin', 'admin.home')->name('admin.home');
-
-    Route::view('/admin/settings', 'admin.settings')->name('admin.settings');
-
-    Route::get('/admin/api_keys', App\Http\Livewire\Admin\ApiKeys\Crud::class)->name('admin.api_keys.crud');
 
     Route::get('/admin/users', App\Http\Livewire\Admin\Users\Crud::class)->name('admin.users.crud');
 
@@ -52,6 +48,13 @@ Route::middleware('admin')->group(function () {
     Route::get('/admin/inventories', App\Http\Livewire\Admin\Inventories\Crud::class)->name('admin.inventories.crud');
 
     Route::get('/admin/transactions', App\Http\Livewire\Admin\Transactions\Crud::class)->name('admin.transactions.crud');
+});
+
+// Admin routes
+Route::middleware('admin')->group(function () {
+    Route::view('/admin/settings', 'admin.settings')->name('admin.settings');
+
+    Route::get('/admin/api_keys', App\Http\Livewire\Admin\ApiKeys\Crud::class)->name('admin.api_keys.crud');
 });
 
 // Guest routes
