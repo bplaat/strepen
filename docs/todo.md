@@ -3,7 +3,6 @@
 # Todo List
 
 ## High priority
-- Bugs wanneer spullen verwijderen
 - New role super admin
 - Flutter paged infinite scroll
 - User settings in mobile Flutter app

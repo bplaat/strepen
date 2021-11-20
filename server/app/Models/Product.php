@@ -33,24 +33,17 @@ class Product extends Model
     // Recalculate product amount
     public function recalculateAmount()
     {
-        // Refresh relationships
-        unset($this->inventories);
-        unset($this->transactions);
-
-        // Recount amount
-        $this->amount = 0;
-
-        // Loop through all inventories and adjust amount
-        $inventories = $this->inventories()->where('deleted', false)->get();
-        foreach ($inventories as $inventory) {
-            $this->amount += $inventory->pivot->amount;
-        }
-
-        // Loop through all transactions and adjust amount
-        $transactions = $this->transactions()->where('deleted', false)->get();
-        foreach ($transactions as $transaction) {
-            $this->amount -= $transaction->pivot->amount;
-        }
+        $this->amount = DB::table('inventory_product')
+            ->join('inventories', 'inventories.id', 'inventory_id')
+            ->where('deleted', false)
+            ->where('product_id', $this->id)
+            ->sum('amount')
+            -
+            DB::table('transaction_product')
+            ->join('transactions', 'transactions.id', 'transaction_id')
+            ->where('deleted', false)
+            ->where('product_id', $this->id)
+            ->sum('amount');
     }
 
     // A product belongs to many inventories
