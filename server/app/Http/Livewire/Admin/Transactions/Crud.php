@@ -64,7 +64,7 @@ class Crud extends PaginationComponent
         $this->selectedProducts = collect();
 
         $this->users = User::where('active', true)->where('deleted', false)
-            ->orderByRaw('active DESC, LOWER(IF(lastname != \'\', IF(insertion != NULL, CONCAT(lastname, \', \', insertion, \' \', firstname), CONCAT(lastname, \' \', firstname)), firstname))')
+            ->orderByRaw('active DESC, LOWER(firstname)')
             ->get();
         $this->userAmounts = array_fill(0, $this->users->count(), '');
     }

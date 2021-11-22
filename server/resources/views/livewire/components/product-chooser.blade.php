@@ -6,7 +6,7 @@
         <div class="dropdown-trigger control has-icons-left" style="width: 100%;">
             <input class="input @if (!$isValid) is-danger @endif" type="text" placeholder="@lang($relationship ? 'components.product_chooser.search_by_product' : 'components.product_chooser.search_product')"
                 wire:model="productName" id="productName" autocomplete="off" wire:keydown.enter.prevent="selectFirstProduct"
-                wire:focus="$set('isOpen', true)" wire:blur="$set('isOpen', false)">
+                wire:focus="$set('isOpen', true)" wire:blur.debounce.100ms="$set('isOpen', false)">
             <span class="icon is-small is-left">
                 <div class="image is-small is-rounded" style="background-image: url(/storage/products/{{ $product != null && $product->image != null ? $product->image : App\Models\Setting::get('default_product_image') }});"></div>
             </span>

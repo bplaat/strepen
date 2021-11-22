@@ -69,7 +69,7 @@
                             <div class="dropdown-trigger control" style="width: 100%;">
                                 <input class="input" type="text" placeholder="@lang('components.products_chooser.search_product')"
                                     wire:model="productName" id="productName" autocomplete="off"
-                                    wire:focus="$set('isOpen', true)" wire:blur="$set('isOpen', false)">
+                                    wire:focus="$set('isOpen', true)" wire:blur.debounce.100ms="$set('isOpen', false)">
                             </div>
                             <div class="dropdown-menu" style="width: 100%;">
                                 <div class="dropdown-content">
