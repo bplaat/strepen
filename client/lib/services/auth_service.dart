@@ -15,7 +15,7 @@ class AuthService {
 
   List<NotificationData>? _unreadNotifications;
 
-  List<Transaction>? _transactions;
+  Map<int, List<Transaction>> _transactions = {};
 
   static AuthService getInstance() {
     if (_instance == null) {
@@ -87,16 +87,16 @@ class AuthService {
     });
   }
 
-  Future<List<Transaction>> transactions({bool forceReload = false}) async {
-    if (_transactions == null || forceReload) {
+  Future<List<Transaction>> transactions({int page = 1, bool forceReload = false}) async {
+    if (!_transactions.containsKey(page) || forceReload) {
       StorageService storage = await StorageService.getInstance();
-      final response = await http.get(Uri.parse('${API_URL}/users/${storage.userId!}/transactions?api_key=${API_KEY}'), headers: {
+      final response = await http.get(Uri.parse('${API_URL}/users/${storage.userId!}/transactions?api_key=${API_KEY}&page=${page}&limit=5'), headers: {
         'Authorization': 'Bearer ${storage.token!}'
       });
       final transactionsJson = json.decode(response.body)['data'];
-      _transactions = transactionsJson.map<Transaction>((json) => Transaction.fromJson(json)).toList();
+      _transactions[page] = transactionsJson.map<Transaction>((json) => Transaction.fromJson(json)).toList();
     }
-    return _transactions!;
+    return _transactions[page]!;
   }
 
   Future<bool> createTransaction({required Map<Product, int> productAmounts}) async {
@@ -126,8 +126,8 @@ class AuthService {
       return false;
     }
 
-    if (_transactions != null) {
-      _transactions!.insert(0, Transaction.fromJson(data['transaction']));
+    if (_transactions.containsKey(1)) {
+      _transactions[1]!.insert(0, Transaction.fromJson(data['transaction']));
     }
     return true;
   }

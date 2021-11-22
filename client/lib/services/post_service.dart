@@ -7,7 +7,7 @@ import 'storage_service.dart';
 class PostsService {
   static PostsService? _instance;
 
-  List<Post>? _posts;
+  Map<int, List<Post>> _posts = {};
 
   static PostsService getInstance() {
     if (_instance == null) {
@@ -16,15 +16,15 @@ class PostsService {
     return _instance!;
   }
 
-  Future<List<Post>> posts({bool forceReload = false}) async {
-    if (_posts == null || forceReload) {
+  Future<List<Post>> posts({int page = 1, bool forceReload = false}) async {
+    if (!_posts.containsKey(page) || forceReload) {
       StorageService storage = await StorageService.getInstance();
-      final response = await http.get(Uri.parse('${API_URL}/posts?api_key=${API_KEY}'), headers: {
+      final response = await http.get(Uri.parse('${API_URL}/posts?api_key=${API_KEY}&page=${page}'), headers: {
         'Authorization': 'Bearer ${storage.token!}'
       });
       final postsJson = json.decode(response.body)['data'];
-      _posts = postsJson.map<Post>((json) => Post.fromJson(json)).toList();
+      _posts[page] = postsJson.map<Post>((json) => Post.fromJson(json)).toList();
     }
-    return _posts!;
+    return _posts[page]!;
   }
 }

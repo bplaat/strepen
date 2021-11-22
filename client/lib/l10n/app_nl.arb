@@ -14,6 +14,7 @@
     "home_history_short": "Geschiedenis",
     "home_profile_short": "Profiel",
 
+    "home_posts_empty": "Er zijn geen berichten gevonden!",
     "home_posts_error": "Er is een fout opgetreden bij het laden van de berichten!",
     "home_posts_written_by": "Geschreven door {user_name} op {post_created_at}",
 
@@ -27,6 +28,7 @@
     "home_stripe_created": "Transactie gemaakt",
     "home_stripe_thx": "Bedankt, thx!",
 
+    "home_history_empty": "Je hebt nog geen enkel product gestreept!",
     "home_history_error": "Er is een fout opgetreden bij het laden van jouw strepen geschiedenis!",
     "home_history_transaction_on": "Transactie op {transaction_created_at}",
     "@home_history_transaction_on": { "placeholders": { "transaction_created_at": {} } },
@@ -35,16 +37,17 @@
     "home_history_food_on": "Eten op {transaction_created_at}",
     "@home_history_food_on": { "placeholders": { "transaction_created_at": {} } },
     "home_history_amount": "Hoeveelheid",
-    "home_history_empty": "Je hebt nog geen enkel product gestreept!",
 
     "home_profile_error": "Er is een fout opgetreden tijdens het laden van uw gebruikersinformatie!",
     "home_profile_more": "Ga naar de Strepen website voor\nmeer instellingen en opties",
     "home_profile_logout": "Uitloggen",
 
     "login_header": "Login op Strepen",
+    "login_info": "Welkom bij het Strepen Systeem login met je persoonlijke account om deze applicatie te gebruiken ",
     "login_error": "Fout email of wachtwoord!",
     "login_email": "Email",
     "login_password": "Wachtwoord",
     "login_login": "Login",
+    "login_reset_password": "Ga naar de Strepen website om je wachtwoord te resetten",
     "login_footer": "Gemaakt door Bastiaan van der Plaat"
 }

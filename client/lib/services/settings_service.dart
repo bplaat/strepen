@@ -15,7 +15,7 @@ class SettingsService {
     return _instance!;
   }
 
-  Future< Map<String, dynamic>> settings({bool forceReload = false}) async {
+  Future<Map<String, dynamic>> settings({bool forceReload = false}) async {
     if (_settings == null || forceReload) {
       StorageService storage = await StorageService.getInstance();
       final response = await http.get(Uri.parse('${API_URL}/settings?api_key=${API_KEY}'), headers: {

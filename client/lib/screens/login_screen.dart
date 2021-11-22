@@ -37,8 +37,13 @@ class _LoginScreenState extends State {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    margin: EdgeInsets.symmetric(vertical: 16),
+                    margin: EdgeInsets.symmetric(vertical: 8),
                     child: Text(lang.login_header, style: TextStyle(fontSize: 32, fontWeight: FontWeight.w500))
+                  ),
+
+                  Container(
+                    margin: EdgeInsets.only(top: 8, bottom: 16),
+                    child: Text(lang.login_info, style: TextStyle(color: Colors.grey, fontSize: 16), textAlign: TextAlign.center)
                   ),
 
                   if (_hasError) ...[
@@ -103,6 +108,11 @@ class _LoginScreenState extends State {
                         child: Text(lang.login_login, style: TextStyle(color: Colors.white, fontSize: 18))
                       )
                     )
+                  ),
+
+                  Container(
+                    margin: EdgeInsets.only(top: 16, bottom: 8),
+                    child: Text(lang.login_reset_password, style: TextStyle(color: Colors.grey, fontSize: 16, fontStyle: FontStyle.italic), textAlign: TextAlign.center)
                   ),
 
                   Container(

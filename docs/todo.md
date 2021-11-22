@@ -3,7 +3,6 @@
 # Todo List
 
 ## High priority
-- Flutter paged infinite scroll
 - User settings in mobile Flutter app
 - Publish flutter mobile app on Google Play Store
 - Bug fixes / All the whishs from the Stam Bestuur

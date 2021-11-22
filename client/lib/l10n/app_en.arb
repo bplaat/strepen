@@ -16,6 +16,7 @@
     "home_history_short": "History",
     "home_profile_short": "Profile",
 
+    "home_posts_empty": "There are no posts found!",
     "home_posts_error": "An error has occurred while loading the posts!",
     "home_posts_written_by": "Written by {user_name} on {post_created_at}",
     "@home_posts_written_by": { "placeholders": { "user_name": {}, "post_created_at": {} } },
@@ -30,6 +31,7 @@
     "home_stripe_created": "Transaction created",
     "home_stripe_thx": "Done, thx!",
 
+    "home_history_empty": "You don't have striped any products!",
     "home_history_error": "An error has occurred while loading your stripe history!",
     "home_history_transaction_on": "Transaction on {transaction_created_at}",
     "@home_history_transaction_on": { "placeholders": { "transaction_created_at": {} } },
@@ -38,16 +40,17 @@
     "home_history_food_on": "Food on {transaction_created_at}",
     "@home_history_food_on": { "placeholders": { "transaction_created_at": {} } },
     "home_history_amount": "Amount",
-    "home_history_empty": "You don't have striped any products!",
 
     "home_profile_error": "An error has occurred while loading your user information!",
     "home_profile_more": "Go to the Strepen website for\nmore settings and options",
     "home_profile_logout": "Logout",
 
     "login_header": "Login to Strepen",
+    "login_info": "Welcome at the Strepen Systeem login with your personal account to use this application",
     "login_error": "Wrong email or password!",
     "login_email": "Email",
     "login_password": "Password",
     "login_login": "Login",
+    "login_reset_password": "Go to the Strepen website to reset your password",
     "login_footer": "Made by Bastiaan van der Plaat"
 }
