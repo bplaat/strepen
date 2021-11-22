@@ -17,11 +17,11 @@ class StorageService {
     return _prefs.getString('token');
   }
 
-  void set token(String? token) {
+  Future setToken(String? token) async {
     if (token != null) {
-      _prefs.setString('token', token);
+      await _prefs.setString('token', token);
     } else {
-      _prefs.remove('token');
+      await _prefs.remove('token');
     }
   }
 
@@ -29,11 +29,11 @@ class StorageService {
     return _prefs.getInt('user_id');
   }
 
-  void set userId(int? userId) {
+  Future setUserId(int? userId) async {
     if (userId != null) {
-      _prefs.setInt('user_id', userId);
+      await _prefs.setInt('user_id', userId);
     } else {
-      _prefs.remove('user_id');
+      await _prefs.remove('user_id');
     }
   }
 }

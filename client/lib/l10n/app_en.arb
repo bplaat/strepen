@@ -38,6 +38,7 @@
     "home_history_food_on": "Food on {transaction_created_at}",
     "@home_history_food_on": { "placeholders": { "transaction_created_at": {} } },
     "home_history_amount": "Amount",
+    "home_history_empty": "You don't have striped any products!",
 
     "home_profile_error": "An error has occurred while loading your user information!",
     "home_profile_more": "Go to the Strepen website for\nmore settings and options",

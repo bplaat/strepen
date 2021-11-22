@@ -65,7 +65,7 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final lang = AppLocalizations.of(context)!;
-    return ListView.builder(
+    return transactions.length > 0 ? ListView.builder(
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       itemCount: transactions.length,
       itemBuilder: (context, index) {
@@ -124,6 +124,8 @@ class TransactionList extends StatelessWidget {
           )
         );
       }
+    ) : Center(
+      child: Text(lang.home_history_empty)
     );
   }
 }

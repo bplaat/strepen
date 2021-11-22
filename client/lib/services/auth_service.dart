@@ -39,8 +39,8 @@ class AuthService {
     }
 
     StorageService storage = await StorageService.getInstance();
-    storage.token = data['token'];
-    storage.userId = data['user_id'];
+    await storage.setToken(data['token']);
+    await storage.setUserId(data['user_id']);
     return true;
   }
 
@@ -49,17 +49,21 @@ class AuthService {
     await http.get(Uri.parse('${API_URL}/auth/logout?api_key=${API_KEY}'), headers: {
       'Authorization': 'Bearer ${storage.token!}'
     });
-    storage.token = null;
-    storage.userId = null;
+    await storage.setToken(null);
+    await storage.setUserId(null);
   }
 
-  Future<User> user({bool forceReload = false}) async {
+  Future<User?> user({bool forceReload = false}) async {
     if (_user == null || forceReload) {
       StorageService storage = await StorageService.getInstance();
       final response = await http.get(Uri.parse('${API_URL}/users/${storage.userId!}?api_key=${API_KEY}'), headers: {
-          'Authorization': 'Bearer ${storage.token!}'
+        'Authorization': 'Bearer ${storage.token!}'
       });
-      _user = User.fromJson(json.decode(response.body));
+      try {
+        _user = User.fromJson(json.decode(response.body));
+      } catch (exception) {
+        return null;
+      }
     }
     return _user!;
   }

@@ -35,6 +35,7 @@
     "home_history_food_on": "Eten op {transaction_created_at}",
     "@home_history_food_on": { "placeholders": { "transaction_created_at": {} } },
     "home_history_amount": "Hoeveelheid",
+    "home_history_empty": "Je hebt nog geen enkel product gestreept!",
 
     "home_profile_error": "Er is een fout opgetreden tijdens het laden van uw gebruikersinformatie!",
     "home_profile_more": "Ga naar de Strepen website voor\nmeer instellingen en opties",
