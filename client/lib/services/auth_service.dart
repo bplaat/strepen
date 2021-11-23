@@ -90,7 +90,7 @@ class AuthService {
   Future<List<Transaction>> transactions({int page = 1, bool forceReload = false}) async {
     if (!_transactions.containsKey(page) || forceReload) {
       StorageService storage = await StorageService.getInstance();
-      final response = await http.get(Uri.parse('${API_URL}/users/${storage.userId!}/transactions?api_key=${API_KEY}&page=${page}&limit=5'), headers: {
+      final response = await http.get(Uri.parse('${API_URL}/users/${storage.userId!}/transactions?api_key=${API_KEY}&page=${page}'), headers: {
         'Authorization': 'Bearer ${storage.token!}'
       });
       final transactionsJson = json.decode(response.body)['data'];
