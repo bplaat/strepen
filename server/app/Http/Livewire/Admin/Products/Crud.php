@@ -33,6 +33,13 @@ class Crud extends PaginationComponent
 
     public function mount()
     {
+        if (
+            $this->sort_by != 'name_desc' && $this->sort_by != 'created_at' && $this->sort_by != 'created_at_desc' &&
+            $this->sort_by != 'price_desc' && $this->sort_by != 'price'
+        ) {
+            $this->sort_by = null;
+        }
+
         $this->product = new Product();
         $this->product->alcoholic = false;
         $this->image = null;
@@ -61,9 +68,28 @@ class Crud extends PaginationComponent
             if ($this->alcoholic == 'no') $alcoholic = false;
             $products = $products->where('alcoholic', $alcoholic);
         }
+
+        if ($this->sort_by == null) {
+            $products = $products->orderByRaw('active DESC, LOWER(name)');
+        }
+        if ($this->sort_by == 'name_desc') {
+            $products = $products->orderByRaw('active DESC, LOWER(name) DESC');
+        }
+        if ($this->sort_by == 'created_at_desc') {
+            $products = $products->orderBy('created_at', 'DESC');
+        }
+        if ($this->sort_by == 'created_at') {
+            $products = $products->orderBy('created_at');
+        }
+        if ($this->sort_by == 'price_desc') {
+            $products = $products->orderBy('price', 'DESC');
+        }
+        if ($this->sort_by == 'price') {
+            $products = $products->orderBy('price');
+        }
+
         return view('livewire.admin.products.crud', [
-            'products' => $products->orderByRaw('active DESC, LOWER(name) ASC')
-                ->paginate(Setting::get('pagination_rows') * 4)->withQueryString()
+            'products' => $products->paginate(Setting::get('pagination_rows') * 4)->withQueryString()
         ])->layout('layouts.app', ['title' => __('admin/products.crud.title'), 'chartjs' => true]);
     }
 }

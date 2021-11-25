@@ -5,7 +5,14 @@
         <x-search-header :itemName="__('home.posts')">
             <h2 class="title is-4">@lang('home.latest_posts')</h2>
 
-            <x-slot name="fields">
+            <x-slot name="sorters">
+                <option value="">@lang('home.created_at_desc')</option>
+                <option value="created_at">@lang('home.created_at_asc')</option>
+                <option value="title">@lang('home.title_asc')</option>
+                <option value="title_desc">@lang('home.title_desc')</option>
+            </x-slot>
+
+            <x-slot name="filters">
                 <livewire:components.user-chooser :userId="$user_id" inline="true" includeStrepenUser="true" relationship="true" postsRequired="true" />
             </x-slot>
         </x-search-header>

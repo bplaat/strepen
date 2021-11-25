@@ -7,7 +7,18 @@
             <button class="button is-link" wire:click="checkBalances()" wire:loading.attr="disabled">@lang('admin/users.crud.check_balances')</button>
         </div>
 
-        <x-slot name="fields">
+        <x-slot name="sorters">
+            <option value="">@lang('admin/users.crud.lastname_asc')</option>
+            <option value="lastname_desc">@lang('admin/users.crud.lastname_desc')</option>
+            <option value="firstname">@lang('admin/users.crud.firstname_asc')</option>
+            <option value="firstname_desc">@lang('admin/users.crud.firstname_desc')</option>
+            <option value="created_at_desc">@lang('admin/users.crud.created_at_desc')</option>
+            <option value="created_at">@lang('admin/users.crud.created_at_asc')</option>
+            <option value="balance_desc">@lang('admin/users.crud.balance_desc')</option>
+            <option value="balance">@lang('admin/users.crud.balance_asc')</option>
+        </x-slot>
+
+        <x-slot name="filters">
             <div class="control" style="width: 100%;">
                 <div class="select is-fullwidth">
                     <select id="type" wire:model.defer="role">

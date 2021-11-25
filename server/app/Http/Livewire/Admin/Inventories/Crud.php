@@ -37,6 +37,13 @@ class Crud extends PaginationComponent
 
     public function mount()
     {
+        if (
+            $this->sort_by != 'created_at' && $this->sort_by != 'name' && $this->sort_by != 'name_desc' &&
+            $this->sort_by != 'price_desc' && $this->sort_by != 'price'
+        ) {
+            $this->sort_by = null;
+        }
+
         if ($this->user_id != 1) {
             $user = User::where('id', $this->user_id)->where('active', true)->where('deleted', false)->withCount([
                 'inventories' => function ($query) {
@@ -120,9 +127,28 @@ class Crud extends PaginationComponent
                 return $query->where('product_id', $this->product_id);
             });
         }
+
+        if ($this->sort_by == null) {
+            $inventories = $inventories->orderBy('created_at', 'DESC');
+        }
+        if ($this->sort_by == 'created_at') {
+            $inventories = $inventories->orderBy('created_at');
+        }
+        if ($this->sort_by == 'name') {
+            $inventories = $inventories->orderByRaw('LOWER(name)');
+        }
+        if ($this->sort_by == 'name_desc') {
+            $inventories = $inventories->orderByRaw('LOWER(name) DESC');
+        }
+        if ($this->sort_by == 'price_desc') {
+            $inventories = $inventories->orderBy('price', 'DESC');
+        }
+        if ($this->sort_by == 'price') {
+            $inventories = $inventories->orderBy('price');
+        }
+
         return view('livewire.admin.inventories.crud', [
             'inventories' => $inventories->with(['user', 'products'])
-                ->orderBy('created_at', 'DESC')
                 ->paginate(Setting::get('pagination_rows') * 3)->withQueryString()
         ])->layout('layouts.app', ['title' => __('admin/inventories.crud.title')]);
     }

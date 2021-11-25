@@ -5,6 +5,13 @@
         <div class="buttons">
             <button class="button is-link" wire:click="$set('isCreating', true)" wire:loading.attr="disabled">@lang('admin/api_keys.crud.create_api_key')</button>
         </div>
+
+        <x-slot name="sorters">
+            <option value="">@lang('admin/api_keys.crud.name_asc')</option>
+            <option value="name_desc">@lang('admin/api_keys.crud.name_desc')</option>
+            <option value="created_at_desc">@lang('admin/api_keys.crud.created_at_desc')</option>
+            <option value="created_at">@lang('admin/api_keys.crud.created_at_asc')</option>
+        </x-slot>
     </x-search-header>
 
     @if ($apiKeys->count() > 0)

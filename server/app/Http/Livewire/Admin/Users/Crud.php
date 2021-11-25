@@ -58,6 +58,14 @@ class Crud extends PaginationComponent
 
     public function mount()
     {
+        if (
+            $this->sort_by != 'lastname_desc' && $this->sort_by != 'firstname' && $this->sort_by != 'firstname_desc' &&
+            $this->sort_by != 'created_at_desc' && $this->sort_by != 'created_at' && $this->sort_by != 'balance_desc' &&
+            $this->sort_by != 'balance'
+        ) {
+            $this->sort_by = null;
+        }
+
         if ($this->role != 'normal' && $this->role != 'manager' && $this->role != 'admin') {
             $this->role = null;
         }
@@ -119,9 +127,34 @@ class Crud extends PaginationComponent
             if ($this->role == 'admin') $role = User::ROLE_ADMIN;
             $users = $users->where('role', $role);
         }
+
+        if ($this->sort_by == null) {
+            $users = $users->orderByRaw('active DESC, LOWER(IF(lastname != \'\', IF(insertion != NULL, CONCAT(lastname, \', \', insertion, \' \', firstname), CONCAT(lastname, \' \', firstname)), firstname))');
+        }
+        if ($this->sort_by == 'lastname_desc') {
+            $users = $users->orderByRaw('active DESC, LOWER(IF(lastname != \'\', IF(insertion != NULL, CONCAT(lastname, \', \', insertion, \' \', firstname), CONCAT(lastname, \' \', firstname)), firstname)) DESC');
+        }
+        if ($this->sort_by == 'firstname') {
+            $users = $users->orderByRaw('active DESC, firstname');
+        }
+        if ($this->sort_by == 'firstname_desc') {
+            $users = $users->orderByRaw('active DESC, firstname DESC');
+        }
+        if ($this->sort_by == 'created_at_desc') {
+            $users = $users->orderBy('created_at', 'DESC');
+        }
+        if ($this->sort_by == 'created_at') {
+            $users = $users->orderBy('created_at');
+        }
+        if ($this->sort_by == 'balance_desc') {
+            $users = $users->orderBy('balance', 'DESC');
+        }
+        if ($this->sort_by == 'balance') {
+            $users = $users->orderBy('balance');
+        }
+
         return view('livewire.admin.users.crud', [
-            'users' => $users->orderByRaw('active DESC, LOWER(IF(lastname != \'\', IF(insertion != NULL, CONCAT(lastname, \', \', insertion, \' \', firstname), CONCAT(lastname, \' \', firstname)), firstname))')
-                ->paginate(Setting::get('pagination_rows') * 4)->withQueryString()
+            'users' => $users->paginate(Setting::get('pagination_rows') * 4)->withQueryString()
         ])->layout('layouts.app', ['title' => __('admin/users.crud.title'), 'chartjs' => true]);
     }
 }

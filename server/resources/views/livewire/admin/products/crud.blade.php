@@ -6,7 +6,16 @@
             <button class="button is-link" wire:click="$set('isCreating', true)" wire:loading.attr="disabled">@lang('admin/products.crud.create_product')</button>
         </div>
 
-        <x-slot name="fields">
+        <x-slot name="sorters">
+            <option value="">@lang('admin/products.crud.name_asc')</option>
+            <option value="name_desc">@lang('admin/products.crud.name_desc')</option>
+            <option value="created_at_desc">@lang('admin/products.crud.created_at_desc')</option>
+            <option value="created_at">@lang('admin/products.crud.created_at_asc')</option>
+            <option value="price_desc">@lang('admin/products.crud.price_desc')</option>
+            <option value="price">@lang('admin/products.crud.price_asc')</option>
+        </x-slot>
+
+        <x-slot name="filters">
             <div class="control" style="width: 100%;">
                 <div class="select is-fullwidth">
                     <select id="type" wire:model.defer="alcoholic">

@@ -6,7 +6,16 @@
             <button class="button is-link" wire:click="$set('isCreating', true)" wire:loading.attr="disabled">@lang('admin/inventories.crud.create_inventory')</button>
         </div>
 
-        <x-slot name="fields">
+        <x-slot name="sorters">
+            <option value="">@lang('admin/inventories.crud.created_at_desc')</option>
+            <option value="created_at">@lang('admin/inventories.crud.created_at_asc')</option>
+            <option value="name">@lang('admin/inventories.crud.name_asc')</option>
+            <option value="name_desc">@lang('admin/inventories.crud.name_desc')</option>
+            <option value="price_desc">@lang('admin/inventories.crud.price_desc')</option>
+            <option value="price">@lang('admin/inventories.crud.price_asc')</option>
+        </x-slot>
+
+        <x-slot name="filters">
             <livewire:components.user-chooser :userId="$user_id" inline="true" includeStrepenUser="true" relationship="true" inventoriesRequired="true" />
 
             <livewire:components.product-chooser :productId="$product_id" inline="true" relationship="true" />

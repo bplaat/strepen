@@ -8,7 +8,16 @@
             <button class="button is-link" wire:click="openCreateFood" wire:loading.attr="disabled">@lang('admin/transactions.crud.create_food_small')</button>
         </div>
 
-        <x-slot name="fields">
+        <x-slot name="sorters">
+            <option value="">@lang('admin/transactions.crud.created_at_desc')</option>
+            <option value="created_at">@lang('admin/transactions.crud.created_at_asc')</option>
+            <option value="name">@lang('admin/transactions.crud.name_asc')</option>
+            <option value="name_desc">@lang('admin/transactions.crud.name_desc')</option>
+            <option value="price_desc">@lang('admin/transactions.crud.price_desc')</option>
+            <option value="price">@lang('admin/transactions.crud.price_asc')</option>
+        </x-slot>
+
+        <x-slot name="filters">
             <x-transaction-type-chooser />
 
             <livewire:components.user-chooser :userId="$user_id" inline="true" includeStrepenUser="true" relationship="true" />

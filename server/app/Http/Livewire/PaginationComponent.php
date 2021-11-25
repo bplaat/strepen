@@ -9,10 +9,19 @@ class PaginationComponent extends Component
 {
     use WithPagination;
 
+    public $sort_by;
     public $query;
-    public $queryString = ['query' => ['except' => '']];
+
+    public $queryString = [
+        'sort_by' => ['except' => ''],
+        'query' => ['except' => '']
+    ];
 
     public $listeners = [ 'refresh' => '$refresh' ];
+
+    public function updatedSortBy() {
+        $this->resetPage();
+    }
 
     public function search()
     {

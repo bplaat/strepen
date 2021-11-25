@@ -2,7 +2,16 @@
     <x-search-header :itemName="__('transactions.history.transactions')">
         <h1 class="title is-4">@lang('transactions.history.header')</h1>
 
-        <x-slot name="fields">
+        <x-slot name="sorters">
+            <option value="">@lang('transactions.history.created_at_desc')</option>
+            <option value="created_at">@lang('transactions.history.created_at_asc')</option>
+            <option value="name">@lang('transactions.history.name_asc')</option>
+            <option value="name_desc">@lang('transactions.history.name_desc')</option>
+            <option value="price_desc">@lang('transactions.history.price_desc')</option>
+            <option value="price">@lang('transactions.history.price_asc')</option>
+        </x-slot>
+
+        <x-slot name="filters">
             <x-transaction-type-chooser />
 
             <livewire:components.product-chooser :productId="$product_id" inline="true" relationship="true" />

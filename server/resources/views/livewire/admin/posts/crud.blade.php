@@ -6,7 +6,14 @@
             <button class="button is-link" wire:click="$set('isCreating', true)" wire:loading.attr="disabled">@lang('admin/posts.crud.create_post')</button>
         </div>
 
-        <x-slot name="fields">
+        <x-slot name="sorters">
+            <option value="">@lang('admin/posts.crud.created_at_desc')</option>
+            <option value="created_at">@lang('admin/posts.crud.created_at_asc')</option>
+            <option value="title">@lang('admin/posts.crud.title_asc')</option>
+            <option value="title_desc">@lang('admin/posts.crud.title_desc')</option>
+        </x-slot>
+
+        <x-slot name="filters">
             <livewire:components.user-chooser :userId="$user_id" inline="true" includeStrepenUser="true" relationship="true" postsRequired="true" />
         </x-slot>
     </x-search-header>

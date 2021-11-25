@@ -21,6 +21,10 @@ class Home extends PaginationComponent
 
     public function mount()
     {
+        if ($this->sort_by != 'created_at' && $this->sort_by != 'title' && $this->sort_by != 'title_desc') {
+            $this->sort_by = null;
+        }
+
         if ($this->user_id != 1) {
             $user = User::where('id', $this->user_id)->where('active', true)->where('deleted', false)->withCount([
                 'posts' => function ($query) {
@@ -49,11 +53,23 @@ class Home extends PaginationComponent
         if ($this->user_id != null) {
             $posts = $posts->where('user_id', $this->user_id);
         }
+
+        if ($this->sort_by == null) {
+            $posts = $posts->orderBy('created_at', 'DESC');
+        }
+        if ($this->sort_by == 'created_at') {
+            $posts = $posts->orderBy('created_at');
+        }
+        if ($this->sort_by == 'title') {
+            $posts = $posts->orderByRaw('LOWER(title)');
+        }
+        if ($this->sort_by == 'title_desc') {
+            $posts = $posts->orderByRaw('LOWER(title) DESC');
+        }
+
         return view('livewire.home', [
             'parsedown' => new Parsedown(),
-            'posts' => $posts->with('user')
-                ->orderBy('created_at', 'DESC')
-                ->paginate(Setting::get('pagination_rows'))->withQueryString()
+            'posts' => $posts->with('user')->paginate(Setting::get('pagination_rows'))->withQueryString()
         ])->layout('layouts.app', ['title' => __('home.title')]);
     }
 }

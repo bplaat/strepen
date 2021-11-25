@@ -17,6 +17,10 @@ class Crud extends PaginationComponent
 
     public function mount()
     {
+        if ($this->sort_by != 'name_desc' && $this->sort_by != 'created_at_desc' && $this->sort_by != 'created_at') {
+            $this->sort_by = null;
+        }
+
         $this->apiKey = new ApiKey();
         $this->isCreating = false;
     }
@@ -31,10 +35,23 @@ class Crud extends PaginationComponent
 
     public function render()
     {
+        $apiKeys = ApiKey::search(ApiKey::select(), $this->query);
+
+        if ($this->sort_by == null) {
+            $apiKeys = $apiKeys->orderByRaw('LOWER(name)');
+        }
+        if ($this->sort_by == 'name_desc') {
+            $apiKeys = $apiKeys->orderByRaw('LOWER(name) DESC');
+        }
+        if ($this->sort_by == 'created_at_desc') {
+            $apiKeys = $apiKeys->orderBy('created_at', 'DESC');
+        }
+        if ($this->sort_by == 'created_at') {
+            $apiKeys = $apiKeys->orderBy('created_at');
+        }
+
         return view('livewire.admin.api_keys.crud', [
-            'apiKeys' => ApiKey::search(ApiKey::select(), $this->query)
-                ->orderByRaw('LOWER(name)')
-                ->paginate(Setting::get('pagination_rows') * 3)->withQueryString()
+            'apiKeys' => $apiKeys->paginate(Setting::get('pagination_rows') * 3)->withQueryString()
         ])->layout('layouts.app', ['title' => __('admin/api_keys.crud.title')]);
     }
 }

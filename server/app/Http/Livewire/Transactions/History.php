@@ -24,6 +24,13 @@ class History extends PaginationComponent
 
     public function mount()
     {
+        if (
+            $this->sort_by != 'created_at' && $this->sort_by != 'name' && $this->sort_by != 'name_desc' &&
+            $this->sort_by != 'price_desc' && $this->sort_by != 'price'
+        ) {
+            $this->sort_by = null;
+        }
+
         if ($this->type != 'transaction' && $this->type != 'deposit' && $this->type != 'food') {
             $this->type = null;
         }
@@ -61,9 +68,28 @@ class History extends PaginationComponent
                 return $query->where('product_id', $this->product_id);
             });
         }
+
+        if ($this->sort_by == null) {
+            $transactions = $transactions->orderBy('created_at', 'DESC');
+        }
+        if ($this->sort_by == 'created_at') {
+            $transactions = $transactions->orderBy('created_at');
+        }
+        if ($this->sort_by == 'name') {
+            $transactions = $transactions->orderByRaw('LOWER(name)');
+        }
+        if ($this->sort_by == 'name_desc') {
+            $transactions = $transactions->orderByRaw('LOWER(name) DESC');
+        }
+        if ($this->sort_by == 'price_desc') {
+            $transactions = $transactions->orderBy('price', 'DESC');
+        }
+        if ($this->sort_by == 'price') {
+            $transactions = $transactions->orderBy('price');
+        }
+
         return view('livewire.transactions.history', [
-            'transactions' => $transactions->orderBy('created_at', 'DESC')
-                ->paginate(Setting::get('pagination_rows') * 3)->withQueryString()
+            'transactions' => $transactions->paginate(Setting::get('pagination_rows') * 3)->withQueryString()
         ])->layout('layouts.app', ['title' => __('transactions.history.title')]);
     }
 }
