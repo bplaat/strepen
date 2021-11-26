@@ -297,7 +297,7 @@ class ApiUsersController extends Controller
         }
 
         if ($request->input('receive_news')) {
-            $user->receive_news = $request->input('receive_news');
+            $user->receive_news = $request->input('receive_news') == 'true';
         }
 
         // Update avatar
