@@ -35,21 +35,21 @@
     # Strepen vhosts
 
     <VirtualHost *:80>
-        ServerName strepen.local
+        ServerName strepen.test
         DocumentRoot "C:/xampp/htdocs/strepen/server/public"
     </VirtualHost>
 
     <VirtualHost *:80>
-        ServerName www.strepen.local
-        Redirect permanent / http://strepen.local/
+        ServerName www.strepen.test
+        Redirect permanent / http://strepen.test/
     </VirtualHost>
     ```
 - Add the following lines to `C:/Windows/System32/drivers/etc/hosts` file **with administrator rights**
 
     ```
     # Strepen local domains
-    127.0.0.1 strepen.local
-    127.0.0.1 www.strepen.local
+    127.0.0.1 strepen.test
+    127.0.0.1 www.strepen.test
     ```
 - Start Apache and MySQL via XAMPP control panel
 - Create MySQL user and database (may be via [phpmyadmin](http://localhost/phpmyadmin/))
@@ -59,7 +59,7 @@
     ```
     php artisan migrate --seed
     ```
-- Goto http://strepen.local/ and you're done! 🎉
+- Goto http://strepen.test/ and you're done! 🎉
 - Optional: You can import all the data from the [old Strepen System](https://github.com/JohnOnline88/strepensysteem)
 
     ```
@@ -123,13 +123,13 @@ TODO
     # Strepen vhosts
 
     <VirtualHost *:80>
-        ServerName strepen.local
+        ServerName strepen.test
         DocumentRoot "/var/www/html/strepen/server/public"
     </VirtualHost>
 
     <VirtualHost *:80>
-        ServerName www.strepen.local
-        Redirect permanent / http://strepen.local/
+        ServerName www.strepen.test
+        Redirect permanent / http://strepen.test/
     </VirtualHost>
     ```
 - Enable the site
@@ -160,8 +160,8 @@ TODO
 
     ```
     # Strepen local domains
-    127.0.0.1 strepen.local
-    127.0.0.1 www.strepen.local
+    127.0.0.1 strepen.test
+    127.0.0.1 www.strepen.test
     ```
 - Create MySQL user and database
 - Fill in MySQL user, password and database information in `server/.env`
@@ -170,7 +170,7 @@ TODO
     ```
     php artisan migrate --seed
     ```
-- Goto http://strepen.local/ and you're done! 🎉
+- Goto http://strepen.test/ and you're done! 🎉
 - Optional: You can import all the data from the [old Strepen System](https://github.com/JohnOnline88/strepensysteem)
 
     ```
