@@ -106,16 +106,6 @@ class User extends Authenticatable
         }
     }
 
-    // Get user sort name (lastname, insertion firstname)
-    public function getSortNameAttribute()
-    {
-        if ($this->insertion != null) {
-            return $this->lastname . ', ' . $this->insertion . ' ' . $this->firstname;
-        } else {
-            return $this->lastname . ' ' . $this->firstname;
-        }
-    }
-
     // Check if user is minor
     public function getMinorAttribute()
     {

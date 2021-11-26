@@ -47,7 +47,6 @@
                                     ->sum('amount');
                                 return $user;
                             })
-                            ->sortBy('sortName')
                             ->sortByDesc('amount')->values()
                             ->slice(0, 10);
                     @endphp
@@ -125,7 +124,6 @@
                                     ->sum('amount');
                                 return $user;
                             })
-                            ->sortBy('sortName')
                             ->sortByDesc('amount')->values()
                             ->slice(0, 10);
                     @endphp
@@ -208,7 +206,6 @@
                                     ->sum('amount');
                                 return $user;
                             })
-                            ->sortBy('sortName')
                             ->sortByDesc('amount')->values()
                             ->slice(0, 10);
                     @endphp
@@ -297,7 +294,6 @@
                                     ->sum('price');
                                 return $user;
                             })
-                            ->sortBy('sortName')
                             ->sortByDesc('spending')->values()
                             ->slice(0, 10);
                     @endphp

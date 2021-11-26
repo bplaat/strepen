@@ -36,7 +36,7 @@ class ApiUsersController extends Controller
             $limit = 20;
         }
 
-        $users = $users->orderByRaw('active DESC, LOWER(IF(lastname != \'\', IF(insertion != NULL, CONCAT(lastname, \', \', insertion, \' \', firstname), CONCAT(lastname, \' \', firstname)), firstname))')
+        $users = $users->orderByRaw('active DESC, lastname')
             ->paginate($limit)->withQueryString();
         foreach ($users as $user) {
             $user->forApi($request->user());

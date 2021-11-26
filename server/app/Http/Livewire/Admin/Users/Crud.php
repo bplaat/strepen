@@ -129,10 +129,10 @@ class Crud extends PaginationComponent
         }
 
         if ($this->sort_by == null) {
-            $users = $users->orderByRaw('active DESC, LOWER(IF(lastname != \'\', IF(insertion != NULL, CONCAT(lastname, \', \', insertion, \' \', firstname), CONCAT(lastname, \' \', firstname)), firstname))');
+            $users = $users->orderByRaw('active DESC, lastname');
         }
         if ($this->sort_by == 'lastname_desc') {
-            $users = $users->orderByRaw('active DESC, LOWER(IF(lastname != \'\', IF(insertion != NULL, CONCAT(lastname, \', \', insertion, \' \', firstname), CONCAT(lastname, \' \', firstname)), firstname)) DESC');
+            $users = $users->orderByRaw('active DESC, lastname DESC');
         }
         if ($this->sort_by == 'firstname') {
             $users = $users->orderByRaw('active DESC, firstname');
