@@ -184,7 +184,6 @@
                 </div>
             </div>
 
-
             <div class="column is-half">
                 <div class="box">
                     <h2 class="title is-4 has-text-centered">@lang('leaderboards.best_snack_header')</h2>
