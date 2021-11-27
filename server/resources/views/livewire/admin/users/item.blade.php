@@ -28,16 +28,16 @@
         </div>
 
         <div class="card-footer">
-            <a href="#" class="card-footer-item" wire:click.prevent="$set('isShowing', true)">@lang('admin/users.item.show')</a>
-            <a href="#" class="card-footer-item" wire:click.prevent="$set('isEditing', true)">@lang('admin/users.item.edit')</a>
+            <a class="card-footer-item" wire:click.prevent="$set('isShowing', true)">@lang('admin/users.item.show')</a>
+            <a class="card-footer-item" wire:click.prevent="$set('isEditing', true)">@lang('admin/users.item.edit')</a>
             @if (
                 (Auth::user()->role == App\Models\User::ROLE_MANAGER && $user->role != App\Models\User::ROLE_ADMIN) ||
                 Auth::user()->role == App\Models\User::ROLE_ADMIN
             )
                 @if ($user->id != Auth::id())
-                    <a href="#" class="card-footer-item has-text-danger" wire:click.prevent="hijackUser">@lang('admin/users.item.hijack')</a>
+                    <a class="card-footer-item has-text-danger" wire:click.prevent="hijackUser">@lang('admin/users.item.hijack')</a>
                 @endif
-                <a href="#" class="card-footer-item has-text-danger" wire:click.prevent="$set('isDeleting', true)">@lang('admin/users.item.delete')</a>
+                <a class="card-footer-item has-text-danger" wire:click.prevent="$set('isDeleting', true)">@lang('admin/users.item.delete')</a>
             @endif
         </div>
     </div>

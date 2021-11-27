@@ -98,10 +98,10 @@
                     <div class="tabs is-fullwidth">
                         <ul>
                             <li @if ($creatingDepositTab == 'single') class="is-active" @endif>
-                                <a href="#" wire:click.prevent="$set('creatingDepositTab', 'single')">@lang('admin/transactions.crud.single')</a>
+                                <a wire:click.prevent="$set('creatingDepositTab', 'single')">@lang('admin/transactions.crud.single')</a>
                             </li>
                             <li @if ($creatingDepositTab == 'multiple') class="is-active" @endif>
-                                <a href="#" wire:click.prevent="$set('creatingDepositTab', 'multiple')">@lang('admin/transactions.crud.multiple')</a>
+                                <a wire:click.prevent="$set('creatingDepositTab', 'multiple')">@lang('admin/transactions.crud.multiple')</a>
                             </li>
                         </ul>
                     </div>
@@ -180,10 +180,10 @@
                     <div class="tabs is-fullwidth">
                         <ul>
                             <li @if ($creatingFoodTab == 'single') class="is-active" @endif>
-                                <a href="#" wire:click.prevent="$set('creatingFoodTab', 'single')">@lang('admin/transactions.crud.single')</a>
+                                <a wire:click.prevent="$set('creatingFoodTab', 'single')">@lang('admin/transactions.crud.single')</a>
                             </li>
                             <li @if ($creatingFoodTab == 'multiple') class="is-active" @endif>
-                                <a href="#" wire:click.prevent="$set('creatingFoodTab', 'multiple')">@lang('admin/transactions.crud.multiple')</a>
+                                <a wire:click.prevent="$set('creatingFoodTab', 'multiple')">@lang('admin/transactions.crud.multiple')</a>
                             </li>
                         </ul>
                     </div>

@@ -23,9 +23,9 @@
         </div>
 
         <div class="card-footer">
-            <a href="#" class="card-footer-item" wire:click.prevent="$set('isShowing', true)">@lang('admin/products.item.show')</a>
-            <a href="#" class="card-footer-item" wire:click.prevent="$set('isEditing', true)">@lang('admin/products.item.edit')</a>
-            <a href="#" class="card-footer-item has-text-danger" wire:click.prevent="$set('isDeleting', true)">@lang('admin/products.item.delete')</a>
+            <a class="card-footer-item" wire:click.prevent="$set('isShowing', true)">@lang('admin/products.item.show')</a>
+            <a class="card-footer-item" wire:click.prevent="$set('isEditing', true)">@lang('admin/products.item.edit')</a>
+            <a class="card-footer-item has-text-danger" wire:click.prevent="$set('isDeleting', true)">@lang('admin/products.item.delete')</a>
         </div>
     </div>
 

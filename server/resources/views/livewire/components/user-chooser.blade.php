@@ -15,7 +15,7 @@
             <div class="dropdown-content">
                 @if ($filteredUsers->count() > 0)
                     @foreach ($filteredUsers as $user)
-                        <a href="#" wire:click.prevent="selectUser({{ $user->id }})" class="dropdown-item">
+                        <a wire:click.prevent="selectUser({{ $user->id }})" class="dropdown-item">
                             <div class="image is-small is-round is-inline" style="background-image: url(/storage/avatars/{{ $user->avatar ?? App\Models\Setting::get('default_user_avatar') }});"></div>
                             {!! $userName != '' ? str_replace(' ', '&nbsp;', preg_replace('/(' . preg_quote($userName) . ')/i', '<b>$1</b>', $user->name)) : $user->name !!}
                         </a>
