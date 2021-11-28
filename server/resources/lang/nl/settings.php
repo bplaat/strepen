@@ -18,7 +18,7 @@ return [
     'change_details.birthday' => 'Geboorte datum',
     'change_details.birthday_minor' => '(uitgeschakeld want u bent minderjarig)',
     'change_details.email' => 'Email adres',
-    'change_details.phone' => 'Telefoon',
+    'change_details.phone' => 'Telefoonnummer',
     'change_details.address' => 'Adres (straatnaam met huisnummer)',
     'change_details.postcode' => 'Postcode',
     'change_details.city' => 'Stad',

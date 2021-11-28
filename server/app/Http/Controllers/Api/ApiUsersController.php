@@ -354,7 +354,8 @@ class ApiUsersController extends Controller
         // Save and send response message
         $user->save();
         return [
-            'message' => 'All user changes are saved!'
+            'message' => 'All user changes are saved!',
+            'user' => $user
         ];
     }
 }

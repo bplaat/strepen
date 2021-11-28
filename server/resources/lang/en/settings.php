@@ -18,7 +18,7 @@ return [
     'change_details.birthday' => 'Birthday',
     'change_details.birthday_minor' => '(disabled because you are a minor)',
     'change_details.email' => 'Email address',
-    'change_details.phone' => 'Phone',
+    'change_details.phone' => 'Phone number',
     'change_details.address' => 'Address (street with house number)',
     'change_details.postcode' => 'Postcode',
     'change_details.city' => 'City',
