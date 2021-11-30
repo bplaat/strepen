@@ -99,7 +99,7 @@
                             @foreach ($filteredProducts as $product)
                                 <a wire:click.prevent="addProduct({{ $product->id }})" class="dropdown-item">
                                     <div class="image is-small is-rounded is-inline" style="background-image: url(/storage/products/{{ $product->image ?? 'default.png' }});"></div>
-                                    {!! $productName != '' ? str_replace(' ', '&nbsp;', preg_replace('/(' . preg_quote($productName) . ')/i', '<b>$1</b>', $product->name)) : $product->name !!}
+                                    {!! $productName != '' ? str_replace(' ', '&nbsp;', preg_replace('#(' . preg_quote($productName) . ')#i', '<b>$1</b>', $product->name)) : $product->name !!}
                                 </a>
                             @endforeach
                         @else
