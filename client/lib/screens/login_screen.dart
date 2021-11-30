@@ -42,7 +42,7 @@ class _LoginScreenState extends State {
                   ),
 
                   Container(
-                    margin: EdgeInsets.only(top: 8, bottom: 16),
+                    margin: EdgeInsets.symmetric(vertical: 8),
                     child: Text(lang.login_info, style: TextStyle(color: Colors.grey, fontSize: 16), textAlign: TextAlign.center)
                   ),
 
@@ -53,6 +53,7 @@ class _LoginScreenState extends State {
                     )
                   ],
 
+                  // Email input
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 8),
                     child: TextField(
@@ -69,6 +70,7 @@ class _LoginScreenState extends State {
                     )
                   ),
 
+                  // Password input
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 8),
                     child: TextField(
@@ -85,6 +87,7 @@ class _LoginScreenState extends State {
                     )
                   ),
 
+                  // Login button
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 8),
                     child: SizedBox(
@@ -111,7 +114,7 @@ class _LoginScreenState extends State {
                   ),
 
                   Container(
-                    margin: EdgeInsets.only(top: 16, bottom: 8),
+                    margin: EdgeInsets.symmetric(vertical: 8),
                     child: Text(lang.login_reset_password, style: TextStyle(color: Colors.grey, fontSize: 16, fontStyle: FontStyle.italic), textAlign: TextAlign.center)
                   ),
 

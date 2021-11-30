@@ -39,7 +39,7 @@
     "home_history_amount": "Hoeveelheid",
 
     "home_profile_error": "Er is een fout opgetreden tijdens het laden van uw gebruikersinformatie!",
-    "home_profile_more": "Ga naar de Strepen website voor\nmeer instellingen en opties",
+    "home_profile_settings": "Instellingen",
     "home_profile_logout": "Uitloggen",
 
     "login_header": "Login op Strepen",
@@ -49,5 +49,32 @@
     "login_password": "Wachtwoord",
     "login_login": "Login",
     "login_reset_password": "Ga naar de Strepen website om je wachtwoord te resetten",
-    "login_footer": "Gemaakt door Bastiaan van der Plaat"
+    "login_footer": "Gemaakt door Bastiaan van der Plaat",
+
+    "settings_header": "Instellingen",
+    "settings_change_details": "Verander gegevens",
+
+    "settings_personal_info": "Persoonlijke informatie",
+    "settings_firstname": "Voornaam",
+    "settings_insertion": "Tussenvoegsel",
+    "settings_lastname": "Achternaam",
+    "settings_gender": "Geslacht",
+    "settings_gender_null": "Onbekend",
+    "settings_gender_male": "Man",
+    "settings_gender_female": "Vrouw",
+    "settings_gender_other": "Anders",
+    "settings_birthday": "Geboorte datum",
+    "settings_birthday_minor": "Uitgeschakeld want je bent minderjarig",
+
+    "settings_contact_info": "Contact informatie",
+    "settings_email": "Email adres",
+    "settings_phone": "Telefoonnummer",
+
+    "settings_address_info": "Adres informatie",
+    "settings_address": "Adres (straatnaam met huisnummer)",
+    "settings_postcode": "Postcode",
+    "settings_city": "Stad",
+
+    "settings_email_notifications": "Email notificaties",
+    "settings_receive_news": "Ontvang nieuws notificaties"
 }

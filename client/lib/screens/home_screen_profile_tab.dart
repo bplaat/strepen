@@ -83,25 +83,43 @@ class _HomeScreenProfileTabState extends State {
                       ),
 
                       Container(
-                        margin: EdgeInsets.symmetric(vertical: 8),
-                        child: Text(lang.home_profile_more, style: TextStyle(fontSize: 16, color: Colors.grey, fontStyle: FontStyle.italic), textAlign: TextAlign.center)
-                      ),
-
-                      Container(
                         margin: EdgeInsets.symmetric(vertical: 16),
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: RaisedButton(
-                            onPressed: _isLoading ? null : () async {
-                              setState(() => _isLoading = true);
-                              await AuthService.getInstance().logout();
-                              Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
-                            },
-                            color: Colors.pink,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(48)),
-                            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                            child: Text(lang.home_profile_logout, style: TextStyle(color: Colors.white, fontSize: 18))
-                          )
+                        child: Row(
+                          children: [
+                            Spacer(),
+
+                            // Settings button
+                            Container(
+                              margin: EdgeInsets.symmetric(horizontal: 8),
+                              child: RaisedButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(context, '/settings');
+                                },
+                                color: Colors.pink,
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(48)),
+                                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                                child: Text(lang.home_profile_settings, style: TextStyle(color: Colors.white, fontSize: 18))
+                              )
+                            ),
+
+                            // Logout button
+                            Container(
+                              margin: EdgeInsets.symmetric(horizontal: 8),
+                              child: RaisedButton(
+                                onPressed: _isLoading ? null : () async {
+                                  setState(() => _isLoading = true);
+                                  await AuthService.getInstance().logout();
+                                  Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+                                },
+                                color: Colors.pink,
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(48)),
+                                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                                child: Text(lang.home_profile_logout, style: TextStyle(color: Colors.white, fontSize: 18))
+                              )
+                            ),
+
+                            Spacer()
+                          ]
                         )
                       )
                     ]

@@ -42,7 +42,7 @@
     "home_history_amount": "Amount",
 
     "home_profile_error": "An error has occurred while loading your user information!",
-    "home_profile_more": "Go to the Strepen website for\nmore settings and options",
+    "home_profile_settings": "Settings",
     "home_profile_logout": "Logout",
 
     "login_header": "Login to Strepen",
@@ -52,5 +52,32 @@
     "login_password": "Password",
     "login_login": "Login",
     "login_reset_password": "Go to the Strepen website to reset your password",
-    "login_footer": "Made by Bastiaan van der Plaat"
+    "login_footer": "Made by Bastiaan van der Plaat",
+
+    "settings_header": "Settings",
+    "settings_change_details": "Change details",
+
+    "settings_personal_info": "Personal information",
+    "settings_firstname": "Firstname",
+    "settings_insertion": "Insertion",
+    "settings_lastname": "Lastname",
+    "settings_gender": "Gender",
+    "settings_gender_null": "Undefined",
+    "settings_gender_male": "Male",
+    "settings_gender_female": "Female",
+    "settings_gender_other": "Other",
+    "settings_birthday": "Birthday",
+    "settings_birthday_minor": "Disabled because you are a minor",
+
+    "settings_contact_info": "Contact information",
+    "settings_email": "Email address",
+    "settings_phone": "Phone nummer",
+
+    "settings_address_info": "Address information",
+    "settings_address": "Address (street with house number)",
+    "settings_postcode": "Postcode",
+    "settings_city": "City",
+
+    "settings_email_notifications": "Email notifications",
+    "settings_receive_news": "Receive news notifications"
 }

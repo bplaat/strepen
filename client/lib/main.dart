@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'screens/home_screen.dart';
 import 'screens/login_screen.dart';
+import 'screens/settings_screen.dart';
 import 'services/storage_service.dart';
 import 'services/auth_service.dart';
 
@@ -35,7 +36,8 @@ void main() async {
     initialRoute: storage.token != null ? '/home' : '/login',
     routes: {
       '/home': (context) => HomeScreen(),
-      '/login': (context) => LoginScreen()
+      '/login': (context) => LoginScreen(),
+      '/settings': (context) => SettingsScreen(),
     }
   ));
 }

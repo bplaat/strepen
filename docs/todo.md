@@ -3,11 +3,13 @@
 # Todo List
 
 ## High priority
+- User settings in mobile Flutter app
+- Refactor livewire input system
+- Better post notifications
 - Bug fixes / All the whishs from the Stam Bestuur
 
 ## Low priority
 - Better admin user charts
 - Better admin product charts
-- User settings in mobile Flutter app
 - Finish the admin part of the REST API
 - Unit / Features tests
