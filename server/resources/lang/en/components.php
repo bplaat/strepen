@@ -35,6 +35,7 @@ return [
 
     // Products Chooser livewire component
     'products_chooser.products' => 'Products',
+    'products_chooser.products_help' => 'You don\'t have added any products jet!',
     'products_chooser.search_product' => 'Search a product...',
     'products_chooser.add_product' => 'Add product',
     'products_chooser.empty' => 'No products found!',

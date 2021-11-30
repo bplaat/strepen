@@ -40,9 +40,7 @@
         <div class="modal is-active">
             <div class="modal-background" wire:click="$set('isCreating', false)"></div>
 
-            <form id="mainForm" wire:submit.prevent="$emit('getSelectedProducts')"></form>
-
-            <div class="modal-card">
+            <form wire:submit.prevent="createInventory" class="modal-card">
                 <div class="modal-card-head">
                     <p class="modal-card-title">@lang('admin/inventories.crud.create_inventory')</p>
                     <button type="button" class="delete" wire:click="$set('isCreating', false)"></button>
@@ -53,19 +51,19 @@
                         <label class="label" for="name">@lang('admin/inventories.crud.name')</label>
                         <div class="control">
                             <input class="input @error('inventory.name') is-danger @enderror" type="text" id="name"
-                                form="mainForm" wire:model.defer="inventory.name" required>
+                                wire:model.defer="inventory.name" required>
                         </div>
                         @error('inventory.name') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
 
-                    <livewire:components.products-chooser :selectedProducts="$selectedProducts" noMax="true" validate="true" />
+                    <livewire:components.products-chooser name="products" noMax="true" includeInactive="true" />
                 </div>
 
                 <div class="modal-card-foot">
-                    <button type="submit" form="mainForm" class="button is-link" wire:loading.attr="disabled">@lang('admin/inventories.crud.create_inventory')</button>
+                    <button type="submit" class="button is-link" wire:loading.attr="disabled">@lang('admin/inventories.crud.create_inventory')</button>
                     <button type="button" class="button" wire:click="$set('isCreating', false)" wire:loading.attr="disabled">@lang('admin/inventories.crud.cancel')</button>
                 </div>
-            </div>
+            </form>
         </div>
     @endif
 </div>

@@ -21,7 +21,6 @@ class UserChooser extends InputComponent
     public $userName;
     public $user;
     public $isOpen = false;
-    public $isValid = true;
 
     // Lifecycle
     public function mount()
@@ -69,6 +68,11 @@ class UserChooser extends InputComponent
         })->slice(0, 10);
     }
 
+    public function emitValue()
+    {
+        $this->emitUp('inputValue', $this->name, $this->user != null ? $this->user->id : null);
+    }
+
     public function render()
     {
         return view('livewire.components.user-chooser');
@@ -87,7 +91,7 @@ class UserChooser extends InputComponent
         if ($this->name == $name) {
             $this->userName = '';
             $this->user = null;
-            $this->emitUp('inputValue', $this->name, null);
+            $this->emitValue();
             $this->filterUsers();
             $this->isOpen = false;
         }
@@ -99,7 +103,7 @@ class UserChooser extends InputComponent
         $this->isOpen = true;
         if ($this->user != null && $this->userName != $this->user->name) {
             $this->user = null;
-            $this->emitUp('inputValue', $this->name, null);
+            $this->emitValue();
         }
         $this->filterUsers();
     }
@@ -108,18 +112,14 @@ class UserChooser extends InputComponent
     public function selectFirstUser()
     {
         if ($this->filteredUsers->count() > 0) {
-            $this->user = $this->filteredUsers->first();
-            $this->userName = $this->user->name;
-            $this->emitUp('inputValue', $this->name, $this->user->id);
-            $this->filterUsers();
-            $this->isOpen = false;
+            $this->selectUser($this->filteredUsers->first()->id);
         }
     }
 
     public function selectUser($userId) {
         $this->user = $this->users->firstWhere('id', $userId);
         $this->userName = $this->user->name;
-        $this->emitUp('inputValue', $this->name, $this->user->id);
+        $this->emitValue();
         $this->filterUsers();
         $this->isOpen = false;
     }

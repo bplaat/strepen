@@ -28,21 +28,11 @@ class Item extends Component
         'transaction.price' => 'required|numeric'
     ];
 
-    public $listeners = ['inputValue', 'selectedProducts'];
+    public $listeners = ['inputValue'];
 
     public function mount()
     {
         $this->oldUserId = $this->transaction->user_id;
-
-        $selectedProducts = TransactionProduct::where('transaction_id', $this->transaction->id)->get();
-        $this->selectedProducts = collect();
-        foreach ($selectedProducts as $selectedProduct) {
-            $_selectedProduct = [];
-            $_selectedProduct['product_id'] = $selectedProduct->product_id;
-            $_selectedProduct['product'] = Product::find($selectedProduct->product_id);
-            $_selectedProduct['amount'] = $selectedProduct->amount;
-            $this->selectedProducts->push($_selectedProduct);
-        }
 
         $this->createdAtDate = $this->transaction->created_at->format('Y-m-d');
         $this->createdAtTime = $this->transaction->created_at->format('H:i:s');
@@ -52,17 +42,18 @@ class Item extends Component
         if ($name == 'item_user') {
             $this->transaction->user_id = $value;
         }
+
+        if ($name == 'item_products') {
+            $this->selectedProducts = $value;
+        }
     }
 
-    public function selectedProducts($selectedProducts)
+    public function editTransaction()
     {
-        if (!$this->isEditing) return;
-        $this->selectedProducts = collect($selectedProducts);
-
         // Validate same input
         $this->emit('inputValidate', 'item_user');
         if ($this->transaction->type == Transaction::TYPE_TRANSACTION) {
-            $this->emit('validateComponents');
+            $this->emit('inputValidate', 'item_products');
         }
         $this->validateOnly('transaction.user_id');
         $this->validateOnly('transaction.name');
@@ -74,19 +65,25 @@ class Item extends Component
             $this->validateOnly('selectedProducts.*.product_id');
             $this->validateOnly('selectedProducts.*.amount');
 
-            if (count($this->selectedProducts) == 0) return;
+            $selectedProducts = collect($this->selectedProducts)->map(function ($selectedProduct) {
+                $product = Product::find($selectedProduct['product_id']);
+                $product->selectedAmount = $selectedProduct['amount'];
+                return $product;
+            });
+
+            if ($selectedProducts->count() == 0) return;
 
             // Edit transaction
             $this->transaction->price = 0;
-            foreach ($this->selectedProducts as $selectedProduct) {
-                $this->transaction->price += $selectedProduct['product']['price'] * $selectedProduct['amount'];
+            foreach ($selectedProducts as $product) {
+                $this->transaction->price += $product->price * $product->selectedAmount;
             }
 
             // Detach and attach products to transaction
             $this->transaction->products()->detach();
-            foreach ($this->selectedProducts as $selectedProduct) {
-                $this->transaction->products()->attach($selectedProduct['product_id'], [
-                    'amount' => $selectedProduct['amount']
+            foreach ($selectedProducts as $product) {
+                $this->transaction->products()->attach($product, [
+                    'amount' => $product->selectedAmount
                 ]);
             }
 
@@ -120,17 +117,6 @@ class Item extends Component
 
         $this->isEditing = false;
         $this->emitUp('refresh');
-    }
-
-    public function editTransaction()
-    {
-        if ($this->transaction->type == Transaction::TYPE_TRANSACTION) {
-            $this->emit('getSelectedProducts');
-        }
-
-        if ($this->transaction->type == Transaction::TYPE_DEPOSIT || $this->transaction->type == Transaction::TYPE_FOOD) {
-            $this->selectedProducts([]);
-        }
     }
 
     public function deleteTransaction()

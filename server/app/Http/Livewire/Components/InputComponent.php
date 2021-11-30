@@ -14,9 +14,11 @@ abstract class InputComponent extends Component
     public $valid = true;
 
     // Events
-    public $listeners = ['inputValidate', 'inputClear', 'inputOptions'];
+    public $listeners = ['inputValidate', 'inputClear', 'inputProps'];
 
     abstract public function inputValidate($name);
 
     abstract public function inputClear($name);
+
+    public function inputProps($name, $props) {}
 }

@@ -42,7 +42,6 @@ class Crud extends PaginationComponent
         $this->queryString[] = 'user_id';
         $this->queryString[] = 'product_id';
         $this->listeners[] = 'inputValue';
-        $this->listeners[] = 'selectedProducts';
     }
 
     public function mount()
@@ -67,7 +66,6 @@ class Crud extends PaginationComponent
         }
 
         $this->transaction = new Transaction();
-        $this->selectedProducts = collect();
 
         $this->users = User::where('active', true)->where('deleted', false)
             ->orderByRaw('active DESC, LOWER(firstname)')
@@ -86,6 +84,10 @@ class Crud extends PaginationComponent
 
         if ($name == 'user') {
             $this->transaction->user_id = $value;
+        }
+
+        if ($name == 'products') {
+            $this->selectedProducts = $value;
         }
     }
 
@@ -107,36 +109,39 @@ class Crud extends PaginationComponent
         $this->isCreatingTransaction = true;
     }
 
-    public function selectedProducts($selectedProducts)
+    public function createTransaction()
     {
-        if (!$this->isCreatingTransaction) return;
-        $this->selectedProducts = collect($selectedProducts);
-
         // Validate input
         $this->emit('inputValidate', 'user');
-        $this->emit('validateComponents');
+        $this->emit('inputValidate', 'products');
         $this->validateOnly('transaction.user_id');
         $this->validateOnly('transaction.name');
         $this->validateOnly('selectedProducts.*.product_id');
         $this->validateOnly('selectedProducts.*.amount');
 
-        if ($this->selectedProducts->count() == 0) return;
+        $selectedProducts = collect($this->selectedProducts)->map(function ($selectedProduct) {
+            $product = Product::find($selectedProduct['product_id']);
+            $product->selectedAmount = $selectedProduct['amount'];
+            return $product;
+        });
+
+        if ($selectedProducts->count() == 0) return;
 
         // Create transaction
         $this->transaction->price = 0;
-        foreach ($this->selectedProducts as $selectedProduct) {
-            $this->transaction->price += $selectedProduct['product']['price'] * $selectedProduct['amount'];
+        foreach ($selectedProducts as $product) {
+            $this->transaction->price += $product->price * $product->selectedAmount;
         }
         $this->transaction->type = Transaction::TYPE_TRANSACTION;
         $this->transaction->save();
 
         // Attach products to transaction and decrement product amount
-        foreach ($this->selectedProducts as $selectedProduct) {
-            $product = Product::find($selectedProduct['product_id']);
+        foreach ($selectedProducts as $product) {
             $this->transaction->products()->attach($product, [
-                'amount' => $selectedProduct['amount']
+                'amount' => $product->selectedAmount
             ]);
-            $product->amount -= $selectedProduct['amount'];
+            $product->amount -= $product->selectedAmount;
+            unset($product->selectedAmount);
             $product->save();
         }
 
@@ -149,7 +154,7 @@ class Crud extends PaginationComponent
 
         // Refresh page
         $this->emit('inputClear', 'user');
-        $this->emit('clearSelectedProducts');
+        $this->emit('inputClear', 'products');
         $this->mount();
         $this->isCreatingTransaction = false;
     }
@@ -224,7 +229,6 @@ class Crud extends PaginationComponent
 
     public function createFood()
     {
-
         // Create single deposit
         if ($this->creatingFoodTab == 'single') {
             $this->emit('inputValidate', 'user');

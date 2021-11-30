@@ -3,7 +3,7 @@
 # Todo List
 
 ## High priority
-- Refactor livewire products chooser input component
+- preg match search special chars bug
 - User settings in mobile Flutter app
 - Better post notifications
 - Bug fixes / All the whishs from the Stam Bestuur

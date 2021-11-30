@@ -41,6 +41,11 @@ class ProductChooser extends InputComponent
         })->slice(0, 10);
     }
 
+    public function emitValue()
+    {
+        $this->emitUp('inputValue', $this->name, $this->product != null ? $this->product->id : null);
+    }
+
     public function render()
     {
         return view('livewire.components.product-chooser');
@@ -59,7 +64,7 @@ class ProductChooser extends InputComponent
         if ($this->name == $name) {
             $this->productName = '';
             $this->product = null;
-            $this->emitUp('inputValue', $this->name, null);
+            $this->emitValue();
             $this->filterProducts();
             $this->isOpen = false;
         }
@@ -71,7 +76,7 @@ class ProductChooser extends InputComponent
         $this->isOpen = true;
         if ($this->product != null && $this->productName != $this->product->name) {
             $this->product = null;
-            $this->emitUp('inputValue', $this->name, null);
+            $this->emitValue();
         }
         $this->filterProducts();
     }
@@ -80,18 +85,14 @@ class ProductChooser extends InputComponent
     public function selectFirstProduct()
     {
         if ($this->filteredProducts->count() > 0) {
-            $this->product = $this->filteredProducts->first();
-            $this->productName = $this->product->name;
-            $this->emitUp('inputValue', $this->name, $this->product->id);
-            $this->filterProducts();
-            $this->isOpen = false;
+            $this->selectProduct($this->filteredProducts->first()->id);
         }
     }
 
     public function selectProduct($productId) {
         $this->product = $this->products->firstWhere('id', $productId);
         $this->productName = $this->product->name;
-        $this->emitUp('inputValue', $this->name, $this->product->id);
+        $this->emitValue();
         $this->filterProducts();
         $this->isOpen = false;
     }

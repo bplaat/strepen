@@ -4,114 +4,136 @@ namespace App\Http\Livewire\Components;
 
 use App\Models\Product;
 use App\Models\Setting;
-use Livewire\Component;
 
-class ProductsChooser extends Component
+class ProductsChooser extends InputComponent
 {
-    public $selectedProducts;
-    public $validate = false;
+    // Props
+    public $initialProducts = [];
     public $noMax = false;
-    public $isMinor = false;
-    public $isBigMode = false;
+    public $minor = false;
+    public $bigMode = false;
+    public $includeInactive = false;
 
+    // State
     public $products;
     public $filteredProducts;
     public $productName;
+    public $selectedProducts;
     public $isOpen = false;
-    public $isValid = true;
 
-    public $listeners = ['validateComponents', 'getSelectedProducts', 'clearSelectedProducts', 'isMinorProducts', 'clearMinorProducts'];
-
+    // Lifecycle
     public function mount()
     {
-        $this->products = Product::where('active', true)->where('deleted', false)
-            ->orderByRaw('LOWER(name)')->get();
-
-        if ($this->isBigMode) {
-            foreach ($this->products as $product) {
-                if ($this->isMinor && $product->alcoholic) {
-                    continue;
-                }
-
-                $selectedProduct = [];
-                $selectedProduct['product_id'] = $product->id;
-                $selectedProduct['product'] = $product;
-                $selectedProduct['amount'] = 0;
-                $this->selectedProducts->push($selectedProduct);
-            }
-        } else {
-            $this->filteredProducts = $this->products->filter(function ($product) {
-                return !$this->selectedProducts->pluck('product_id')->contains($product->id);
-            });
-            if ($this->isMinor) {
-                $this->filteredProducts = $this->filteredProducts->filter(function ($product) {
-                    return !$product->alcoholic;
-                });
-            }
-            $this->filteredProducts = $this->filteredProducts->slice(0, 10);
+        // Select all products
+        $products = Product::where('deleted', false);
+        if (!$this->includeInactive) {
+            $products = $products->where('active', true);
         }
+        $this->products = $products->orderByRaw('LOWER(name)')->get();
+
+        // Selected products ids
+        $this->selectedProducts = collect();
+        foreach ($this->initialProducts as $product) {
+            $selectedProduct = [];
+            $selectedProduct['product_id'] = $product->id;
+            $selectedProduct['amount'] = $product->pivot->amount;
+            $this->selectedProducts->push($selectedProduct);
+        }
+        $this->sortSelectedProducts();
+        $this->filterProducts();
+        $this->emitValue();
     }
 
-    public function validateComponents()
+    public function sortSelectedProducts()
     {
-        if ($this->validate) {
-            $this->isValid = $this->selectedProducts->filter(function ($selectedProduct) {
+        $this->selectedProducts = $this->selectedProducts->sort(function ($a, $b) {
+            $productA = $this->products->firstWhere('id', $a['product_id']);
+            $productB = $this->products->firstWhere('id', $b['product_id']);
+            return strcasecmp($productA->name, $productB->name);
+        })->values();
+    }
+
+    public function filterProducts()
+    {
+        $filteredProducts = $this->products;
+        if (!$this->bigMode) {
+            $filteredProducts = $filteredProducts->filter(function ($product) {
+                return !$this->selectedProducts->pluck('product_id')->contains($product->id) &&
+                    (strlen($this->productName) == 0 || stripos($product->name, $this->productName) !== false);
+            });
+        }
+        if ($this->minor) {
+            $filteredProducts = $filteredProducts->filter(function ($product) {
+                return !$product->alcoholic;
+            });
+        }
+        if (!$this->bigMode) {
+            $filteredProducts = $filteredProducts->slice(0, 10);
+        }
+        $this->filteredProducts = $filteredProducts;
+    }
+
+    public function emitValue()
+    {
+        $this->emitUp('inputValue', $this->name, $this->selectedProducts->filter(function ($selectedProduct) {
+            return $selectedProduct['amount'] > 0;
+        })->toArray());
+    }
+
+    public function render()
+    {
+        return view('livewire.components.products-chooser');
+    }
+
+    // Events
+    public function inputValidate($name)
+    {
+        if ($this->name == $name) {
+            $this->valid = $this->selectedProducts->filter(function ($selectedProduct) {
                 return $selectedProduct['amount'] > 0;
             })->count() > 0;
         }
     }
 
-    public function getSelectedProducts()
+    public function inputClear($name)
     {
-        $this->emitUp('selectedProducts', $this->selectedProducts->filter(function ($selectedProduct) {
-            return $selectedProduct['amount'] > 0;
-        }));
-    }
-
-    public function clearSelectedProducts()
-    {
-        $this->selectedProducts = collect();
-        $this->mount();
-    }
-
-    public function isMinorProducts() {
-        $this->isMinor = true;
-        $this->selectedProducts = $this->selectedProducts->where('product.alcoholic', '==', false);
-        if (!$this->isBigMode) {
-            $this->filterProducts();
-        }
-    }
-
-    public function clearMinorProducts() {
-        $this->isMinor = false;
-        if ($this->isBigMode) {
-            $this->selectedProducts = collect();
+        if ($this->name == $name) {
+            $this->productName = '';
             $this->mount();
-        } else {
+            $this->isOpen = false;
+        }
+    }
+
+    public function inputProps($name, $props)
+    {
+        if ($this->name == $name) {
+            $this->minor = $props['minor'];
+
+            if ($this->minor) {
+                $this->selectedProducts = $this->selectedProducts->filter(function ($selectedProduct) {
+                    $product = $this->products->firstWhere('id', $selectedProduct['product_id']);
+                    return !$product->alcoholic;
+                });
+                $this->emitValue();
+            }
+
             $this->filterProducts();
         }
     }
 
-    public function filterProducts()
-    {
-        $this->filteredProducts = $this->products->filter(function ($product) {
-            return !$this->selectedProducts->pluck('product_id')->contains($product->id) &&
-                (strlen($this->productName) == 0 || stripos($product->name, $this->productName) !== false);
-        });
-        if ($this->isMinor) {
-            $this->filteredProducts = $this->filteredProducts->filter(function ($product) {
-                return !$product->alcoholic;
-            });
-        }
-        $this->filteredProducts = $this->filteredProducts->slice(0, 10);
-    }
-
+    // Listeners
     public function updatedProductName()
     {
-        if (!$this->isOpen) $this->isOpen = true;
+        $this->isOpen = true;
         $this->filterProducts();
     }
 
+    public function updatedSelectedProducts()
+    {
+        $this->emitValue();
+    }
+
+    // Actions
     public function addFirstProduct()
     {
         if ($this->filteredProducts->count() > 0) {
@@ -123,10 +145,11 @@ class ProductsChooser extends Component
     {
         $selectedProduct = [];
         $selectedProduct['product_id'] = $productId;
-        $selectedProduct['product'] = $this->products->firstWhere('id', $productId);
         $selectedProduct['amount'] = 0;
         $this->selectedProducts->push($selectedProduct);
+        $this->sortSelectedProducts();
         $this->productName = null;
+        $this->emitValue();
         $this->filterProducts();
         $this->isOpen = false;
     }
@@ -134,6 +157,7 @@ class ProductsChooser extends Component
     public function deleteProduct($productId)
     {
         $this->selectedProducts = $this->selectedProducts->where('product_id', '!=', $productId);
+        $this->emitValue();
     }
 
     public function decrementProductAmount($productId)
@@ -141,27 +165,32 @@ class ProductsChooser extends Component
         $this->selectedProducts = $this->selectedProducts->map(function ($selectedProduct) use ($productId) {
             if ($selectedProduct['product_id'] == $productId) {
                 if ($selectedProduct['amount'] > 0) {
-                    $selectedProduct['amount'] -= 1;
+                    $selectedProduct['amount']--;
                 }
             }
             return $selectedProduct;
         });
+        $this->emitValue();
     }
 
     public function incrementProductAmount($productId)
     {
-        $this->selectedProducts = $this->selectedProducts->map(function ($selectedProduct) use ($productId) {
-            if ($selectedProduct['product_id'] == $productId) {
-                if ($selectedProduct['amount'] < Setting::get('max_stripe_amount')) {
-                    $selectedProduct['amount'] += 1;
+        $selectedProduct = $this->selectedProducts->firstWhere('product_id', $productId);
+        if ($selectedProduct != null) {
+            $this->selectedProducts = $this->selectedProducts->map(function ($selectedProduct) use ($productId) {
+                if ($selectedProduct['product_id'] == $productId) {
+                    if ($this->noMax || $selectedProduct['amount'] < Setting::get('max_stripe_amount')) {
+                        $selectedProduct['amount']++;
+                    }
                 }
-            }
-            return $selectedProduct;
-        });
-    }
-
-    public function render()
-    {
-        return view('livewire.components.products-chooser');
+                return $selectedProduct;
+            });
+        } else {
+            $selectedProduct = [];
+            $selectedProduct['product_id'] = $productId;
+            $selectedProduct['amount'] = 1;
+            $this->selectedProducts->push($selectedProduct);
+        }
+        $this->emitValue();
     }
 }

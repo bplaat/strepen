@@ -44,9 +44,7 @@
         <div class="modal is-active">
             <div class="modal-background" wire:click="$set('isCreatingTransaction', false)"></div>
 
-            <form id="mainForm" wire:submit.prevent="$emit('getSelectedProducts')"></form>
-
-            <div class="modal-card">
+            <form wire:submit.prevent="createTransaction" class="modal-card">
                 <div class="modal-card-head">
                     <p class="modal-card-title">@lang('admin/transactions.crud.create_transaction')</p>
                     <button type="button" class="delete" wire:click="$set('isCreatingTransaction', false)"></button>
@@ -59,19 +57,19 @@
                         <label class="label" for="name">@lang('admin/transactions.crud.name')</label>
                         <div class="control">
                             <input class="input @error('transaction.name') is-danger @enderror" type="text" id="name"
-                                form="mainForm" wire:model.defer="transaction.name" required>
+                                wire:model.defer="transaction.name" required>
                         </div>
                         @error('transaction.name') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
 
-                    <livewire:components.products-chooser :selectedProducts="$selectedProducts" noMax="true" validate="true" />
+                    <livewire:components.products-chooser name="products" noMax="true" includeInactive="true" />
                 </div>
 
                 <div class="modal-card-foot">
-                    <button type="submit" form="mainForm" class="button is-link" wire:loading.attr="disabled">@lang('admin/transactions.crud.create_transaction')</button>
+                    <button type="submit" class="button is-link" wire:loading.attr="disabled">@lang('admin/transactions.crud.create_transaction')</button>
                     <button type="button" class="button" wire:click="$set('isCreatingTransaction', false)" wire:loading.attr="disabled">@lang('admin/transactions.crud.cancel')</button>
                 </div>
-            </div>
+            </form>
         </div>
     @endif
 

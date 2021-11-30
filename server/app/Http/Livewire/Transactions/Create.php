@@ -23,29 +23,39 @@ class Create extends Component
         ];
     }
 
-    public $listeners = ['selectedProducts'];
+    public $listeners = ['inputValue'];
 
     public function mount()
     {
         $this->transaction = new Transaction();
         $this->transaction->name = __('transactions.create.name_default') . ' ' . date('Y-m-d H:i:s');
-        $this->selectedProducts = collect();
         $this->isCreated = false;
     }
 
-    public function selectedProducts($selectedProducts)
+    public function inputValue($name, $value)
     {
-        $this->selectedProducts = collect($selectedProducts);
+        if ($name == 'products') {
+            $this->selectedProducts = $value;
+        }
+    }
 
+    public function createTransaction()
+    {
         // Validate input
-        $this->emit('validateComponents');
+        $this->emit('inputValidate', 'products');
         $this->validate();
 
-        if (count($this->selectedProducts) == 0) return;
+        $selectedProducts = collect($this->selectedProducts)->map(function ($selectedProduct) {
+            $product = Product::find($selectedProduct['product_id']);
+            $product->selectedAmount = $selectedProduct['amount'];
+            return $product;
+        });
+
+        if ($selectedProducts->count() == 0) return;
 
         if (Auth::user()->minor) {
-            foreach ($this->selectedProducts as $selectedProduct) {
-                if ($selectedProduct['product']['alcoholic']) {
+            foreach ($selectedProducts as $product) {
+                if ($product->alcoholic) {
                     return;
                 }
             }
@@ -53,20 +63,20 @@ class Create extends Component
 
         // Create transaction
         $this->transaction->price = 0;
-        foreach ($this->selectedProducts as $selectedProduct) {
-            $this->transaction->price += $selectedProduct['product']['price'] * $selectedProduct['amount'];
+        foreach ($selectedProducts as $product) {
+            $this->transaction->price += $product->price * $product->selectedAmount;
         }
         $this->transaction->user_id = Auth::id();
         $this->transaction->type = Transaction::TYPE_TRANSACTION;
         $this->transaction->save();
 
         // Attach products to transaction and decrement product amount
-        foreach ($this->selectedProducts as $selectedProduct) {
-            $product = Product::find($selectedProduct['product_id']);
+        foreach ($selectedProducts as $product) {
             $this->transaction->products()->attach($product, [
-                'amount' => $selectedProduct['amount']
+                'amount' => $product->selectedAmount
             ]);
-            $product->amount -= $selectedProduct['amount'];
+            $product->amount -= $product->selectedAmount;
+            unset($product->selectedAmount);
             $product->save();
         }
 
@@ -80,7 +90,7 @@ class Create extends Component
 
     public function closeCreated()
     {
-        $this->emit('clearSelectedProducts');
+        $this->emit('inputClear', 'products');
         $this->mount();
     }
 

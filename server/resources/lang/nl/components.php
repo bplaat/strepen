@@ -35,10 +35,11 @@ return [
 
     // Products Chooser livewire component
     'products_chooser.products' => 'Producten',
+    'products_chooser.products_help' => 'U heeft nog geen enkel product toegevoegd!',
     'products_chooser.search_product' => 'Zoek een product...',
     'products_chooser.add_product' => 'Voeg product toe',
     'products_chooser.empty' => 'Geen producten gevonden!',
-    'products_chooser.minor' => 'Er zijn minder producten beschikbaar omdat u minderjarig bent',
+    'products_chooser.minor' => 'Er zijn minder producten beschikbaar omdat je minderjarig bent',
     'products_chooser.amount' => 'hoeveelheid',
     'products_chooser.empty_error' => 'U moet minstens een product selecteren',
 

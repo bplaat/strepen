@@ -12,8 +12,8 @@ class Kiosk extends Component
 {
     public $transaction;
     public $selectedProducts;
-    public $isCreated;
     public $isMinor = false;
+    public $isCreated;
 
     public function rules()
     {
@@ -25,13 +25,12 @@ class Kiosk extends Component
         ];
     }
 
-    public $listeners = ['inputValue', 'selectedProducts'];
+    public $listeners = ['inputValue'];
 
     public function mount()
     {
         $this->transaction = new Transaction();
         $this->transaction->name = __('kiosk.name_default') . ' ' . date('Y-m-d H:i:s');
-        $this->selectedProducts = collect();
         $this->isCreated = false;
     }
 
@@ -42,30 +41,42 @@ class Kiosk extends Component
             $user = User::find($this->transaction->user_id);
             if ($user != null && $user->minor) {
                 $this->isMinor = true;
-                $this->emit('isMinorProducts');
+                $this->emit('inputProps', 'products', [
+                    'minor' => $this->isMinor
+                ]);
             }
             if ($this->isMinor && ($user == null || !$user->minor)) {
                 $this->isMinor = false;
-                $this->emit('clearMinorProducts');
+                $this->emit('inputProps', 'products', [
+                    'minor' => $this->isMinor
+                ]);
             }
+        }
+
+        if ($name == 'products') {
+            $this->selectedProducts = $value;
         }
     }
 
-    public function selectedProducts($selectedProducts)
+    public function createTransaction()
     {
-        $this->selectedProducts = collect($selectedProducts);
-
         // Validate input
         $this->emit('inputValidate', 'user');
-        $this->emit('validateComponents');
+        $this->emit('inputValidate', 'products');
         $this->validate();
 
-        if (count($this->selectedProducts) == 0) return;
+        $selectedProducts = collect($this->selectedProducts)->map(function ($selectedProduct) {
+            $product = Product::find($selectedProduct['product_id']);
+            $product->selectedAmount = $selectedProduct['amount'];
+            return $product;
+        });
+
+        if ($selectedProducts->count() == 0) return;
 
         $user = User::find($this->transaction->user_id);
         if ($user->minor) {
-            foreach ($this->selectedProducts as $selectedProduct) {
-                if ($selectedProduct['product']['alcoholic']) {
+            foreach ($selectedProducts as $product) {
+                if ($product->alcoholic) {
                     return;
                 }
             }
@@ -73,19 +84,19 @@ class Kiosk extends Component
 
         // Create transaction
         $this->transaction->price = 0;
-        foreach ($this->selectedProducts as $selectedProduct) {
-            $this->transaction->price += $selectedProduct['product']['price'] * $selectedProduct['amount'];
+        foreach ($selectedProducts as $product) {
+            $this->transaction->price += $product->price * $product->selectedAmount;
         }
         $this->transaction->type = Transaction::TYPE_TRANSACTION;
         $this->transaction->save();
 
         // Attach products to transaction and decrement product amount
-        foreach ($this->selectedProducts as $selectedProduct) {
-            $product = Product::find($selectedProduct['product_id']);
+        foreach ($selectedProducts as $product) {
             $this->transaction->products()->attach($product, [
-                'amount' => $selectedProduct['amount']
+                'amount' => $product->selectedAmount
             ]);
-            $product->amount -= $selectedProduct['amount'];
+            $product->amount -= $product->selectedAmount;
+            unset($product->selectedAmount);
             $product->save();
         }
 
@@ -99,7 +110,7 @@ class Kiosk extends Component
     public function closeCreated()
     {
         $this->emit('inputClear', 'user');
-        $this->emit('clearSelectedProducts');
+        $this->emit('inputClear', 'products');
         $this->mount();
     }
 

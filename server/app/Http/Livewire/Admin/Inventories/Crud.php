@@ -31,7 +31,6 @@ class Crud extends PaginationComponent
         $this->queryString[] = 'user_id';
         $this->queryString[] = 'product_id';
         $this->listeners[] = 'inputValue';
-        $this->listeners[] = 'selectedProducts';
     }
 
     public function mount()
@@ -60,7 +59,6 @@ class Crud extends PaginationComponent
 
         $this->inventory = new Inventory();
         $this->inventory->name = __('admin/inventories.crud.name_default') . ' ' . date('Y-m-d H:i:s');
-        $this->selectedProducts = collect();
     }
 
     public function inputValue($name, $value) {
@@ -71,6 +69,10 @@ class Crud extends PaginationComponent
         if ($name == 'product_filter') {
             $this->productIdTemp = $value;
         }
+
+        if ($name == 'products') {
+            $this->selectedProducts = $value;
+        }
     }
 
     public function search()
@@ -80,39 +82,40 @@ class Crud extends PaginationComponent
         $this->resetPage();
     }
 
-    public function selectedProducts($selectedProducts)
+    public function createInventory()
     {
-        if (!$this->isCreating) return;
-        $this->selectedProducts = collect($selectedProducts);
-
         // Validate input
-        $this->emit('validateComponents');
+        $this->emit('inputValidate', 'products');
         $this->validate();
 
-        if (count($this->selectedProducts) == 0) return;
+        $selectedProducts = collect($this->selectedProducts)->map(function ($selectedProduct) {
+            $product = Product::find($selectedProduct['product_id']);
+            $product->selectedAmount = $selectedProduct['amount'];
+            return $product;
+        });
+
+        if ($selectedProducts->count() == 0) return;
 
         // Create inventory
         $this->inventory->user_id = Auth::id();
         $this->inventory->price = 0;
-        foreach ($this->selectedProducts as $selectedProduct) {
-            $this->inventory->price += $selectedProduct['product']['price'] * $selectedProduct['amount'];
+        foreach ($selectedProducts as $product) {
+            $this->inventory->price += $product->price * $product->selectedAmount;
         }
         $this->inventory->save();
 
         // Create product inventory pivot table items
-        foreach ($this->selectedProducts as $selectedProduct) {
-            if ($selectedProduct['amount'] > 0) {
-                $product = Product::find($selectedProduct['product_id']);
-                $this->inventory->products()->attach($product, [
-                    'amount' => $selectedProduct['amount']
-                ]);
-                $product->amount += $selectedProduct['amount'];
-                $product->save();
-            }
+        foreach ($selectedProducts as $product) {
+            $this->inventory->products()->attach($product, [
+                'amount' => $product->selectedAmount
+            ]);
+            $product->amount -= $product->selectedAmount;
+            unset($product->selectedAmount);
+            $product->save();
         }
 
         // Refresh page
-        $this->emit('clearSelectedProducts');
+        $this->emit('inputClear', 'products');
         $this->mount();
         $this->isCreating = false;
     }

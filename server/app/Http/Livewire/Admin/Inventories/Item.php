@@ -25,20 +25,10 @@ class Item extends Component
         'selectedProducts.*.amount' => 'required|integer|min:1'
     ];
 
-    public $listeners = ['inputValue', 'selectedProducts'];
+    public $listeners = ['inputValue'];
 
     public function mount()
     {
-        $selectedProducts = InventoryProduct::where('inventory_id', $this->inventory->id)->get();
-        $this->selectedProducts = collect();
-        foreach ($selectedProducts as $selectedProduct) {
-            $_selectedProduct = [];
-            $_selectedProduct['product_id'] = $selectedProduct->product_id;
-            $_selectedProduct['product'] = Product::find($selectedProduct->product_id);
-            $_selectedProduct['amount'] = $selectedProduct->amount;
-            $this->selectedProducts->push($_selectedProduct);
-        }
-
         $this->createdAtDate = $this->inventory->created_at->format('Y-m-d');
         $this->createdAtTime = $this->inventory->created_at->format('H:i:s');
     }
@@ -47,33 +37,40 @@ class Item extends Component
         if ($name == 'item_user') {
             $this->inventory->user_id = $value;
         }
+
+        if ($name == 'item_products') {
+            $this->selectedProducts = $value;
+        }
     }
 
-    public function selectedProducts($selectedProducts)
+    public function editInventory()
     {
-        if (!$this->isEditing) return;
-        $this->selectedProducts = collect($selectedProducts);
-
         // Validate input
         $this->emit('inputValidate', 'item_user');
-        $this->emit('validateComponents');
+        $this->emit('inputValidate', 'item_products');
         $this->validate();
 
-        if (count($this->selectedProducts) == 0) return;
+        $selectedProducts = collect($this->selectedProducts)->map(function ($selectedProduct) {
+            $product = Product::find($selectedProduct['product_id']);
+            $product->selectedAmount = $selectedProduct['amount'];
+            return $product;
+        });
+
+        if ($selectedProducts->count() == 0) return;
 
         // Edit inventory
         $this->inventory->price = 0;
-        foreach ($this->selectedProducts as $selectedProduct) {
-            $this->inventory->price += $selectedProduct['product']['price'] * $selectedProduct['amount'];
+        foreach ($selectedProducts as $product) {
+            $this->inventory->price += $product->price * $product->selectedAmount;
         }
         $this->inventory->created_at = $this->createdAtDate . ' ' . $this->createdAtTime;
         $this->inventory->save();
 
         // Detach and attach products to inventory
         $this->inventory->products()->detach();
-        foreach ($this->selectedProducts as $selectedProduct) {
-            $this->inventory->products()->attach($selectedProduct['product_id'], [
-                'amount' => $selectedProduct['amount']
+        foreach ($selectedProducts as $product) {
+            $this->inventory->products()->attach($product, [
+                'amount' => $product->selectedAmount
             ]);
         }
 

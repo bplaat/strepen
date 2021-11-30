@@ -16,9 +16,7 @@
         <div class="modal is-active">
             <div class="modal-background" wire:click="$set('isEditing', false)"></div>
 
-            <form id="mainForm" wire:submit.prevent="$emit('getSelectedProducts')"></form>
-
-            <div class="modal-card">
+            <form wire:submit.prevent="editInventory" class="modal-card">
                 <div class="modal-card-head">
                     <p class="modal-card-title">@lang('admin/inventories.item.edit_inventory')</p>
                     <button type="button" class="delete" wire:click="$set('isEditing', false)"></button>
@@ -31,7 +29,7 @@
                         <label class="label" for="name">@lang('admin/inventories.item.name')</label>
                         <div class="control">
                             <input class="input @error('inventory.name') is-danger @enderror" type="text" id="name"
-                                form="mainForm" wire:model.defer="inventory.name" required>
+                                wire:model.defer="inventory.name" required>
                         </div>
                         @error('inventory.name') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
@@ -42,7 +40,7 @@
                                 <label class="label" for="created_at_date">@lang('admin/inventories.item.created_at_date')</label>
                                 <div class="control">
                                     <input class="input @error('createdAtDate') is-danger @enderror" type="date" id="created_at_date"
-                                        form="mainForm" wire:model.defer="createdAtDate" required>
+                                        wire:model.defer="createdAtDate" required>
                                 </div>
                                 @error('createdAtDate') <p class="help is-danger">{{ $message }}</p> @enderror
                             </div>
@@ -53,21 +51,21 @@
                                 <label class="label" for="created_at_time">@lang('admin/inventories.item.created_at_time')</label>
                                 <div class="control">
                                     <input class="input @error('createdAtTime') is-danger @enderror" type="time" step="1" id="created_at_time"
-                                        form="mainForm" wire:model.defer="createdAtTime" required>
+                                        wire:model.defer="createdAtTime" required>
                                 </div>
                                 @error('createdAtTime') <p class="help is-danger">{{ $message }}</p> @enderror
                             </div>
                         </div>
                     </div>
 
-                    <livewire:components.products-chooser :selectedProducts="$selectedProducts" noMax="true" validate="true" />
+                    <livewire:components.products-chooser name="item_products" :initialProducts="$inventory->products" noMax="true" includeInactive="true" />
                 </div>
 
                 <div class="modal-card-foot">
-                    <button type="submit" form="mainForm" class="button is-link" wire:loading.attr="disabled">@lang('admin/inventories.item.edit_inventory')</button>
+                    <button type="submit" class="button is-link" wire:loading.attr="disabled">@lang('admin/inventories.item.edit_inventory')</button>
                     <button type="button" class="button" wire:click="$set('isEditing', false)" wire:loading.attr="disabled">@lang('admin/inventories.item.cancel')</button>
                 </div>
-            </div>
+            </form>
         </div>
     @endif
 
