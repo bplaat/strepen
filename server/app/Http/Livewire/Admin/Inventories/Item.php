@@ -25,7 +25,7 @@ class Item extends Component
         'selectedProducts.*.amount' => 'required|integer|min:1'
     ];
 
-    public $listeners = ['userChooser', 'selectedProducts'];
+    public $listeners = ['inputValue', 'selectedProducts'];
 
     public function mount()
     {
@@ -43,8 +43,10 @@ class Item extends Component
         $this->createdAtTime = $this->inventory->created_at->format('H:i:s');
     }
 
-    public function userChooser($userId) {
-        $this->inventory->user_id = $userId;
+    public function inputValue($name, $value) {
+        if ($name == 'item_user') {
+            $this->inventory->user_id = $value;
+        }
     }
 
     public function selectedProducts($selectedProducts)
@@ -53,6 +55,7 @@ class Item extends Component
         $this->selectedProducts = collect($selectedProducts);
 
         // Validate input
+        $this->emit('inputValidate', 'item_user');
         $this->emit('validateComponents');
         $this->validate();
 

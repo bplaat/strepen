@@ -28,7 +28,7 @@ class Item extends Component
         'transaction.price' => 'required|numeric'
     ];
 
-    public $listeners = ['userChooser', 'selectedProducts'];
+    public $listeners = ['inputValue', 'selectedProducts'];
 
     public function mount()
     {
@@ -48,8 +48,10 @@ class Item extends Component
         $this->createdAtTime = $this->transaction->created_at->format('H:i:s');
     }
 
-    public function userChooser($userId) {
-        $this->transaction->user_id = $userId;
+    public function inputValue($name, $value) {
+        if ($name == 'item_user') {
+            $this->transaction->user_id = $value;
+        }
     }
 
     public function selectedProducts($selectedProducts)
@@ -58,6 +60,7 @@ class Item extends Component
         $this->selectedProducts = collect($selectedProducts);
 
         // Validate same input
+        $this->emit('inputValidate', 'item_user');
         if ($this->transaction->type == Transaction::TYPE_TRANSACTION) {
             $this->emit('validateComponents');
         }

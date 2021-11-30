@@ -13,7 +13,7 @@
             </x-slot>
 
             <x-slot name="filters">
-                <livewire:components.user-chooser :userId="$user_id" inline="true" includeStrepenUser="true" relationship="true" postsRequired="true" />
+                <livewire:components.user-chooser name="user_filter" :userId="$user_id" inline="true" includeStrepenUser="true" relationship="true" postsRequired="true" />
             </x-slot>
         </x-search-header>
 

@@ -25,7 +25,7 @@ class Kiosk extends Component
         ];
     }
 
-    public $listeners = ['userChooser', 'selectedProducts'];
+    public $listeners = ['inputValue', 'selectedProducts'];
 
     public function mount()
     {
@@ -35,17 +35,19 @@ class Kiosk extends Component
         $this->isCreated = false;
     }
 
-    public function userChooser($userId) {
-        $this->transaction->user_id = $userId;
+    public function inputValue($name, $value) {
+        if ($name == 'user') {
+            $this->transaction->user_id = $value;
 
-        $user = User::find($this->transaction->user_id);
-        if ($user != null && $user->minor) {
-            $this->isMinor = true;
-            $this->emit('isMinorProducts');
-        }
-        if ($this->isMinor && ($user == null || !$user->minor)) {
-            $this->isMinor = false;
-            $this->emit('clearMinorProducts');
+            $user = User::find($this->transaction->user_id);
+            if ($user != null && $user->minor) {
+                $this->isMinor = true;
+                $this->emit('isMinorProducts');
+            }
+            if ($this->isMinor && ($user == null || !$user->minor)) {
+                $this->isMinor = false;
+                $this->emit('clearMinorProducts');
+            }
         }
     }
 
@@ -54,6 +56,7 @@ class Kiosk extends Component
         $this->selectedProducts = collect($selectedProducts);
 
         // Validate input
+        $this->emit('inputValidate', 'user');
         $this->emit('validateComponents');
         $this->validate();
 
@@ -95,7 +98,7 @@ class Kiosk extends Component
 
     public function closeCreated()
     {
-        $this->emit('clearUserChooser');
+        $this->emit('inputClear', 'user');
         $this->emit('clearSelectedProducts');
         $this->mount();
     }

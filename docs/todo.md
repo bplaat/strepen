@@ -3,8 +3,8 @@
 # Todo List
 
 ## High priority
+- Refactor livewire products chooser input component
 - User settings in mobile Flutter app
-- Refactor livewire input system
 - Better post notifications
 - Bug fixes / All the whishs from the Stam Bestuur
 

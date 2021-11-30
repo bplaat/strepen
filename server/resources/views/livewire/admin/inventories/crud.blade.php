@@ -16,9 +16,9 @@
         </x-slot>
 
         <x-slot name="filters">
-            <livewire:components.user-chooser :userId="$user_id" inline="true" includeStrepenUser="true" relationship="true" inventoriesRequired="true" />
+            <livewire:components.user-chooser name="user_filter" :userId="$user_id" includeInactive="true" inline="true" relationship="true" inventoriesRequired="true" />
 
-            <livewire:components.product-chooser :productId="$product_id" inline="true" relationship="true" />
+            <livewire:components.product-chooser name="product_filter" :productId="$product_id" includeInactive="true" inline="true" relationship="true" />
         </x-slot>
     </x-search-header>
 

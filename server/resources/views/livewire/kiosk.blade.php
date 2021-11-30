@@ -4,7 +4,7 @@
     <div class="box">
         <form id="mainForm" wire:submit.prevent="$emit('getSelectedProducts')"></form>
 
-        <livewire:components.user-chooser validate="true" />
+        <livewire:components.user-chooser name="user" />
 
         <div class="field">
             <label class="label" for="name">@lang('kiosk.name')</label>

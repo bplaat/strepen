@@ -258,7 +258,8 @@ class User extends Authenticatable
     }
 
     // Check gravatar for avatar
-    public function checkGravatarAvatar() {
+    public function checkGravatarAvatar()
+    {
         $headers = implode('\n', get_headers('https://www.gravatar.com/avatar/' . md5($this->email) . '?d=404'));
         if (str_contains($headers, '200 OK') && (str_contains($headers, 'Content-Type: image/jpeg') || str_contains($headers, 'Content-Type: image/png'))) {
             if (str_contains($headers, 'Content-Type: image/jpeg')) {

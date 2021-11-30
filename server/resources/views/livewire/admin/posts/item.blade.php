@@ -23,7 +23,7 @@
                 </div>
 
                 <div class="modal-card-body">
-                    <livewire:components.user-chooser :userId="$post->user_id" includeStrepenUser="true" validate="true" />
+                    <livewire:components.user-chooser name="item_user" :userId="$post->user_id" includeInactive="true" />
 
                     <div class="field">
                         <label class="label" for="title">@lang('admin/posts.item.title')</label>

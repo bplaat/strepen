@@ -1,0 +1,22 @@
+<?php
+
+namespace App\Http\Livewire\Components;
+
+use App\Models\Artist;
+use Livewire\Component;
+
+abstract class InputComponent extends Component
+{
+    // Props
+    public $name;
+
+    // State
+    public $valid = true;
+
+    // Events
+    public $listeners = ['inputValidate', 'inputClear', 'inputOptions'];
+
+    abstract public function inputValidate($name);
+
+    abstract public function inputClear($name);
+}

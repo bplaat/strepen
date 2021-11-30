@@ -41,8 +41,7 @@ class Crud extends PaginationComponent
         $this->queryString['type'] = ['except' => ''];
         $this->queryString[] = 'user_id';
         $this->queryString[] = 'product_id';
-        $this->listeners[] = 'userChooser';
-        $this->listeners[] = 'productChooser';
+        $this->listeners[] = 'inputValue';
         $this->listeners[] = 'selectedProducts';
     }
 
@@ -59,11 +58,11 @@ class Crud extends PaginationComponent
             $this->type = null;
         }
 
-        if ($this->user_id != 1 && User::where('id', $this->user_id)->where('active', true)->where('deleted', false)->count() == 0) {
+        if ($this->user_id != 1 && User::where('id', $this->user_id)->where('deleted', false)->count() == 0) {
             $this->user_id = null;
         }
 
-        if (Product::where('id', $this->product_id)->where('active', true)->where('deleted', false)->count() == 0) {
+        if (Product::where('id', $this->product_id)->where('deleted', false)->count() == 0) {
             $this->product_id = null;
         }
 
@@ -76,13 +75,18 @@ class Crud extends PaginationComponent
         $this->userAmounts = array_fill(0, $this->users->count(), '');
     }
 
-    public function userChooser($userId) {
-        $this->userIdTemp = $userId;
-        $this->transaction->user_id = $userId;
-    }
+    public function inputValue($name, $value) {
+        if ($name == 'user_filter') {
+            $this->userIdTemp = $value;
+        }
 
-    public function productChooser($productId) {
-        $this->productIdTemp = $productId;
+        if ($name == 'product_filter') {
+            $this->productIdTemp = $value;
+        }
+
+        if ($name == 'user') {
+            $this->transaction->user_id = $value;
+        }
     }
 
     public function search()
@@ -109,6 +113,7 @@ class Crud extends PaginationComponent
         $this->selectedProducts = collect($selectedProducts);
 
         // Validate input
+        $this->emit('inputValidate', 'user');
         $this->emit('validateComponents');
         $this->validateOnly('transaction.user_id');
         $this->validateOnly('transaction.name');
@@ -143,7 +148,7 @@ class Crud extends PaginationComponent
         }
 
         // Refresh page
-        $this->emit('clearUserChooser');
+        $this->emit('inputClear', 'user');
         $this->emit('clearSelectedProducts');
         $this->mount();
         $this->isCreatingTransaction = false;
@@ -158,10 +163,10 @@ class Crud extends PaginationComponent
 
     public function createDeposit()
     {
-        $this->validateOnly('transaction.name');
-
         // Create single deposit
         if ($this->creatingDepositTab == 'single') {
+            $this->emit('inputValidate', 'user');
+            $this->validateOnly('transaction.name');
             $this->validateOnly('transaction.user_id');
             $this->validateOnly('transaction.price');
 
@@ -180,6 +185,7 @@ class Crud extends PaginationComponent
 
         // Create multiple deposits
         if ($this->creatingDepositTab == 'multiple') {
+            $this->validateOnly('transaction.name');
             $this->validateOnly('userAmounts.*');
 
             // Create transaction
@@ -204,7 +210,7 @@ class Crud extends PaginationComponent
             }
         }
 
-        $this->emit('clearUserChooser');
+        $this->emit('inputClear', 'user');
         $this->mount();
         $this->isCreatingDeposit = false;
     }
@@ -218,10 +224,11 @@ class Crud extends PaginationComponent
 
     public function createFood()
     {
-        $this->validateOnly('transaction.name');
 
         // Create single deposit
         if ($this->creatingFoodTab == 'single') {
+            $this->emit('inputValidate', 'user');
+            $this->validateOnly('transaction.name');
             $this->validateOnly('transaction.user_id');
             $this->validateOnly('transaction.price');
 
@@ -237,6 +244,7 @@ class Crud extends PaginationComponent
 
         // Create multiple deposits
         if ($this->creatingFoodTab == 'multiple') {
+            $this->validateOnly('transaction.name');
             $this->validateOnly('userAmounts.*');
 
             // Create transaction
@@ -258,7 +266,7 @@ class Crud extends PaginationComponent
             }
         }
 
-        $this->emit('clearUserChooser');
+        $this->emit('inputClear', 'user');
         $this->mount();
         $this->isCreatingFood = false;
     }

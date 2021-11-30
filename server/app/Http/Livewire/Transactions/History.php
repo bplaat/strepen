@@ -19,7 +19,7 @@ class History extends PaginationComponent
         parent::__construct();
         $this->queryString['type'] = ['except' => ''];
         $this->queryString[] = 'product_id';
-        $this->listeners[] = 'productChooser';
+        $this->listeners[] = 'inputValue';
     }
 
     public function mount()
@@ -40,8 +40,10 @@ class History extends PaginationComponent
         }
     }
 
-    public function productChooser($productId) {
-        $this->productIdTemp = $productId;
+    public function inputValue($name, $value) {
+        if ($name == 'product_filter') {
+            $this->productIdTemp = $value;
+        }
     }
 
     public function search()

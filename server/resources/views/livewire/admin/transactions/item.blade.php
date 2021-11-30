@@ -38,7 +38,7 @@
                 </div>
 
                 <div class="modal-card-body">
-                    <livewire:components.user-chooser :userId="$transaction->user_id" includeStrepenUser="true" validate="true" />
+                    <livewire:components.user-chooser name="item_user" :userId="$transaction->user_id" includeInactive="true" />
 
                     <div class="field">
                         <label class="label" for="name">@lang('admin/transactions.item.name')</label>

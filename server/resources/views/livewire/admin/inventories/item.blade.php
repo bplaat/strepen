@@ -25,7 +25,7 @@
                 </div>
 
                 <div class="modal-card-body">
-                    <livewire:components.user-chooser :userId="$inventory->user_id" includeStrepenUser="true" validate="true" />
+                    <livewire:components.user-chooser name="item_user" :userId="$inventory->user_id" includeInactive="true" />
 
                     <div class="field">
                         <label class="label" for="name">@lang('admin/inventories.item.name')</label>

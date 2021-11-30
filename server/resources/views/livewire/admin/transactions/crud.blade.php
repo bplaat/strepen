@@ -20,9 +20,9 @@
         <x-slot name="filters">
             <x-transaction-type-chooser />
 
-            <livewire:components.user-chooser :userId="$user_id" inline="true" includeStrepenUser="true" relationship="true" />
+            <livewire:components.user-chooser name="user_filter" :userId="$user_id" includeInactive="true" inline="true" relationship="true" />
 
-            <livewire:components.product-chooser :productId="$product_id" inline="true" relationship="true" />
+            <livewire:components.product-chooser name="product_filter" :productId="$product_id" includeInactive="true" inline="true" relationship="true" />
         </x-slot>
     </x-search-header>
 
@@ -53,7 +53,7 @@
                 </div>
 
                 <div class="modal-card-body">
-                    <livewire:components.user-chooser includeStrepenUser="true" validate="true" />
+                    <livewire:components.user-chooser name="user" includeInactive="true" />
 
                     <div class="field">
                         <label class="label" for="name">@lang('admin/transactions.crud.name')</label>
@@ -107,7 +107,7 @@
                     </div>
 
                     @if ($creatingDepositTab == 'single')
-                        <livewire:components.user-chooser validate="true" />
+                        <livewire:components.user-chooser name="user" includeInactive="true" />
 
                         <div class="field">
                             <label class="label" for="amount">@lang('admin/transactions.crud.amount')</label>
@@ -189,7 +189,7 @@
                     </div>
 
                     @if ($creatingFoodTab == 'single')
-                        <livewire:components.user-chooser validate="true" />
+                        <livewire:components.user-chooser name="user" includeInactive="true" />
 
                         <div class="field">
                             <label class="label" for="amount">@lang('admin/transactions.crud.amount')</label>

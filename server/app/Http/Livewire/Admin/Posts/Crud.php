@@ -25,7 +25,7 @@ class Crud extends PaginationComponent
     {
         parent::__construct();
         $this->queryString[] = 'user_id';
-        $this->listeners[] = 'userChooser';
+        $this->listeners[] = 'inputValue';
     }
 
     public function mount()
@@ -35,7 +35,7 @@ class Crud extends PaginationComponent
         }
 
         if ($this->user_id != 1) {
-            $user = User::where('id', $this->user_id)->where('active', true)->where('deleted', false)->withCount([
+            $user = User::where('id', $this->user_id)->where('deleted', false)->withCount([
                 'posts' => function ($query) {
                     return $query->where('deleted', false);
                 }
@@ -49,8 +49,10 @@ class Crud extends PaginationComponent
         $this->isCreating = false;
     }
 
-    public function userChooser($userId) {
-        $this->userIdTemp = $userId;
+    public function inputValue($name, $value) {
+        if ($name == 'user_filter') {
+            $this->userIdTemp = $value;
+        }
     }
 
     public function search()

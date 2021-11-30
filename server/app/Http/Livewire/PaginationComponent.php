@@ -19,7 +19,8 @@ class PaginationComponent extends Component
 
     public $listeners = [ 'refresh' => '$refresh' ];
 
-    public function updatedSortBy() {
+    public function updatedSortBy()
+    {
         $this->resetPage();
     }
 

@@ -16,7 +16,7 @@ class Home extends PaginationComponent
     {
         parent::__construct();
         $this->queryString[] = 'user_id';
-        $this->listeners[] = 'userChooser';
+        $this->listeners[] = 'inputValue';
     }
 
     public function mount()
@@ -37,8 +37,10 @@ class Home extends PaginationComponent
         }
     }
 
-    public function userChooser($userId) {
-        $this->userIdTemp = $userId;
+    public function inputValue($name, $value) {
+        if ($name == 'user_filter') {
+            $this->userIdTemp = $value;
+        }
     }
 
     public function search()

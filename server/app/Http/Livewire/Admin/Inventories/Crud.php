@@ -30,8 +30,7 @@ class Crud extends PaginationComponent
         parent::__construct();
         $this->queryString[] = 'user_id';
         $this->queryString[] = 'product_id';
-        $this->listeners[] = 'userChooser';
-        $this->listeners[] = 'productChooser';
+        $this->listeners[] = 'inputValue';
         $this->listeners[] = 'selectedProducts';
     }
 
@@ -45,7 +44,7 @@ class Crud extends PaginationComponent
         }
 
         if ($this->user_id != 1) {
-            $user = User::where('id', $this->user_id)->where('active', true)->where('deleted', false)->withCount([
+            $user = User::where('id', $this->user_id)->where('deleted', false)->withCount([
                 'inventories' => function ($query) {
                     return $query->where('deleted', false);
                 }
@@ -55,7 +54,7 @@ class Crud extends PaginationComponent
             }
         }
 
-        if (Product::where('id', $this->product_id)->where('active', true)->where('deleted', false)->count() == 0) {
+        if (Product::where('id', $this->product_id)->where('deleted', false)->count() == 0) {
             $this->product_id = null;
         }
 
@@ -64,12 +63,14 @@ class Crud extends PaginationComponent
         $this->selectedProducts = collect();
     }
 
-    public function userChooser($userId) {
-        $this->userIdTemp = $userId;
-    }
+    public function inputValue($name, $value) {
+        if ($name == 'user_filter') {
+            $this->userIdTemp = $value;
+        }
 
-    public function productChooser($productId) {
-        $this->productIdTemp = $productId;
+        if ($name == 'product_filter') {
+            $this->productIdTemp = $value;
+        }
     }
 
     public function search()
