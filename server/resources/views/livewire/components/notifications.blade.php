@@ -9,7 +9,7 @@
     <div class="navbar-dropdown">
         @forelse ($notifications as $notification)
             @if ($notification->type == 'App\Notifications\NewDeposit')
-                <a class="navbar-item" href="{{ route('transactions.history') }}"
+                <a class="navbar-item" href="{{ route('transactions.history') }}" wire:key="{{ $notification->id }}"
                     style="flex-direction: column; text-align: center; padding: 12px 16px;">
                     @php
                         $transaction = App\Models\Transaction::find($notification->data['transaction_id']);
@@ -24,7 +24,7 @@
             @endif
 
             @if ($notification->type == 'App\Notifications\NewPost')
-                <a class="navbar-item" href="{{ route('home') }}"
+                <a class="navbar-item" href="{{ route('home') }}" wire:key="{{ $notification->id }}"
                     style="flex-direction: column; text-align: center; padding: 12px 16px;">
                     @php
                         $post = App\Models\Post::find($notification->data['post_id']);
@@ -38,7 +38,7 @@
             @endif
 
             @if ($notification->type == 'App\Notifications\LowBalance')
-                <a class="navbar-item" href="{{ route('balance') }}"
+                <a class="navbar-item" href="{{ route('balance') }}" wire:key="{{ $notification->id }}"
                     style="flex-direction: column; text-align: center; padding: 12px 16px;">
                     <h1 class="title is-6 mb-1" style="width: 100%; line-height: 12px;">
                         @lang('components.notifications.low_balance_header')

@@ -6,7 +6,7 @@
 
         <div class="columns is-multiline">
             @foreach ($notifications as $notification)
-                <div class="column is-one-third">
+                <div class="column is-one-third" wire:key="{{ $notification->id }}">
                     <div class="box">
                         @if ($notification->type == 'App\Notifications\NewDeposit')
                             @php

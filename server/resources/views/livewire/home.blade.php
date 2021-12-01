@@ -21,7 +21,7 @@
             {{ $posts->links() }}
 
             @foreach ($posts as $post)
-                <div class="box content">
+                <div class="box content" wire:key="{{ $post->id }}">
                     <h4>{{ $post->title }}</h4>
                     <p><i>@lang('home.posts_written_by', ['user.name' => $post->user->name, 'post.created_at' => $post->created_at->format('Y-m-d H:i')])</i></p>
                     {!! $parsedown->text($post->body) !!}
