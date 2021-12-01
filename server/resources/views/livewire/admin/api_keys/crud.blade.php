@@ -19,7 +19,7 @@
 
         <div class="columns is-multiline">
             @foreach ($apiKeys as $apiKey)
-                <livewire:admin.api-keys.item :apiKey="$apiKey" :key="$apiKey->id" />
+                <livewire:admin.api-keys.item :apiKey="$apiKey" :wire:key="$apiKey->id" />
             @endforeach
         </div>
 

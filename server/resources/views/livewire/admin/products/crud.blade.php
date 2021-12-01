@@ -33,7 +33,7 @@
 
         <div class="columns is-multiline">
             @foreach ($products as $product)
-                <livewire:admin.products.item :product="$product" :key="$product->id" />
+                <livewire:admin.products.item :product="$product" :wire:key="$product->id" />
             @endforeach
         </div>
 

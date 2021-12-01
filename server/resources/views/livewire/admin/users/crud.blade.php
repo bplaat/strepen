@@ -37,7 +37,7 @@
 
         <div class="columns is-multiline">
             @foreach ($users as $user)
-                <livewire:admin.users.item :user="$user" :key="$user->id" />
+                <livewire:admin.users.item :user="$user" :wire:key="$user->id" />
             @endforeach
         </div>
 

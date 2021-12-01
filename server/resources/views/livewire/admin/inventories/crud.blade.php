@@ -27,7 +27,7 @@
 
         <div class="columns is-multiline">
             @foreach ($inventories as $inventory)
-                <livewire:admin.inventories.item :inventory="$inventory" :key="$inventory->id" />
+                <livewire:admin.inventories.item :inventory="$inventory" :wire:key="$inventory->id" />
             @endforeach
         </div>
 

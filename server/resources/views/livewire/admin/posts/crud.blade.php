@@ -23,7 +23,7 @@
 
         <div class="columns is-multiline">
             @foreach ($posts as $post)
-                <livewire:admin.posts.item :post="$post" :key="$post->id" />
+                <livewire:admin.posts.item :post="$post" :wire:key="$post->id" />
             @endforeach
         </div>
 

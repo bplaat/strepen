@@ -21,7 +21,7 @@
                     $selectedProduct = $selectedProducts->firstWhere('product_id', $product->id);
                 @endphp
 
-                <div class="column is-one-quarter" wire:key="{{ $product->id }}">
+                <div class="column is-one-quarter" wire:key="columns-{{ $product->id }}">
                     <div class="card">
                         <div class="card-image">
                             <div class="image is-square" style="background-image: url(/storage/products/{{ $product->image ?? App\Models\Setting::get('default_product_image') }});"></div>
@@ -63,7 +63,7 @@
                     $product = $products->firstWhere('id', $selectedProduct['product_id']);
                 @endphp
 
-                <div class="media" style="align-items: center;" wire:key="{{ $product->id }}">
+                <div class="media" style="align-items: center;" wire:key="fields-{{ $product->id }}">
                     <div class="media-left">
                         <div class="image is-large is-rounded" style="background-image: url(/storage/products/{{ $product->image ?? App\Models\Setting::get('default_product_image') }});"></div>
                     </div>
@@ -94,7 +94,7 @@
                 <div class="dropdown-menu" style="width: 100%;">
                     <div class="dropdown-content">
                         @forelse ($filteredProducts as $product)
-                            <a wire:click.prevent="addProduct({{ $product->id }})" class="dropdown-item" wire:key="{{ $product->id }}">
+                            <a wire:click.prevent="addProduct({{ $product->id }})" class="dropdown-item" wire:key="dropdown-{{ $product->id }}">
                                 <div class="image is-small is-rounded is-inline" style="background-image: url(/storage/products/{{ $product->image ?? 'default.png' }});"></div>
                                 {!! $productName != '' ? str_replace(' ', '&nbsp;', preg_replace('#(' . preg_quote($productName) . ')#i', '<b>$1</b>', $product->name)) : $product->name !!}
                             </a>
