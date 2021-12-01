@@ -7,51 +7,49 @@
         </svg>
     </a>
     <div class="navbar-dropdown">
-        @if ($notifications->count() > 0)
-            @foreach ($notifications as $notification)
-                @if ($notification->type == 'App\Notifications\NewDeposit')
-                    <a class="navbar-item" href="{{ route('transactions.history') }}"
-                        style="flex-direction: column; text-align: center; padding: 12px 16px;">
-                        @php
-                            $transaction = App\Models\Transaction::find($notification->data['transaction_id']);
-                        @endphp
-                        <h1 class="title is-6 mb-1" style="width: 100%; line-height: 12px;">
-                            @lang('components.notifications.new_deposit_header')
-                            <button type="button" class="delete is-small is-pulled-right" wire:click.prevent="readNotification('{{ $notification->id }}')"></button>
-                        </h1>
-                        <p>@lang('components.notifications.new_deposit_start') <x-money-format :money="$transaction->price" />
-                            @lang('components.notifications.new_deposit_end') {{ $transaction->created_at->format('Y-m-d H:i:') }}</p>
-                    </a>
-                @endif
+        @forelse ($notifications as $notification)
+            @if ($notification->type == 'App\Notifications\NewDeposit')
+                <a class="navbar-item" href="{{ route('transactions.history') }}"
+                    style="flex-direction: column; text-align: center; padding: 12px 16px;">
+                    @php
+                        $transaction = App\Models\Transaction::find($notification->data['transaction_id']);
+                    @endphp
+                    <h1 class="title is-6 mb-1" style="width: 100%; line-height: 12px;">
+                        @lang('components.notifications.new_deposit_header')
+                        <button type="button" class="delete is-small is-pulled-right" wire:click.prevent="readNotification('{{ $notification->id }}')"></button>
+                    </h1>
+                    <p>@lang('components.notifications.new_deposit_start') <x-money-format :money="$transaction->price" />
+                        @lang('components.notifications.new_deposit_end') {{ $transaction->created_at->format('Y-m-d H:i:') }}</p>
+                </a>
+            @endif
 
-                @if ($notification->type == 'App\Notifications\NewPost')
-                    <a class="navbar-item" href="{{ route('home') }}"
-                        style="flex-direction: column; text-align: center; padding: 12px 16px;">
-                        @php
-                            $post = App\Models\Post::find($notification->data['post_id']);
-                        @endphp
-                        <h1 class="title is-6 mb-1" style="width: 100%; line-height: 12px;">
-                            @lang('components.notifications.new_post_header')
-                            <button type="button" class="delete is-small is-pulled-right" wire:click.prevent="readNotification('{{ $notification->id }}')"></button>
-                        </h1>
-                        <p>@lang('components.notifications.new_post_text', ['post.created_at' => $post->created_at->format('Y-m-d H:i')])</p>
-                    </a>
-                @endif
+            @if ($notification->type == 'App\Notifications\NewPost')
+                <a class="navbar-item" href="{{ route('home') }}"
+                    style="flex-direction: column; text-align: center; padding: 12px 16px;">
+                    @php
+                        $post = App\Models\Post::find($notification->data['post_id']);
+                    @endphp
+                    <h1 class="title is-6 mb-1" style="width: 100%; line-height: 12px;">
+                        @lang('components.notifications.new_post_header')
+                        <button type="button" class="delete is-small is-pulled-right" wire:click.prevent="readNotification('{{ $notification->id }}')"></button>
+                    </h1>
+                    <p>@lang('components.notifications.new_post_text', ['post.created_at' => $post->created_at->format('Y-m-d H:i')])</p>
+                </a>
+            @endif
 
-                @if ($notification->type == 'App\Notifications\LowBalance')
-                    <a class="navbar-item" href="{{ route('balance') }}"
-                        style="flex-direction: column; text-align: center; padding: 12px 16px;">
-                        <h1 class="title is-6 mb-1" style="width: 100%; line-height: 12px;">
-                            @lang('components.notifications.low_balance_header')
-                            <button type="button" class="delete is-small is-pulled-right" wire:click.prevent="readNotification('{{ $notification->id }}')"></button>
-                        </h1>
-                        <p>@lang('components.notifications.low_balance_start') <x-money-format :money="$notification->data['balance']" />
-                            @lang('components.notifications.low_balance_end')</p>
-                    </a>
-                @endif
-            @endforeach
-        @else
+            @if ($notification->type == 'App\Notifications\LowBalance')
+                <a class="navbar-item" href="{{ route('balance') }}"
+                    style="flex-direction: column; text-align: center; padding: 12px 16px;">
+                    <h1 class="title is-6 mb-1" style="width: 100%; line-height: 12px;">
+                        @lang('components.notifications.low_balance_header')
+                        <button type="button" class="delete is-small is-pulled-right" wire:click.prevent="readNotification('{{ $notification->id }}')"></button>
+                    </h1>
+                    <p>@lang('components.notifications.low_balance_start') <x-money-format :money="$notification->data['balance']" />
+                        @lang('components.notifications.low_balance_end')</p>
+                </a>
+            @endif
+        @empty
             <div class="navbar-item"><i>@lang('components.notifications.empty')</i></div>
-        @endif
+        @endforelse
     </div>
 </div>

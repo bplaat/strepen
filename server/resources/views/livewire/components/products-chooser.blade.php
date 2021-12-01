@@ -58,32 +58,30 @@
         <div class="field">
             <label class="label" for="productName">@lang('components.products_chooser.products')</label>
 
-            @if ($selectedProducts->count() > 0)
-                @foreach ($selectedProducts as $index => $selectedProduct)
-                    @php
-                        $product = $products->firstWhere('id', $selectedProduct['product_id']);
-                    @endphp
+            @forelse ($selectedProducts as $index => $selectedProduct)
+                @php
+                    $product = $products->firstWhere('id', $selectedProduct['product_id']);
+                @endphp
 
-                    <div class="media" style="align-items: center;">
-                        <div class="media-left">
-                            <div class="image is-large is-rounded" style="background-image: url(/storage/products/{{ $product->image ?? App\Models\Setting::get('default_product_image') }});"></div>
-                        </div>
-                        <div class="media-content">
-                            <label class="label" for="product-amount-{{ $index }}" style="font-weight: 600;">
-                                {{ $product->name }} (<x-money-format :money="$product->price" :isBold="false" />) <span class="is-hidden-mobile">@lang('components.products_chooser.amount')</span>
-                                <button type="button" class="delete is-pulled-right" style="transform: translateY(3px);" wire:click="deleteProduct({{ $product->id }})"></button>
-                            </label>
-                            <div class="control">
-                                <input class="input @if (!$valid) is-danger @endif" type="number"
-                                    min="1" @if (!$noMax) max="{{ App\Models\Setting::get('max_stripe_amount') }}" @endif id="product-amount-{{ $index }}"
-                                    wire:model="selectedProducts.{{ $index }}.amount" required>
-                            </div>
+                <div class="media" style="align-items: center;">
+                    <div class="media-left">
+                        <div class="image is-large is-rounded" style="background-image: url(/storage/products/{{ $product->image ?? App\Models\Setting::get('default_product_image') }});"></div>
+                    </div>
+                    <div class="media-content">
+                        <label class="label" for="product-amount-{{ $index }}" style="font-weight: 600;">
+                            {{ $product->name }} (<x-money-format :money="$product->price" :isBold="false" />) <span class="is-hidden-mobile">@lang('components.products_chooser.amount')</span>
+                            <button type="button" class="delete is-pulled-right" style="transform: translateY(3px);" wire:click="deleteProduct({{ $product->id }})"></button>
+                        </label>
+                        <div class="control">
+                            <input class="input @if (!$valid) is-danger @endif" type="number"
+                                min="1" @if (!$noMax) max="{{ App\Models\Setting::get('max_stripe_amount') }}" @endif id="product-amount-{{ $index }}"
+                                wire:model="selectedProducts.{{ $index }}.amount" required>
                         </div>
                     </div>
-                @endforeach
-            @else
+                </div>
+            @empty
                 <p><i>@lang('components.products_chooser.products_help')</i></p>
-            @endif
+            @endforelse
         </div>
 
         <div class="field">
@@ -95,16 +93,14 @@
                 </div>
                 <div class="dropdown-menu" style="width: 100%;">
                     <div class="dropdown-content">
-                        @if ($filteredProducts->count() > 0)
-                            @foreach ($filteredProducts as $product)
-                                <a wire:click.prevent="addProduct({{ $product->id }})" class="dropdown-item">
-                                    <div class="image is-small is-rounded is-inline" style="background-image: url(/storage/products/{{ $product->image ?? 'default.png' }});"></div>
-                                    {!! $productName != '' ? str_replace(' ', '&nbsp;', preg_replace('#(' . preg_quote($productName) . ')#i', '<b>$1</b>', $product->name)) : $product->name !!}
-                                </a>
-                            @endforeach
-                        @else
+                        @forelse ($filteredProducts as $product)
+                            <a wire:click.prevent="addProduct({{ $product->id }})" class="dropdown-item">
+                                <div class="image is-small is-rounded is-inline" style="background-image: url(/storage/products/{{ $product->image ?? 'default.png' }});"></div>
+                                {!! $productName != '' ? str_replace(' ', '&nbsp;', preg_replace('#(' . preg_quote($productName) . ')#i', '<b>$1</b>', $product->name)) : $product->name !!}
+                            </a>
+                        @empty
                             <div class="dropdown-item"><i>@lang('components.products_chooser.search_empty')</i></div>
-                        @endif
+                        @endforelse
                     </div>
                 </div>
             </div>

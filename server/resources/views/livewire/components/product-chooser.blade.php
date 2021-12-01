@@ -13,16 +13,14 @@
         </div>
         <div class="dropdown-menu" style="width: 100%;">
             <div class="dropdown-content">
-                @if ($filteredProducts->count() > 0)
-                    @foreach ($filteredProducts as $product)
-                        <a wire:click.prevent="selectProduct({{ $product->id }})" class="dropdown-item">
-                            <div class="image is-small is-rounded is-inline" style="background-image: url(/storage/products/{{ $product->image ?? App\Models\Setting::get('default_product_image') }});"></div>
-                            {!! $productName != '' ? str_replace(' ', '&nbsp;', preg_replace('#(' . preg_quote($productName) . ')#i', '<b>$1</b>', $product->name)) : $product->name !!}
-                        </a>
-                    @endforeach
-                @else
+                @forelse ($filteredProducts as $product)
+                    <a wire:click.prevent="selectProduct({{ $product->id }})" class="dropdown-item">
+                        <div class="image is-small is-rounded is-inline" style="background-image: url(/storage/products/{{ $product->image ?? App\Models\Setting::get('default_product_image') }});"></div>
+                        {!! $productName != '' ? str_replace(' ', '&nbsp;', preg_replace('#(' . preg_quote($productName) . ')#i', '<b>$1</b>', $product->name)) : $product->name !!}
+                    </a>
+                @empty
                     <div class="dropdown-item"><i>@lang('components.product_chooser.empty')</i></div>
-                @endif
+                @endforelse
             </div>
         </div>
     </div>
