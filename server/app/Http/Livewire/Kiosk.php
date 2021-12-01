@@ -11,7 +11,7 @@ use App\Models\User;
 class Kiosk extends Component
 {
     public $transaction;
-    public $selectedProducts;
+    public $selectedProducts = [];
     public $isMinor = false;
     public $isCreated;
 

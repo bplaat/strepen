@@ -41,7 +41,6 @@ class ProductsChooser extends InputComponent
         }
         $this->sortSelectedProducts();
         $this->filterProducts();
-        $this->emitValue();
     }
 
     public function sortSelectedProducts()

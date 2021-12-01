@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 class Create extends Component
 {
     public $transaction;
-    public $selectedProducts;
+    public $selectedProducts = [];
     public $isCreated;
 
     public function rules()

@@ -14,7 +14,7 @@ class Item extends Component
     public $oldUserId;
     public $createdAtDate;
     public $createdAtTime;
-    public $selectedProducts;
+    public $selectedProducts = [];
     public $isEditing = false;
     public $isDeleting = false;
 
@@ -36,6 +36,13 @@ class Item extends Component
 
         $this->createdAtDate = $this->transaction->created_at->format('Y-m-d');
         $this->createdAtTime = $this->transaction->created_at->format('H:i:s');
+
+        foreach ($this->transaction->products as $product) {
+            $selectedProduct = [];
+            $selectedProduct['product_id'] = $product->id;
+            $selectedProduct['amount'] = $product->pivot->amount;
+            $this->selectedProducts[] = $selectedProduct;
+        }
     }
 
     public function inputValue($name, $value) {

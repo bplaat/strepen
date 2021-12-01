@@ -17,7 +17,7 @@ class Crud extends PaginationComponent
     public $product_id;
     public $productIdTemp;
     public $transaction;
-    public $selectedProducts;
+    public $selectedProducts = [];
     public $users;
     public $userAmounts;
     public $isCreatingTransaction = false;
