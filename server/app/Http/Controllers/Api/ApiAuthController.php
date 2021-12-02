@@ -53,7 +53,7 @@ class ApiAuthController extends Controller
 
         // Return success message
         return [
-            'message' => 'Your current token has been signed out'
+            'message' => 'Your current auth token has been signed out'
         ];
     }
 }
