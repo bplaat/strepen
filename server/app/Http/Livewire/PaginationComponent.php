@@ -5,7 +5,7 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class PaginationComponent extends Component
+abstract class PaginationComponent extends Component
 {
     use WithPagination;
 

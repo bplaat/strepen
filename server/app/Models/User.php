@@ -130,54 +130,6 @@ class User extends Authenticatable
         return $this->hasMany(Transaction::class);
     }
 
-    // Turn model to api data
-    public function forApi($user)
-    {
-        if ($this->avatar != null) {
-            $this->avatar = asset('/storage/avatars/' . $this->avatar);
-        }
-        if ($this->thanks != null) {
-            $this->thanks = asset('/storage/thanks/' . $this->thanks);
-        }
-
-        if ($user == null || ($user->role != User::ROLE_MANAGER && $user->role != User::ROLE_ADMIN)) {
-            unset($this->updated_at);
-            if ($user == null || $this->id != $user->id) {
-                unset($this->gender);
-                unset($this->birthday);
-                unset($this->email);
-                unset($this->phone);
-                unset($this->address);
-                unset($this->postcode);
-                unset($this->city);
-                unset($this->role);
-                unset($this->language);
-                unset($this->theme);
-                unset($this->receive_news);
-                unset($this->balance);
-                unset($this->active);
-                unset($this->created_at);
-                return;
-            }
-        }
-
-        if ($this->gender == static::GENDER_MALE) $this->gender = 'male';
-        if ($this->gender == static::GENDER_FEMALE) $this->gender = 'female';
-        if ($this->gender == static::GENDER_OTHER) $this->gender = 'other';
-
-        if ($this->role == static::ROLE_NORMAL) $this->role = 'normal';
-        if ($this->role == static::ROLE_MANAGER) $this->role = 'manager';
-        if ($this->role == static::ROLE_ADMIN) $this->role = 'admin';
-
-        if ($this->language == static::LANGUAGE_ENGLISH) $this->language = 'en';
-        if ($this->language == static::LANGUAGE_DUTCH) $this->language = 'nl';
-
-        if ($this->theme == static::THEME_LIGHT) $this->theme = 'light';
-        if ($this->theme == static::THEME_DARK) $this->theme = 'dark';
-
-        $this->minor = $this->getMinorAttribute();
-    }
-
     // Search by a query
     public static function search($query, $searchQuery)
     {
@@ -189,6 +141,66 @@ class User extends Authenticatable
                     ->orWhere('email', 'LIKE', '%' . $searchQuery . '%')
                     ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%');
             });
+    }
+
+    // Convert user to API data
+    public function toApiData($forUser = null, $includes = []) {
+        $data = new \stdClass();
+        $data->id = $this->id;
+        $data->firstname = $this->firstname;
+        $data->insertion = $this->insertion;
+        $data->lastname = $this->lastname;
+        $data->avatar = asset('/storage/avatars/' . ($this->avatar ?? Setting::get('default_user_avatar')));
+        $data->thanks = asset('/storage/thanks/' . ($this->thanks ?? Setting::get('default_user_thanks')));
+
+        if ($forUser != null && ($forUser->role == static::ROLE_MANAGER || $forUser->role == static::ROLE_ADMIN || $this->id == $forUser->id)) {
+            $data->gender = $this->gender;
+            if ($data->gender == static::GENDER_MALE) $data->gender = 'male';
+            if ($data->gender == static::GENDER_FEMALE) $data->gender = 'female';
+            if ($data->gender == static::GENDER_OTHER) $data->gender = 'other';
+            $data->birthday = $this->birthday != null ? $this->birthday->format('Y-m-d') : null;
+            $data->email = $this->email;
+            $data->phone = $this->phone;
+            $data->address = $this->address;
+            $data->postcode = $this->postcode;
+            $data->city = $this->city;
+            if ($this->role == static::ROLE_NORMAL) $data->role = 'normal';
+            if ($this->role == static::ROLE_MANAGER) $data->role = 'manager';
+            if ($this->role == static::ROLE_ADMIN) $data->role = 'admin';
+            if ($this->language == static::LANGUAGE_ENGLISH) $data->language = 'en';
+            if ($this->language == static::LANGUAGE_DUTCH) $data->language = 'nl';
+            if ($this->theme == static::THEME_LIGHT) $data->theme = 'light';
+            if ($this->theme == static::THEME_DARK) $data->theme = 'dark';
+            $data->receive_news = $this->receive_news;
+            $data->balance = $this->balance;
+            $data->minor = $this->minor;
+            $data->created_at = $this->created_at;
+        }
+
+        if ($forUser != null && ($forUser->role == User::ROLE_MANAGER || $forUser->role == User::ROLE_ADMIN)) {
+            $data->active = $this->active;
+            $data->updated_at = $this->updated_at;
+        }
+
+        if (in_array('posts', $includes)) {
+            $data->posts = $this->posts->map(function ($post) use ($forUser) {
+                return $post->toApiData($forUser);
+            });
+        }
+
+        if (in_array('inventories', $includes)) {
+            $data->inventories = $this->inventories->map(function ($inventory) use ($forUser) {
+                return $inventory->toApiData($forUser);
+            });
+        }
+
+        if (in_array('transactions', $includes)) {
+            $data->transactions = $this->transaction->map(function ($transaction) use ($forUser) {
+                return $transaction->toApiData($forUser);
+            });
+        }
+
+        return $data;
     }
 
     // Get balance chart data

@@ -41,7 +41,8 @@ class ApiAuthController extends Controller
         // Try to login user
         return [
             'token' => $user->createToken('API auth token for api')->plainTextToken,
-            'user_id' => $user->id
+            'user_id' => $user->id, // For backwards compatability
+            'user' => $user->toApiData($user)
         ];
     }
 

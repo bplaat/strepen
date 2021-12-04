@@ -10,8 +10,9 @@ class VerifyApiKey
 {
     public function handle($request, $next, $type)
     {
-        // Verify API key
-        $validation = Validator::make($request->all(), [
+        // Verify API key from HTTP header or GET / POST value
+        $apiKey = $request->header('X-Api-Key', $request->input('api_key'));
+        $validation = Validator::make(['api_key' => $apiKey], [
             'api_key' => 'required|exists:api_keys,key'
         ]);
         if ($validation->fails()) {
@@ -19,7 +20,7 @@ class VerifyApiKey
         }
 
         // Increment API key requests counter
-        $apiKey = ApiKey::where('key', request('api_key'))->first();
+        $apiKey = ApiKey::where('key', $apiKey)->first();
         if ($apiKey->deleted) {
             return response(['errors' => ['api_key' => 'This api key is deleted']], 400);
         }

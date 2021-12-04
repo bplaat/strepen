@@ -1,6 +1,9 @@
 [&laquo; Back to the README.md](../README.md)
 
 # API Documentation
+To use the api you need to create and provided an API Key which you can create as an admin,
+provide the API key in the `X-Api-Key` HTTP header or as a GET / POST variable called `api_key`.
+
 Here are all the routes of the REST API more information will follow:
 
 ```

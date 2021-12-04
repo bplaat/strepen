@@ -5,19 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 class Notification extends Model {
-    // Turn model to api data
-    public static function forApi($notification, $user)
-    {
-        if ($notification->type == 'App\\Notifications\\NewDeposit') $notification->type = 'new_deposit';
-        if ($notification->type == 'App\\Notifications\\NewPost') $notification->type = 'new_post';
-        if ($notification->type == 'App\\Notifications\\LowBalance') $notification->type = 'low_balance';
+    // Convert notification to API data
+    public static function toApiData($notification, $forUser = null, $includes = []) {
+        $data = new \stdClass();
+        $data->id = $notification->id;
+        if ($notification->type == 'App\\Notifications\\NewDeposit') $data->type = 'new_deposit';
+        if ($notification->type == 'App\\Notifications\\NewPost') $data->type = 'new_post';
+        if ($notification->type == 'App\\Notifications\\LowBalance') $data->type = 'low_balance';
+        $data->data = $notification->data;
+        $data->read_at = $notification->read_at;
+        $data->created_at = $notification->created_at;
 
-        $notification->user_id = $notification->notifiable_id;
-        unset($notification->notifiable_type);
-        unset($notification->notifiable_id);
-
-        if ($user->role != User::ROLE_MANAGER && $user->role != User::ROLE_ADMIN) {
-            unset($notification->updated_at);
+        if ($forUser != null && ($forUser->role == User::ROLE_MANAGER || $forUser->role == User::ROLE_ADMIN)) {
+            $data->updated_at = $notification->updated_at;
         }
+
+        if ($notification->notifiable_type == 'App\Models\User' && in_array('user', $includes)) {
+            $data->user = User::find($notification->notifiable_id)->toApiData($forUser);
+        }
+
+        return $data;
     }
 }

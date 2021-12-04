@@ -5,34 +5,19 @@ namespace App\Http\Controllers\Api;
 use App\Models\Product;
 use App\Models\Transaction;
 use App\Models\User;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class ApiTransactionsController extends Controller
+class ApiTransactionsController extends ApiController
 {
     // Api transactions index route
     public function index(Request $request)
     {
-        $searchQuery = $request->input('query');
-        if ($searchQuery != '') {
-            $transactions = Transaction::search(Transaction::select(), $searchQuery);
-        } else {
-            $transactions = Transaction::where('deleted', false);
-        }
-
-        $limit = $request->input('limit');
-        if ($limit != '') {
-            $limit = (int)$limit;
-            if ($limit < 1) $limit = 1;
-            if ($limit > 50) $limit = 50;
-        } else {
-            $limit = 20;
-        }
-
-        $transactions = $transactions->orderBy('created_at', 'DESC')->paginate($limit)->withQueryString();
-        foreach ($transactions as $transaction) {
-            $transaction->forApi($request->user());
+        $transactions = $this->getItems(Transaction::class, Transaction::select(), $request)
+            ->orderBy('created_at', 'DESC')
+            ->paginate($this->getLimit($request))->withQueryString();
+        for ($i = 0; $i < $transactions->count(); $i++) {
+            $transactions[$i] = $transactions[$i]->toApiData($request->user(), ['user', 'products']);
         }
         return $transactions;
     }
@@ -40,8 +25,7 @@ class ApiTransactionsController extends Controller
     // Api transactions show route
     public function show(Request $request, Transaction $transaction)
     {
-        $transaction->forApi($request->user());
-        return $transaction;
+        return $transaction->toApiData($request->user(), ['user', 'products']);
     }
 
     // Api transactions store route
@@ -70,7 +54,11 @@ class ApiTransactionsController extends Controller
 
         // Create transaction
         $transaction = new Transaction();
-        $transaction->user_id = $request->input('user_id') ?? $request->user()->id;
+        if (($request->user()->role == User::ROLE_MANAGER || $request->user()->role == User::ROLE_ADMIN) && $request->input('user_id')) {
+            $transaction->user_id = $request->input('user_id');
+        } else {
+            $transaction->user_id = $request->user()->id;
+        }
         $transaction->type = Transaction::TYPE_TRANSACTION;
         $transaction->name = $request->input('name');
         $transaction->price = 0;
@@ -93,10 +81,12 @@ class ApiTransactionsController extends Controller
         $user->save();
 
         // Return success message
-        $transaction->forApi($request->user());
         return [
             'message' => 'Your transaction is successfully created',
-            'transaction' => $transaction
+            'transaction' => $transaction->toApiData($request->user(), [
+                'user', // For backwards compatability
+                'products'
+            ])
         ];
     }
 }

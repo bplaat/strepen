@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\Api\ApiAuthController;
 use App\Http\Controllers\Api\ApiUsersController;
 use App\Http\Controllers\Api\ApiNotificationsController;
@@ -11,7 +10,11 @@ use App\Http\Controllers\Api\ApiSettingsController;
 use App\Http\Controllers\Api\ApiTransactionsController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('', [ApiController::class, 'home'])->name('api.home');
+Route::get('', function () {
+    return [
+        'message' => 'Strepen REST API documentation: https://github.com/bplaat/strepen/blob/master/docs/api.md'
+    ];
+})->name('api.home');
 
 // Api manager routes
 Route::middleware('api_key:manager')->group(function () {

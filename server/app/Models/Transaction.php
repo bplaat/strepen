@@ -34,29 +34,6 @@ class Transaction extends Model
         return $this->belongsToMany(Product::class, 'transaction_product')->withPivot('amount')->withTimestamps();
     }
 
-    // Turn model to api data
-    public function forApi($user)
-    {
-        if ($user == null || ($user->role != User::ROLE_MANAGER && $user->role != User::ROLE_ADMIN)) {
-            unset($this->updated_at);
-        }
-
-        $this->user->forApi($user);
-
-        if ($this->type == static::TYPE_TRANSACTION) {
-            $this->type = 'transaction';
-
-            foreach ($this->products as $product) {
-                $product->forApi($user);
-                $product->amount = $product->pivot->amount;
-                unset($product->pivot);
-            }
-        }
-
-        if ($this->type == static::TYPE_DEPOSIT) $this->type = 'deposit';
-        if ($this->type == static::TYPE_FOOD) $this->type = 'food';
-    }
-
     // Search by a query
     public static function search($query, $searchQuery)
     {
@@ -65,5 +42,33 @@ class Transaction extends Model
                 $query->where('name', 'LIKE', '%' . $searchQuery . '%')
                     ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%');
             });
+    }
+
+    // Convert transaction to API data
+    public function toApiData($forUser = null, $includes = []) {
+        $data = new \stdClass();
+        $data->id = $this->id;
+        if ($this->type == static::TYPE_TRANSACTION) $data->type = 'transaction';
+        if ($this->type == static::TYPE_DEPOSIT) $data->type = 'deposit';
+        if ($this->type == static::TYPE_FOOD) $data->type = 'food';
+        $data->name = $this->name;
+        $data->price = $this->price;
+        $data->created_at = $this->created_at;
+
+        if ($forUser != null && ($forUser->role == User::ROLE_MANAGER || $forUser->role == User::ROLE_ADMIN)) {
+            $data->updated_at = $this->updated_at;
+        }
+
+        if (in_array('user', $includes)) {
+            $data->user = $this->user->toApiData($forUser);
+        }
+
+        if (in_array('products', $includes)) {
+            $data->products = $this->products->map(function ($product) use ($forUser) {
+                return $product->toApiData($forUser);
+            });
+        }
+
+        return $data;
     }
 }

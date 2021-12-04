@@ -58,20 +58,6 @@ class Product extends Model
         return $this->belongsToMany(Transaction::class, 'transaction_product')->withPivot('amount')->withTimestamps();
     }
 
-    // Turn model to api data
-    public function forApi($user)
-    {
-        if ($this->image != null) {
-            $this->image = asset('/storage/products/' . $this->image);
-        }
-
-        if ($user->role != User::ROLE_MANAGER && $user->role != User::ROLE_ADMIN) {
-            unset($this->active);
-            unset($this->created_at);
-            unset($this->updated_at);
-        }
-    }
-
     // Search by a query
     public static function search($query, $searchQuery)
     {
@@ -81,6 +67,42 @@ class Product extends Model
                     ->orWhere('description', 'LIKE', '%' . $searchQuery . '%')
                     ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%');
             });
+    }
+
+    // Convert product to API data
+    public function toApiData($forUser = null, $includes = []) {
+        $data = new \stdClass();
+        $data->id = $this->id;
+        $data->name = $this->name;
+        $data->description = $this->description;
+        $data->image = asset('/storage/products/' . ($this->image ?? Setting::get('default_product_image')));
+        $data->price = $this->price;
+        $data->alcoholic = $this->alcoholic;
+        $data->created_at = $this->created_at;
+
+        if (isset($this->pivot)) {
+            $data->amount = $this->pivot->amount;
+        }
+
+        if ($forUser != null && ($forUser->role == User::ROLE_MANAGER || $forUser->role == User::ROLE_ADMIN)) {
+            $data->inventory_amount = $this->amount;
+            $data->active = $this->active;
+            $data->updated_at = $this->updated_at;
+        }
+
+        if (in_array('inventories', $includes)) {
+            $data->inventories = $this->inventories->map(function ($inventory) use ($forUser) {
+                return $inventory->toApiData($forUser);
+            });
+        }
+
+        if (in_array('transactions', $includes)) {
+            $data->transactions = $this->transactions->map(function ($transaction) use ($forUser) {
+                return $transaction->toApiData($forUser);
+            });
+        }
+
+        return $data;
     }
 
     // Get amount chart data

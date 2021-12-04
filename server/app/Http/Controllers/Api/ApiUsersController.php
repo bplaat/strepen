@@ -13,33 +13,20 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use Parsedown;
 
-class ApiUsersController extends Controller
+class ApiUsersController extends ApiController
 {
     // Api users index route
     public function index(Request $request)
     {
-        $searchQuery = $request->input('query');
-        if ($searchQuery != '') {
-            $users = User::search(User::select(), $searchQuery);
-        } else {
-            $users = User::where('deleted', false);
+        $users = $this->getItems(User::class, User::select(), $request)
+            ->orderByRaw('active DESC, LOWER(lastname)')
+            ->paginate($this->getLimit($request))->withQueryString();
+        if ($request->user()->role != User::ROLE_MANAGER && $request->user()->role != User::ROLE_ADMIN) {
+            $users = $users->where('active', true);
         }
-
-        $limit = $request->input('limit');
-        if ($limit != '') {
-            $limit = (int)$limit;
-            if ($limit < 1) $limit = 1;
-            if ($limit > 50) $limit = 50;
-        } else {
-            $limit = 20;
-        }
-
-        $users = $users->orderByRaw('active DESC, lastname')
-            ->paginate($limit)->withQueryString();
-        foreach ($users as $user) {
-            $user->forApi($request->user());
+        for ($i = 0; $i < $users->count(); $i++) {
+            $users[$i] = $users[$i]->toApiData($request->user());
         }
         return $users;
     }
@@ -47,25 +34,16 @@ class ApiUsersController extends Controller
     // Api users show route
     public function show(Request $request, User $user)
     {
-        $user->forApi($request->user());
-        return $user;
+        return $user->toApiData($request->user());
     }
 
     // Api users show notifcations route
     public function showNotifications(Request $request, User $user)
     {
-        $limit = $request->input('limit');
-        if ($limit != '') {
-            $limit = (int)$limit;
-            if ($limit < 1) $limit = 1;
-            if ($limit > 50) $limit = 50;
-        } else {
-            $limit = 20;
-        }
-
-        $notifications = $request->user()->notifications()->paginate($limit)->withQueryString();
-        foreach ($notifications as $notification) {
-            Notification::forApi($notification, $request->user());
+        $notifications = $request->user()->notifications()
+            ->paginate($this->getLimit($request))->withQueryString();
+        for ($i = 0; $i < $notifications->count(); $i++) {
+            $notifications[$i] = Notification::toApiData($notifications[$i], $request->user());
         }
         return $notifications;
     }
@@ -73,18 +51,10 @@ class ApiUsersController extends Controller
     // Api users show unread notifcations route
     public function showUnreadNotifications(Request $request, User $user)
     {
-        $limit = $request->input('limit');
-        if ($limit != '') {
-            $limit = (int)$limit;
-            if ($limit < 1) $limit = 1;
-            if ($limit > 50) $limit = 50;
-        } else {
-            $limit = 20;
-        }
-
-        $notifications = $request->user()->unreadNotifications()->paginate($limit)->withQueryString();
-        foreach ($notifications as $notification) {
-            Notification::forApi($notification, $request->user());
+        $notifications = $request->user()->unreadNotifications()
+            ->paginate($this->getLimit($request))->withQueryString();
+        for ($i = 0; $i < $notifications->count(); $i++) {
+            $notifications[$i] = Notification::toApiData($notifications[$i], $request->user());
         }
         return $notifications;
     }
@@ -92,26 +62,11 @@ class ApiUsersController extends Controller
     // Api users show posts route
     public function showPosts(Request $request, User $user)
     {
-        $searchQuery = $request->input('query');
-        if ($searchQuery != '') {
-            $posts = Post::search($user->posts(), $searchQuery);
-        } else {
-            $posts = $user->posts()->where('deleted', false);
-        }
-
-        $limit = $request->input('limit');
-        if ($limit != '') {
-            $limit = (int)$limit;
-            if ($limit < 1) $limit = 1;
-            if ($limit > 50) $limit = 50;
-        } else {
-            $limit = 20;
-        }
-
-        $posts = $posts->orderBy('created_at', 'DESC')->paginate($limit)->withQueryString();
-        $parsedown = new Parsedown();
-        foreach ($posts as $post) {
-            $post->forApi($request->user(), $parsedown);
+        $posts = $this->getItems(Post::class, $user->posts(), $request)
+            ->orderBy('created_at', 'DESC')
+            ->paginate($this->getLimit($request))->withQueryString();
+        for ($i = 0; $i < $posts->count(); $i++) {
+            $posts[$i] = $posts[$i]->toApiData($request->user());
         }
         return $posts;
     }
@@ -119,25 +74,11 @@ class ApiUsersController extends Controller
     // Api users show inventories route
     public function showInventories(Request $request, User $user)
     {
-        $searchQuery = $request->input('query');
-        if ($searchQuery != '') {
-            $inventories = Inventory::search($user->inventories(), $searchQuery);
-        } else {
-            $inventories = $user->inventories()->where('deleted', false);
-        }
-
-        $limit = $request->input('limit');
-        if ($limit != '') {
-            $limit = (int)$limit;
-            if ($limit < 1) $limit = 1;
-            if ($limit > 50) $limit = 50;
-        } else {
-            $limit = 20;
-        }
-
-        $inventories = $inventories->orderBy('created_at', 'DESC')->paginate($limit)->withQueryString();
-        foreach ($inventories as $inventory) {
-            $inventory->forApi($request->user());
+        $inventories = $this->getItems(Inventory::class, $user->inventories(), $request)
+            ->orderBy('created_at', 'DESC')
+            ->paginate($this->getLimit($request))->withQueryString();
+        for ($i = 0; $i < $inventories->count(); $i++) {
+            $inventories[$i] = $inventories[$i]->toApiData($request->user(), ['products']);
         }
         return $inventories;
     }
@@ -145,25 +86,14 @@ class ApiUsersController extends Controller
     // Api users show transactions route
     public function showTransactions(Request $request, User $user)
     {
-        $searchQuery = $request->input('query');
-        if ($searchQuery != '') {
-            $transactions = Transaction::search($user->transactions(), $searchQuery);
-        } else {
-            $transactions = $user->transactions()->where('deleted', false);
-        }
-
-        $limit = $request->input('limit');
-        if ($limit != '') {
-            $limit = (int)$limit;
-            if ($limit < 1) $limit = 1;
-            if ($limit > 50) $limit = 50;
-        } else {
-            $limit = 20;
-        }
-
-        $transactions = $transactions->orderBy('created_at', 'DESC')->paginate($limit)->withQueryString();
-        foreach ($transactions as $transaction) {
-            $transaction->forApi($request->user());
+        $transactions = $this->getItems(Transaction::class, $user->transactions(), $request)
+            ->orderBy('created_at', 'DESC')
+            ->paginate($this->getLimit($request))->withQueryString();
+        for ($i = 0; $i < $transactions->count(); $i++) {
+            $transactions[$i] = $transactions[$i]->toApiData($request->user(), [
+                'user', // For backwards compatability
+                'products'
+            ]);
         }
         return $transactions;
     }
