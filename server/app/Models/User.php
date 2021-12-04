@@ -13,25 +13,27 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
 
     // A user can be male, female or other
-    const GENDER_MALE = 0;
-    const GENDER_FEMALE = 1;
-    const GENDER_OTHER = 2;
+    public const GENDER_MALE = 0;
+    public const GENDER_FEMALE = 1;
+    public const GENDER_OTHER = 2;
 
     // A user can be normal, a manager or an admin
-    const ROLE_NORMAL = 0;
-    const ROLE_MANAGER = 1;
-    const ROLE_ADMIN = 2;
+    public const ROLE_NORMAL = 0;
+    public const ROLE_MANAGER = 1;
+    public const ROLE_ADMIN = 2;
 
     // A user can select the english and the dutch language
-    const LANGUAGE_ENGLISH = 0;
-    const LANGUAGE_DUTCH = 1;
+    public const LANGUAGE_ENGLISH = 0;
+    public const LANGUAGE_DUTCH = 1;
 
     // A user can select a light and a dark theme
-    const THEME_LIGHT = 0;
-    const THEME_DARK = 1;
+    public const THEME_LIGHT = 0;
+    public const THEME_DARK = 1;
 
     protected $hidden = [
         'email_verified_at',
@@ -52,7 +54,9 @@ class User extends Authenticatable
     // Generate a random avatar name
     public static function generateAvatarName($extension)
     {
-        if ($extension == 'jpeg') $extension = 'jpg';
+        if ($extension == 'jpeg') {
+            $extension = 'jpg';
+        }
         $avatar = Str::random(32) . '.' . $extension;
         if (static::where('avatar', $avatar)->count() > 0) {
             return static::generateAvatarName($extension);
@@ -144,7 +148,8 @@ class User extends Authenticatable
     }
 
     // Convert user to API data
-    public function toApiData($forUser = null, $includes = []) {
+    public function toApiData($forUser = null, $includes = [])
+    {
         $data = new \stdClass();
         $data->id = $this->id;
         $data->firstname = $this->firstname;
@@ -154,23 +159,50 @@ class User extends Authenticatable
         $data->thanks = asset('/storage/thanks/' . ($this->thanks ?? Setting::get('default_user_thanks')));
 
         if ($forUser != null && ($forUser->role == static::ROLE_MANAGER || $forUser->role == static::ROLE_ADMIN || $this->id == $forUser->id)) {
-            $data->gender = $this->gender;
-            if ($data->gender == static::GENDER_MALE) $data->gender = 'male';
-            if ($data->gender == static::GENDER_FEMALE) $data->gender = 'female';
-            if ($data->gender == static::GENDER_OTHER) $data->gender = 'other';
+            if ($this->gender == null) {
+                $data->gender = null;
+            }
+            if ($this->gender == static::GENDER_MALE) {
+                $data->gender = 'male';
+            }
+            if ($this->gender == static::GENDER_FEMALE) {
+                $data->gender = 'female';
+            }
+            if ($this->gender == static::GENDER_OTHER) {
+                $data->gender = 'other';
+            }
+
             $data->birthday = $this->birthday != null ? $this->birthday->format('Y-m-d') : null;
             $data->email = $this->email;
             $data->phone = $this->phone;
             $data->address = $this->address;
             $data->postcode = $this->postcode;
             $data->city = $this->city;
-            if ($this->role == static::ROLE_NORMAL) $data->role = 'normal';
-            if ($this->role == static::ROLE_MANAGER) $data->role = 'manager';
-            if ($this->role == static::ROLE_ADMIN) $data->role = 'admin';
-            if ($this->language == static::LANGUAGE_ENGLISH) $data->language = 'en';
-            if ($this->language == static::LANGUAGE_DUTCH) $data->language = 'nl';
-            if ($this->theme == static::THEME_LIGHT) $data->theme = 'light';
-            if ($this->theme == static::THEME_DARK) $data->theme = 'dark';
+
+            if ($this->role == static::ROLE_NORMAL) {
+                $data->role = 'normal';
+            }
+            if ($this->role == static::ROLE_MANAGER) {
+                $data->role = 'manager';
+            }
+            if ($this->role == static::ROLE_ADMIN) {
+                $data->role = 'admin';
+            }
+
+            if ($this->language == static::LANGUAGE_ENGLISH) {
+                $data->language = 'en';
+            }
+            if ($this->language == static::LANGUAGE_DUTCH) {
+                $data->language = 'nl';
+            }
+
+            if ($this->theme == static::THEME_LIGHT) {
+                $data->theme = 'light';
+            }
+            if ($this->theme == static::THEME_DARK) {
+                $data->theme = 'dark';
+            }
+
             $data->receive_news = $this->receive_news;
             $data->balance = $this->balance;
             $data->minor = $this->minor;

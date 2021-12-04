@@ -37,11 +37,12 @@ class Post extends Model
     }
 
     // Convert post to API data
-    public function toApiData($forUser = null, $includes = []) {
+    public function toApiData($forUser = null, $includes = [])
+    {
         $data = new \stdClass();
         $data->id = $this->id;
         $data->title = $this->title;
-        $data->body = (new Parsedown)->text($this->body);
+        $data->body = (new Parsedown())->text($this->body);
         $data->created_at = $this->created_at;
 
         if ($forUser != null && ($forUser->role == User::ROLE_MANAGER || $forUser->role == User::ROLE_ADMIN)) {

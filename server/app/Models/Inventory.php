@@ -40,7 +40,8 @@ class Inventory extends Model
     }
 
     // Convert inventory to API data
-    public function toApiData($forUser = null, $includes = []) {
+    public function toApiData($forUser = null, $includes = [])
+    {
         $data = new \stdClass();
         $data->id = $this->id;
         $data->name = $this->name;

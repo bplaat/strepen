@@ -22,7 +22,9 @@ class Product extends Model
     // Generate a random image name
     public static function generateImageName($extension)
     {
-        if ($extension == 'jpeg') $extension = 'jpg';
+        if ($extension == 'jpeg') {
+            $extension = 'jpg';
+        }
         $image = Str::random(32) . '.' . $extension;
         if (static::where('image', $image)->count() > 0) {
             return static::generateImageName($extension);
@@ -70,7 +72,8 @@ class Product extends Model
     }
 
     // Convert product to API data
-    public function toApiData($forUser = null, $includes = []) {
+    public function toApiData($forUser = null, $includes = [])
+    {
         $data = new \stdClass();
         $data->id = $this->id;
         $data->name = $this->name;

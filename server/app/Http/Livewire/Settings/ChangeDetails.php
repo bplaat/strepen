@@ -49,8 +49,12 @@ class ChangeDetails extends Component
     {
         $this->validate();
 
-        if ($this->user->gender == '') $this->user->gender = null;
-        if ($this->user->birthday . '' == date('Y-m-d H:i:s')) $this->user->birthday = null;
+        if ($this->user->gender == '') {
+            $this->user->gender = null;
+        }
+        if ($this->user->birthday . '' == date('Y-m-d H:i:s')) {
+            $this->user->birthday = null;
+        }
 
         if ($this->oldUserBirthday != null && $this->oldUserBirthday->diff(new DateTime('now'))->y < Setting::get('minor_age')) {
             $this->user->birthday = $this->oldUserBirthday;

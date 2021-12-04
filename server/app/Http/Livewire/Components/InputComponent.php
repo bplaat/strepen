@@ -20,5 +20,7 @@ abstract class InputComponent extends Component
 
     abstract public function inputClear($name);
 
-    public function inputProps($name, $props) {}
+    public function inputProps($name, $props)
+    {
+    }
 }

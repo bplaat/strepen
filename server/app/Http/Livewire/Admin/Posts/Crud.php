@@ -49,7 +49,8 @@ class Crud extends PaginationComponent
         $this->isCreating = false;
     }
 
-    public function inputValue($name, $value) {
+    public function inputValue($name, $value)
+    {
         if ($name == 'user_filter') {
             $this->userIdTemp = $value;
         }

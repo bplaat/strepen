@@ -312,7 +312,8 @@ class ImportData extends Command
             $transactionsJson[] = json_decode('{' . $itemJson . '}');
         }
 
-        function createTransactionProduct($transactionProduct) {
+        function createTransactionProduct($transactionProduct)
+        {
             static $transactionProductsCache = [];
             if ($transactionProduct != null) {
                 $transactionProductsCache[] = $transactionProduct;
@@ -323,7 +324,8 @@ class ImportData extends Command
             }
         }
 
-        function createTransaction($transaction, $products = []) {
+        function createTransaction($transaction, $products = [])
+        {
             static $transactionsCache = [];
             static $productsCache = [];
             if ($transaction != null) {
@@ -369,7 +371,7 @@ class ImportData extends Command
                             ]);
                             $doneTransactions[] = $transactionJson->old_transaction_id;
                         }
-                    } else if ($transactionJson->old_product_id == 10) {
+                    } elseif ($transactionJson->old_product_id == 10) {
                         if ($transactionJson->price != 0) {
                             createTransaction([
                                 'user_id' => $oldUserIds[$transactionJson->old_user_id],

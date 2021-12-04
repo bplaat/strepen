@@ -29,7 +29,8 @@ class Item extends Component
         $this->createdAtTime = $this->post->created_at->format('H:i:s');
     }
 
-    public function inputValue($name, $value) {
+    public function inputValue($name, $value)
+    {
         if ($name == 'item_user') {
             $this->post->user_id = $value;
         }

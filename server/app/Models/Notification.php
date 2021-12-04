@@ -4,14 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Notification extends Model {
+class Notification extends Model
+{
     // Convert notification to API data
-    public static function toApiData($notification, $forUser = null, $includes = []) {
+    public static function toApiData($notification, $forUser = null, $includes = [])
+    {
         $data = new \stdClass();
         $data->id = $notification->id;
-        if ($notification->type == 'App\\Notifications\\NewDeposit') $data->type = 'new_deposit';
-        if ($notification->type == 'App\\Notifications\\NewPost') $data->type = 'new_post';
-        if ($notification->type == 'App\\Notifications\\LowBalance') $data->type = 'low_balance';
+
+        if ($notification->type == 'App\\Notifications\\NewDeposit') {
+            $data->type = 'new_deposit';
+        }
+        if ($notification->type == 'App\\Notifications\\NewPost') {
+            $data->type = 'new_post';
+        }
+        if ($notification->type == 'App\\Notifications\\LowBalance') {
+            $data->type = 'low_balance';
+        }
+
         $data->data = $notification->data;
         $data->read_at = $notification->read_at;
         $data->created_at = $notification->created_at;

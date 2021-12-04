@@ -61,7 +61,8 @@ class Crud extends PaginationComponent
         $this->inventory->name = __('admin/inventories.crud.name_default') . ' ' . date('Y-m-d H:i:s');
     }
 
-    public function inputValue($name, $value) {
+    public function inputValue($name, $value)
+    {
         if ($name == 'user_filter') {
             $this->userIdTemp = $value;
         }
@@ -94,7 +95,9 @@ class Crud extends PaginationComponent
             return $product;
         });
 
-        if ($selectedProducts->count() == 0) return;
+        if ($selectedProducts->count() == 0) {
+            return;
+        }
 
         // Create inventory
         $this->inventory->user_id = Auth::id();

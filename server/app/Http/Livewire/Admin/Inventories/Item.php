@@ -40,7 +40,8 @@ class Item extends Component
         }
     }
 
-    public function inputValue($name, $value) {
+    public function inputValue($name, $value)
+    {
         if ($name == 'item_user') {
             $this->inventory->user_id = $value;
         }
@@ -63,7 +64,9 @@ class Item extends Component
             return $product;
         });
 
-        if ($selectedProducts->count() == 0) return;
+        if ($selectedProducts->count() == 0) {
+            return;
+        }
 
         // Edit inventory
         $this->inventory->price = 0;

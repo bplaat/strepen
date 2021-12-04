@@ -51,7 +51,9 @@ class Create extends Component
             return $product;
         });
 
-        if ($selectedProducts->count() == 0) return;
+        if ($selectedProducts->count() == 0) {
+            return;
+        }
 
         if (Auth::user()->minor) {
             foreach ($selectedProducts as $product) {

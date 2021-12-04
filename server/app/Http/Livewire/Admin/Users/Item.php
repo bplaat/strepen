@@ -82,8 +82,12 @@ class Item extends Component
     {
         $this->validate();
 
-        if ($this->user->gender == '') $this->user->gender = null;
-        if ($this->user->birthday . '' == date('Y-m-d H:i:s')) $this->user->birthday = null;
+        if ($this->user->gender == '') {
+            $this->user->gender = null;
+        }
+        if ($this->user->birthday . '' == date('Y-m-d H:i:s')) {
+            $this->user->birthday = null;
+        }
 
         if ($this->newPassword != null) {
             $this->user->password = Hash::make($this->newPassword);

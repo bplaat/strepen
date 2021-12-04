@@ -45,7 +45,8 @@ class Item extends Component
         }
     }
 
-    public function inputValue($name, $value) {
+    public function inputValue($name, $value)
+    {
         if ($name == 'item_user') {
             $this->transaction->user_id = $value;
         }
@@ -78,7 +79,9 @@ class Item extends Component
                 return $product;
             });
 
-            if ($selectedProducts->count() == 0) return;
+            if ($selectedProducts->count() == 0) {
+                return;
+            }
 
             // Edit transaction
             $this->transaction->price = 0;

@@ -34,7 +34,8 @@ class Kiosk extends Component
         $this->isCreated = false;
     }
 
-    public function inputValue($name, $value) {
+    public function inputValue($name, $value)
+    {
         if ($name == 'user') {
             $this->transaction->user_id = $value;
 
@@ -71,7 +72,9 @@ class Kiosk extends Component
             return $product;
         });
 
-        if ($selectedProducts->count() == 0) return;
+        if ($selectedProducts->count() == 0) {
+            return;
+        }
 
         $user = User::find($this->transaction->user_id);
         if ($user->minor) {

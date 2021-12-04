@@ -43,7 +43,7 @@ class NewDeposit extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject('Nieuwe storting op het Strepen Systeem')
             ->greeting('Beste ' . $this->transaction->user->name . ',')
             ->line('Er is een storting van ' . number_format($this->transaction->price, 2, ',', '.') . ' euro op uw account gezet!')

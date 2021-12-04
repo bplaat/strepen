@@ -5,7 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Post;
 use App\Models\Setting;
 use App\Models\User;
-use \Parsedown;
+use Parsedown;
 
 class Home extends PaginationComponent
 {
@@ -37,7 +37,8 @@ class Home extends PaginationComponent
         }
     }
 
-    public function inputValue($name, $value) {
+    public function inputValue($name, $value)
+    {
         if ($name == 'user_filter') {
             $this->userIdTemp = $value;
         }

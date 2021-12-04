@@ -168,10 +168,18 @@ class ApiUsersController extends ApiController
         }
 
         if ($request->input('gender')) {
-            if ($request->input('gender') == 'null') $user->gender = null;
-            if ($request->input('gender') == 'male') $user->gender = User::GENDER_MALE;
-            if ($request->input('gender') == 'female') $user->gender = User::GENDER_FEMALE;
-            if ($request->input('gender') == 'other') $user->gender = User::GENDER_OTHER;
+            if ($request->input('gender') == 'null') {
+                $user->gender = null;
+            }
+            if ($request->input('gender') == 'male') {
+                $user->gender = User::GENDER_MALE;
+            }
+            if ($request->input('gender') == 'female') {
+                $user->gender = User::GENDER_FEMALE;
+            }
+            if ($request->input('gender') == 'other') {
+                $user->gender = User::GENDER_OTHER;
+            }
         }
 
         if ($request->input('birthday')) {
@@ -182,7 +190,9 @@ class ApiUsersController extends ApiController
             }
         }
 
-        if ($request->input('email')) $user->email = $request->input('email');
+        if ($request->input('email')) {
+            $user->email = $request->input('email');
+        }
 
         if ($request->input('phone')) {
             if ($request->input('phone') == 'null') {
@@ -217,13 +227,21 @@ class ApiUsersController extends ApiController
         }
 
         if ($request->input('language')) {
-            if ($request->input('language') == 'en') $user->language = User::LANGUAGE_ENGLISH;
-            if ($request->input('language') == 'nl') $user->language = User::LANGUAGE_DUTCH;
+            if ($request->input('language') == 'en') {
+                $user->language = User::LANGUAGE_ENGLISH;
+            }
+            if ($request->input('language') == 'nl') {
+                $user->language = User::LANGUAGE_DUTCH;
+            }
         }
 
         if ($request->input('theme')) {
-            if ($request->input('theme') == 'light') $user->theme = User::THEME_LIGHT;
-            if ($request->input('theme') == 'dark') $user->theme = User::THEME_DARK;
+            if ($request->input('theme') == 'light') {
+                $user->theme = User::THEME_LIGHT;
+            }
+            if ($request->input('theme') == 'dark') {
+                $user->theme = User::THEME_DARK;
+            }
         }
 
         if ($request->input('receive_news')) {

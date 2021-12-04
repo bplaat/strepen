@@ -44,7 +44,7 @@ class LowBalance extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject('Te lage krediet op het Strepen Systeem')
             ->greeting('Beste ' . $this->user->name . ',')
             ->line('Na het invoeren van uw laatst gekochte producten op de stam is gebleken dat uw krediet lager dan ' . number_format(Setting::get('min_user_balance'), 2, ',', '.') . ' euro is. Uw balans is op dit moment nu ' . number_format($this->user->balance, 2, ',', '.') . ' euro.')

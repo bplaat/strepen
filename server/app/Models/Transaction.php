@@ -8,9 +8,9 @@ use Illuminate\Support\Str;
 class Transaction extends Model
 {
     // A transaction can be a normal transaction, a deposit or a food transaction
-    const TYPE_TRANSACTION = 0;
-    const TYPE_DEPOSIT = 1;
-    const TYPE_FOOD = 2;
+    public const TYPE_TRANSACTION = 0;
+    public const TYPE_DEPOSIT = 1;
+    public const TYPE_FOOD = 2;
 
     protected $hidden = [
         'deleted'
@@ -45,12 +45,21 @@ class Transaction extends Model
     }
 
     // Convert transaction to API data
-    public function toApiData($forUser = null, $includes = []) {
+    public function toApiData($forUser = null, $includes = [])
+    {
         $data = new \stdClass();
         $data->id = $this->id;
-        if ($this->type == static::TYPE_TRANSACTION) $data->type = 'transaction';
-        if ($this->type == static::TYPE_DEPOSIT) $data->type = 'deposit';
-        if ($this->type == static::TYPE_FOOD) $data->type = 'food';
+
+        if ($this->type == static::TYPE_TRANSACTION) {
+            $data->type = 'transaction';
+        }
+        if ($this->type == static::TYPE_DEPOSIT) {
+            $data->type = 'deposit';
+        }
+        if ($this->type == static::TYPE_FOOD) {
+            $data->type = 'food';
+        }
+
         $data->name = $this->name;
         $data->price = $this->price;
         $data->created_at = $this->created_at;

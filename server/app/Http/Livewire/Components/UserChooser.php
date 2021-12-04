@@ -116,7 +116,8 @@ class UserChooser extends InputComponent
         }
     }
 
-    public function selectUser($userId) {
+    public function selectUser($userId)
+    {
         $this->user = $this->users->firstWhere('id', $userId);
         $this->userName = $this->user->name;
         $this->emitValue();

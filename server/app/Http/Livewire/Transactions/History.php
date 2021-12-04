@@ -40,7 +40,8 @@ class History extends PaginationComponent
         }
     }
 
-    public function inputValue($name, $value) {
+    public function inputValue($name, $value)
+    {
         if ($name == 'product_filter') {
             $this->productIdTemp = $value;
         }
@@ -60,9 +61,15 @@ class History extends PaginationComponent
     {
         $transactions = Transaction::search(Auth::user()->transactions(), $this->query);
         if ($this->type != null) {
-            if ($this->type == 'transaction') $type = Transaction::TYPE_TRANSACTION;
-            if ($this->type == 'deposit') $type = Transaction::TYPE_DEPOSIT;
-            if ($this->type == 'food') $type = Transaction::TYPE_FOOD;
+            if ($this->type == 'transaction') {
+                $type = Transaction::TYPE_TRANSACTION;
+            }
+            if ($this->type == 'deposit') {
+                $type = Transaction::TYPE_DEPOSIT;
+            }
+            if ($this->type == 'food') {
+                $type = Transaction::TYPE_FOOD;
+            }
             $transactions = $transactions->where('type', $type);
         }
         if ($this->product_id != null) {

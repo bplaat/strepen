@@ -73,7 +73,8 @@ class Crud extends PaginationComponent
         $this->userAmounts = array_fill(0, $this->users->count(), '');
     }
 
-    public function inputValue($name, $value) {
+    public function inputValue($name, $value)
+    {
         if ($name == 'user_filter') {
             $this->userIdTemp = $value;
         }
@@ -125,7 +126,9 @@ class Crud extends PaginationComponent
             return $product;
         });
 
-        if ($selectedProducts->count() == 0) return;
+        if ($selectedProducts->count() == 0) {
+            return;
+        }
 
         // Create transaction
         $this->transaction->price = 0;
@@ -279,9 +282,15 @@ class Crud extends PaginationComponent
     {
         $transactions = Transaction::search(Transaction::select(), $this->query);
         if ($this->type != null) {
-            if ($this->type == 'transaction') $type = Transaction::TYPE_TRANSACTION;
-            if ($this->type == 'deposit') $type = Transaction::TYPE_DEPOSIT;
-            if ($this->type == 'food') $type = Transaction::TYPE_FOOD;
+            if ($this->type == 'transaction') {
+                $type = Transaction::TYPE_TRANSACTION;
+            }
+            if ($this->type == 'deposit') {
+                $type = Transaction::TYPE_DEPOSIT;
+            }
+            if ($this->type == 'food') {
+                $type = Transaction::TYPE_FOOD;
+            }
             $transactions = $transactions->where('type', $type);
         }
         if ($this->user_id != null) {

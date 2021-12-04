@@ -36,11 +36,15 @@ abstract class PaginationComponent extends Component
 
     public function _previousPage($disabled)
     {
-        if (!$disabled) $this->previousPage();
+        if (!$disabled) {
+            $this->previousPage();
+        }
     }
 
     public function _nextPage($disabled)
     {
-        if (!$disabled) $this->nextPage();
+        if (!$disabled) {
+            $this->nextPage();
+        }
     }
 }
