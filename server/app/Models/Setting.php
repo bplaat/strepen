@@ -18,6 +18,7 @@ class Setting extends Model
     public static function set($key, $value) {
         $setting = static::where('key', $key)->first();
         $setting->value = $value;
+        static::$cache[$key] = $value;
         $setting->save();
     }
 }

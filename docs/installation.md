@@ -65,6 +65,11 @@
     ```
     php artisan import-data 'http://stam.diekantankys.nl'
     ```
+- Optional: You could run the unit and feature tests
+
+    ```
+    php artisan test --parallel
+    ```
 
 ## macOS
 TODO
@@ -175,4 +180,9 @@ TODO
 
     ```
     php artisan import-data 'http://stam.diekantankys.nl'
+    ```
+- Optional: You could run the unit and feature tests
+
+    ```
+    php artisan test --parallel
     ```
