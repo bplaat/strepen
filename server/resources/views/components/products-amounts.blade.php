@@ -18,7 +18,7 @@
 
 <div class="media" style="align-items: center;">
     <div class="media-left">
-        <div style="width: 56px;"></div>
+        <div style="width: 3.5rem;"></div>
     </div>
     <div class="media-content">
         <p><x-amount-format :amount="$products->pluck('pivot.amount')->sum()" /></p>

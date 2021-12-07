@@ -15,7 +15,10 @@
                             <h1 class="title is-5">
                                 <a href="{{ route('transactions.history') }}">@lang('notifications.new_deposit_header')</a>
                                 @if ($notification->read_at == null)
-                                    <span class="tag is-warning is-pulled-right is-hidden-touch">{{ Str::upper(__('notifications.unread')) }}</span>
+                                    <span class="is-pulled-right" style="display: flex; align-items: center;">
+                                        <span class="tag is-warning is-hidden-touch">{{ Str::upper(__('notifications.unread')) }}</span>
+                                        <button type="button" class="delete ml-3" wire:click.prevent="readNotification('{{ $notification->id }}')"></button>
+                                    </span>
                                 @endif
                             </h1>
                             @if ($notification->read_at == null)
@@ -34,7 +37,10 @@
                             <h1 class="title is-5">
                                 <a href="{{ route('home') }}">@lang('notifications.new_post_header')</a>
                                 @if ($notification->read_at == null)
-                                    <span class="tag is-warning is-pulled-right is-hidden-touch">{{ Str::upper(__('notifications.unread')) }}</span>
+                                    <span class="is-pulled-right" style="display: flex; align-items: center;">
+                                        <span class="tag is-warning is-hidden-touch">{{ Str::upper(__('notifications.unread')) }}</span>
+                                        <button type="button" class="delete ml-3" wire:click.prevent="readNotification('{{ $notification->id }}')"></button>
+                                    </span>
                                 @endif
                             </h1>
                             @if ($notification->read_at == null)
@@ -42,14 +48,17 @@
                                     <span class="tag is-warning">{{ Str::upper(__('notifications.unread')) }}</span>
                                 </p>
                             @endif
-                            <p>@lang('notifications.new_post_text', ['post.created_at' => $post->created_at->format('Y-m-d H:i')])</p>
+                            <p>@lang('notifications.new_post_text', ['post.title' => $post->title, 'post.created_at' => $post->created_at->format('Y-m-d H:i')])</p>
                         @endif
 
                         @if ($notification->type == 'App\Notifications\LowBalance')
                             <h1 class="title is-5">
                                 <a href="{{ route('balance') }}">@lang('notifications.low_balance_header')</a>
                                 @if ($notification->read_at == null)
-                                    <span class="tag is-warning is-pulled-right is-hidden-touch">{{ Str::upper(__('notifications.unread')) }}</span>
+                                    <span class="is-pulled-right" style="display: flex; align-items: center;">
+                                        <span class="tag is-warning is-hidden-touch">{{ Str::upper(__('notifications.unread')) }}</span>
+                                        <button type="button" class="delete ml-3" wire:click.prevent="readNotification('{{ $notification->id }}')"></button>
+                                    </span>
                                 @endif
                             </h1>
                             @if ($notification->read_at == null)

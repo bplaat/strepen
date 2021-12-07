@@ -9,15 +9,15 @@ return [
     'notifications.empty' => 'No unread notifications',
 
     'notifications.new_deposit_header' => 'New deposit',
-    'notifications.new_deposit_start' => 'You have received a new deposit<br>of',
+    'notifications.new_deposit_start' => 'You have received a new deposit of',
     'notifications.new_deposit_end' => 'on',
 
     'notifications.new_post_header' => 'New post',
-    'notifications.new_post_text' => 'An new post has been placed on the<br>home page on :post.created_at',
+    'notifications.new_post_text' => 'A new post called \':post.title\' can been seen on the home page on :post.created_at',
 
     'notifications.low_balance_header' => 'Balance to low',
     'notifications.low_balance_start' => 'Your balance of',
-    'notifications.low_balance_end' => 'is to low<br> deposit some money to clear your debt',
+    'notifications.low_balance_end' => 'is to low deposit some money to clear your debt',
 
     // User Chooser livewire component
     'user_chooser.user' => 'User',

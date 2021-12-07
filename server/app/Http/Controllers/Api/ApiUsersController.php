@@ -43,7 +43,7 @@ class ApiUsersController extends ApiController
         $notifications = $request->user()->notifications()
             ->paginate($this->getLimit($request))->withQueryString();
         for ($i = 0; $i < $notifications->count(); $i++) {
-            $notifications[$i] = Notification::toApiData($notifications[$i], $request->user());
+            $notifications[$i] = Notification::toApiData($notifications[$i], $request->user(), ['post']);
         }
         return $notifications;
     }
@@ -54,7 +54,7 @@ class ApiUsersController extends ApiController
         $notifications = $request->user()->unreadNotifications()
             ->paginate($this->getLimit($request))->withQueryString();
         for ($i = 0; $i < $notifications->count(); $i++) {
-            $notifications[$i] = Notification::toApiData($notifications[$i], $request->user());
+            $notifications[$i] = Notification::toApiData($notifications[$i], $request->user(), ['post']);
         }
         return $notifications;
     }

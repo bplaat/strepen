@@ -1,6 +1,6 @@
 pre{white-space:pre-wrap}
 
-.logo{width:24px;height:24px;margin-right:10px}
+.logo{width:1.5rem;height:1.5rem;margin-right:.75rem}
 
 .column>.box:not(.not-fullheight){height:100%}
 .column>.card{display:flex;flex-direction:column;height:100%;margin-bottom:0;overflow:hidden}
@@ -8,22 +8,25 @@ pre{white-space:pre-wrap}
 
 .image{background-size:cover;background-position:center center}
 .image.is-square{padding-top:100%}
-.image.is-small{width:24px;height:24px}
-.image.is-medium{width:28px;height:28px}
-.image.is-large{width:56px;height:56px}
+.image.is-small{width:1.5rem;height:1.5rem}
+.image.is-medium{width:1.75rem;height:1.75rem}
+.image.is-large{width:3.5rem;height:3.5rem}
 .image.is-round{border-radius:50%}
-.image.is-rounded{border-radius:6px}
-.image.is-inline{float:left;margin-right:12px}
+.image.is-rounded{border-radius:.375rem}
+.image.is-inline{float:left;margin-right:.75rem}
 
-.card-image-tags{position:absolute;top:8px;right:8px}
+.card-image-tags{position:absolute;top:.5rem;right:.5rem}
 
 .dropdown-item{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:1rem}
 
-.medal-column{width:24px;text-align:center!important}
-.medal{width:24px;line-height:24px;text-align:center}
+.medal-column{width:1.5rem;text-align:center!important}
+.medal{width:1.5rem;line-height:1.5rem;text-align:center}
 .medal.is-gold,.medal.is-silver,.medal.is-bronze{border-radius:50%;font-weight:600; color:#111}
 .medal.is-gold{background-color:#ffd700}
 .medal.is-silver{background-color:#c0c0c0}
 .medal.is-bronze{background-color:#cd7f32}
 
-@media (min-width: 1024px) {.modal-card.is-large{width:75vw}}
+@media (min-width: 1024px) {
+    .modal-card.is-large{width:75vw}
+    .navbar-item.is-notification{width:18rem}
+}

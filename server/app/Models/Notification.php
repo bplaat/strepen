@@ -34,6 +34,10 @@ class Notification extends Model
             $data->user = User::find($notification->notifiable_id)->toApiData($forUser);
         }
 
+        if ($notification->type == 'App\\Notifications\\NewPost' && in_array('post', $includes)) {
+            $data->post = Post::find($notification->data->post_id)->toApiData($forUser);
+        }
+
         return $data;
     }
 }

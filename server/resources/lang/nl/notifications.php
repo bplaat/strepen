@@ -12,9 +12,9 @@ return [
     'new_deposit_end' => 'op',
 
     'new_post_header' => 'Nieuw nieuws bericht',
-    'new_post_text' => 'Een nieuw nieuws bericht is op de home<br> pagina gezet op :post.created_at',
+    'new_post_text' => 'Een nieuw bericht genaamd \':post.title\' is te vinden op de home pagina van :post.created_at',
 
     'low_balance_header' => 'Balans te laag',
     'low_balance_start' => 'Jouw balans van',
-    'low_balance_end' => 'is te laag<br> stort wat geld om uw schuld te vereffen'
+    'low_balance_end' => 'is te laag stort wat geld om uw schuld te vereffen'
 ];

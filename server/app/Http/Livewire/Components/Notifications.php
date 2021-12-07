@@ -18,7 +18,7 @@ class Notifications extends Component
     public function readNotification($notificationId)
     {
         $notification = Notification::find($notificationId);
-        if ($notification != null) {
+        if ($notification != null && $notification->notifiable_id == Auth::id()) {
             $notification->read_at = now();
             $notification->save();
         }

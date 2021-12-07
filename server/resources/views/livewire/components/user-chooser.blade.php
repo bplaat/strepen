@@ -2,9 +2,9 @@
 <div class="field">
     <label class="label" for="userName">@lang('components.user_chooser.user')</label>
 @endif
-    <div class="dropdown @if($isOpen) is-active @endif control" style="width: 100%;">
+    <div @class(['dropdown', 'is-active' => $isOpen, 'control']) style="width: 100%;">
         <div class="dropdown-trigger control has-icons-left" style="width: 100%;">
-            <input class="input @if (!$valid) is-danger @endif" type="text" placeholder="@lang($relationship ? 'components.user_chooser.search_by_user' : 'components.user_chooser.search_user')"
+            <input @class(['input', 'is-danger' => !$valid]) type="text" placeholder="@lang($relationship ? 'components.user_chooser.search_by_user' : 'components.user_chooser.search_user')"
                 wire:model="userName" id="userName" autocomplete="off" wire:keydown.enter.prevent="selectFirstUser"
                 wire:focus="$set('isOpen', true)" wire:blur.debounce.100ms="$set('isOpen', false)">
             <span class="icon is-small is-left">

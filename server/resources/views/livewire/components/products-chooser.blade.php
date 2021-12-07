@@ -1,4 +1,4 @@
-<div class="field @if ($bigMode) mb-5 @endif">
+<div @class(['field', 'mb-5' => $bigMode])>
     @if ($bigMode)
         <label class="label" for="productName">@lang('components.products_chooser.products')</label>
 
@@ -73,7 +73,7 @@
                             <button type="button" class="delete is-pulled-right" style="transform: translateY(3px);" wire:click="deleteProduct({{ $product->id }})"></button>
                         </label>
                         <div class="control">
-                            <input class="input @if (!$valid) is-danger @endif" type="number"
+                            <input @class(['input', 'is-danger' => !$valid]) type="number"
                                 min="1" @if (!$noMax) max="{{ App\Models\Setting::get('max_stripe_amount') }}" @endif id="product-amount-{{ $index }}"
                                 wire:model="selectedProducts.{{ $index }}.amount" required>
                         </div>
@@ -85,9 +85,9 @@
         </div>
 
         <div class="field">
-            <div class="dropdown @if($isOpen) is-active @endif control" style="width: 100%;">
+            <div @class(['dropdown', 'is-active' => $isOpen, 'control']) style="width: 100%;">
                 <div class="dropdown-trigger control" style="width: 100%;">
-                    <input class="input @if (!$valid) is-danger @endif" type="text" placeholder="@lang('components.products_chooser.search_product')"
+                    <input @class(['input', 'is-danger' => !$valid]) type="text" placeholder="@lang('components.products_chooser.search_product')"
                         wire:model="productName" id="productName" autocomplete="off" wire:keydown.enter.prevent="addFirstProduct"
                         wire:focus="$set('isOpen', true)" wire:blur.debounce.100ms="$set('isOpen', false)">
                 </div>

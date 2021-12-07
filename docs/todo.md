@@ -4,7 +4,6 @@
 
 ## High priority
 - User settings in mobile Flutter app
-- Better post notifications
 - Bug fixes / All the whishs from the Stam Bestuur
 
 ## Low priority
