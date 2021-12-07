@@ -56,15 +56,13 @@ class ProductsChooser extends InputComponent
     {
         $filteredProducts = $this->products;
         if (!$this->bigMode) {
-            $filteredProducts = $filteredProducts->filter(function ($product) {
-                return !$this->selectedProducts->pluck('product_id')->contains($product->id) &&
-                    (strlen($this->productName) == 0 || stripos($product->name, $this->productName) !== false);
-            });
+            $filteredProducts = $filteredProducts->filter(fn ($product) =>
+                !$this->selectedProducts->pluck('product_id')->contains($product->id) &&
+                (strlen($this->productName) == 0 || stripos($product->name, $this->productName) !== false)
+            );
         }
         if ($this->minor) {
-            $filteredProducts = $filteredProducts->filter(function ($product) {
-                return !$product->alcoholic;
-            });
+            $filteredProducts = $filteredProducts->filter(fn ($product) => !$product->alcoholic);
         }
         if (!$this->bigMode) {
             $filteredProducts = $filteredProducts->slice(0, 10);
@@ -74,9 +72,9 @@ class ProductsChooser extends InputComponent
 
     public function emitValue()
     {
-        $this->emitUp('inputValue', $this->name, $this->selectedProducts->filter(function ($selectedProduct) {
-            return $selectedProduct['amount'] > 0;
-        })->toArray());
+        $this->emitUp('inputValue', $this->name, $this->selectedProducts
+            ->filter(fn ($selectedProduct) => $selectedProduct['amount'] > 0)
+            ->toArray());
     }
 
     public function render()
@@ -88,9 +86,9 @@ class ProductsChooser extends InputComponent
     public function inputValidate($name)
     {
         if ($this->name == $name) {
-            $this->valid = $this->selectedProducts->filter(function ($selectedProduct) {
-                return $selectedProduct['amount'] > 0;
-            })->count() > 0;
+            $this->valid = $this->selectedProducts
+                ->filter(fn ($selectedProduct) => $selectedProduct['amount'] > 0)
+                ->count() > 0;
         }
     }
 
@@ -109,10 +107,8 @@ class ProductsChooser extends InputComponent
             $this->minor = $props['minor'];
 
             if ($this->minor) {
-                $this->selectedProducts = $this->selectedProducts->filter(function ($selectedProduct) {
-                    $product = $this->products->firstWhere('id', $selectedProduct['product_id']);
-                    return !$product->alcoholic;
-                });
+                $this->selectedProducts = $this->selectedProducts
+                    ->filter(fn ($selectedProduct) => !$this->products->firstWhere('id', $selectedProduct['product_id'])->alcoholic);
                 $this->emitValue();
             }
 

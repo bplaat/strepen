@@ -25,25 +25,38 @@ class UserFactory extends Factory
             'postcode' => $this->faker->postcode,
             'city' => $this->faker->city,
             'password' => Hash::make($this->faker->password),
-            'balance' => 0
+            'language' => $this->faker->randomElement([User::LANGUAGE_ENGLISH, User::LANGUAGE_DUTCH]),
+            'theme' => $this->faker->randomElement([User::THEME_LIGHT, User::THEME_DARK]),
+            'balance' => 0,
+            'receive_news' => $this->faker->boolean
         ];
     }
 
     public function unverified()
     {
-        return $this->state(function (array $attributes) {
-            return [
-                'email_verified_at' => null,
-            ];
-        });
+        return $this->state(fn (array $attributes) => [
+            'email_verified_at' => null,
+        ]);
     }
 
     public function password($password)
     {
-        return $this->state(function (array $attributes) use ($password) {
-            return [
-                'password' => Hash::make($password)
-            ];
-        });
+        return $this->state(fn (array $attributes) => [
+            'password' => Hash::make($password)
+        ]);
+    }
+
+    public function manager()
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => User::ROLE_MANAGER
+        ]);
+    }
+
+    public function admin()
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => User::ROLE_ADMIN
+        ]);
     }
 }

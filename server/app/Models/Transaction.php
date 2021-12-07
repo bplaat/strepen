@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class Transaction extends Model
 {
+    use HasFactory;
+
     // A transaction can be a normal transaction, a deposit or a food transaction
     public const TYPE_TRANSACTION = 0;
     public const TYPE_DEPOSIT = 1;
@@ -38,10 +41,8 @@ class Transaction extends Model
     public static function search($query, $searchQuery)
     {
         return $query->where('deleted', false)
-            ->where(function ($query) use ($searchQuery) {
-                $query->where('name', 'LIKE', '%' . $searchQuery . '%')
-                    ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%');
-            });
+            ->where(fn ($query) => $query->where('name', 'LIKE', '%' . $searchQuery . '%')
+                ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%'));
     }
 
     // Convert transaction to API data
@@ -73,9 +74,7 @@ class Transaction extends Model
         }
 
         if (in_array('products', $includes)) {
-            $data->products = $this->products->map(function ($product) use ($forUser) {
-                return $product->toApiData($forUser);
-            });
+            $data->products = $this->products->map(fn ($product) => $product->toApiData($forUser));
         }
 
         return $data;

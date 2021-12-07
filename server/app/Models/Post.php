@@ -29,11 +29,9 @@ class Post extends Model
     public static function search($query, $searchQuery)
     {
         return $query->where('deleted', false)
-            ->where(function ($query) use ($searchQuery) {
-                $query->where('title', 'LIKE', '%' . $searchQuery . '%')
-                    ->orWhere('body', 'LIKE', '%' . $searchQuery . '%')
-                    ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%');
-            });
+            ->where(fn ($query) => $query->where('title', 'LIKE', '%' . $searchQuery . '%')
+                ->orWhere('body', 'LIKE', '%' . $searchQuery . '%')
+                ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%'));
     }
 
     // Convert post to API data

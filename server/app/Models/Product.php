@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class Product extends Model
 {
+    use HasFactory;
+
     protected $hidden = [
         'deleted'
     ];
@@ -64,11 +67,9 @@ class Product extends Model
     public static function search($query, $searchQuery)
     {
         return $query->where('deleted', false)
-            ->where(function ($query) use ($searchQuery) {
-                $query->where('name', 'LIKE', '%' . $searchQuery . '%')
-                    ->orWhere('description', 'LIKE', '%' . $searchQuery . '%')
-                    ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%');
-            });
+            ->where(fn ($query) => $query->where('name', 'LIKE', '%' . $searchQuery . '%')
+                ->orWhere('description', 'LIKE', '%' . $searchQuery . '%')
+                ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%'));
     }
 
     // Convert product to API data
@@ -94,15 +95,11 @@ class Product extends Model
         }
 
         if (in_array('inventories', $includes)) {
-            $data->inventories = $this->inventories->map(function ($inventory) use ($forUser) {
-                return $inventory->toApiData($forUser);
-            });
+            $data->inventories = $this->inventories->map(fn ($inventory) => $inventory->toApiData($forUser));
         }
 
         if (in_array('transactions', $includes)) {
-            $data->transactions = $this->transactions->map(function ($transaction) use ($forUser) {
-                return $transaction->toApiData($forUser);
-            });
+            $data->transactions = $this->transactions ->map(fn ($transaction) => $transaction->toApiData($forUser));
         }
 
         return $data;
@@ -156,7 +153,7 @@ class Product extends Model
 
         // Loop trough days
         $amount = $startInventoryAmount - $startTransactionAmount;
-        $days = ($endDate - $startDate + 1) / (24 * 60 * 60);
+        $days = ceil((($endDate + 24 * 60 * 60) - $startDate + 1) / (24 * 60 * 60));
         $amountData = [];
         $index = 0;
         for ($day = 0; $day < $days; $day++) {

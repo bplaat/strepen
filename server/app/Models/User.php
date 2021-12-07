@@ -138,13 +138,11 @@ class User extends Authenticatable
     public static function search($query, $searchQuery)
     {
         return $query->where('deleted', false)
-            ->where(function ($query) use ($searchQuery) {
-                $query->where('firstname', 'LIKE', '%' . $searchQuery . '%')
-                    ->orWhere('insertion', 'LIKE', '%' . $searchQuery . '%')
-                    ->orWhere('lastname', 'LIKE', '%' . $searchQuery . '%')
-                    ->orWhere('email', 'LIKE', '%' . $searchQuery . '%')
-                    ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%');
-            });
+            ->where(fn ($query) => $query->where('firstname', 'LIKE', '%' . $searchQuery . '%')
+                ->orWhere('insertion', 'LIKE', '%' . $searchQuery . '%')
+                ->orWhere('lastname', 'LIKE', '%' . $searchQuery . '%')
+                ->orWhere('email', 'LIKE', '%' . $searchQuery . '%')
+                ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%'));
     }
 
     // Convert user to API data
@@ -215,21 +213,15 @@ class User extends Authenticatable
         }
 
         if (in_array('posts', $includes)) {
-            $data->posts = $this->posts->map(function ($post) use ($forUser) {
-                return $post->toApiData($forUser);
-            });
+            $data->posts = $this->posts->map(fn ($post) => $post->toApiData($forUser));
         }
 
         if (in_array('inventories', $includes)) {
-            $data->inventories = $this->inventories->map(function ($inventory) use ($forUser) {
-                return $inventory->toApiData($forUser);
-            });
+            $data->inventories = $this->inventories->map(fn ($inventory) => $inventory->toApiData($forUser));
         }
 
         if (in_array('transactions', $includes)) {
-            $data->transactions = $this->transaction->map(function ($transaction) use ($forUser) {
-                return $transaction->toApiData($forUser);
-            });
+            $data->transactions = $this->transaction->map(fn ($transaction) => $transaction->toApiData($forUser));
         }
 
         return $data;
@@ -258,10 +250,8 @@ class User extends Authenticatable
         $startTransactionsPrice = DB::table('transactions')
             ->where('user_id', $this->id)
             ->where('deleted', false)
-            ->where(function ($query) {
-                $query->where('type', Transaction::TYPE_TRANSACTION)
-                    ->orWhere('type', Transaction::TYPE_FOOD);
-            })
+            ->where(fn ($query) => $query->where('type', Transaction::TYPE_TRANSACTION)
+                ->orWhere('type', Transaction::TYPE_FOOD))
             ->where('created_at', '<', date('Y-m-d H:i:s', $startDate))
             ->sum('price');
 
@@ -273,7 +263,7 @@ class User extends Authenticatable
 
         // Loop trough days
         $balance = $startDepositsPrice - $startTransactionsPrice;
-        $days = ($endDate - $startDate + 1) / (24 * 60 * 60);
+        $days = ceil((($endDate + 24 * 60 * 60) - $startDate + 1) / (24 * 60 * 60));
         $balanceData = [];
         $index = 0;
         for ($day = 0; $day < $days; $day++) {

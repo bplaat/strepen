@@ -36,9 +36,9 @@ class ProductChooser extends InputComponent
 
     public function filterProducts()
     {
-        $this->filteredProducts = $this->products->filter(function ($product) {
-            return strlen($this->productName) == 0 || stripos($product->name, $this->productName) !== false;
-        })->slice(0, 10);
+        $this->filteredProducts = $this->products
+            ->filter(fn ($product) => strlen($this->productName) == 0 || stripos($product->name, $this->productName) !== false)
+            ->slice(0, 10);
     }
 
     public function emitValue()

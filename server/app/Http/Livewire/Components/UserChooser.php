@@ -28,9 +28,7 @@ class UserChooser extends InputComponent
         $users = User::where('deleted', false);
         if (!$this->includeInactive) {
             if ($this->includeStrepenUser) {
-                $users = $users->where(function ($query) {
-                    return $query->where('active', true)->orWhere('id', 1);
-                });
+                $users = $users->where(fn ($query) => $query->where('active', true)->orWhere('id', 1));
             } else {
                 $users = $users->where('active', true);
             }
@@ -45,14 +43,10 @@ class UserChooser extends InputComponent
         ])->get();
 
         if ($this->postsRequired) {
-            $this->users = $this->users->filter(function ($user) {
-                return $user->posts_count > 0;
-            });
+            $this->users = $this->users->filter(fn ($user) => $user->posts_count > 0);
         }
         if ($this->inventoriesRequired) {
-            $this->users = $this->users->filter(function ($user) {
-                return $user->inventories_count > 0;
-            });
+            $this->users = $this->users->filter(fn ($user) => $user->inventories_count > 0);
         }
         $this->filterUsers();
 
@@ -63,9 +57,9 @@ class UserChooser extends InputComponent
 
     public function filterUsers()
     {
-        $this->filteredUsers = $this->users->filter(function ($user) {
-            return strlen($this->userName) == 0 || stripos($user->name, $this->userName) !== false;
-        })->slice(0, 10);
+        $this->filteredUsers = $this->users
+            ->filter(fn ($user) => strlen($this->userName) == 0 || stripos($user->name, $this->userName) !== false)
+            ->slice(0, 10);
     }
 
     public function emitValue()

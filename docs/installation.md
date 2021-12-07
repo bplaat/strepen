@@ -65,6 +65,11 @@
     ```
     php artisan import-data 'http://stam.diekantankys.nl'
     ```
+- Optional: You could run the automatic PHP linter & fixer
+
+    ```
+    php artisan lint
+    ```
 - Optional: You could run the unit and feature tests
 
     ```
@@ -180,6 +185,11 @@ TODO
 
     ```
     php artisan import-data 'http://stam.diekantankys.nl'
+    ```
+- Optional: You could run the automatic PHP linter & fixer
+
+    ```
+    php artisan lint
     ```
 - Optional: You could run the unit and feature tests
 

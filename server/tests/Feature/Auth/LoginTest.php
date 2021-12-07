@@ -1,14 +1,13 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Auth;
 
 use App\Http\LiveWire\Auth\Login;
 use App\Models\User;
-use Illuminate\Support\Str;
 use Tests\TestCase;
 use Livewire;
 
-class AuthLoginTest extends TestCase
+class LoginTest extends TestCase
 {
     // Test to login with right email and password
     public function test_login()

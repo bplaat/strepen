@@ -8,15 +8,15 @@ use Tests\TestCase;
 
 class KioskTest extends TestCase
 {
-    // Test to go to kiosk page when whitelisted
-    public function test_open_kiosk_on_whitelist()
+    // Test to go to kiosk page when ip whitelisted
+    public function test_open_kiosk_ip_on_whitelist()
     {
         Setting::set('kiosk_ip_whitelist', '127.0.0.1');
         $this->get(route('admin.kiosk'))->assertRedirect(route('kiosk'));
     }
 
-    // Test to go to kiosk page when not whitelisted
-    public function test_open_kiosk_not_on_whitelist()
+    // Test to go to kiosk page when ip not whitelisted
+    public function test_open_kiosk_ip_not_on_whitelist()
     {
         Setting::set('kiosk_ip_whitelist', '');
         $this->get(route('admin.kiosk'))->assertStatus(403);
@@ -34,6 +34,39 @@ class KioskTest extends TestCase
     {
         Setting::set('kiosk_ip_whitelist', '');
         $this->get(route('kiosk'))->assertStatus(403);
+    }
+
+    // Test to go to kiosk page when authed normal
+    public function test_open_kiosk_ip_authed_normal()
+    {
+        Setting::set('kiosk_ip_whitelist', '');
+
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        $this->get(route('admin.kiosk'))->assertStatus(403);
+    }
+
+    // Test to go to kiosk page when authed manager
+    public function test_open_kiosk_ip_authed_manager()
+    {
+        Setting::set('kiosk_ip_whitelist', '');
+
+        $user = User::factory()->manager()->create();
+        $this->actingAs($user);
+
+        $this->get(route('admin.kiosk'))->assertRedirect(route('kiosk'));
+    }
+
+    // Test to go to kiosk page when authed admin
+    public function test_open_kiosk_ip_authed_admin()
+    {
+        Setting::set('kiosk_ip_whitelist', '');
+
+        $user = User::factory()->admin()->create();
+        $this->actingAs($user);
+
+        $this->get(route('admin.kiosk'))->assertRedirect(route('kiosk'));
     }
 
     // Test kiosk / stripe page

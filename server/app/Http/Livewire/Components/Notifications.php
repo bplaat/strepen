@@ -26,6 +26,7 @@ class Notifications extends Component
 
     public function render()
     {
+        unset(Auth::user()->unreadNotifications);
         return view('livewire.components.notifications', [
             'notifications' => Auth::user()->unreadNotifications->slice(0, 5)
         ]);

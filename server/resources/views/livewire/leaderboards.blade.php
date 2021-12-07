@@ -197,10 +197,8 @@
                                     ->join('transactions', 'transactions.id', 'transaction_id')
                                     ->where('deleted', false)
                                     ->where('user_id', $user->id)
-                                    ->where(function ($query) use ($candybarProductId, $chipsProductId) {
-                                        $query->where('product_id', $candybarProductId)
-                                            ->orWhere('product_id', $chipsProductId);
-                                    })
+                                    ->where(fn ($query) => $query->where('product_id', $candybarProductId)
+                                        ->orWhere('product_id', $chipsProductId))
                                     ->where('transactions.created_at', '>=', $startDate)
                                     ->sum('amount');
                                 return $user;
@@ -241,10 +239,8 @@
                                                 ->join('transactions', 'transactions.id', 'transaction_id')
                                                 ->where('deleted', false)
                                                 ->where('user_id', $user->id)
-                                                ->where(function ($query) use ($candybarProductId, $chipsProductId) {
-                                                    $query->where('product_id', $candybarProductId)
-                                                        ->orWhere('product_id', $chipsProductId);
-                                                })
+                                                ->where(fn ($query) => $query->where('product_id', $candybarProductId)
+                                                    ->orWhere('product_id', $chipsProductId))
                                                 ->where('transactions.created_at', '>=', date('Y-m-d', time() - 30 * 24 * 60 * 60))
                                                 ->sum('amount')" />
                                         </td>
@@ -256,10 +252,8 @@
                                                 ->join('transactions', 'transactions.id', 'transaction_id')
                                                 ->where('deleted', false)
                                                 ->where('user_id', $user->id)
-                                                ->where(function ($query) use ($candybarProductId, $chipsProductId) {
-                                                    $query->where('product_id', $candybarProductId)
-                                                        ->orWhere('product_id', $chipsProductId);
-                                                })
+                                                ->where(fn ($query) => $query->where('product_id', $candybarProductId)
+                                                    ->orWhere('product_id', $chipsProductId))
                                                 ->where('transactions.created_at', '>=', date('Y-m-d', time() - 365 * 24 * 60 * 60))
                                                 ->sum('amount')" />
                                         </td>
@@ -412,10 +406,8 @@
                                                 DB::table('transactions')
                                                 ->where('deleted', false)
                                                 ->where('user_id', $user->id)
-                                                ->where(function ($query) {
-                                                    $query->where('type', App\Models\Transaction::TYPE_TRANSACTION)
-                                                        ->orWhere('type', App\Models\Transaction::TYPE_FOOD);
-                                                })
+                                                ->where(fn ($query) => $query->where('type', App\Models\Transaction::TYPE_TRANSACTION)
+                                                    ->orWhere('type', App\Models\Transaction::TYPE_FOOD))
                                                 ->where('created_at', '>=', date('Y-m-d', time() - 30 * 24 * 60 * 60))
                                                 ->sum('price')" isMoney="true" />
                                         </td>
@@ -433,10 +425,8 @@
                                                 DB::table('transactions')
                                                 ->where('deleted', false)
                                                 ->where('user_id', $user->id)
-                                                ->where(function ($query) {
-                                                    $query->where('type', App\Models\Transaction::TYPE_TRANSACTION)
-                                                        ->orWhere('type', App\Models\Transaction::TYPE_FOOD);
-                                                })
+                                                ->where(fn ($query) => $query->where('type', App\Models\Transaction::TYPE_TRANSACTION)
+                                                    ->orWhere('type', App\Models\Transaction::TYPE_FOOD))
                                                 ->where('created_at', '>=', date('Y-m-d', time() - 365 * 24 * 60 * 60))
                                                 ->sum('price')" isMoney="true" />
                                         </td>
@@ -495,10 +485,8 @@
                                                 DB::table('transactions')
                                                 ->where('deleted', false)
                                                 ->where('user_id', $user->id)
-                                                ->where(function ($query) {
-                                                    $query->where('type', App\Models\Transaction::TYPE_TRANSACTION)
-                                                        ->orWhere('type', App\Models\Transaction::TYPE_FOOD);
-                                                })
+                                                ->where(fn ($query) => $query->where('type', App\Models\Transaction::TYPE_TRANSACTION)
+                                                    ->orWhere('type', App\Models\Transaction::TYPE_FOOD))
                                                 ->where('created_at', '>=', date('Y-m-d', time() - 30 * 24 * 60 * 60))
                                                 ->sum('price')" isMoney="true" />
                                         </td>
@@ -516,10 +504,8 @@
                                                 DB::table('transactions')
                                                 ->where('deleted', false)
                                                 ->where('user_id', $user->id)
-                                                ->where(function ($query) {
-                                                    $query->where('type', App\Models\Transaction::TYPE_TRANSACTION)
-                                                        ->orWhere('type', App\Models\Transaction::TYPE_FOOD);
-                                                })
+                                                ->where(fn ($query) => $query->where('type', App\Models\Transaction::TYPE_TRANSACTION)
+                                                    ->orWhere('type', App\Models\Transaction::TYPE_FOOD))
                                                 ->where('created_at', '>=', date('Y-m-d', time() - 365 * 24 * 60 * 60))
                                                 ->sum('price')" isMoney="true" />
                                         </td>

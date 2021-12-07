@@ -33,10 +33,8 @@ class Inventory extends Model
     public static function search($query, $searchQuery)
     {
         return $query->where('deleted', false)
-            ->where(function ($query) use ($searchQuery) {
-                $query->where('name', 'LIKE', '%' . $searchQuery . '%')
-                    ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%');
-            });
+            ->where(fn ($query) => $query->where('name', 'LIKE', '%' . $searchQuery . '%')
+                ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%'));
     }
 
     // Convert inventory to API data
@@ -57,9 +55,7 @@ class Inventory extends Model
         }
 
         if (in_array('products', $includes)) {
-            $data->products = $this->products->map(function ($product) use ($forUser) {
-                return $product->toApiData($forUser);
-            });
+            $data->products = $this->products->map(fn ($product) => $product->toApiData($forUser));
         }
 
         return $data;

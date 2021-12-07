@@ -14,9 +14,9 @@ class ProductsAmounts extends Component
     {
         $this->products = $products;
         $this->totalPrice = $totalPrice;
-        $this->realTotalPrice = round($products->reduce(function ($price, $product) {
-            return $price + $product->pivot->amount * $product->price;
-        }), 3);
+        $this->realTotalPrice = round($products->reduce(
+            fn ($price, $product) => $price + $product->pivot->amount * $product->price
+        ), 3);
     }
 
     public function render()
