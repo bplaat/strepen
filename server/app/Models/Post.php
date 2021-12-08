@@ -19,6 +19,10 @@ class Post extends Model
         'deleted' => 'boolean'
     ];
 
+    protected $attributes = [
+        'deleted' => false
+    ];
+
     // A post belongs to a user
     public function user()
     {

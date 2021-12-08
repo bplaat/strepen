@@ -41,7 +41,6 @@ class Crud extends PaginationComponent
         }
 
         $this->product = new Product();
-        $this->product->alcoholic = false;
         $this->image = null;
         $this->isCreating = false;
     }

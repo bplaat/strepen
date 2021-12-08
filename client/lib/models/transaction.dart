@@ -1,9 +1,7 @@
-import 'user.dart';
 import 'product.dart';
 
 class Transaction {
   final int id;
-  final User user;
   final String type;
   final String name;
   final double price;
@@ -15,7 +13,6 @@ class Transaction {
     required this.type,
     required this.name,
     required this.price,
-    required this.user,
     required this.products,
     required this.created_at
   });
@@ -31,7 +28,6 @@ class Transaction {
 
     return Transaction(
       id: json['id'],
-      user: User.fromJson(json['user']),
       type: json['type'],
       name: json['name'],
       price: json['price'].toDouble(),

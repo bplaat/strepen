@@ -17,6 +17,10 @@ class Inventory extends Model
         'deleted' => 'boolean'
     ];
 
+    protected $attributes = [
+        'deleted' => false
+    ];
+
     // A inventory belongs to a user
     public function user()
     {

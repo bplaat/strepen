@@ -22,6 +22,13 @@ class Product extends Model
         'deleted' => 'boolean'
     ];
 
+    protected $attributes = [
+        'amount' => 0,
+        'alcoholic' => false,
+        'active' => true,
+        'deleted' => false
+    ];
+
     // Generate a random image name
     public static function generateImageName($extension)
     {

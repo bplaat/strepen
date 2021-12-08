@@ -16,6 +16,12 @@ class ApiKey extends Model
         'deleted' => 'boolean'
     ];
 
+    protected $attributes = [
+        'requests' => 0,
+        'active' => true,
+        'deleted' => false
+    ];
+
     public static function generateKey()
     {
         $key = Str::random(32);

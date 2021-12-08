@@ -55,7 +55,9 @@ class _HomeScreenHistoryTabState extends State {
     } catch (exception) {
       print('HomeScreenHistoryTab error: ${exception}');
       _isLoading = false;
-      setState(() => _hasError = true);
+      if (mounted) {
+        setState(() => _hasError = true);
+      }
       return;
     }
     if (newTransactions.length > 0) {
@@ -66,7 +68,7 @@ class _HomeScreenHistoryTabState extends State {
     }
 
     _isLoading = false;
-    if (newTransactions.length > 0) {
+    if (newTransactions.length > 0 && mounted) {
       setState(() => _transactions = _transactions);
     }
   }

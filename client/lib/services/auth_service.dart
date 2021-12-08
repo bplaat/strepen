@@ -40,7 +40,8 @@ class AuthService {
 
     StorageService storage = await StorageService.getInstance();
     await storage.setToken(data['token']);
-    await storage.setUserId(data['user_id']);
+    _user = User.fromJson(data['user']);
+    await storage.setUserId(_user!.id);
     return true;
   }
 

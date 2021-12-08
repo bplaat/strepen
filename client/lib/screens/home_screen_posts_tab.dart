@@ -54,7 +54,9 @@ class _HomeScreenPostsTabState extends State {
     } catch (exception) {
       print('HomeScreenPostsTab error: ${exception}');
       _isLoading = false;
-      setState(() => _hasError = true);
+      if (mounted) {
+        setState(() => _hasError = true);
+      }
       return;
     }
     if (newPosts.length > 0) {
@@ -65,7 +67,7 @@ class _HomeScreenPostsTabState extends State {
     }
 
     _isLoading = false;
-    if (newPosts.length > 0) {
+    if (newPosts.length > 0 && mounted) {
       setState(() => _posts = _posts);
     }
   }

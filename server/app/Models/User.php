@@ -52,6 +52,15 @@ class User extends Authenticatable
         'deleted' => 'boolean'
     ];
 
+    protected $attributes = [
+        'role' => User::ROLE_NORMAL,
+        'language' => User::LANGUAGE_DUTCH,
+        'theme' => User::THEME_DARK,
+        'receive_news' => true,
+        'active' => true,
+        'deleted' => false
+    ];
+
     // Generate a random avatar name
     public static function generateAvatarName($extension)
     {

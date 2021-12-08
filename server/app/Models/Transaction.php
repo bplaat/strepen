@@ -25,6 +25,10 @@ class Transaction extends Model
         'deleted' => 'boolean'
     ];
 
+    protected $attributes = [
+        'deleted' => false
+    ];
+
     // A transaction belongs to a user
     public function user()
     {

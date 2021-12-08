@@ -71,10 +71,6 @@ class Crud extends PaginationComponent
         }
 
         $this->user = new User();
-        $this->user->role = User::ROLE_NORMAL;
-        $this->user->language = User::LANGUAGE_DUTCH;
-        $this->user->theme = User::THEME_DARK;
-        $this->user->receive_news = true;
         $this->avatar = null;
         $this->thanks = null;
         $this->isCreating = false;
