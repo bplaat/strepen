@@ -24,7 +24,7 @@ class User {
   final String? address;
   final String? postcode;
   final String? city;
-  final bool? receive_news;
+  final bool? receiveNews;
   final String? avatar;
   final String? thanks;
   double? balance;
@@ -42,7 +42,7 @@ class User {
     required this.address,
     required this.postcode,
     required this.city,
-    required this.receive_news,
+    required this.receiveNews,
     required this.avatar,
     required this.thanks,
     required this.balance,
@@ -69,7 +69,7 @@ class User {
       address: json['address'],
       postcode: json['postcode'],
       city: json['city'],
-      receive_news: json['receive_news'],
+      receiveNews: json['receive_news'],
       avatar: json['avatar'],
       thanks: json['thanks'],
       balance: json['balance']?.toDouble(),
