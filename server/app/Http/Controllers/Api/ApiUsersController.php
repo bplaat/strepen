@@ -282,7 +282,7 @@ class ApiUsersController extends ApiController
                 $user->thanks = null;
             } else {
                 // Save file to thanks folder
-                $thanks = $request->file('avatar');
+                $thanks = $request->file('thanks');
                 $thanksName = User::generateThanksName($thanks->extension());
                 $thanks->storeAs('public/thanks', $thanksName);
 

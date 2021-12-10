@@ -60,6 +60,7 @@
     "settings_thanks_tab": "Thanks gif",
     "settings_password_tab": "Password",
 
+    "settings_details_error": "An error has occurred while loading your user information!",
     "settings_details_header": "Change details",
     "settings_details_personal_info": "Personal information",
     "settings_details_firstname": "Firstname",
@@ -82,6 +83,7 @@
     "settings_details_email_notifications": "Email notifications",
     "settings_details_receive_news": "Receive news notifications",
 
+    "settings_avatar_error": "An error has occurred while loading your user information!",
     "settings_avatar_header": "Change avatar",
     "settings_avatar_has_avatar": "You have uploaded an avatar:",
     "settings_avatar_no_avatar": "You have not uploaded an avatar, so the default one is used:",
@@ -93,7 +95,17 @@
     "settings_avatar_error_description": "Something went wrong while uploading this picture, those another picture",
     "settings_avatar_success_ok": "OK",
 
+    "settings_thanks_error": "An error has occurred while loading your user information!",
     "settings_thanks_header": "Change thanks gif",
+    "settings_thanks_has_thanks": "You have uploaded an thanks gif:",
+    "settings_thanks_no_thanks": "You have not uploaded an thanks gif, so the default one is used:",
+    "settings_thanks_search_button": "Search GIPHY",
+    "settings_thanks_delete_button": "Delete thanks gif",
+    "settings_thanks_success_header": "Success!",
+    "settings_thanks_success_description": "Your thanks gif has changed successfully",
+    "settings_thanks_error_header": "Failure!",
+    "settings_thanks_error_description": "Something went wrong while uploading this gif, it is probably bigger than 2MB try another gif",
+    "settings_thanks_success_ok": "OK",
 
     "settings_password_header": "Change password",
     "settings_password_current_password": "Current password",

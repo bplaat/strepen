@@ -5,19 +5,13 @@ import '../services/auth_service.dart';
 import 'settings_screen.dart';
 
 class SettingsChangePasswordTab extends StatefulWidget {
-  User user;
-
-  SettingsChangePasswordTab({ required this.user}) {}
-
   @override
   State createState() {
-    return _SettingsChangePasswordTabState(user: user);
+    return _SettingsChangePasswordTabState();
   }
 }
 
 class _SettingsChangePasswordTabState extends State {
-  User user;
-
   bool _isLoading = false;
   TextEditingController _currentPasswordController = new TextEditingController();
   String? _currentPasswordError;
@@ -25,8 +19,6 @@ class _SettingsChangePasswordTabState extends State {
   String? _passwordError;
   TextEditingController _passwordConfirmationController = new TextEditingController();
   String? _passwordConfirmationError;
-
-  _SettingsChangePasswordTabState({ required this.user}) {}
 
   @override
   void dispose() {

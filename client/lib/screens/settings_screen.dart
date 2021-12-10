@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '../models/user.dart';
-import '../services/auth_service.dart';
-import '../services/settings_service.dart';
 import 'settings_screen_avatar_tab.dart';
 import 'settings_screen_details_tab.dart';
 import 'settings_screen_password_tab.dart';
@@ -14,71 +11,54 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final lang = AppLocalizations.of(context)!;
-    return FutureBuilder<User?>(
-      future: AuthService.getInstance().user(),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          print('HomeScreenProfileTab error: ${snapshot.error}');
-          return Center(
-            child: Text(lang.home_profile_error),
-          );
-        } else if (snapshot.hasData) {
-          User user = snapshot.data!;
-          return DefaultTabController(
-            length: 4,
-            child: Scaffold(
-              appBar: AppBar(
-                title: Text(lang.settings_header),
-                bottom: TabBar(
-                  isScrollable: true,
-                  tabs: [
-                    Tab(text: lang.settings_details_tab),
-                    Tab(text: lang.settings_avatar_tab),
-                    Tab(text: lang.settings_thanks_tab),
-                    Tab(text: lang.settings_password_tab)
-                  ]
-                )
-              ),
+    return DefaultTabController(
+      length: 4,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(lang.settings_header),
+          bottom: TabBar(
+            isScrollable: true,
+            tabs: [
+              Tab(text: lang.settings_details_tab),
+              Tab(text: lang.settings_avatar_tab),
+              Tab(text: lang.settings_thanks_tab),
+              Tab(text: lang.settings_password_tab)
+            ]
+          )
+        ),
 
-              body: TabBarView(
-                children: [
-                  SingleChildScrollView(
-                    child: Padding(
-                      padding: EdgeInsets.all(16),
-                      child: SettingsChangeDetailsTab(user: user)
-                    )
-                  ),
+        body: TabBarView(
+          children: [
+            SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: SettingsChangeDetailsTab()
+              )
+            ),
 
-                  SingleChildScrollView(
-                    child: Padding(
-                      padding: EdgeInsets.all(16),
-                      child: SettingsChangeAvatarTab(user: user)
-                    )
-                  ),
+            SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: SettingsChangeAvatarTab()
+              )
+            ),
 
-                  SingleChildScrollView(
-                    child: Padding(
-                      padding: EdgeInsets.all(16),
-                      child: SettingsChangeThanksTab(user: user)
-                    )
-                  ),
+            SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: SettingsChangeThanksTab()
+              )
+            ),
 
-                  SingleChildScrollView(
-                    child: Padding(
-                      padding: EdgeInsets.all(16),
-                      child: SettingsChangePasswordTab(user: user)
-                    )
-                  )
-                ]
+            SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: SettingsChangePasswordTab()
               )
             )
-          );
-        } else {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      }
+          ]
+        )
+      )
     );
   }
 }

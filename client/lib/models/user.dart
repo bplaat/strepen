@@ -26,7 +26,7 @@ class User {
   final String? city;
   final bool? receiveNews;
   String avatar;
-  final String thanks;
+  String thanks;
   double? balance;
   final bool? minor;
 

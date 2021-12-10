@@ -2,6 +2,7 @@ import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:giphy_picker/giphy_picker.dart';
 import 'package:image/image.dart';
 import 'dart:io';
 import 'dart:convert';
@@ -159,6 +160,33 @@ class AuthService {
       ));
     } else {
       request.fields['avatar'] = 'null';
+    }
+    final response = await request.send();
+    final body = await response.stream.bytesToString();
+
+    final data = json.decode(body);
+    if (data.containsKey('user')) {
+      _user = User.fromJson(data['user']);
+      return true;
+    }
+    return false;
+  }
+
+  Future<bool> changeThanks({required GiphyGif? thanks}) async {
+    StorageService storage = await StorageService.getInstance();
+    final request = http.MultipartRequest('POST', Uri.parse('${API_URL}/users/${storage.userId!}/edit'));
+    request.headers['X-Api-Key'] = API_KEY;
+    request.headers['Authorization'] = 'Bearer ${storage.token!}';
+    if (thanks != null) {
+      // Download gif image
+      final response = await http.get(Uri.parse(thanks.images.downsized!.url!));
+      request.files.add(await http.MultipartFile.fromBytes('thanks',
+        response.bodyBytes,
+        filename: 'thanks.gif',
+        contentType: MediaType('image', 'gif')
+      ));
+    } else {
+      request.fields['thanks'] = 'null';
     }
     final response = await request.send();
     final body = await response.stream.bytesToString();

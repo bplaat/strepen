@@ -1,3 +1,4 @@
 const String WEBSITE_URL = ''; // Insert website url here
 const String API_URL = '${WEBSITE_URL}/api';
 const String API_KEY = ''; // Insert api key here
+const String GIPHY_API_KEY = ''; // Insert Giphy api key here

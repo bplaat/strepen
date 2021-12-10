@@ -57,6 +57,7 @@
     "settings_thanks_tab": "Bedankt-gif",
     "settings_password_tab": "Wachtwoord",
 
+    "settings_details_error": "Er is een fout opgetreden tijdens het laden van uw gebruikersinformatie!",
     "settings_details_header": "Verander gegevens",
     "settings_details_personal_info": "Persoonlijke informatie",
     "settings_details_firstname": "Voornaam",
@@ -79,6 +80,7 @@
     "settings_details_email_notifications": "Email notificaties",
     "settings_details_receive_news": "Ontvang nieuws notificaties",
 
+    "settings_avatar_error": "Er is een fout opgetreden tijdens het laden van uw gebruikersinformatie!",
     "settings_avatar_header": "Verander avatar",
     "settings_avatar_has_avatar": "U heeft een avatar geüpload:",
     "settings_avatar_no_avatar": "U heeft geen avatar geüpload, dus u gebruikt de de standaard avatar:",
@@ -90,7 +92,17 @@
     "settings_avatar_error_description": "Er is iets misgegaan tijdens het uploaden van dit plaatje, kies een andere foto",
     "settings_avatar_success_ok": "OKE",
 
+    "settings_thanks_error": "Er is een fout opgetreden tijdens het laden van uw gebruikersinformatie!",
     "settings_thanks_header": "Verander bedankt-gif",
+    "settings_thanks_has_thanks": "U heeft een bedankt-gif geüpload:",
+    "settings_thanks_no_thanks": "U heeft geen bedankt-gif geüpload, dus u gebruikt de de standaard bedankt-gif:",
+    "settings_thanks_search_button": "Zoek GIPHY",
+    "settings_thanks_delete_button": "Verwijder bedankt-gif",
+    "settings_thanks_success_header": "Gelukt!",
+    "settings_thanks_success_description": "Uw wachtwoord is succesvol gewijzigd",
+    "settings_thanks_error_header": "Gefaald!",
+    "settings_thanks_error_description": "Er is iets misgegaan tijdens het uploaden van deze gif, het is waarschijnlijk groter dan 2MB probeer een andere gif",
+    "settings_thanks_success_ok": "OKE",
 
     "settings_password_header": "Verander wachtwoord",
     "settings_password_current_password": "Oud wachtwoord",
