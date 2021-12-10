@@ -2,7 +2,7 @@ class Product {
   final int id;
   final String name;
   final String? description;
-  final String? image;
+  final String image;
   final double price;
   final bool alcoholic;
   final bool? active;

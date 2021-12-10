@@ -28,7 +28,7 @@
     "home_stripe_created": "Transactie opgeslagen",
     "home_stripe_thx": "Bedankt, thx!",
 
-    "home_history_empty": "Je hebt nog geen enkel product gestreept!",
+    "home_history_empty": "Uw hebt nog geen enkel product gestreept!",
     "home_history_error": "Er is een fout opgetreden bij het laden van jouw strepen geschiedenis!",
     "home_history_transaction_on": "Transactie op {transaction_created_at}",
     "@home_history_transaction_on": { "placeholders": { "transaction_created_at": {} } },
@@ -43,12 +43,12 @@
     "home_profile_logout": "Uitloggen",
 
     "login_header": "Login op Strepen",
-    "login_info": "Welkom bij het Strepen Systeem login met je persoonlijke account om deze applicatie te gebruiken ",
+    "login_info": "Welkom bij het Strepen Systeem login met uw persoonlijke account om deze applicatie te gebruiken ",
     "login_error": "Fout email of wachtwoord!",
     "login_email": "Email",
     "login_password": "Wachtwoord",
     "login_login": "Login",
-    "login_reset_password": "Ga naar de Strepen website om je wachtwoord te resetten",
+    "login_reset_password": "Ga naar de Strepen website om uw wachtwoord te resetten",
     "login_footer": "Gemaakt door Bastiaan van der Plaat",
 
     "settings_header": "Instellingen",
@@ -80,6 +80,15 @@
     "settings_details_receive_news": "Ontvang nieuws notificaties",
 
     "settings_avatar_header": "Verander avatar",
+    "settings_avatar_has_avatar": "U heeft een avatar geüpload:",
+    "settings_avatar_no_avatar": "U heeft geen avatar geüpload, dus u gebruikt de de standaard avatar:",
+    "settings_avatar_upload_button": "Upload avatar",
+    "settings_avatar_delete_button": "Verwijder avatar",
+    "settings_avatar_success_header": "Gelukt!",
+    "settings_avatar_success_description": "Uw wachtwoord is succesvol gewijzigd",
+    "settings_avatar_error_header": "Gefaald!",
+    "settings_avatar_error_description": "Er is iets misgegaan tijdens het uploaden van dit plaatje, kies een andere foto",
+    "settings_avatar_success_ok": "OKE",
 
     "settings_thanks_header": "Verander bedankt-gif",
 

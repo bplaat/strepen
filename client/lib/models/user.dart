@@ -25,8 +25,8 @@ class User {
   final String? postcode;
   final String? city;
   final bool? receiveNews;
-  final String? avatar;
-  final String? thanks;
+  String avatar;
+  final String thanks;
   double? balance;
   final bool? minor;
 

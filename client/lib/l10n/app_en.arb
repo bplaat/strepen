@@ -83,6 +83,15 @@
     "settings_details_receive_news": "Receive news notifications",
 
     "settings_avatar_header": "Change avatar",
+    "settings_avatar_has_avatar": "You have uploaded an avatar:",
+    "settings_avatar_no_avatar": "You have not uploaded an avatar, so the default one is used:",
+    "settings_avatar_upload_button": "Upload avatar",
+    "settings_avatar_delete_button": "Delete avatar",
+    "settings_avatar_success_header": "Success!",
+    "settings_avatar_success_description": "Your avatar has changed successfully",
+    "settings_avatar_error_header": "Failure!",
+    "settings_avatar_error_description": "Something went wrong while uploading this picture, those another picture",
+    "settings_avatar_success_ok": "OK",
 
     "settings_thanks_header": "Change thanks gif",
 

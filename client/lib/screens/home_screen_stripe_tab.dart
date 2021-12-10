@@ -108,6 +108,50 @@ class _ProductsListState extends State {
     super.dispose();
   }
 
+  createTransaction() async {
+    final lang = AppLocalizations.of(context)!;
+
+    final Map<Product, int> productAmounts = {};
+    int index = 0;
+    for (Product product in products) {
+      if (_amounts[index] > 0) {
+        productAmounts[product] = _amounts[index];
+      }
+      index++;
+    }
+
+    if (productAmounts.length > 0) {
+      setState(() => _isLoading = true);
+
+      if (await AuthService.getInstance().createTransaction(productAmounts: productAmounts)) {
+        setState(() {
+          for (int i = 0; i < products.length; i++) {
+            _amounts[i] = 0;
+          }
+        });
+
+        showDialog(context: context, builder: (BuildContext context) {
+          return TransactionCreatedDialog(
+            user: user,
+            settings: settings,
+            productAmounts: productAmounts
+          );
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(lang.home_stripe_create_error),
+          action: SnackBarAction(
+            label: lang.home_stripe_close,
+            onPressed: () {}
+          )
+        ));
+      }
+
+      _scrollController.animateTo(0, duration: Duration(milliseconds: 300), curve: Curves.ease);
+      setState(() => _isLoading = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final lang = AppLocalizations.of(context)!;
@@ -131,7 +175,7 @@ class _ProductsListState extends State {
                       height: 56,
                       child: Card(
                         clipBehavior: Clip.antiAliasWithSaveLayer,
-                        child: CachedNetworkImage(imageUrl: product.image ?? settings['default_product_image']),
+                        child: CachedNetworkImage(imageUrl: product.image),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(6),
                         ),
@@ -193,47 +237,7 @@ class _ProductsListState extends State {
               child: SizedBox(
                 width: double.infinity,
                 child: RaisedButton(
-                  onPressed: _isLoading ? null : () async {
-                    final Map<Product, int> productAmounts = {};
-                    int index = 0;
-                    for (Product product in products) {
-                      if (_amounts[index] > 0) {
-                        productAmounts[product] = _amounts[index];
-                      }
-                      index++;
-                    };
-
-                    if (productAmounts.length > 0) {
-                      setState(() => _isLoading = true);
-
-                      if (await AuthService.getInstance().createTransaction(productAmounts: productAmounts)) {
-                        setState(() {
-                          for (int i = 0; i < products.length; i++) {
-                            _amounts[i] = 0;
-                          }
-                        });
-
-                        showDialog(context: context, builder: (BuildContext context){
-                          return TransactionCreatedDialog(
-                            user: user,
-                            settings: settings,
-                            productAmounts: productAmounts
-                          );
-                        });
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(lang.home_stripe_create_error),
-                          action: SnackBarAction(
-                            label: lang.home_stripe_close,
-                            onPressed: () {}
-                          )
-                        ));
-                      }
-
-                      _scrollController.animateTo(0, duration: Duration(milliseconds: 300), curve: Curves.ease);
-                      setState(() => _isLoading = false);
-                    }
-                  },
+                  onPressed: _isLoading ? null : createTransaction,
                   color: Colors.pink,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(48)),
                   padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
@@ -281,7 +285,7 @@ class TransactionCreatedDialog extends StatelessWidget {
                     height: 256,
                     child: Card(
                       clipBehavior: Clip.antiAliasWithSaveLayer,
-                      child: CachedNetworkImage(imageUrl: user.thanks ?? settings['default_user_thanks']),
+                      child: CachedNetworkImage(imageUrl: user.thanks),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
@@ -365,7 +369,7 @@ class TransactionProductsAmounts extends StatelessWidget {
                       height: 56,
                       child: Card(
                         clipBehavior: Clip.antiAliasWithSaveLayer,
-                        child: CachedNetworkImage(imageUrl: product.image ?? settings['default_product_image']),
+                        child: CachedNetworkImage(imageUrl: product.image),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(6),
                         ),

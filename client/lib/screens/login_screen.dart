@@ -25,6 +25,21 @@ class _LoginScreenState extends State {
     super.dispose();
   }
 
+  login() async {
+    setState(() => _isLoading = true);
+    if (await AuthService.getInstance().login(
+      email: _emailController.text,
+      password: _passwordController.text
+    )) {
+      Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+    } else {
+      setState(() {
+        _hasError = true;
+        _isLoading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final lang = AppLocalizations.of(context)!;
@@ -94,18 +109,7 @@ class _LoginScreenState extends State {
                     child: SizedBox(
                       width: double.infinity,
                       child: RaisedButton(
-                        onPressed: _isLoading ? null : () async {
-                          setState(() => _isLoading = true);
-                          if (await AuthService.getInstance().login(
-                            email: _emailController.text,
-                            password: _passwordController.text
-                          )) {
-                            Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
-                          } else {
-                            setState(() => _hasError = true);
-                            setState(() => _isLoading = false);
-                          }
-                        },
+                        onPressed: _isLoading ? null : login,
                         color: Colors.pink,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(48)),
                         padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),

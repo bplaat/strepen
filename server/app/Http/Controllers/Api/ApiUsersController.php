@@ -258,8 +258,9 @@ class ApiUsersController extends ApiController
                 $user->avatar = null;
             } else {
                 // Save file to avatars folder
-                $avatarName = User::generateAvatarName($this->avatar->extension());
-                $this->avatar->storeAs('public/avatars', $avatarName);
+                $avatar = $request->file('avatar');
+                $avatarName = User::generateAvatarName($avatar->extension());
+                $avatar->storeAs('public/avatars', $avatarName);
 
                 // Delete old user avatar
                 if ($user->avatar != null) {
@@ -281,8 +282,9 @@ class ApiUsersController extends ApiController
                 $user->thanks = null;
             } else {
                 // Save file to thanks folder
-                $thanksName = User::generateThanksName($this->thanks->extension());
-                $this->thanks->storeAs('public/thanks', $thanksName);
+                $thanks = $request->file('avatar');
+                $thanksName = User::generateThanksName($thanks->extension());
+                $thanks->storeAs('public/thanks', $thanksName);
 
                 // Delete old user thanks
                 if ($user->thanks != null) {

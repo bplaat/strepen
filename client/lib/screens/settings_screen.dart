@@ -14,11 +14,8 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final lang = AppLocalizations.of(context)!;
-    return FutureBuilder<List<dynamic>>(
-      future: Future.wait([
-        SettingsService.getInstance().settings(),
-        AuthService.getInstance().user()
-      ]),
+    return FutureBuilder<User?>(
+      future: AuthService.getInstance().user(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           print('HomeScreenProfileTab error: ${snapshot.error}');
@@ -26,9 +23,7 @@ class SettingsScreen extends StatelessWidget {
             child: Text(lang.home_profile_error),
           );
         } else if (snapshot.hasData) {
-          Map<String, dynamic> settings = snapshot.data![0]!;
-          User user = snapshot.data![1]!;
-
+          User user = snapshot.data!;
           return DefaultTabController(
             length: 4,
             child: Scaffold(
@@ -50,28 +45,28 @@ class SettingsScreen extends StatelessWidget {
                   SingleChildScrollView(
                     child: Padding(
                       padding: EdgeInsets.all(16),
-                      child: ChangeDetailsForm(user: user)
+                      child: SettingsChangeDetailsTab(user: user)
                     )
                   ),
 
                   SingleChildScrollView(
                     child: Padding(
                       padding: EdgeInsets.all(16),
-                      child: ChangeAvatarForm(user: user)
+                      child: SettingsChangeAvatarTab(user: user)
                     )
                   ),
 
                   SingleChildScrollView(
                     child: Padding(
                       padding: EdgeInsets.all(16),
-                      child: ChangeThanksForm(user: user)
+                      child: SettingsChangeThanksTab(user: user)
                     )
                   ),
 
                   SingleChildScrollView(
                     child: Padding(
                       padding: EdgeInsets.all(16),
-                      child: ChangePasswordForm(user: user)
+                      child: SettingsChangePasswordTab(user: user)
                     )
                   )
                 ]
@@ -107,7 +102,7 @@ class InputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 8),
+      margin: EdgeInsets.only(bottom: 16),
       child: TextField(
         controller: controller,
         autocorrect: autocorrect,

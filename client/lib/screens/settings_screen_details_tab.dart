@@ -7,18 +7,18 @@ import 'settings_screen.dart';
 // https://stackoverflow.com/questions/54661567/what-is-the-difference-between-textformfield-and-textfield
 // https://medium.flutterdevs.com/date-and-time-picker-in-flutter-72141e7531c
 
-class ChangeDetailsForm extends StatefulWidget {
+class SettingsChangeDetailsTab extends StatefulWidget {
   User user;
 
-  ChangeDetailsForm({ required this.user}) {}
+  SettingsChangeDetailsTab({ required this.user}) {}
 
   @override
   State createState() {
-    return _ChangeDetailsFormState(user: user);
+    return _SettingsChangeDetailsTabState(user: user);
   }
 }
 
-class _ChangeDetailsFormState extends State {
+class _SettingsChangeDetailsTabState extends State {
   User user;
 
   late TextEditingController _firstnameController;
@@ -36,7 +36,7 @@ class _ChangeDetailsFormState extends State {
 
   late bool _receiveNews;
 
-  _ChangeDetailsFormState({ required this.user}) {
+  _SettingsChangeDetailsTabState({ required this.user}) {
     _firstnameController = TextEditingController(text: user.firstname);
     _insertionController = TextEditingController(text: user.insertion);
     _lastnameController = TextEditingController(text: user.lastname);
@@ -81,14 +81,14 @@ class _ChangeDetailsFormState extends State {
             children: [
               Container(
                 width: double.infinity,
-                margin: EdgeInsets.only(bottom: 8),
+                margin: EdgeInsets.only(bottom: 16),
                 child: Text(lang.settings_details_header, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
               ),
 
               // Personal information
               Container(
                 width: double.infinity,
-                margin: EdgeInsets.symmetric(vertical: 16),
+                margin: EdgeInsets.only(bottom: 16),
                 child: Text(lang.settings_details_personal_info, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey)),
               ),
 
@@ -102,7 +102,7 @@ class _ChangeDetailsFormState extends State {
               // Contact information
               Container(
                 width: double.infinity,
-                margin: EdgeInsets.symmetric(vertical: 16),
+                margin: EdgeInsets.only(top: 8, bottom: 16),
                 child: Text(lang.settings_details_contact_info, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey)),
               ),
 
@@ -112,7 +112,7 @@ class _ChangeDetailsFormState extends State {
               // Address information
               Container(
                 width: double.infinity,
-                margin: EdgeInsets.symmetric(vertical: 16),
+                margin: EdgeInsets.only(top: 8, bottom: 16),
                 child: Text(lang.settings_details_address_info, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.grey)),
               ),
 
@@ -123,12 +123,12 @@ class _ChangeDetailsFormState extends State {
               // Email notifications
               Container(
                 width: double.infinity,
-                margin: EdgeInsets.only(top: 16),
+                margin: EdgeInsets.only(top: 8, bottom: 16),
                 child: Text(lang.settings_details_email_notifications, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.grey)),
               ),
 
               Container(
-                margin: EdgeInsets.symmetric(vertical: 8),
+                margin: EdgeInsets.only(bottom: 16),
                 child: Row(
                   children: [
                     Text(lang.settings_details_receive_news, style: TextStyle(fontSize: 14)),
@@ -147,19 +147,16 @@ class _ChangeDetailsFormState extends State {
               ),
 
               // Change details button
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 8),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: RaisedButton(
-                    onPressed: () {
-                      // TODO
-                    },
-                    color: Colors.pink,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                    padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                    child: Text(lang.settings_details_header, style: TextStyle(color: Colors.white, fontSize: 18))
-                  )
+              SizedBox(
+                width: double.infinity,
+                child: RaisedButton(
+                  onPressed: () {
+                    // TODO
+                  },
+                  color: Colors.pink,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                  child: Text(lang.settings_details_header, style: TextStyle(color: Colors.white, fontSize: 18))
                 )
               )
             ]

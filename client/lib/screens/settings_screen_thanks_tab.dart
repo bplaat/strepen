@@ -4,21 +4,21 @@ import '../models/user.dart';
 
 // https://blog.logrocket.com/building-an-image-picker-in-flutter/
 
-class ChangeThanksForm extends StatefulWidget {
+class SettingsChangeThanksTab extends StatefulWidget {
   User user;
 
-  ChangeThanksForm({ required this.user}) {}
+  SettingsChangeThanksTab({ required this.user}) {}
 
   @override
   State createState() {
-    return _ChangeThanksFormState(user: user);
+    return _SettingsChangeThanksTabState(user: user);
   }
 }
 
-class _ChangeThanksFormState extends State {
+class _SettingsChangeThanksTabState extends State {
   User user;
 
-  _ChangeThanksFormState({ required this.user}) {}
+  _SettingsChangeThanksTabState({ required this.user}) {}
 
   @override
   Widget build(BuildContext context) {
@@ -32,25 +32,14 @@ class _ChangeThanksFormState extends State {
             children: [
               Container(
                 width: double.infinity,
-                margin: EdgeInsets.only(bottom: 8),
+                margin: EdgeInsets.only(bottom: 16),
                 child: Text(lang.settings_thanks_header, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
               ),
 
-              // Change thanks button
               Container(
-                margin: EdgeInsets.symmetric(vertical: 8),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: RaisedButton(
-                    onPressed: () {
-                      // TODO
-                    },
-                    color: Colors.pink,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                    padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                    child: Text(lang.settings_thanks_header, style: TextStyle(color: Colors.white, fontSize: 18))
-                  )
-                )
+                width: double.infinity,
+                margin: EdgeInsets.only(bottom: 0),
+                child: Text('Comming soon...', style: TextStyle(fontSize: 16)),
               )
             ]
           )

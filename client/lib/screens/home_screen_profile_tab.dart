@@ -3,7 +3,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../models/user.dart';
 import '../services/auth_service.dart';
-import '../services/settings_service.dart';
 
 class HomeScreenProfileTab extends StatefulWidget {
   @override
@@ -20,11 +19,8 @@ class _HomeScreenProfileTabState extends State {
   @override
   Widget build(BuildContext context) {
     final lang = AppLocalizations.of(context)!;
-    return FutureBuilder<List<dynamic>>(
-      future: Future.wait([
-        SettingsService.getInstance().settings(),
-        AuthService.getInstance().user(forceReload: _forceReload)
-      ]),
+    return FutureBuilder<User?>(
+      future: AuthService.getInstance().user(forceReload: _forceReload),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           print('HomeScreenProfileTab error: ${snapshot.error}');
@@ -32,8 +28,7 @@ class _HomeScreenProfileTabState extends State {
             child: Text(lang.home_profile_error),
           );
         } else if (snapshot.hasData) {
-          Map<String, dynamic> settings = snapshot.data![0]!;
-          User user = snapshot.data![1]!;
+          User user = snapshot.data!;
           return RefreshIndicator(
             onRefresh: () async {
               setState(() => _forceReload = true);
@@ -53,7 +48,7 @@ class _HomeScreenProfileTabState extends State {
                           height: 192,
                           child: Card(
                             clipBehavior: Clip.antiAliasWithSaveLayer,
-                            child: CachedNetworkImage(imageUrl: user.avatar ?? settings['default_user_avatar']),
+                            child: CachedNetworkImage(imageUrl: user.avatar),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(96),
                             ),

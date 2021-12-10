@@ -1,5 +1,9 @@
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 import 'package:intl/intl.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:image/image.dart';
+import 'dart:io';
 import 'dart:convert';
 import '../config.dart';
 import '../models/user.dart';
@@ -137,6 +141,34 @@ class AuthService {
       _transactions[1]!.insert(0, Transaction.fromJson(data['transaction']));
     }
     return true;
+  }
+
+  Future<bool> changeAvatar({required XFile? avatar}) async {
+    StorageService storage = await StorageService.getInstance();
+    final request = http.MultipartRequest('POST', Uri.parse('${API_URL}/users/${storage.userId!}/edit'));
+    request.headers['X-Api-Key'] = API_KEY;
+    request.headers['Authorization'] = 'Bearer ${storage.token!}';
+    if (avatar != null) {
+      // Load and resize image
+      final avatarImage = decodeImage(File(avatar.path).readAsBytesSync())!;
+      final resizedAvatarImage = copyResize(avatarImage, width: 512, height: 512);
+      request.files.add(await http.MultipartFile.fromBytes('avatar',
+        encodeJpg(resizedAvatarImage, quality: 75),
+        filename: 'avatar.jpg',
+        contentType: MediaType('image', 'jpeg')
+      ));
+    } else {
+      request.fields['avatar'] = 'null';
+    }
+    final response = await request.send();
+    final body = await response.stream.bytesToString();
+
+    final data = json.decode(body);
+    if (data.containsKey('user')) {
+      _user = User.fromJson(data['user']);
+      return true;
+    }
+    return false;
   }
 
   Future<Map<String, List<dynamic>>?> changePassword({
