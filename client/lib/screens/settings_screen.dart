@@ -35,6 +35,7 @@ class SettingsScreen extends StatelessWidget {
               appBar: AppBar(
                 title: Text(lang.settings_header),
                 bottom: TabBar(
+                  isScrollable: true,
                   tabs: [
                     Tab(text: lang.settings_details_tab),
                     Tab(text: lang.settings_avatar_tab),
@@ -90,10 +91,16 @@ class SettingsScreen extends StatelessWidget {
 class InputField extends StatelessWidget {
   final TextEditingController controller;
   final String label;
+  final String? error;
+  final bool autocorrect;
+  final bool obscureText;
 
   const InputField({
     required this.controller,
     required this.label,
+    this.error = null,
+    this.autocorrect = true,
+    this.obscureText = false,
     Key? key
   }) : super(key: key);
 
@@ -103,13 +110,16 @@ class InputField extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: 8),
       child: TextField(
         controller: controller,
+        autocorrect: autocorrect,
+        obscureText: obscureText,
         style: TextStyle(fontSize: 16),
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8)
           ),
           contentPadding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-          labelText: label
+          labelText: label,
+          errorText: error
         )
       )
     );

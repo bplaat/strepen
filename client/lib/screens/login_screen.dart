@@ -75,6 +75,7 @@ class _LoginScreenState extends State {
                     margin: EdgeInsets.symmetric(vertical: 8),
                     child: TextField(
                       controller: _passwordController,
+                      autocorrect: false,
                       obscureText: true,
                       style: TextStyle(fontSize: 18),
                       decoration: InputDecoration(

@@ -134,13 +134,13 @@ class ApiUsersController extends ApiController
             'theme' => 'nullable|integer|digits_between:' . User::THEME_LIGHT . ',' . User::THEME_DARK,
             'receive_news' => 'nullable|boolean'
         ];
-        if ($request->input('avatar') && $request->input('avatar') != 'null') {
+        if ($request->has('avatar') && $request->input('avatar') != 'null') {
             $rules['avatar'] = 'required|image|mimes:jpg,jpeg,png|max:1024';
         }
-        if ($request->input('thanks') && $request->input('thanks') != 'null') {
+        if ($request->has('thanks') && $request->input('thanks') != 'null') {
             $rules['thanks'] = 'required|image|mimes:gif|max:2048';
         }
-        if ($request->input('current_password')) {
+        if ($request->hasAny(['current_password', 'password', 'password_confirmation'])) {
             $rules['current_password'] = 'required|current_password';
             $rules['password'] = 'required|min:6';
             $rules['password_confirmation'] = 'required|same:password';
@@ -151,11 +151,11 @@ class ApiUsersController extends ApiController
         }
 
         // Update details
-        if ($request->input('firstname')) {
+        if ($request->has('firstname')) {
             $user->firstname = $request->input('firstname');
         }
 
-        if ($request->input('insertion')) {
+        if ($request->has('insertion')) {
             if ($request->input('insertion') == 'null') {
                 $user->insertion = null;
             } else {
@@ -163,11 +163,11 @@ class ApiUsersController extends ApiController
             }
         }
 
-        if ($request->input('lastname')) {
+        if ($request->has('lastname')) {
             $user->lastname = $request->input('lastname');
         }
 
-        if ($request->input('gender')) {
+        if ($request->has('gender')) {
             if ($request->input('gender') == 'null') {
                 $user->gender = null;
             }
@@ -182,7 +182,7 @@ class ApiUsersController extends ApiController
             }
         }
 
-        if ($request->input('birthday')) {
+        if ($request->has('birthday')) {
             if ($request->input('birthday') == 'null') {
                 $user->birthday = null;
             } else {
@@ -190,11 +190,11 @@ class ApiUsersController extends ApiController
             }
         }
 
-        if ($request->input('email')) {
+        if ($request->has('email')) {
             $user->email = $request->input('email');
         }
 
-        if ($request->input('phone')) {
+        if ($request->has('phone')) {
             if ($request->input('phone') == 'null') {
                 $user->phone = null;
             } else {
@@ -202,7 +202,7 @@ class ApiUsersController extends ApiController
             }
         }
 
-        if ($request->input('address')) {
+        if ($request->has('address')) {
             if ($request->input('address') == 'null') {
                 $user->address = null;
             } else {
@@ -210,7 +210,7 @@ class ApiUsersController extends ApiController
             }
         }
 
-        if ($request->input('postcode')) {
+        if ($request->has('postcode')) {
             if ($request->input('postcode') == 'null') {
                 $user->postcode = null;
             } else {
@@ -218,7 +218,7 @@ class ApiUsersController extends ApiController
             }
         }
 
-        if ($request->input('city')) {
+        if ($request->has('city')) {
             if ($request->input('city') == 'null') {
                 $user->city = null;
             } else {
@@ -226,7 +226,7 @@ class ApiUsersController extends ApiController
             }
         }
 
-        if ($request->input('language')) {
+        if ($request->has('language')) {
             if ($request->input('language') == 'en') {
                 $user->language = User::LANGUAGE_ENGLISH;
             }
@@ -235,7 +235,7 @@ class ApiUsersController extends ApiController
             }
         }
 
-        if ($request->input('theme')) {
+        if ($request->has('theme')) {
             if ($request->input('theme') == 'light') {
                 $user->theme = User::THEME_LIGHT;
             }
@@ -244,12 +244,12 @@ class ApiUsersController extends ApiController
             }
         }
 
-        if ($request->input('receive_news')) {
+        if ($request->has('receive_news')) {
             $user->receive_news = $request->input('receive_news') == 'true';
         }
 
         // Update avatar
-        if ($request->input('avatar')) {
+        if ($request->has('avatar')) {
             if ($request->input('avatar') == 'null') {
                 // Delete user avatar file from storage
                 Storage::delete('public/avatars/' . $user->avatar);
@@ -272,7 +272,7 @@ class ApiUsersController extends ApiController
         }
 
         // Update thanks
-        if ($request->input('thanks')) {
+        if ($request->has('thanks')) {
             if ($request->input('thanks') == 'null') {
                 // Delete user thanks file from storage
                 Storage::delete('public/thanks/' . $user->thanks);
@@ -295,7 +295,7 @@ class ApiUsersController extends ApiController
         }
 
         // Update password
-        if ($request->input('current_password')) {
+        if ($request->has(['current_password', 'password', 'password_confirmation'])) {
             $user->password = Hash::make($request->input('password'));
         }
 
@@ -303,7 +303,7 @@ class ApiUsersController extends ApiController
         $user->save();
         return [
             'message' => 'All user changes are saved!',
-            'user' => $user
+            'user' => $user->toApiData($request->user())
         ];
     }
 }

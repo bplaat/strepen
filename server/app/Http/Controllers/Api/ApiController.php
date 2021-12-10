@@ -9,9 +9,8 @@ abstract class ApiController extends Controller
 {
     public function getItems($modelClass, $query, $request)
     {
-        $searchQuery = $request->input('query');
-        if ($searchQuery != '') {
-            $items = ($modelClass . '::search')($query, $searchQuery);
+        if ($request->has('query')) {
+            $items = ($modelClass . '::search')($query, $request->input('query'));
         } else {
             $items = $query->where('deleted', false);
         }
@@ -20,9 +19,8 @@ abstract class ApiController extends Controller
 
     public function getLimit($request)
     {
-        $limit = $request->input('limit');
-        if ($limit != '') {
-            $limit = (int)$limit;
+        if ($request->has('limit')) {
+            $limit = (int)$request->input('limit');
             if ($limit < 1) {
                 $limit = 1;
             }

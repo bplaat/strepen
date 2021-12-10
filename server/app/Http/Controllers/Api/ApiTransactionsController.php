@@ -37,7 +37,7 @@ class ApiTransactionsController extends ApiController
             'products.*.product_id' => 'required|integer|exists:products,id',
             'products.*.amount' => 'required|integer|min:1'
         ];
-        if (($request->user()->role == User::ROLE_MANAGER || $request->user()->role == User::ROLE_ADMIN) && $request->input('user_id')) {
+        if (($request->user()->role == User::ROLE_MANAGER || $request->user()->role == User::ROLE_ADMIN) && $request->has('user_id')) {
             $rules['user_id'] = 'required|integer|exists:users,id';
         }
         $validation = Validator::make($request->all(), $rules);
@@ -54,7 +54,7 @@ class ApiTransactionsController extends ApiController
 
         // Create transaction
         $transaction = new Transaction();
-        if (($request->user()->role == User::ROLE_MANAGER || $request->user()->role == User::ROLE_ADMIN) && $request->input('user_id')) {
+        if (($request->user()->role == User::ROLE_MANAGER || $request->user()->role == User::ROLE_ADMIN) && $request->has('user_id')) {
             $transaction->user_id = $request->input('user_id');
         } else {
             $transaction->user_id = $request->user()->id;

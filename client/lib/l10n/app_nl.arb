@@ -86,5 +86,8 @@
     "settings_password_header": "Verander wachtwoord",
     "settings_password_current_password": "Oud wachtwoord",
     "settings_password_password": "Nieuw wachtwoord",
-    "settings_password_password_confirmation": "Herhaal nieuw wachtwoord"
+    "settings_password_password_confirmation": "Herhaal nieuw wachtwoord",
+    "settings_password_success_header": "Gelukt!",
+    "settings_password_success_description": "Uw wachtwoord is succesvol gewijzigd",
+    "settings_password_success_ok": "OKE"
 }

@@ -18,7 +18,8 @@ class SettingsService {
   Future<Map<String, dynamic>> settings({bool forceReload = false}) async {
     if (_settings == null || forceReload) {
       StorageService storage = await StorageService.getInstance();
-      final response = await http.get(Uri.parse('${API_URL}/settings?api_key=${API_KEY}'), headers: {
+      final response = await http.get(Uri.parse('${API_URL}/settings'), headers: {
+        'X-Api-Key': API_KEY,
         'Authorization': 'Bearer ${storage.token!}'
       });
       _settings = json.decode(response.body);

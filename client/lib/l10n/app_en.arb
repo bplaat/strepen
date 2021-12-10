@@ -89,5 +89,8 @@
     "settings_password_header": "Change password",
     "settings_password_current_password": "Current password",
     "settings_password_password": "New password",
-    "settings_password_password_confirmation": "Confirm new password"
+    "settings_password_password_confirmation": "Confirm new password",
+    "settings_password_success_header": "Success!",
+    "settings_password_success_description": "Your password has changed successfully",
+    "settings_password_success_ok": "OK"
 }

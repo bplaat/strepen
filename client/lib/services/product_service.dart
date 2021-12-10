@@ -19,7 +19,8 @@ class ProductsService {
   Future<List<Product>> activeProducts({bool forceReload = false}) async {
     if (_products == null || forceReload) {
       StorageService storage = await StorageService.getInstance();
-      final response = await http.get(Uri.parse('${API_URL}/products?api_key=${API_KEY}'), headers: {
+      final response = await http.get(Uri.parse('${API_URL}/products'), headers: {
+        'X-Api-Key': API_KEY,
         'Authorization': 'Bearer ${storage.token!}'
       });
       final productsJson = json.decode(response.body)['data'];

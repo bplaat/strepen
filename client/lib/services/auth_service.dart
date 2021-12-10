@@ -28,8 +28,9 @@ class AuthService {
     required String email,
     required String password
   }) async {
-    final response = await http.post(Uri.parse('${API_URL}/auth/login'), body: {
-      'api_key': API_KEY,
+    final response = await http.post(Uri.parse('${API_URL}/auth/login'), headers: {
+      'X-Api-Key': API_KEY
+    }, body: {
       'email': email,
       'password': password
     });
@@ -47,7 +48,8 @@ class AuthService {
 
   Future logout() async {
     StorageService storage = await StorageService.getInstance();
-    await http.get(Uri.parse('${API_URL}/auth/logout?api_key=${API_KEY}'), headers: {
+    await http.get(Uri.parse('${API_URL}/auth/logout'), headers: {
+      'X-Api-Key': API_KEY,
       'Authorization': 'Bearer ${storage.token!}'
     });
     await storage.setToken(null);
@@ -57,7 +59,8 @@ class AuthService {
   Future<User?> user({bool forceReload = false}) async {
     if (_user == null || forceReload) {
       StorageService storage = await StorageService.getInstance();
-      final response = await http.get(Uri.parse('${API_URL}/users/${storage.userId!}?api_key=${API_KEY}'), headers: {
+      final response = await http.get(Uri.parse('${API_URL}/users/${storage.userId!}'), headers: {
+        'X-Api-Key': API_KEY,
         'Authorization': 'Bearer ${storage.token!}'
       });
       try {
@@ -72,7 +75,8 @@ class AuthService {
   Future<List<NotificationData>> unreadNotifications({bool forceReload = false}) async {
     if (_unreadNotifications == null || forceReload) {
       StorageService storage = await StorageService.getInstance();
-      final response = await http.get(Uri.parse('${API_URL}/users/${storage.userId!}/notifications/unread?api_key=${API_KEY}'), headers: {
+      final response = await http.get(Uri.parse('${API_URL}/users/${storage.userId!}/notifications/unread'), headers: {
+        'X-Api-Key': API_KEY,
         'Authorization': 'Bearer ${storage.token!}'
       });
       final notificationsJson = json.decode(response.body)['data'];
@@ -83,7 +87,8 @@ class AuthService {
 
   Future readNotification({required String notificationId}) async {
     StorageService storage = await StorageService.getInstance();
-    await http.get(Uri.parse('${API_URL}/notifications/${notificationId}/read?api_key=${API_KEY}'), headers: {
+    await http.get(Uri.parse('${API_URL}/notifications/${notificationId}/read'), headers: {
+      'X-Api-Key': API_KEY,
       'Authorization': 'Bearer ${storage.token!}'
     });
   }
@@ -91,7 +96,8 @@ class AuthService {
   Future<List<Transaction>> transactions({int page = 1, bool forceReload = false}) async {
     if (!_transactions.containsKey(page) || forceReload) {
       StorageService storage = await StorageService.getInstance();
-      final response = await http.get(Uri.parse('${API_URL}/users/${storage.userId!}/transactions?api_key=${API_KEY}&page=${page}'), headers: {
+      final response = await http.get(Uri.parse('${API_URL}/users/${storage.userId!}/transactions?page=${page}'), headers: {
+        'X-Api-Key': API_KEY,
         'Authorization': 'Bearer ${storage.token!}'
       });
       final transactionsJson = json.decode(response.body)['data'];
@@ -102,7 +108,6 @@ class AuthService {
 
   Future<bool> createTransaction({required Map<Product, int> productAmounts}) async {
     final body = {
-      'api_key': API_KEY,
       'name': 'Mobile transaction on ${DateFormat('yyyy-MM-dd kk:mm:ss').format(DateTime.now())}'
     };
 
@@ -119,6 +124,7 @@ class AuthService {
 
     StorageService storage = await StorageService.getInstance();
     final response = await http.post(Uri.parse('${API_URL}/transactions'), headers: {
+      'X-Api-Key': API_KEY,
       'Authorization': 'Bearer ${storage.token!}'
     }, body: body);
 
@@ -131,5 +137,28 @@ class AuthService {
       _transactions[1]!.insert(0, Transaction.fromJson(data['transaction']));
     }
     return true;
+  }
+
+  Future<Map<String, List<dynamic>>?> changePassword({
+    required String currentPassword,
+    required String password,
+    required String passwordConfirmation
+  }) async {
+    StorageService storage = await StorageService.getInstance();
+    final response = await http.post(Uri.parse('${API_URL}/users/${storage.userId!}/edit'), headers: {
+      'X-Api-Key': API_KEY,
+      'Authorization': 'Bearer ${storage.token!}'
+    }, body: {
+      'current_password': currentPassword,
+      'password': password,
+      'password_confirmation': passwordConfirmation
+    });
+
+    final data = json.decode(response.body);
+    if (data.containsKey('user')) {
+      _user = User.fromJson(data['user']);
+      return null;
+    }
+    return Map<String, List<dynamic>>.from(data['errors']);
   }
 }
