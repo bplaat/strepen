@@ -20,7 +20,7 @@ class _SettingsChangeThanksTabState extends State {
     final lang = AppLocalizations.of(context)!;
 
     // Show giphy picker
-    GiphyGif? thanksGif = await GiphyPicker.pickGif(context: context, apiKey: GIPHY_API_KEY);
+    GiphyGif? thanksGif = await GiphyPicker.pickGif(context: context, apiKey: GIPHY_API_KEY!);
     if (thanksGif == null) {
       setState(() => _isLoading = false);
       return;
@@ -135,19 +135,21 @@ class _SettingsChangeThanksTabState extends State {
                     ),
 
                     // Search thanks button
-                    Container(
-                      margin: EdgeInsets.only(bottom: 16),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: RaisedButton(
-                        onPressed: _isLoading ? null : searchThanks,
-                        color: Colors.pink,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                        child: Text(lang.settings_thanks_search_button, style: TextStyle(color: Colors.white, fontSize: 18))
+                    if (GIPHY_API_KEY != null) ...[
+                      Container(
+                        margin: EdgeInsets.only(bottom: 16),
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: RaisedButton(
+                          onPressed: _isLoading ? null : searchThanks,
+                          color: Colors.pink,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                          child: Text(lang.settings_thanks_search_button, style: TextStyle(color: Colors.white, fontSize: 18))
+                          )
                         )
                       )
-                    ),
+                    ],
 
                     // Delete thanks button
                     if (!user.thanks.contains('default.gif')) ... [
