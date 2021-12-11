@@ -139,7 +139,7 @@ class Item extends Component
             Storage::delete('public/avatars/' . $this->user->avatar);
         }
         $this->user->avatar = null;
-        $this->user->save();
+        User::find($this->user->id)->update(['avatar' => null]);
         $this->emitUp('refresh');
     }
 
@@ -149,7 +149,7 @@ class Item extends Component
             Storage::delete('public/thanks/' . $this->user->thanks);
         }
         $this->user->thanks = null;
-        $this->user->save();
+        User::find($this->user->id)->update(['thanks' => null]);
         $this->emitUp('refresh');
     }
 

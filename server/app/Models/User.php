@@ -61,6 +61,11 @@ class User extends Authenticatable
         'deleted' => false
     ];
 
+    protected $fillable = [
+        'avatar',
+        'thanks'
+    ];
+
     // Generate a random avatar name
     public static function generateAvatarName($extension)
     {
