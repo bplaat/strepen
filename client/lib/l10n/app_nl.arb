@@ -68,6 +68,7 @@
     "settings_details_gender_male": "Man",
     "settings_details_gender_female": "Vrouw",
     "settings_details_gender_other": "Anders",
+    "settings_details_gender_cancel": "ANULEREN",
     "settings_details_birthday": "Geboorte datum",
     "settings_details_birthday_minor": "Uitgeschakeld want je bent minderjarig",
     "settings_details_contact_info": "Contact informatie",
@@ -79,6 +80,9 @@
     "settings_details_city": "Stad",
     "settings_details_email_notifications": "Email notificaties",
     "settings_details_receive_news": "Ontvang nieuws notificaties",
+    "settings_details_success_header": "Gelukt!",
+    "settings_details_success_description": "Uw gegevens zijn succesvol gewijzigd",
+    "settings_details_success_ok": "OKE",
 
     "settings_avatar_error": "Er is een fout opgetreden tijdens het laden van uw gebruikersinformatie!",
     "settings_avatar_header": "Verander avatar",
@@ -89,7 +93,7 @@
     "settings_avatar_success_header": "Gelukt!",
     "settings_avatar_success_description": "Uw wachtwoord is succesvol gewijzigd",
     "settings_avatar_error_header": "Gefaald!",
-    "settings_avatar_error_description": "Er is iets misgegaan tijdens het uploaden van dit plaatje, kies een andere foto",
+    "settings_avatar_error_description": "Er is iets misgegaan tijdens het uploaden van dit plaatje, het is waarschijnlijk groter dan 1MB probeer een andere foto",
     "settings_avatar_success_ok": "OKE",
 
     "settings_thanks_error": "Er is een fout opgetreden tijdens het laden van uw gebruikersinformatie!",

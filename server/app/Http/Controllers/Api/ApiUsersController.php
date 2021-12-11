@@ -112,28 +112,43 @@ class ApiUsersController extends ApiController
     {
         // Validate input
         $rules = [
-            'firstname' => 'nullable|min:2|max:48',
             'insertion' => 'nullable|max:16',
-            'lastname' => 'nullable|min:2|max:48',
             'gender' => [
                 'nullable',
-                Rule::in(['null', 'male', 'female', 'other'])
+                Rule::in(['', 'male', 'female', 'other'])
             ],
             'birthday' => 'nullable|date',
-            'email' => [
-                'nullable',
-                'email',
-                'max:255',
-                Rule::unique('users', 'email')->ignore($user->email, 'email')
-            ],
             'phone' => 'nullable|max:255',
             'address' => 'nullable|min:2|max:255',
             'postcode' => 'nullable|min:2|max:32',
             'city' => 'nullable|min:2|max:255',
-            'language' => 'nullable|integer|digits_between:' . User::LANGUAGE_ENGLISH . ',' . User::LANGUAGE_DUTCH,
-            'theme' => 'nullable|integer|digits_between:' . User::THEME_LIGHT . ',' . User::THEME_DARK,
-            'receive_news' => 'nullable|boolean'
+            'language' => [
+                'nullable',
+                Rule::in(['en', 'nl'])
+            ],
+            'theme' => [
+                'nullable',
+                Rule::in(['light', 'dark'])
+            ],
+            'receive_news' => [
+                'nullable',
+                Rule::in(['true', 'false'])
+            ]
         ];
+        if ($request->has('firstname')) {
+            $rules['firstname'] = 'required|min:2|max:48';
+        }
+        if ($request->has('lastname')) {
+            $rules['lastname'] = 'required|min:2|max:48';
+        }
+        if ($request->has('email')) {
+            $rules['email'] = [
+                'nullable',
+                'email',
+                'max:255',
+                Rule::unique('users', 'email')->ignore($user->email, 'email')
+            ];
+        }
         if ($request->has('avatar') && $request->input('avatar') != 'null') {
             $rules['avatar'] = 'required|image|mimes:jpg,jpeg,png|max:1024';
         }
@@ -156,11 +171,7 @@ class ApiUsersController extends ApiController
         }
 
         if ($request->has('insertion')) {
-            if ($request->input('insertion') == 'null') {
-                $user->insertion = null;
-            } else {
-                $user->insertion = $request->input('insertion');
-            }
+            $user->insertion = $request->input('insertion');
         }
 
         if ($request->has('lastname')) {
@@ -168,7 +179,7 @@ class ApiUsersController extends ApiController
         }
 
         if ($request->has('gender')) {
-            if ($request->input('gender') == 'null') {
+            if ($request->input('gender') == '') {
                 $user->gender = null;
             }
             if ($request->input('gender') == 'male') {
@@ -183,11 +194,7 @@ class ApiUsersController extends ApiController
         }
 
         if ($request->has('birthday')) {
-            if ($request->input('birthday') == 'null') {
-                $user->birthday = null;
-            } else {
-                $user->birthday = $request->input('birthday');
-            }
+            $user->birthday = $request->input('birthday');
         }
 
         if ($request->has('email')) {
@@ -195,35 +202,19 @@ class ApiUsersController extends ApiController
         }
 
         if ($request->has('phone')) {
-            if ($request->input('phone') == 'null') {
-                $user->phone = null;
-            } else {
-                $user->phone = $request->input('phone');
-            }
+            $user->phone = $request->input('phone');
         }
 
         if ($request->has('address')) {
-            if ($request->input('address') == 'null') {
-                $user->address = null;
-            } else {
-                $user->address = $request->input('address');
-            }
+            $user->address = $request->input('address');
         }
 
         if ($request->has('postcode')) {
-            if ($request->input('postcode') == 'null') {
-                $user->postcode = null;
-            } else {
-                $user->postcode = $request->input('postcode');
-            }
+            $user->postcode = $request->input('postcode');
         }
 
         if ($request->has('city')) {
-            if ($request->input('city') == 'null') {
-                $user->city = null;
-            } else {
-                $user->city = $request->input('city');
-            }
+            $user->city = $request->input('city');
         }
 
         if ($request->has('language')) {

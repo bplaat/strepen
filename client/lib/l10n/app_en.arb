@@ -71,6 +71,7 @@
     "settings_details_gender_male": "Male",
     "settings_details_gender_female": "Female",
     "settings_details_gender_other": "Other",
+    "settings_details_gender_cancel": "CANCEL",
     "settings_details_birthday": "Birthday",
     "settings_details_birthday_minor": "Disabled because you are a minor",
     "settings_details_contact_info": "Contact information",
@@ -82,6 +83,9 @@
     "settings_details_city": "City",
     "settings_details_email_notifications": "Email notifications",
     "settings_details_receive_news": "Receive news notifications",
+    "settings_details_success_header": "Success!",
+    "settings_details_success_description": "Your details have changed successfully",
+    "settings_details_success_ok": "OK",
 
     "settings_avatar_error": "An error has occurred while loading your user information!",
     "settings_avatar_header": "Change avatar",
@@ -92,7 +96,7 @@
     "settings_avatar_success_header": "Success!",
     "settings_avatar_success_description": "Your avatar has changed successfully",
     "settings_avatar_error_header": "Failure!",
-    "settings_avatar_error_description": "Something went wrong while uploading this picture, those another picture",
+    "settings_avatar_error_description": "Something went wrong while uploading this picture, it is probably bigger than 1MB try another picture",
     "settings_avatar_success_ok": "OK",
 
     "settings_thanks_error": "An error has occurred while loading your user information!",

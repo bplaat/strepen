@@ -144,6 +144,51 @@ class AuthService {
     return true;
   }
 
+  Future<Map<String, List<dynamic>>?> changeDetails({
+    required String firstname,
+    required String insertion,
+    required String lastname,
+    required Gender? gender,
+    required DateTime? birthday,
+
+    required String email,
+    required String phone,
+
+    required String address,
+    required String postcode,
+    required String city,
+
+    required bool receiveNews
+  }) async {
+    StorageService storage = await StorageService.getInstance();
+    final response = await http.post(Uri.parse('${API_URL}/users/${storage.userId!}/edit'), headers: {
+      'X-Api-Key': API_KEY,
+      'Authorization': 'Bearer ${storage.token!}'
+    }, body: {
+      'firstname': firstname,
+      'insertion': insertion,
+      'lastname': lastname,
+      'gender': genderToString(gender),
+      'birthday': birthday != null ? DateFormat('yyyy-MM-dd').format(birthday) : '',
+
+      'email': email,
+      'phone': phone,
+
+      'address': address,
+      'postcode': postcode,
+      'city': city,
+
+      'receive_news': receiveNews.toString()
+    });
+
+    final data = json.decode(response.body);
+    if (data.containsKey('user')) {
+      _user = User.fromJson(data['user']);
+      return null;
+    }
+    return Map<String, List<dynamic>>.from(data['errors']);
+  }
+
   Future<bool> changeAvatar({required XFile? avatar}) async {
     StorageService storage = await StorageService.getInstance();
     final request = http.MultipartRequest('POST', Uri.parse('${API_URL}/users/${storage.userId!}/edit'));

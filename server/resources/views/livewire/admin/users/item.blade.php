@@ -111,7 +111,7 @@
                             </div>
 
                             <h2 class="subtitle is-5">@lang('admin/users.item.personal_info')</h2>
-                            @if ($user->gender != null)
+                            @if ($user->gender !== null)
                                 @if ($user->gender == App\Models\User::GENDER_MALE)
                                     <p>@lang('admin/users.item.gender'): @lang('admin/users.item.gender_male')</p>
                                 @endif

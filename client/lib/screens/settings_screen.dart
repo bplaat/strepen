@@ -69,6 +69,9 @@ class InputField extends StatelessWidget {
   final String? error;
   final bool autocorrect;
   final bool obscureText;
+  final bool enabled;
+  final void Function()? onTap;
+  final EdgeInsets margin;
 
   const InputField({
     required this.controller,
@@ -76,17 +79,40 @@ class InputField extends StatelessWidget {
     this.error = null,
     this.autocorrect = true,
     this.obscureText = false,
+    this.enabled = true,
+    this.onTap = null,
+    this.margin = const EdgeInsets.only(bottom: 16),
     Key? key
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 16),
-      child: TextField(
+      margin: margin,
+      child: onTap != null ?
+        InkWell(
+          onTap: onTap,
+          child: TextField(
+            controller: controller,
+            autocorrect: autocorrect,
+            obscureText: obscureText,
+            enabled: enabled,
+            style: TextStyle(fontSize: 16),
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8)
+              ),
+              contentPadding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              labelText: label,
+              errorText: error
+            )
+          )
+        )
+      : TextField(
         controller: controller,
         autocorrect: autocorrect,
         obscureText: obscureText,
+        enabled: enabled,
         style: TextStyle(fontSize: 16),
         decoration: InputDecoration(
           border: OutlineInputBorder(

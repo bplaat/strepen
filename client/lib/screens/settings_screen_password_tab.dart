@@ -13,11 +13,11 @@ class SettingsChangePasswordTab extends StatefulWidget {
 
 class _SettingsChangePasswordTabState extends State {
   bool _isLoading = false;
-  TextEditingController _currentPasswordController = new TextEditingController();
+  TextEditingController _currentPasswordController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _passwordConfirmationController = TextEditingController();
   String? _currentPasswordError;
-  TextEditingController _passwordController = new TextEditingController();
   String? _passwordError;
-  TextEditingController _passwordConfirmationController = new TextEditingController();
   String? _passwordConfirmationError;
 
   @override
@@ -90,9 +90,29 @@ class _SettingsChangePasswordTabState extends State {
                 child: Text(lang.settings_password_header, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
               ),
 
-              InputField(controller: _currentPasswordController, label: lang.settings_password_current_password, error: _currentPasswordError, autocorrect: false, obscureText: true),
-              InputField(controller: _passwordController, label: lang.settings_password_password, error: _passwordError, autocorrect: false, obscureText: true),
-              InputField(controller: _passwordConfirmationController, label: lang.settings_password_password_confirmation, error: _passwordConfirmationError, autocorrect: false, obscureText: true),
+              InputField(
+                controller: _currentPasswordController,
+                label: lang.settings_password_current_password,
+                error: _currentPasswordError,
+                autocorrect: false,
+                obscureText: true
+              ),
+
+              InputField(
+                controller: _passwordController,
+                label: lang.settings_password_password,
+                error: _passwordError,
+                autocorrect: false,
+                obscureText: true
+              ),
+
+              InputField(
+                controller: _passwordConfirmationController,
+                label: lang.settings_password_password_confirmation,
+                error: _passwordConfirmationError,
+                autocorrect: false,
+                obscureText: true
+              ),
 
               SizedBox(
                 width: double.infinity,

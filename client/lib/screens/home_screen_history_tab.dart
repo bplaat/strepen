@@ -16,7 +16,7 @@ class HomeScreenHistoryTab extends StatefulWidget {
 }
 
 class _HomeScreenHistoryTabState extends State {
-  ScrollController _scrollController = new ScrollController();
+  ScrollController _scrollController = ScrollController();
 
   List<Transaction> _transactions = [];
   List<int> _loadedPages = [];

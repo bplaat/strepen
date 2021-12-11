@@ -15,7 +15,7 @@ class HomeScreenPostsTab extends StatefulWidget {
 }
 
 class _HomeScreenPostsTabState extends State {
-  ScrollController _scrollController = new ScrollController();
+  ScrollController _scrollController = ScrollController();
 
   List<Post> _posts = [];
   List<int> _loadedPages = [];

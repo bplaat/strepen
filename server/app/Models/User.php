@@ -175,17 +175,18 @@ class User extends Authenticatable
         $data->thanks = asset('/storage/thanks/' . ($this->thanks ?? Setting::get('default_user_thanks')));
 
         if ($forUser != null && ($forUser->role == static::ROLE_MANAGER || $forUser->role == static::ROLE_ADMIN || $this->id == $forUser->id)) {
-            if ($this->gender == null) {
+            if ($this->gender !== null) {
+                if ($this->gender == static::GENDER_MALE) {
+                    $data->gender = 'male';
+                }
+                if ($this->gender == static::GENDER_FEMALE) {
+                    $data->gender = 'female';
+                }
+                if ($this->gender == static::GENDER_OTHER) {
+                    $data->gender = 'other';
+                }
+            } else {
                 $data->gender = null;
-            }
-            if ($this->gender == static::GENDER_MALE) {
-                $data->gender = 'male';
-            }
-            if ($this->gender == static::GENDER_FEMALE) {
-                $data->gender = 'female';
-            }
-            if ($this->gender == static::GENDER_OTHER) {
-                $data->gender = 'other';
             }
 
             $data->birthday = $this->birthday != null ? $this->birthday->format('Y-m-d') : null;

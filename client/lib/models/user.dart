@@ -1,15 +1,21 @@
 enum Gender {
-  undefined,
   male,
   female,
   other
 }
 
-Gender genderFromString(String gender) {
+Gender? genderFromString(String gender) {
   if (gender == 'male') return Gender.male;
   if (gender == 'female') return Gender.female;
   if (gender == 'other') return Gender.other;
-  return Gender.undefined;
+  return null;
+}
+
+String genderToString(Gender? gender) {
+  if (gender == Gender.male) return 'male';
+  if (gender == Gender.female) return 'female';
+  if (gender == Gender.other) return 'other';
+  return '';
 }
 
 class User {
