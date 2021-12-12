@@ -22,6 +22,13 @@
                 </div>
 
                 <div class="navbar-end">
+                    <a @class(['navbar-item', 'is-active' => Route::currentRouteName() == 'apps']) href="{{ route('apps') }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="is-hidden-touch" style="width: 1.5rem; height: 1.5rem;" viewBox="0 0 24 24">
+                            <path fill="@if ($isLight) #111 @else #fff @endif" d="M17,1H7A2,2 0 0,0 5,3V21A2,2 0 0,0 7,23H17A2,2 0 0,0 19,21V3A2,2 0 0,0 17,1M17,19H7V5H17V19M16,13H13V8H11V13H8L12,17L16,13Z" />
+                        </svg>
+                        <span class="is-hidden-desktop">@lang('layout.navbar.apps')</span>
+                    </a>
+
                     <div class="navbar-item">
                         <div class="buttons">
                             <a @class(['button', 'is-dark' => $isLight]) href="javascript:alert('Nee nee nee, u mag deze prachtige plek niet verlaten!')">@lang('layout.navbar.in_kiosk')</a>
@@ -71,6 +78,13 @@
                     </div>
 
                     <div class="navbar-end">
+                        <a @class(['navbar-item', 'is-active' => Route::currentRouteName() == 'apps']) href="{{ route('apps') }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="is-hidden-touch" style="width: 1.5rem; height: 1.5rem;" viewBox="0 0 24 24">
+                                <path fill="@if ($isLight) #111 @else #fff @endif" d="M17,1H7A2,2 0 0,0 5,3V21A2,2 0 0,0 7,23H17A2,2 0 0,0 19,21V3A2,2 0 0,0 17,1M17,19H7V5H17V19M16,13H13V8H11V13H8L12,17L16,13Z" />
+                            </svg>
+                            <span class="is-hidden-desktop">@lang('layout.navbar.apps')</span>
+                        </a>
+
                         <livewire:components.notifications />
 
                         <a @class(['navbar-item', 'is-active' => Route::currentRouteName() == 'balance']) href="{{ route('balance') }}" style="display: flex; align-items: center;">
@@ -95,6 +109,13 @@
                     </div>
                 @else
                     <div class="navbar-end">
+                        <a @class(['navbar-item', 'is-active' => Route::currentRouteName() == 'apps']) href="{{ route('apps') }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="is-hidden-touch" style="width: 1.5rem; height: 1.5rem;" viewBox="0 0 24 24">
+                                <path fill="@if ($isLight) #111 @else #fff @endif" d="M17,1H7A2,2 0 0,0 5,3V21A2,2 0 0,0 7,23H17A2,2 0 0,0 19,21V3A2,2 0 0,0 17,1M17,19H7V5H17V19M16,13H13V8H11V13H8L12,17L16,13Z" />
+                            </svg>
+                            <span class="is-hidden-desktop">@lang('layout.navbar.apps')</span>
+                        </a>
+
                         <div class="navbar-item">
                             <div class="buttons">
                                 @if (in_array(Request::ip(), array_map('trim', explode(',', App\Models\Setting::get('kiosk_ip_whitelist')))))

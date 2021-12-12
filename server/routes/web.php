@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 // Main routes
 Route::get('/', App\Http\Livewire\Home::class)->name('home');
 
+Route::view('/apps', 'apps')->name('apps');
+
 // Auth routes
 Route::middleware('auth')->group(function () {
     Route::get('/leaderboards', App\Http\Livewire\Leaderboards::class)->name('leaderboards');
