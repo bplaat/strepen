@@ -2,7 +2,15 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <shlobj.h>
+#include <dwmapi.h>
 #include "WebView2.h"
+
+#ifndef DWMWA_USE_IMMERSIVE_DARK_MODE_BEFORE_20H1
+    #define DWMWA_USE_IMMERSIVE_DARK_MODE_BEFORE_20H1 19
+#endif
+#ifndef DWMWA_USE_IMMERSIVE_DARK_MODE
+    #define DWMWA_USE_IMMERSIVE_DARK_MODE 20
+#endif
 
 #define ID_ICON 1
 
@@ -16,10 +24,29 @@ LPCTSTR window_class_name = TEXT("strepen");
 LPCTSTR window_title = TEXT("Strepen");
 
 HWND hwnd;
+int window_dpi;
 ICoreWebView2 *webview2 = NULL;
 ICoreWebView2Controller *controller = NULL;
 
 // Helper functions
+int GetPrimaryDesktopDpi(void) {
+    HDC hdc = GetDC(HWND_DESKTOP);
+    int dpi = GetDeviceCaps(hdc, LOGPIXELSY);
+    ReleaseDC(HWND_DESKTOP, hdc);
+    return dpi;
+}
+
+typedef BOOL (STDMETHODCALLTYPE *_AdjustWindowRectExForDpi)(RECT *lpRect, DWORD dwStyle, BOOL bMenu, DWORD dwExStyle, UINT dpi);
+
+BOOL AdjustWindowRectExForDpi(RECT *lpRect, DWORD dwStyle, BOOL bMenu, DWORD dwExStyle, UINT dpi) {
+    HMODULE huser32 = LoadLibrary(TEXT("user32.dll"));
+    _AdjustWindowRectExForDpi AdjustWindowRectExForDpi = (_AdjustWindowRectExForDpi)GetProcAddress(huser32, "AdjustWindowRectExForDpi");
+    if (AdjustWindowRectExForDpi) {
+        return AdjustWindowRectExForDpi(lpRect, dwStyle, bMenu, dwExStyle, dpi);
+    }
+    return AdjustWindowRectEx(lpRect, dwStyle, bMenu, dwExStyle);
+}
+
 void FatalError(LPCTSTR message) {
     MessageBox(HWND_DESKTOP, message, TEXT("Strepen Error"), MB_OK | MB_ICONSTOP);
     ExitProcess(1);
@@ -101,6 +128,15 @@ ICoreWebView2CreateCoreWebView2ControllerCompletedHandlerVtbl ControllerComplete
 
 // Window code
 LRESULT WINAPI WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+    // Handle dpi changes
+    if (msg == WM_DPICHANGED) {
+        window_dpi = HIWORD(wParam);
+        RECT *window_rect = (RECT *)lParam;
+        SetWindowPos(hwnd, NULL, window_rect->left, window_rect->top, window_rect->right - window_rect->left,
+            window_rect->bottom - window_rect->top, SWP_NOZORDER | SWP_NOACTIVATE);
+        return 0;
+    }
+
     // Resize browser
     if (msg == WM_SIZE) {
         ResizeBrowser(hwnd);
@@ -109,8 +145,8 @@ LRESULT WINAPI WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 
     // Set window min size
     if (msg == WM_GETMINMAXINFO) {
-        RECT window_rect = { 0, 0, WINDOW_MIN_WIDTH, WINDOW_MIN_HEIGHT };
-        AdjustWindowRectEx(&window_rect, WINDOW_STYLE, FALSE, 0);
+        RECT window_rect = { 0, 0, MulDiv(WINDOW_MIN_WIDTH, window_dpi, 96), MulDiv(WINDOW_MIN_HEIGHT, window_dpi, 96) };
+        AdjustWindowRectExForDpi(&window_rect, WINDOW_STYLE, FALSE, 0, window_dpi);
         MINMAXINFO *minMaxInfo = (MINMAXINFO *)lParam;
         minMaxInfo->ptMinTrackSize.x = window_rect.right - window_rect.left;
         minMaxInfo->ptMinTrackSize.y = window_rect.bottom - window_rect.top;
@@ -140,17 +176,26 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     RegisterClassEx(&wc);
 
     // Create centered window
+    window_dpi = GetPrimaryDesktopDpi();
+    int window_width = MulDiv(WINDOW_WIDTH, window_dpi, 96);
+    int window_height = MulDiv(WINDOW_HEIGHT, window_dpi, 96);
     RECT window_rect;
-    window_rect.left = (GetSystemMetrics(SM_CXSCREEN) - WINDOW_WIDTH) / 2;
-    window_rect.top = (GetSystemMetrics(SM_CYSCREEN) - WINDOW_HEIGHT) / 2;
-    window_rect.right = window_rect.left + WINDOW_WIDTH;
-    window_rect.bottom = window_rect.top + WINDOW_HEIGHT;
-    AdjustWindowRectEx(&window_rect, WINDOW_STYLE, FALSE, 0);
-
+    window_rect.left = (GetSystemMetrics(SM_CXSCREEN) - window_width) / 2;
+    window_rect.top = (GetSystemMetrics(SM_CYSCREEN) - window_height) / 2;
+    window_rect.right = window_rect.left + window_width;
+    window_rect.bottom = window_rect.top + window_height;
+    AdjustWindowRectExForDpi(&window_rect, WINDOW_STYLE, FALSE, 0, window_dpi);
     hwnd = CreateWindowEx(0, window_class_name, window_title,
         WINDOW_STYLE, window_rect.left, window_rect.top,
         window_rect.right - window_rect.left, window_rect.bottom - window_rect.top,
         HWND_DESKTOP, NULL, hInstance, NULL);
+
+    // Enable dark window decoration
+    BOOL useImmersiveDarkMode = TRUE;
+    DwmSetWindowAttribute(hwnd, DWMWA_USE_IMMERSIVE_DARK_MODE_BEFORE_20H1, &useImmersiveDarkMode, sizeof(BOOL));
+    DwmSetWindowAttribute(hwnd, DWMWA_USE_IMMERSIVE_DARK_MODE, &useImmersiveDarkMode, sizeof(BOOL));
+
+    // Show window
     ShowWindow(hwnd, nCmdShow);
     UpdateWindow(hwnd);
 
