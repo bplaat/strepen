@@ -13,14 +13,22 @@
                         @lang('apps.windows_header')
                     </h2>
 
-                    <p>@lang('apps.windows_description')</p>
+                    <p>@lang('apps.windows_description_one')</p>
+                    <p class="mb-5">@lang('apps.windows_description_two')</p>
 
                     <div class="buttons">
-                        <a class="button is-link p-5" href="https://github.com/bplaat/strepen/releases" target="_blank">
+                        <a class="button is-link p-5" href="https://github.com/bplaat/strepen/releases/download/windows-client-v1.0.0/strepen-win64.zip">
                             <svg xmlns="http://www.w3.org/2000/svg" class="logo" viewBox="0 0 24 24" style="transform: translateY(1px);">
                                 <path fill="currentColor" d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z" />
                             </svg>
-                            @lang('apps.windows_download')
+                            @lang('apps.windows_download_app')
+                        </a>
+
+                        <a class="button is-link p-5" href="https://github.com/bplaat/strepen/releases/download/windows-client-v1.0.0/MicrosoftEdgeWebview2Setup.exe">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="logo" viewBox="0 0 24 24" style="transform: translateY(1px);">
+                                <path fill="currentColor" d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z" />
+                            </svg>
+                            @lang('apps.windows_download_webview2')
                         </a>
                     </div>
                 </div>
@@ -43,7 +51,7 @@
                             <img alt="Get it on Google Play" src="/images/google-play-download.png" style="width: 250px;">
                         </a>
 
-                        <a href="https://github.com/bplaat/strepen/releases" target="_blank">
+                        <a href="https://github.com/bplaat/strepen/releases/tag/client-v1.0.0" target="_blank">
                             <img alt="Get it on Google Play" src="/images/direct-apk-download.png" style="width: 250px;">
                         </a>
                     </p>
