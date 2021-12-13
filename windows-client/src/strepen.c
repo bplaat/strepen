@@ -13,6 +13,7 @@
 #endif
 
 #define ID_ICON 1
+#define ID_MENU_ABOUT 1001
 
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720
@@ -128,6 +129,23 @@ ICoreWebView2CreateCoreWebView2ControllerCompletedHandlerVtbl ControllerComplete
 
 // Window code
 LRESULT WINAPI WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+    // When window is created
+    if (msg == WM_CREATE) {
+        HMENU sysMenu = GetSystemMenu(hwnd, FALSE);
+        InsertMenu(sysMenu, 5, MF_BYPOSITION | MF_SEPARATOR, 0, NULL);
+        InsertMenu(sysMenu, 6, MF_BYPOSITION, ID_MENU_ABOUT, TEXT("About"));
+        return 0;
+    }
+
+    // Menu commands
+    if (msg == WM_SYSCOMMAND) {
+        int id = LOWORD(wParam);
+        if (id == ID_MENU_ABOUT) {
+            MessageBox(hwnd, TEXT("Made by Bastiaan van der Plaat\nCopyright (c) 2021 PlaatSoft"), TEXT("About Strepen Windows App"), MB_OK | MB_ICONINFORMATION);
+            return 0;
+        }
+    }
+
     // Handle dpi changes
     if (msg == WM_DPICHANGED) {
         window_dpi = HIWORD(wParam);
@@ -163,6 +181,12 @@ LRESULT WINAPI WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 }
 
 INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, INT nCmdShow) {
+    // Init common controls
+    INITCOMMONCONTROLSEX icc;
+    icc.dwSize = sizeof(icc);
+    icc.dwICC = ICC_WIN95_CLASSES;
+    InitCommonControlsEx(&icc);
+
     // Register window class
     WNDCLASSEX wc = {0};
     wc.cbSize = sizeof(WNDCLASSEX);
@@ -170,7 +194,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     wc.hInstance = hInstance;
     wc.hIcon = (HICON)LoadImage(hInstance, MAKEINTRESOURCE(ID_ICON), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_DEFAULTCOLOR | LR_SHARED);
     wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-    wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+    wc.hbrBackground = CreateSolidBrush(0x00a0a0a0a);
     wc.lpszClassName = window_class_name;
     wc.hIconSm = (HICON)LoadImage(hInstance, MAKEINTRESOURCE(ID_ICON), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR | LR_SHARED);
     RegisterClassEx(&wc);
@@ -205,6 +229,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     wcscat(appDataPath, L"\\strepen");
 
     // Init webview2 stuff
+    SetEnvironmentVariable(TEXT("WEBVIEW2_DEFAULT_BACKGROUND_COLOR"), TEXT("0a0a0a"));
     ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler *environmentCompletedHandler = malloc(sizeof(ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler));
     environmentCompletedHandler->lpVtbl = &EnvironmentCompletedHandlerVtbl;
     if (FAILED(CreateCoreWebView2EnvironmentWithOptions(NULL, appDataPath, NULL, environmentCompletedHandler))) {
