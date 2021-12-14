@@ -3,7 +3,6 @@
 # Todo List
 
 ## High priority
-- Waiting for GIPHY api aproval the publish Android app v1.1
 - Bug fixes / All the whishs from the Stam Bestuur
 
 ## Low priority
