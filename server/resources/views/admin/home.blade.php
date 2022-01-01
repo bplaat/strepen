@@ -4,7 +4,7 @@
         <h1 class="title">@lang('admin/home.header')</h1>
 
         <div class="buttons">
-            @if (Auth::user()->role == App\Models\User::ROLE_ADMIN)
+            @if (Auth::user()->admin)
                 <a class="button" href="{{ route('admin.settings') }}">@lang('admin/home.settings')</a>
                 <a class="button" href="{{ route('admin.api_keys.crud') }}">@lang('admin/home.api_keys')</a>
             @endif

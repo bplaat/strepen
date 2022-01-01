@@ -132,6 +132,24 @@ class User extends Authenticatable
         return $this->birthday != null && $this->birthday->diff(new DateTime('now'))->y < Setting::get('minor_age');
     }
 
+    // Check if user is normal
+    public function getNormalAttribute()
+    {
+        return $this->role == User::ROLE_NORMAL;
+    }
+
+    // Check if user is manager or admin
+    public function getManagerAttribute()
+    {
+        return $this->role == User::ROLE_MANAGER || $this->role == User::ROLE_ADMIN;
+    }
+
+    // Check if user is admin
+    public function getAdminAttribute()
+    {
+        return $this->role == User::ROLE_ADMIN;
+    }
+
     // A user has many posts
     public function posts()
     {
@@ -166,89 +184,6 @@ class User extends Authenticatable
             ->orWhere('lastname', 'LIKE', '%' . $searchQuery . '%')
             ->orWhere('email', 'LIKE', '%' . $searchQuery . '%')
             ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%'));
-    }
-
-    // Convert user to API data
-    public function toApiData($forUser = null, $includes = [])
-    {
-        $data = new \stdClass();
-        $data->id = $this->id;
-        $data->firstname = $this->firstname;
-        $data->insertion = $this->insertion;
-        $data->lastname = $this->lastname;
-        $data->avatar = asset('/storage/avatars/' . ($this->avatar ?? Setting::get('default_user_avatar')));
-        $data->thanks = asset('/storage/thanks/' . ($this->thanks ?? Setting::get('default_user_thanks')));
-
-        if ($forUser != null && ($forUser->role == static::ROLE_MANAGER || $forUser->role == static::ROLE_ADMIN || $this->id == $forUser->id)) {
-            if ($this->gender !== null) {
-                if ($this->gender == static::GENDER_MALE) {
-                    $data->gender = 'male';
-                }
-                if ($this->gender == static::GENDER_FEMALE) {
-                    $data->gender = 'female';
-                }
-                if ($this->gender == static::GENDER_OTHER) {
-                    $data->gender = 'other';
-                }
-            } else {
-                $data->gender = null;
-            }
-
-            $data->birthday = $this->birthday != null ? $this->birthday->format('Y-m-d') : null;
-            $data->email = $this->email;
-            $data->phone = $this->phone;
-            $data->address = $this->address;
-            $data->postcode = $this->postcode;
-            $data->city = $this->city;
-
-            if ($this->role == static::ROLE_NORMAL) {
-                $data->role = 'normal';
-            }
-            if ($this->role == static::ROLE_MANAGER) {
-                $data->role = 'manager';
-            }
-            if ($this->role == static::ROLE_ADMIN) {
-                $data->role = 'admin';
-            }
-
-            if ($this->language == static::LANGUAGE_ENGLISH) {
-                $data->language = 'en';
-            }
-            if ($this->language == static::LANGUAGE_DUTCH) {
-                $data->language = 'nl';
-            }
-
-            if ($this->theme == static::THEME_LIGHT) {
-                $data->theme = 'light';
-            }
-            if ($this->theme == static::THEME_DARK) {
-                $data->theme = 'dark';
-            }
-
-            $data->receive_news = $this->receive_news;
-            $data->balance = $this->balance;
-            $data->minor = $this->minor;
-            $data->created_at = $this->created_at;
-        }
-
-        if ($forUser != null && ($forUser->role == User::ROLE_MANAGER || $forUser->role == User::ROLE_ADMIN)) {
-            $data->active = $this->active;
-            $data->updated_at = $this->updated_at;
-        }
-
-        if (in_array('posts', $includes)) {
-            $data->posts = $this->posts->map(fn ($post) => $post->toApiData($forUser));
-        }
-
-        if (in_array('inventories', $includes)) {
-            $data->inventories = $this->inventories->map(fn ($inventory) => $inventory->toApiData($forUser));
-        }
-
-        if (in_array('transactions', $includes)) {
-            $data->transactions = $this->transaction->map(fn ($transaction) => $transaction->toApiData($forUser));
-        }
-
-        return $data;
     }
 
     // Get balance chart data

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\TransactionResource;
 use App\Models\Product;
 use App\Models\Transaction;
 use App\Models\User;
@@ -14,18 +15,18 @@ class ApiTransactionsController extends ApiController
     public function index(Request $request)
     {
         $transactions = $this->getItems(Transaction::class, Transaction::select(), $request)
+            ->with(['user', 'products'])
             ->orderBy('created_at', 'DESC')
             ->paginate($this->getLimit($request))->withQueryString();
-        for ($i = 0; $i < $transactions->count(); $i++) {
-            $transactions[$i] = $transactions[$i]->toApiData($request->user(), ['user', 'products']);
-        }
-        return $transactions;
+        return TransactionResource::collection($transactions);
     }
 
     // Api transactions show route
-    public function show(Request $request, Transaction $transaction)
+    public function show(Transaction $transaction)
     {
-        return $transaction->toApiData($request->user(), ['user', 'products']);
+        $transaction->user;
+        $transaction->products;
+        return new TransactionResource($transaction);
     }
 
     // Api transactions store route
@@ -37,7 +38,7 @@ class ApiTransactionsController extends ApiController
             'products.*.product_id' => 'required|integer|exists:products,id',
             'products.*.amount' => 'required|integer|min:1'
         ];
-        if (($request->user()->role == User::ROLE_MANAGER || $request->user()->role == User::ROLE_ADMIN) && $request->has('user_id')) {
+        if ($request->user()->manager && $request->has('user_id')) {
             $rules['user_id'] = 'required|integer|exists:users,id';
         }
         $validation = Validator::make($request->all(), $rules);
@@ -54,7 +55,7 @@ class ApiTransactionsController extends ApiController
 
         // Create transaction
         $transaction = new Transaction();
-        if (($request->user()->role == User::ROLE_MANAGER || $request->user()->role == User::ROLE_ADMIN) && $request->has('user_id')) {
+        if ($request->user()->manager && $request->has('user_id')) {
             $transaction->user_id = $request->input('user_id');
         } else {
             $transaction->user_id = $request->user()->id;
@@ -81,12 +82,11 @@ class ApiTransactionsController extends ApiController
         $user->save();
 
         // Return success message
+        $transaction->user; // For backwards compatability
+        $transaction->products;
         return [
             'message' => 'Your transaction is successfully created',
-            'transaction' => $transaction->toApiData($request->user(), [
-                'user', // For backwards compatability
-                'products'
-            ])
+            'transaction' => new TransactionResource($transaction)
         ];
     }
 }

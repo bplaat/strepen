@@ -10,7 +10,7 @@ class VerifyAdmin
     public function handle($request, $next)
     {
         // Verify if the authed user is an admin
-        if (Auth::check() && Auth::user()->role == User::ROLE_ADMIN) {
+        if (Auth::check() && Auth::user()->admin) {
             return $next($request);
         }
 

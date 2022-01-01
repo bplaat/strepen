@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\InventoryResource;
+use App\Http\Resources\NotificationResource;
+use App\Http\Resources\PostResource;
+use App\Http\Resources\UserResource;
+use App\Http\Resources\TransactionResource;
 use App\Models\Inventory;
 use App\Models\Notification;
 use App\Models\Post;
@@ -22,19 +27,16 @@ class ApiUsersController extends ApiController
         $users = $this->getItems(User::class, User::select(), $request)
             ->orderByRaw('active DESC, LOWER(lastname)')
             ->paginate($this->getLimit($request))->withQueryString();
-        if ($request->user()->role != User::ROLE_MANAGER && $request->user()->role != User::ROLE_ADMIN) {
+        if (!$request->user()->manager) {
             $users = $users->where('active', true);
         }
-        for ($i = 0; $i < $users->count(); $i++) {
-            $users[$i] = $users[$i]->toApiData($request->user());
-        }
-        return $users;
+        return UserResource::collection($users);
     }
 
     // Api users show route
-    public function show(Request $request, User $user)
+    public function show(User $user)
     {
-        return $user->toApiData($request->user());
+        return new UserResource($user);
     }
 
     // Api users show notifcations route
@@ -42,10 +44,7 @@ class ApiUsersController extends ApiController
     {
         $notifications = $request->user()->notifications()
             ->paginate($this->getLimit($request))->withQueryString();
-        for ($i = 0; $i < $notifications->count(); $i++) {
-            $notifications[$i] = Notification::toApiData($notifications[$i], $request->user(), ['post']);
-        }
-        return $notifications;
+        return NotificationResource::collection($notifications);
     }
 
     // Api users show unread notifcations route
@@ -53,10 +52,7 @@ class ApiUsersController extends ApiController
     {
         $notifications = $request->user()->unreadNotifications()
             ->paginate($this->getLimit($request))->withQueryString();
-        for ($i = 0; $i < $notifications->count(); $i++) {
-            $notifications[$i] = Notification::toApiData($notifications[$i], $request->user(), ['post']);
-        }
-        return $notifications;
+        return NotificationResource::collection($notifications);
     }
 
     // Api users show posts route
@@ -65,37 +61,27 @@ class ApiUsersController extends ApiController
         $posts = $this->getItems(Post::class, $user->posts(), $request)
             ->orderBy('created_at', 'DESC')
             ->paginate($this->getLimit($request))->withQueryString();
-        for ($i = 0; $i < $posts->count(); $i++) {
-            $posts[$i] = $posts[$i]->toApiData($request->user());
-        }
-        return $posts;
+        return PostResource::collection($posts);
     }
 
     // Api users show inventories route
     public function showInventories(Request $request, User $user)
     {
         $inventories = $this->getItems(Inventory::class, $user->inventories(), $request)
+            ->with('products')
             ->orderBy('created_at', 'DESC')
             ->paginate($this->getLimit($request))->withQueryString();
-        for ($i = 0; $i < $inventories->count(); $i++) {
-            $inventories[$i] = $inventories[$i]->toApiData($request->user(), ['products']);
-        }
-        return $inventories;
+        return InventoryResource::collection($inventories);
     }
 
     // Api users show transactions route
     public function showTransactions(Request $request, User $user)
     {
         $transactions = $this->getItems(Transaction::class, $user->transactions(), $request)
+            ->with(['user', 'products']) // For backwards compatability
             ->orderBy('created_at', 'DESC')
             ->paginate($this->getLimit($request))->withQueryString();
-        for ($i = 0; $i < $transactions->count(); $i++) {
-            $transactions[$i] = $transactions[$i]->toApiData($request->user(), [
-                'user', // For backwards compatability
-                'products'
-            ]);
-        }
-        return $transactions;
+        return TransactionResource::collection($transactions);
     }
 
     // Api users check balances route
@@ -296,7 +282,7 @@ class ApiUsersController extends ApiController
         $user->save();
         return [
             'message' => 'All user changes are saved!',
-            'user' => $user->toApiData($request->user())
+            'user' => new UserResource($user)
         ];
     }
 }

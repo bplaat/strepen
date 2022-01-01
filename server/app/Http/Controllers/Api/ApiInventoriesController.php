@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\InventoryResource;
 use App\Models\Inventory;
 use Illuminate\Http\Request;
 
@@ -11,17 +12,17 @@ class ApiInventoriesController extends ApiController
     public function index(Request $request)
     {
         $inventories = $this->getItems(Inventory::class, Inventory::select(), $request)
+            ->with(['user', 'products'])
             ->orderBy('created_at', 'DESC')
             ->paginate($this->getLimit($request))->withQueryString();
-        for ($i = 0; $i < $inventories->count(); $i++) {
-            $inventories[$i] = $inventories[$i]->toApiData($request->user(), ['user', 'products']);
-        }
-        return $inventories;
+        return InventoryResource::collection($inventories);
     }
 
     // Api inventories show route
-    public function show(Request $request, Inventory $inventory)
+    public function show(Inventory $inventory)
     {
-        return $inventory->toApiData($request->user(), ['user', 'products']);
+        $inventory->user;
+        $inventory->products;
+        return new InventoryResource($inventory);
     }
 }

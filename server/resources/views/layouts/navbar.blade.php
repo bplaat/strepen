@@ -58,12 +58,12 @@
                         <a @class(['navbar-item', 'is-active' => Route::currentRouteName() == 'transactions.history']) href="{{ route('transactions.history') }}">@lang('layout.navbar.transactions_history')</a>
                         <a @class(['navbar-item', 'is-active' => Route::currentRouteName() == 'leaderboards']) href="{{ route('leaderboards') }}">@lang('layout.navbar.leaderboards')</a>
 
-                        @if (Auth::user()->role == App\Models\User::ROLE_MANAGER || Auth::user()->role == App\Models\User::ROLE_ADMIN)
+                        @if (Auth::user()->manager)
                             <div class="navbar-item has-dropdown is-hoverable">
                                 <a @class(['navbar-link', 'is-active' => Route::currentRouteName() == 'admin.home', 'is-arrowless'])
                                     href="{{ route('admin.home') }}">@lang('layout.navbar.admin_home')</a>
                                 <div class="navbar-dropdown">
-                                    @if (Auth::user()->role == App\Models\User::ROLE_ADMIN)
+                                    @if (Auth::user()->admin)
                                         <a @class(['navbar-item', 'is-active' => Route::currentRouteName() == 'admin.settings']) href="{{ route('admin.settings') }}">@lang('layout.navbar.admin_settings')</a>
                                         <a @class(['navbar-item', 'is-active' => Route::currentRouteName() == 'admin.api_keys.crud']) href="{{ route('admin.api_keys.crud') }}">@lang('layout.navbar.admin_api_keys')</a>
                                     @endif
@@ -95,11 +95,7 @@
 
                         <div class="navbar-item">
                             <div class="buttons">
-                                @if (
-                                    Auth::user()->role == App\Models\User::ROLE_MANAGER ||
-                                    Auth::user()->role == App\Models\User::ROLE_ADMIN ||
-                                    in_array(Request::ip(), array_map('trim', explode(',', App\Models\Setting::get('kiosk_ip_whitelist'))))
-                                )
+                                @if (Auth::user()->manager || in_array(Request::ip(), array_map('trim', explode(',', App\Models\Setting::get('kiosk_ip_whitelist')))))
                                     <a @class(['button', 'is-dark' => $isLight]) href="{{ route('admin.kiosk') }}">@lang('layout.navbar.admin_kiosk')</a>
                                 @endif
                                 <a class="button is-link" href="{{ route('settings') }}">@lang('layout.navbar.settings')</a>

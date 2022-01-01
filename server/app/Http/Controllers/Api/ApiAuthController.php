@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -38,11 +39,14 @@ class ApiAuthController extends Controller
             ]], 403);
         }
 
+        // Set request user
+        $request->setUserResolver(fn () => $user);
+
         // Try to login user
         return [
             'token' => $user->createToken('API auth token for api')->plainTextToken,
             'user_id' => $user->id, // For backwards compatability
-            'user' => $user->toApiData($user)
+            'user' => new UserResource($user)
         ];
     }
 

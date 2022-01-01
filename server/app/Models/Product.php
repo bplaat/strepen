@@ -77,39 +77,6 @@ class Product extends Model
             ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%'));
     }
 
-    // Convert product to API data
-    public function toApiData($forUser = null, $includes = [])
-    {
-        $data = new \stdClass();
-        $data->id = $this->id;
-        $data->name = $this->name;
-        $data->description = $this->description;
-        $data->image = asset('/storage/products/' . ($this->image ?? Setting::get('default_product_image')));
-        $data->price = $this->price;
-        $data->alcoholic = $this->alcoholic;
-        $data->created_at = $this->created_at;
-
-        if (isset($this->pivot)) {
-            $data->amount = $this->pivot->amount;
-        }
-
-        if ($forUser != null && ($forUser->role == User::ROLE_MANAGER || $forUser->role == User::ROLE_ADMIN)) {
-            $data->inventory_amount = $this->amount;
-            $data->active = $this->active;
-            $data->updated_at = $this->updated_at;
-        }
-
-        if (in_array('inventories', $includes)) {
-            $data->inventories = $this->inventories->map(fn ($inventory) => $inventory->toApiData($forUser));
-        }
-
-        if (in_array('transactions', $includes)) {
-            $data->transactions = $this->transactions ->map(fn ($transaction) => $transaction->toApiData($forUser));
-        }
-
-        return $data;
-    }
-
     // Get amount chart data
     public function getAmountChart($startDate, $endDate)
     {

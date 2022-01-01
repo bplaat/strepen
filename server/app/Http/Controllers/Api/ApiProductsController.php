@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -13,19 +14,16 @@ class ApiProductsController extends ApiController
     {
         $products = $this->getItems(Product::class, Product::select(), $request)
             ->orderByRaw('active DESC, LOWER(name)');
-        if ($request->user()->role != User::ROLE_MANAGER && $request->user()->role != User::ROLE_ADMIN) {
+        if (!$request->user()->manager) {
             $products = $products->where('active', true);
         }
         $products = $products->paginate($this->getLimit($request))->withQueryString();
-        for ($i = 0; $i < $products->count(); $i++) {
-            $products[$i] = $products[$i]->toApiData($request->user());
-        }
-        return $products;
+        return ProductResource::collection($products);
     }
 
     // Api products show route
-    public function show(Request $request, Product $product)
+    public function show(Product $product)
     {
-        return $product->toApiData($request->user());
+        return new ProductResource($product);
     }
 }

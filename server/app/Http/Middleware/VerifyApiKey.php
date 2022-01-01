@@ -38,7 +38,7 @@ class VerifyApiKey
                     $parms = $request->route()->parameters();
                     $parmType = array_key_first($parms);
                     $user_id = $parmType == 'user' ? $parms[$parmType]->id : ($parmType == 'notification' ? $parms[$parmType]->notifiable_id : $parms[$parmType]->user_id);
-                    if ($request->user()->role == User::ROLE_NORMAL && $user_id != $request->user()->id) {
+                    if ($request->user()->normal && $user_id != $request->user()->id) {
                         return response(['errors' => [
                             'token' => 'You can only view your own data'
                         ]], 403);
@@ -47,7 +47,7 @@ class VerifyApiKey
 
                 // Check manager
                 if ($type == 'manager') {
-                    if ($request->user()->role != User::ROLE_MANAGER && $request->user()->role != User::ROLE_ADMIN) {
+                    if (!$request->user()->manager) {
                         return response(['errors' => [
                             'token' => 'The authed user is not a manager or an admin'
                         ]], 403);
@@ -56,7 +56,7 @@ class VerifyApiKey
 
                 // Check admin
                 if ($type == 'admin') {
-                    if ($request->user()->role != User::ROLE_ADMIN) {
+                    if (!$request->user()->admin) {
                         return response(['errors' => [
                             'token' => 'The authed user is not an admin'
                         ]], 403);

@@ -41,28 +41,4 @@ class Inventory extends Model
         return $query->where(fn ($query) => $query->where('name', 'LIKE', '%' . $searchQuery . '%')
             ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%'));
     }
-
-    // Convert inventory to API data
-    public function toApiData($forUser = null, $includes = [])
-    {
-        $data = new \stdClass();
-        $data->id = $this->id;
-        $data->name = $this->name;
-        $data->price = $this->price;
-        $data->created_at = $this->created_at;
-
-        if ($forUser != null && ($forUser->role == User::ROLE_MANAGER || $forUser->role == User::ROLE_ADMIN)) {
-            $data->updated_at = $this->updated_at;
-        }
-
-        if (in_array('user', $includes)) {
-            $data->user = $this->user->toApiData($forUser);
-        }
-
-        if (in_array('products', $includes)) {
-            $data->products = $this->products->map(fn ($product) => $product->toApiData($forUser));
-        }
-
-        return $data;
-    }
 }

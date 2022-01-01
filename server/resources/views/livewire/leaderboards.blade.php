@@ -1,5 +1,5 @@
 <div class="container content">
-    @if ($enabled || Auth::user()->role == App\Models\User::ROLE_MANAGER || Auth::user()->role == App\Models\User::ROLE_ADMIN)
+    @if ($enabled || Auth::user()->manager)
         <div class="columns">
             <div class="column is-two-thirds">
                 <h2 class="title is-4">@lang('leaderboards.header')</h2>
