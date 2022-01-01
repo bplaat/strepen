@@ -60,7 +60,7 @@
     php artisan migrate --seed
     ```
 - Goto http://strepen.test/ and you're done! 🎉
-- Optional: You can import all the data from the [old Strepen System](https://github.com/JohnOnline88/strepensysteem)
+- Optional: You can import all the data from the [old Strepen System](https://github.com/JohnOnline88/strepensysteem) (Doesn't work anymore)
 
     ```
     php artisan import-data 'http://stam.diekantankys.nl'
@@ -77,7 +77,98 @@
     ```
 
 ## macOS
-TODO
+- Follow [the first page of this great tutorial](https://getgrav.org/blog/macos-monterey-apache-multiple-php-versions) to setup Homebrew, Apache and PHP 7.4+ on your Mac
+- Install the MySQL database via Homebrew and start it:
+
+    ```
+    brew install mysql
+    brew services start mysql
+    ```
+- Install composer via Homebrew:
+
+    ```
+    brew install composer
+    ```
+- Clone repo in the `/Users/{username}/Sites` folder
+
+    ```
+    cd ~/Sites
+    git clone https://github.com/bplaat/strepen.git
+    cd strepen
+    ```
+- Install deps via Composer
+
+    ```
+    cd server
+    composer install
+    ```
+- Copy `server/.env.example` to `server/.env`
+- Generate Laravel security key
+
+    ```
+    php artisan key:generate
+    ```
+- Link the storage and public folder together
+
+    ```
+    php artisan storage:link
+    ```
+- Add these lines to `/opt/homebrew/etc/httpd/extra/httpd-vhosts.conf`
+
+    ```
+    # Strepen vhosts
+
+    <VirtualHost *:80>
+        ServerName strepen.test
+        DocumentRoot "/Users/{username}/Sites/strepen/server/public"
+    </VirtualHost>
+
+    <VirtualHost *:80>
+        ServerName www.strepen.test
+        Redirect permanent / http://strepen.test/
+    </VirtualHost>
+    ```
+- And uncomment this line in `/opt/homebrew/etc/httpd/httpd.conf`
+
+    ```
+    # Virtual hosts
+    Include /opt/homebrew/etc/httpd/extra/httpd-vhosts.conf
+    ```
+- Restart apache
+
+    ```
+    brew services restart httpd
+    ```
+- Add following lines to `/etc/hosts` file **as root**
+
+    ```
+    # Strepen local domains
+    127.0.0.1 strepen.test
+    127.0.0.1 www.strepen.test
+    ```
+- Create MySQL user and database
+- Fill in MySQL user, password and database information in `server/.env`
+- Create database tables
+
+    ```
+    php artisan migrate --seed
+    ```
+- Goto http://strepen.test/ and you're done! 🎉
+- Optional: You can import all the data from the [old Strepen System](https://github.com/JohnOnline88/strepensysteem) (Doesn't work anymore)
+
+    ```
+    php artisan import-data 'http://stam.diekantankys.nl'
+    ```
+- Optional: You could run the automatic PHP linter & fixer
+
+    ```
+    php artisan lint
+    ```
+- Optional: You could run the unit and feature tests
+
+    ```
+    php artisan test --parallel
+    ```
 
 ## Linux
 
@@ -181,7 +272,7 @@ TODO
     php artisan migrate --seed
     ```
 - Goto http://strepen.test/ and you're done! 🎉
-- Optional: You can import all the data from the [old Strepen System](https://github.com/JohnOnline88/strepensysteem)
+- Optional: You can import all the data from the [old Strepen System](https://github.com/JohnOnline88/strepensysteem) (Doesn't work anymore)
 
     ```
     php artisan import-data 'http://stam.diekantankys.nl'
