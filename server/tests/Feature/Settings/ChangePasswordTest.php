@@ -4,6 +4,7 @@ namespace Tests\Feature\Settings;
 
 use App\Http\LiveWire\Settings\ChangePassword;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 use Livewire;
 
@@ -56,6 +57,6 @@ class ChangePasswordTest extends TestCase
             ->call('changePassword')
             ->assertHasNoErrors();
 
-        $this->assertTrue(password_verify($newPassword, $user->password));
+        $this->assertTrue(Hash::check($newPassword, $user->password));
     }
 }

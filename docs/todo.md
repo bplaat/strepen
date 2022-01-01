@@ -3,6 +3,10 @@
 # Todo List
 
 ## High priority
+- Use Laravel soft deletes inside of own creation
+    - https://www.scratchcode.io/how-to-use-the-laravel-soft-delete/
+- Use Laravel API resources inside of own creation
+    - https://laravel.com/docs/8.x/eloquent-resources
 - Bug fixes / All the whishs from the Stam Bestuur
 
 ## Low priority

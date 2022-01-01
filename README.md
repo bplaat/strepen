@@ -17,6 +17,6 @@ If you don't want to use the Google Play store, you can always download the late
 - [Todo list](docs/todo.md)
 
 ## License
-Copyright (c) 2021 Bastiaan van der Plaat
+Copyright (c) 2021 - present Bastiaan van der Plaat
 
 Licensed under the [MIT](LICENSE) license.
