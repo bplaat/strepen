@@ -12,7 +12,7 @@
                 <a class="navbar-item is-notification" href="{{ route('transactions.history') }}" wire:key="{{ $notification->id }}"
                     style="flex-direction: column; text-align: center; padding: .75rem 1rem;">
                     @php
-                        $transaction = App\Models\Transaction::find($notification->data['transaction_id']);
+                        $transaction = App\Models\Transaction::withTrashed()->find($notification->data['transaction_id']);
                     @endphp
                     <h1 class="title is-6 mb-1" style="width: 100%; line-height: .75rem;">
                         @lang('components.notifications.new_deposit_header')
@@ -27,7 +27,7 @@
                 <a class="navbar-item is-notification" href="{{ route('home') }}" wire:key="{{ $notification->id }}"
                     style="flex-direction: column; text-align: center; padding: .75rem 1rem;">
                     @php
-                        $post = App\Models\Post::find($notification->data['post_id']);
+                        $post = App\Models\Post::withTrashed()->find($notification->data['post_id']);
                     @endphp
                     <h1 class="title is-6 mb-1" style="width: 100%; line-height: .75rem;">
                         @lang('components.notifications.new_post_header')

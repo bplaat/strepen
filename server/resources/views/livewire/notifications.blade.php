@@ -10,7 +10,7 @@
                     <div class="box">
                         @if ($notification->type == 'App\Notifications\NewDeposit')
                             @php
-                                $transaction = App\Models\Transaction::find($notification->data['transaction_id']);
+                                $transaction = App\Models\Transaction::withTrashed()->find($notification->data['transaction_id']);
                             @endphp
                             <h1 class="title is-5">
                                 <a href="{{ route('transactions.history') }}">@lang('notifications.new_deposit_header')</a>
@@ -32,7 +32,7 @@
 
                         @if ($notification->type == 'App\Notifications\NewPost')
                             @php
-                                $post = App\Models\Post::find($notification->data['post_id']);
+                                $post = App\Models\Post::withTrashed()->find($notification->data['post_id']);
                             @endphp
                             <h1 class="title is-5">
                                 <a href="{{ route('home') }}">@lang('notifications.new_post_header')</a>
