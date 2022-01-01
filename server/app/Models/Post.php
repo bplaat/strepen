@@ -4,23 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Parsedown;
 
 class Post extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $hidden = [
-        'deleted'
-    ];
-
-    protected $casts = [
-        'deleted' => 'boolean'
-    ];
-
-    protected $attributes = [
-        'deleted' => false
+        'deleted_at'
     ];
 
     // A post belongs to a user
@@ -32,10 +26,9 @@ class Post extends Model
     // Search by a query
     public static function search($query, $searchQuery)
     {
-        return $query->where('deleted', false)
-            ->where(fn ($query) => $query->where('title', 'LIKE', '%' . $searchQuery . '%')
-                ->orWhere('body', 'LIKE', '%' . $searchQuery . '%')
-                ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%'));
+        return $query->where(fn ($query) => $query->where('title', 'LIKE', '%' . $searchQuery . '%')
+            ->orWhere('body', 'LIKE', '%' . $searchQuery . '%')
+            ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%'));
     }
 
     // Convert post to API data

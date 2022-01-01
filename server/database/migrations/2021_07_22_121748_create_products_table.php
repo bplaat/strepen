@@ -22,8 +22,8 @@ class CreateProductsTable extends Migration
             $table->integer('amount')->default(0);
             $table->boolean('alcoholic')->default(false);
             $table->boolean('active')->default(true);
-            $table->boolean('deleted')->default(false);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

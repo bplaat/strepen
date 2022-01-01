@@ -3,22 +3,24 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class Inventory extends Model
 {
+    use SoftDeletes;
+
     protected $hidden = [
-        'deleted'
+        'deleted_at'
     ];
 
     protected $casts = [
         'price' => 'double',
-        'active' => 'boolean',
-        'deleted' => 'boolean'
+        'active' => 'boolean'
     ];
 
     protected $attributes = [
-        'deleted' => false
+        'active' => true
     ];
 
     // A inventory belongs to a user
@@ -36,9 +38,8 @@ class Inventory extends Model
     // Search by a query
     public static function search($query, $searchQuery)
     {
-        return $query->where('deleted', false)
-            ->where(fn ($query) => $query->where('name', 'LIKE', '%' . $searchQuery . '%')
-                ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%'));
+        return $query->where(fn ($query) => $query->where('name', 'LIKE', '%' . $searchQuery . '%')
+            ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%'));
     }
 
     // Convert inventory to API data

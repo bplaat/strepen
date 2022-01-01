@@ -23,8 +23,8 @@ class ApiAuthController extends Controller
         }
 
         // Check if user is active and not deleted
-        $user = User::where('email', request('email'))->first();
-        if ($user->deleted) {
+        $user = User::withTrashed()->where('email', request('email'))->first();
+        if ($user->deleted_at != null) {
             return response(['errors' => [__('auth.login.deleted_error')]], 400);
         }
         if (!$user->active) {

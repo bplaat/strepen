@@ -27,8 +27,7 @@ class Item extends Component
     public function deleteApiKey()
     {
         $this->isDeleting = false;
-        $this->apiKey->deleted = true;
-        $this->apiKey->save();
+        $this->apiKey->delete();
         $this->emitUp('refresh');
     }
 

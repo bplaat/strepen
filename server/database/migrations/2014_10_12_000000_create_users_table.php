@@ -37,8 +37,8 @@ class CreateUsersTable extends Migration
             $table->boolean('receive_news')->default(true);
             $table->decimal('balance', 12, 3);
             $table->boolean('active')->default(true);
-            $table->boolean('deleted')->default(false);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

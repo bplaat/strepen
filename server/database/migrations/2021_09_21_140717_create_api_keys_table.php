@@ -20,8 +20,8 @@ class CreateApiKeysTable extends Migration
             $table->string('key');
             $table->unsignedBigInteger('requests')->default(0);
             $table->boolean('active')->default(true);
-            $table->boolean('deleted')->default(false);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

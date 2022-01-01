@@ -43,17 +43,13 @@ class Crud extends PaginationComponent
         }
 
         if ($this->user_id != 1) {
-            $user = User::where('id', $this->user_id)->where('deleted', false)->withCount([
-                'inventories' => function ($query) {
-                    return $query->where('deleted', false);
-                }
-            ])->first();
+            $user = User::where('id', $this->user_id)->withCount('inventories')->first();
             if ($user == null || $user->inventories_count == 0) {
                 $this->user_id = null;
             }
         }
 
-        if (Product::where('id', $this->product_id)->where('deleted', false)->count() == 0) {
+        if (Product::where('id', $this->product_id)->count() == 0) {
             $this->product_id = null;
         }
 

@@ -22,7 +22,7 @@ class ProductChooser extends InputComponent
     // Lifecycle
     public function mount()
     {
-        $products = Product::where('deleted', false);
+        $products = Product::select();
         if (!$this->includeInactive) {
             $products = $products->where('active', true);
         }

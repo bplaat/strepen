@@ -97,8 +97,7 @@ class Item extends Component
     public function deleteInventory()
     {
         $this->isDeleting = false;
-        $this->inventory->deleted = true;
-        $this->inventory->save();
+        $this->inventory->delete();
 
         // Recalculate amounts of all inventory products
         foreach ($this->inventory->products as $product) {

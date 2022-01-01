@@ -25,7 +25,7 @@ class UserChooser extends InputComponent
     // Lifecycle
     public function mount()
     {
-        $users = User::where('deleted', false);
+        $users = User::select();
         if (!$this->includeInactive) {
             if ($this->includeStrepenUser) {
                 $users = $users->where(fn ($query) => $query->where('active', true)->orWhere('id', 1));
@@ -33,14 +33,7 @@ class UserChooser extends InputComponent
                 $users = $users->where('active', true);
             }
         }
-        $this->users = $users->orderBy('balance', 'DESC')->withCount([
-            'posts' => function ($query) {
-                return $query->where('deleted', false);
-            },
-            'inventories' => function ($query) {
-                return $query->where('deleted', false);
-            }
-        ])->get();
+        $this->users = $users->orderBy('balance', 'DESC')->withCount(['posts', 'inventories'])->get();
 
         if ($this->postsRequired) {
             $this->users = $this->users->filter(fn ($user) => $user->posts_count > 0);

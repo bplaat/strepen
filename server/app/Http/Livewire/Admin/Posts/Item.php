@@ -51,8 +51,7 @@ class Item extends Component
     public function deletePost()
     {
         $this->isDeleting = false;
-        $this->post->deleted = true;
-        $this->post->save();
+        $this->post->delete();
         $this->emitUp('refresh');
     }
 

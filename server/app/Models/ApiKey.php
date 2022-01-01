@@ -3,23 +3,24 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class ApiKey extends Model
 {
+    use SoftDeletes;
+
     protected $hidden = [
-        'deleted'
+        'deleted_at'
     ];
 
     protected $casts = [
-        'active' => 'boolean',
-        'deleted' => 'boolean'
+        'active' => 'boolean'
     ];
 
     protected $attributes = [
         'requests' => 0,
-        'active' => true,
-        'deleted' => false
+        'active' => true
     ];
 
     public static function generateKey()
@@ -33,8 +34,7 @@ class ApiKey extends Model
 
     public static function search($query, $searchQuery)
     {
-        return $query->where('deleted', false)
-            ->where(fn ($query) => $query->where('name', 'LIKE', '%' . $searchQuery . '%')
-                ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%'));
+        return $query->where(fn ($query) => $query->where('name', 'LIKE', '%' . $searchQuery . '%')
+            ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%'));
     }
 }

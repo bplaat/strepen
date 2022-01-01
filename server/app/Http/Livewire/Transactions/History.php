@@ -35,7 +35,7 @@ class History extends PaginationComponent
             $this->type = null;
         }
 
-        if (Product::where('id', $this->product_id)->where('active', true)->where('deleted', false)->count() == 0) {
+        if (Product::where('id', $this->product_id)->where('active', true)->count() == 0) {
             $this->product_id = null;
         }
     }

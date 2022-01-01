@@ -35,11 +35,7 @@ class Crud extends PaginationComponent
         }
 
         if ($this->user_id != 1) {
-            $user = User::where('id', $this->user_id)->where('deleted', false)->withCount([
-                'posts' => function ($query) {
-                    return $query->where('deleted', false);
-                }
-            ])->first();
+            $user = User::where('id', $this->user_id)->withCount('posts')->first();
             if ($user == null || $user->posts_count == 0) {
                 $this->user_id = null;
             }
@@ -71,7 +67,7 @@ class Crud extends PaginationComponent
         $this->post->save();
 
         // Send all users the receive news new post notification
-        $users = User::where('active', true)->where('deleted', false)->where('receive_news', true)->get();
+        $users = User::where('active', true)->where('receive_news', true)->get();
         foreach ($users as $user) {
             $user->notify(new NewPost($user, $this->post));
         }

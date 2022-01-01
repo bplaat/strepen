@@ -57,17 +57,17 @@ class Crud extends PaginationComponent
             $this->type = null;
         }
 
-        if ($this->user_id != 1 && User::where('id', $this->user_id)->where('deleted', false)->count() == 0) {
+        if ($this->user_id != 1 && User::where('id', $this->user_id)->count() == 0) {
             $this->user_id = null;
         }
 
-        if (Product::where('id', $this->product_id)->where('deleted', false)->count() == 0) {
+        if (Product::where('id', $this->product_id)->count() == 0) {
             $this->product_id = null;
         }
 
         $this->transaction = new Transaction();
 
-        $this->users = User::where('active', true)->where('deleted', false)
+        $this->users = User::where('active', true)
             ->orderByRaw('active DESC, LOWER(firstname)')
             ->get();
         $this->userAmounts = array_fill(0, $this->users->count(), '');

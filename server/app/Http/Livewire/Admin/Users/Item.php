@@ -65,7 +65,7 @@ class Item extends Component
     {
         $this->oldRole = $this->user->role;
 
-        $firstTransaction = $this->user->transactions()->where('deleted', false)->orderBy('created_at')->first();
+        $firstTransaction = $this->user->transactions()->orderBy('created_at')->first();
         if ($firstTransaction != null) {
             $maxDiff = 365 * 24 * 60 * 60;
             if (time() - $firstTransaction->created_at->getTimestamp() < $maxDiff) {
@@ -160,8 +160,7 @@ class Item extends Component
             (Auth::user()->role == User::ROLE_MANAGER && $this->user->role != User::ROLE_ADMIN) ||
             Auth::user()->role == User::ROLE_ADMIN
         ) {
-            $this->user->deleted = true;
-            $this->user->update();
+            $this->user->delete();
             $this->emitUp('refresh');
         }
     }

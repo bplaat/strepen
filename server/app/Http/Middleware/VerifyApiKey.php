@@ -21,7 +21,7 @@ class VerifyApiKey
 
         // Increment API key requests counter
         $apiKey = ApiKey::where('key', $apiKey)->first();
-        if ($apiKey->deleted) {
+        if ($apiKey->deleted_at != null) {
             return response(['errors' => ['api_key' => 'This api key is deleted']], 400);
         }
         if (!$apiKey->active) {

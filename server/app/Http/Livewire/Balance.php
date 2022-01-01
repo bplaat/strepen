@@ -13,7 +13,7 @@ class Balance extends Component
     public function mount()
     {
         if ($this->startDate == null || strtotime($this->startDate) == false) {
-            $firstTransaction = Auth::user()->transactions()->where('deleted', false)->orderBy('created_at')->first();
+            $firstTransaction = Auth::user()->transactions()->orderBy('created_at')->first();
             if ($firstTransaction != null) {
                 $maxDiff = 365 * 24 * 60 * 60;
                 if (time() - $firstTransaction->created_at->getTimestamp() < $maxDiff) {

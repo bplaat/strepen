@@ -20,8 +20,8 @@ class Leaderboards extends Component
     {
         $this->enabled = Setting::get('leaderboards_enabled') == 'true';
 
-        $firstTransaction = Transaction::where('deleted', false)->orderBy('created_at')->first();
-        $firstInventory = Inventory::where('deleted', false)->orderBy('created_at')->first();
+        $firstTransaction = Transaction::orderBy('created_at')->first();
+        $firstInventory = Inventory::orderBy('created_at')->first();
         $this->oldestItemDate = date('Y-m-d', min(
             $firstTransaction != null ? $firstTransaction->created_at->getTimestamp() : time(),
             $firstInventory != null ? $firstInventory->created_at->getTimestamp() : time()

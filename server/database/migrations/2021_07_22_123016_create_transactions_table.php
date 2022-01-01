@@ -19,8 +19,8 @@ class CreateTransactionsTable extends Migration
             $table->unsignedTinyInteger('type');
             $table->string('name');
             $table->decimal('price', 12, 3);
-            $table->boolean('deleted')->default(false);
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('user_id')
                 ->references('id')

@@ -25,7 +25,7 @@ class ProductsChooser extends InputComponent
     public function mount()
     {
         // Select all products
-        $products = Product::where('deleted', false);
+        $products = Product::select();
         if (!$this->includeInactive) {
             $products = $products->where('active', true);
         }

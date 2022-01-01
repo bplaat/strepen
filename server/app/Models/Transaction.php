@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class Transaction extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     // A transaction can be a normal transaction, a deposit or a food transaction
     public const TYPE_TRANSACTION = 0;
@@ -16,17 +18,12 @@ class Transaction extends Model
     public const TYPE_FOOD = 2;
 
     protected $hidden = [
-        'deleted'
+        'deleted_at'
     ];
 
     protected $casts = [
         'price' => 'double',
-        'active' => 'boolean',
-        'deleted' => 'boolean'
-    ];
-
-    protected $attributes = [
-        'deleted' => false
+        'active' => 'boolean'
     ];
 
     // A transaction belongs to a user
@@ -44,9 +41,8 @@ class Transaction extends Model
     // Search by a query
     public static function search($query, $searchQuery)
     {
-        return $query->where('deleted', false)
-            ->where(fn ($query) => $query->where('name', 'LIKE', '%' . $searchQuery . '%')
-                ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%'));
+        return $query->where(fn ($query) => $query->where('name', 'LIKE', '%' . $searchQuery . '%')
+            ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%'));
     }
 
     // Convert transaction to API data

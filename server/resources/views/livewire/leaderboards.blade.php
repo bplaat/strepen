@@ -36,11 +36,11 @@
 
                     @php
                         $beerProductId = 1; // Weird constant
-                        $beerUsers = App\Models\User::where('deleted', false)->where('active', true)->get()
+                        $beerUsers = App\Models\User::where('active', true)->get()
                             ->map(function ($user) use ($beerProductId, $startDate) { // Very slow
                                 $user->amount = DB::table('transaction_product')
                                     ->join('transactions', 'transactions.id', 'transaction_id')
-                                    ->where('deleted', false)
+                                    ->whereNull('deleted_at')
                                     ->where('user_id', $user->id)
                                     ->where('product_id', $beerProductId)
                                     ->where('transactions.created_at', '>=', $startDate)
@@ -81,7 +81,7 @@
                                         <td>
                                             <x-change-format :change="DB::table('transaction_product')
                                                 ->join('transactions', 'transactions.id', 'transaction_id')
-                                                ->where('deleted', false)
+                                                ->whereNull('deleted_at')
                                                 ->where('user_id', $user->id)
                                                 ->where('product_id', $beerProductId)
                                                 ->where('transactions.created_at', '>=', date('Y-m-d', time() - 30 * 24 * 60 * 60))
@@ -93,7 +93,7 @@
                                         <td>
                                             <x-change-format :change="DB::table('transaction_product')
                                                 ->join('transactions', 'transactions.id', 'transaction_id')
-                                                ->where('deleted', false)
+                                                ->whereNull('deleted_at')
                                                 ->where('user_id', $user->id)
                                                 ->where('product_id', $beerProductId)
                                                 ->where('transactions.created_at', '>=', date('Y-m-d', time() - 365 * 24 * 60 * 60))
@@ -113,11 +113,11 @@
 
                     @php
                         $sodaProductId = 2; // Weird constant
-                        $sodaUsers = App\Models\User::where('deleted', false)->where('active', true)->get()
+                        $sodaUsers = App\Models\User::where('active', true)->get()
                             ->map(function ($user) use ($sodaProductId, $startDate) { // Very slow
                                 $user->amount = DB::table('transaction_product')
                                     ->join('transactions', 'transactions.id', 'transaction_id')
-                                    ->where('deleted', false)
+                                    ->whereNull('deleted_at')
                                     ->where('user_id', $user->id)
                                     ->where('product_id', $sodaProductId)
                                     ->where('transactions.created_at', '>=', $startDate)
@@ -158,7 +158,7 @@
                                         <td>
                                             <x-change-format :change="DB::table('transaction_product')
                                                 ->join('transactions', 'transactions.id', 'transaction_id')
-                                                ->where('deleted', false)
+                                                ->whereNull('deleted_at')
                                                 ->where('user_id', $user->id)
                                                 ->where('product_id', $sodaProductId)
                                                 ->where('transactions.created_at', '>=', date('Y-m-d', time() - 30 * 24 * 60 * 60))
@@ -170,7 +170,7 @@
                                         <td>
                                             <x-change-format :change="DB::table('transaction_product')
                                                 ->join('transactions', 'transactions.id', 'transaction_id')
-                                                ->where('deleted', false)
+                                                ->whereNull('deleted_at')
                                                 ->where('user_id', $user->id)
                                                 ->where('product_id', $sodaProductId)
                                                 ->where('transactions.created_at', '>=', date('Y-m-d', time() - 365 * 24 * 60 * 60))
@@ -191,11 +191,11 @@
                     @php
                         $candybarProductId = 3; // Weird constant
                         $chipsProductId = 4; // Weird constant
-                        $snackUsers = App\Models\User::where('deleted', false)->where('active', true)->get()
+                        $snackUsers = App\Models\User::where('active', true)->get()
                             ->map(function ($user) use ($candybarProductId, $chipsProductId, $startDate) { // Very slow
                                 $user->amount = DB::table('transaction_product')
                                     ->join('transactions', 'transactions.id', 'transaction_id')
-                                    ->where('deleted', false)
+                                    ->whereNull('deleted_at')
                                     ->where('user_id', $user->id)
                                     ->where(fn ($query) => $query->where('product_id', $candybarProductId)
                                         ->orWhere('product_id', $chipsProductId))
@@ -237,7 +237,7 @@
                                         <td>
                                             <x-change-format :change="DB::table('transaction_product')
                                                 ->join('transactions', 'transactions.id', 'transaction_id')
-                                                ->where('deleted', false)
+                                                ->whereNull('deleted_at')
                                                 ->where('user_id', $user->id)
                                                 ->where(fn ($query) => $query->where('product_id', $candybarProductId)
                                                     ->orWhere('product_id', $chipsProductId))
@@ -250,7 +250,7 @@
                                         <td>
                                             <x-change-format :change="DB::table('transaction_product')
                                                 ->join('transactions', 'transactions.id', 'transaction_id')
-                                                ->where('deleted', false)
+                                                ->whereNull('deleted_at')
                                                 ->where('user_id', $user->id)
                                                 ->where(fn ($query) => $query->where('product_id', $candybarProductId)
                                                     ->orWhere('product_id', $chipsProductId))
@@ -270,16 +270,16 @@
                     <h2 class="title is-4 has-text-centered">@lang('leaderboards.best_spenders_header')</h2>
 
                     @php
-                        $spendingUsers = App\Models\User::where('deleted', false)->where('active', true)->get()
+                        $spendingUsers = App\Models\User::where('active', true)->get()
                             ->map(function ($user) use ($startDate) { // Very slow
                                 $user->spending = DB::table('transactions')
-                                    ->where('deleted', false)
+                                    ->whereNull('deleted_at')
                                     ->where('user_id', $user->id)
                                     ->where('type', App\Models\Transaction::TYPE_TRANSACTION)
                                     ->where('transactions.created_at', '>=', $startDate)
                                     ->sum('price')
                                     + DB::table('transactions')
-                                    ->where('deleted', false)
+                                    ->whereNull('deleted_at')
                                     ->where('user_id', $user->id)
                                     ->where('type', App\Models\Transaction::TYPE_FOOD)
                                     ->where('price', '>', 0)
@@ -320,13 +320,13 @@
                                     @if ($range == 'half_year' || $range == null || $range == 'year')
                                         <td>
                                             <x-change-format :change="DB::table('transactions')
-                                                ->where('deleted', false)
+                                                ->whereNull('deleted_at')
                                                 ->where('user_id', $user->id)
                                                 ->where('type', App\Models\Transaction::TYPE_TRANSACTION)
                                                 ->where('created_at', '>=', date('Y-m-d', time() - 30 * 24 * 60 * 60))
                                                 ->sum('price')
                                                 + DB::table('transactions')
-                                                ->where('deleted', false)
+                                                ->whereNull('deleted_at')
                                                 ->where('user_id', $user->id)
                                                 ->where('type', App\Models\Transaction::TYPE_FOOD)
                                                 ->where('price', '>', 0)
@@ -338,13 +338,13 @@
                                     @if ($range == 'two_year' || $range == 'five_year' || $range == 'everything')
                                         <td>
                                             <x-change-format :change="DB::table('transactions')
-                                                ->where('deleted', false)
+                                                ->whereNull('deleted_at')
                                                 ->where('user_id', $user->id)
                                                 ->where('type', App\Models\Transaction::TYPE_TRANSACTION)
                                                 ->where('created_at', '>=', date('Y-m-d', time() - 365 * 24 * 60 * 60))
                                                 ->sum('price')
                                                 + DB::table('transactions')
-                                                ->where('deleted', false)
+                                                ->whereNull('deleted_at')
                                                 ->where('user_id', $user->id)
                                                 ->where('type', App\Models\Transaction::TYPE_FOOD)
                                                 ->where('price', '>', 0)
@@ -364,7 +364,7 @@
                     <h2 class="title is-4 has-text-centered">@lang('leaderboards.best_balance_header')</h2>
 
                     @php
-                        $users = App\Models\User::where('deleted', false)->where('active', true)
+                        $users = App\Models\User::where('active', true)
                             ->orderByDesc('balance')->limit(10)->get();
                     @endphp
 
@@ -397,14 +397,14 @@
                                     @if ($range == 'half_year' || $range == null || $range == 'year')
                                         <td>
                                             <x-change-format :change="DB::table('transactions')
-                                                ->where('deleted', false)
+                                                ->whereNull('deleted_at')
                                                 ->where('user_id', $user->id)
                                                 ->where('type', App\Models\Transaction::TYPE_DEPOSIT)
                                                 ->where('created_at', '>=', date('Y-m-d', time() - 30 * 24 * 60 * 60))
                                                 ->sum('price')
                                                 -
                                                 DB::table('transactions')
-                                                ->where('deleted', false)
+                                                ->whereNull('deleted_at')
                                                 ->where('user_id', $user->id)
                                                 ->where(fn ($query) => $query->where('type', App\Models\Transaction::TYPE_TRANSACTION)
                                                     ->orWhere('type', App\Models\Transaction::TYPE_FOOD))
@@ -416,14 +416,14 @@
                                     @if ($range == 'two_year' || $range == 'five_year' || $range == 'everything')
                                         <td>
                                             <x-change-format :change="DB::table('transactions')
-                                                ->where('deleted', false)
+                                                ->whereNull('deleted_at')
                                                 ->where('user_id', $user->id)
                                                 ->where('type', App\Models\Transaction::TYPE_DEPOSIT)
                                                 ->where('created_at', '>=', date('Y-m-d', time() - 365 * 24 * 60 * 60))
                                                 ->sum('price')
                                                 -
                                                 DB::table('transactions')
-                                                ->where('deleted', false)
+                                                ->whereNull('deleted_at')
                                                 ->where('user_id', $user->id)
                                                 ->where(fn ($query) => $query->where('type', App\Models\Transaction::TYPE_TRANSACTION)
                                                     ->orWhere('type', App\Models\Transaction::TYPE_FOOD))
@@ -443,7 +443,7 @@
                     <h2 class="title is-4 has-text-centered">@lang('leaderboards.worst_balance_header')</h2>
 
                     @php
-                        $users = App\Models\User::where('deleted', false)->where('active', true)
+                        $users = App\Models\User::where('active', true)
                             ->orderBy('balance')->limit(10)->get();
                     @endphp
 
@@ -476,14 +476,14 @@
                                     @if ($range == 'half_year' || $range == null || $range == 'year')
                                         <td>
                                             <x-change-format :change="DB::table('transactions')
-                                                ->where('deleted', false)
+                                                ->whereNull('deleted_at')
                                                 ->where('user_id', $user->id)
                                                 ->where('type', App\Models\Transaction::TYPE_DEPOSIT)
                                                 ->where('created_at', '>=', date('Y-m-d', time() - 30 * 24 * 60 * 60))
                                                 ->sum('price')
                                                 -
                                                 DB::table('transactions')
-                                                ->where('deleted', false)
+                                                ->whereNull('deleted_at')
                                                 ->where('user_id', $user->id)
                                                 ->where(fn ($query) => $query->where('type', App\Models\Transaction::TYPE_TRANSACTION)
                                                     ->orWhere('type', App\Models\Transaction::TYPE_FOOD))
@@ -495,14 +495,14 @@
                                     @if ($range == 'two_year' || $range == 'five_year' || $range == 'everything')
                                         <td>
                                             <x-change-format :change="DB::table('transactions')
-                                                ->where('deleted', false)
+                                                ->whereNull('deleted_at')
                                                 ->where('user_id', $user->id)
                                                 ->where('type', App\Models\Transaction::TYPE_DEPOSIT)
                                                 ->where('created_at', '>=', date('Y-m-d', time() - 365 * 24 * 60 * 60))
                                                 ->sum('price')
                                                 -
                                                 DB::table('transactions')
-                                                ->where('deleted', false)
+                                                ->whereNull('deleted_at')
                                                 ->where('user_id', $user->id)
                                                 ->where(fn ($query) => $query->where('type', App\Models\Transaction::TYPE_TRANSACTION)
                                                     ->orWhere('type', App\Models\Transaction::TYPE_FOOD))

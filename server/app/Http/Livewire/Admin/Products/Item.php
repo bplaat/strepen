@@ -29,8 +29,8 @@ class Item extends Component
 
     public function mount()
     {
-        $firstTransaction = $this->product->transactions()->where('deleted', false)->orderBy('created_at')->first();
-        $firstInventory = $this->product->inventories()->where('deleted', false)->orderBy('created_at')->first();
+        $firstTransaction = $this->product->transactions()->orderBy('created_at')->first();
+        $firstInventory = $this->product->inventories()->orderBy('created_at')->first();
         if ($firstTransaction != null || $firstInventory != null) {
             $oldestItem = $firstTransaction ?? $firstInventory;
             if ($firstTransaction != null && $firstInventory != null) {
@@ -83,8 +83,7 @@ class Item extends Component
     public function deleteProduct()
     {
         $this->isDeleting = false;
-        $this->product->deleted = true;
-        $this->product->save();
+        $this->product->delete();
         $this->emitUp('refresh');
     }
 

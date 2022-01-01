@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Notifications\LowBalance;
 use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\Notifiable;
@@ -17,6 +18,7 @@ class User extends Authenticatable
     use HasApiTokens;
     use HasFactory;
     use Notifiable;
+    use SoftDeletes;
 
     // A user can be male, female or other
     public const GENDER_MALE = 0;
@@ -40,7 +42,7 @@ class User extends Authenticatable
         'email_verified_at',
         'password',
         'remember_token',
-        'deleted'
+        'deleted_at'
     ];
 
     protected $casts = [
@@ -48,8 +50,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'receive_news' => 'boolean',
         'balance' => 'double',
-        'active' => 'boolean',
-        'deleted' => 'boolean'
+        'active' => 'boolean'
     ];
 
     protected $attributes = [
@@ -57,8 +58,7 @@ class User extends Authenticatable
         'language' => User::LANGUAGE_DUTCH,
         'theme' => User::THEME_DARK,
         'receive_news' => true,
-        'active' => true,
-        'deleted' => false
+        'active' => true
     ];
 
     protected $fillable = [
@@ -100,7 +100,7 @@ class User extends Authenticatable
 
         if ($this->id != 1) {
             // Loop through all transactions and adjust balance
-            $transactions = $this->transactions()->where('deleted', false)->get();
+            $transactions = $this->transactions;
             foreach ($transactions as $transaction) {
                 if ($transaction->type == Transaction::TYPE_TRANSACTION) {
                     $this->balance -= $transaction->price;
@@ -160,12 +160,11 @@ class User extends Authenticatable
     // Search by a query
     public static function search($query, $searchQuery)
     {
-        return $query->where('deleted', false)
-            ->where(fn ($query) => $query->where('firstname', 'LIKE', '%' . $searchQuery . '%')
-                ->orWhere('insertion', 'LIKE', '%' . $searchQuery . '%')
-                ->orWhere('lastname', 'LIKE', '%' . $searchQuery . '%')
-                ->orWhere('email', 'LIKE', '%' . $searchQuery . '%')
-                ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%'));
+        return $query->where(fn ($query) => $query->where('firstname', 'LIKE', '%' . $searchQuery . '%')
+            ->orWhere('insertion', 'LIKE', '%' . $searchQuery . '%')
+            ->orWhere('lastname', 'LIKE', '%' . $searchQuery . '%')
+            ->orWhere('email', 'LIKE', '%' . $searchQuery . '%')
+            ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%'));
     }
 
     // Convert user to API data
@@ -255,7 +254,7 @@ class User extends Authenticatable
     public function getBalanceChart($startDate, $endDate)
     {
         // Covert start and end date to timestamp
-        $firstTransaction = $this->transactions()->where('deleted', false)->orderBy('created_at')->first();
+        $firstTransaction = $this->transactions()->orderBy('created_at')->first();
         if ($firstTransaction != null) {
             $startDate = max(strtotime($startDate), $firstTransaction->created_at->getTimestamp());
         } else {
@@ -266,21 +265,21 @@ class User extends Authenticatable
         // Get the deposits price sum and transactions price sum before start date
         $startDepositsPrice = DB::table('transactions')
             ->where('user_id', $this->id)
-            ->where('deleted', false)
+            ->whereNull('deleted_at')
             ->where('type', Transaction::TYPE_DEPOSIT)
             ->where('created_at', '<', date('Y-m-d H:i:s', $startDate))
             ->sum('price');
 
         $startTransactionsPrice = DB::table('transactions')
             ->where('user_id', $this->id)
-            ->where('deleted', false)
+            ->whereNull('deleted_at')
             ->where(fn ($query) => $query->where('type', Transaction::TYPE_TRANSACTION)
                 ->orWhere('type', Transaction::TYPE_FOOD))
             ->where('created_at', '<', date('Y-m-d H:i:s', $startDate))
             ->sum('price');
 
         // Get the rest of the transactions between this time
-        $transactions = $this->transactions()->where('deleted', false)->orderBy('created_at')
+        $transactions = $this->transactions()->orderBy('created_at')
             ->where('created_at', '>=', date('Y-m-d H:i:s', $startDate))
             ->where('created_at', '<', date('Y-m-d H:i:s', $endDate + 24 * 60 * 60))
             ->get();
@@ -333,7 +332,7 @@ class User extends Authenticatable
     // Send all users that have a to low balance an low balance notification
     public static function checkBalances()
     {
-        $users = User::where('active', true)->where('deleted', false)->get();
+        $users = User::where('active', true)->get();
         $minUserBalance = Setting::get('min_user_balance');
         foreach ($users as $user) {
             if ($user->balance < $minUserBalance) {

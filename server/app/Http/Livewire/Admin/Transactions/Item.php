@@ -134,8 +134,7 @@ class Item extends Component
         $this->isDeleting = false;
 
         // Delete and recalculate user balance
-        $this->transaction->deleted = true;
-        $this->transaction->save();
+        $this->transaction->delete();
 
         $user = $this->transaction->user;
         $user->recalculateBalance();

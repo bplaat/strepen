@@ -18,8 +18,8 @@ class CreateInventoriesTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('name');
             $table->decimal('price', 12, 3);
-            $table->boolean('deleted')->default(false);
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('user_id')
                 ->references('id')

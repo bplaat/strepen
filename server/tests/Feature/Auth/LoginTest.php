@@ -63,8 +63,7 @@ class LoginTest extends TestCase
     {
         $password = $this->faker->password;
         $user = User::factory()->password($password)->create();
-        $user->deleted = true;
-        $user->save();
+        $user->delete();
         Livewire::test(Login::class)
             ->set('email', $user->email)
             ->set('password', $password)

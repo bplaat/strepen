@@ -4,29 +4,28 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $hidden = [
-        'deleted'
+        'deleted_at'
     ];
 
     protected $casts = [
         'price' => 'double',
         'alcoholic' => 'boolean',
-        'active' => 'boolean',
-        'deleted' => 'boolean'
+        'active' => 'boolean'
     ];
 
     protected $attributes = [
         'amount' => 0,
         'alcoholic' => false,
-        'active' => true,
-        'deleted' => false
+        'active' => true
     ];
 
     // Generate a random image name
@@ -47,13 +46,13 @@ class Product extends Model
     {
         $this->amount = DB::table('inventory_product')
             ->join('inventories', 'inventories.id', 'inventory_id')
-            ->where('deleted', false)
+            ->whereNull('deleted_at')
             ->where('product_id', $this->id)
             ->sum('amount')
             -
             DB::table('transaction_product')
             ->join('transactions', 'transactions.id', 'transaction_id')
-            ->where('deleted', false)
+            ->whereNull('deleted_at')
             ->where('product_id', $this->id)
             ->sum('amount');
     }
@@ -73,10 +72,9 @@ class Product extends Model
     // Search by a query
     public static function search($query, $searchQuery)
     {
-        return $query->where('deleted', false)
-            ->where(fn ($query) => $query->where('name', 'LIKE', '%' . $searchQuery . '%')
-                ->orWhere('description', 'LIKE', '%' . $searchQuery . '%')
-                ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%'));
+        return $query->where(fn ($query) => $query->where('name', 'LIKE', '%' . $searchQuery . '%')
+            ->orWhere('description', 'LIKE', '%' . $searchQuery . '%')
+            ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%'));
     }
 
     // Convert product to API data
@@ -116,8 +114,8 @@ class Product extends Model
     public function getAmountChart($startDate, $endDate)
     {
         // Covert start and end date to timestamp
-        $firstTransaction = $this->transactions()->where('deleted', false)->orderBy('created_at')->first();
-        $firstInventory = $this->inventories()->where('deleted', false)->orderBy('created_at')->first();
+        $firstTransaction = $this->transactions()->orderBy('created_at')->first();
+        $firstInventory = $this->inventories()->orderBy('created_at')->first();
         if ($firstTransaction != null || $firstInventory != null) {
             $oldestItem = $firstTransaction ?? $firstInventory;
             if ($firstTransaction != null && $firstInventory != null) {
@@ -135,24 +133,24 @@ class Product extends Model
         // Get the inventory amount sum and transaction amount sum before start date
         $startInventoryAmount = DB::table('inventory_product')
             ->join('inventories', 'inventories.id', 'inventory_id')
-            ->where('deleted', false)
+            ->whereNull('deleted_at')
             ->where('product_id', $this->id)
             ->where('inventories.created_at', '<', date('Y-m-d H:i:s', $startDate))
             ->sum('amount');
 
         $startTransactionAmount = DB::table('transaction_product')
             ->join('transactions', 'transactions.id', 'transaction_id')
-            ->where('deleted', false)
+            ->whereNull('deleted_at')
             ->where('product_id', $this->id)
             ->where('transactions.created_at', '<', date('Y-m-d H:i:s', $startDate))
             ->sum('amount');
 
         // Get the rest of the inventories and transactions between this time
-        $inventories = $this->inventories()->where('deleted', false)
+        $inventories = $this->inventories()
             ->where('inventories.created_at', '>=', date('Y-m-d H:i:s', $startDate))
             ->where('inventories.created_at', '<', date('Y-m-d H:i:s', $endDate + 24 * 60 * 60))
             ->get();
-        $transactions = $this->transactions()->where('deleted', false)
+        $transactions = $this->transactions()
             ->where('transactions.created_at', '>=', date('Y-m-d H:i:s', $startDate))
             ->where('transactions.created_at', '<', date('Y-m-d H:i:s', $endDate + 24 * 60 * 60))
             ->get();
