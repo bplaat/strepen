@@ -31,12 +31,12 @@ class CreateUsersTable extends Migration
             $table->string('city')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->unsignedTinyInteger('role')->default(User::ROLE_NORMAL);
-            $table->unsignedTinyInteger('language')->default(User::LANGUAGE_DUTCH);
-            $table->unsignedTinyInteger('theme')->default(User::THEME_DARK);
-            $table->boolean('receive_news')->default(true);
+            $table->unsignedTinyInteger('role');
+            $table->unsignedTinyInteger('language');
+            $table->unsignedTinyInteger('theme');
+            $table->boolean('receive_news');
             $table->decimal('balance', 12, 3);
-            $table->boolean('active')->default(true);
+            $table->boolean('active');
             $table->timestamps();
             $table->softDeletes();
         });

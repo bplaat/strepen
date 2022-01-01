@@ -104,7 +104,6 @@ class Crud extends PaginationComponent
             $this->user->thanks = $thanksName;
         }
 
-        $this->user->balance = 0;
         $this->user->save();
         $this->mount();
     }

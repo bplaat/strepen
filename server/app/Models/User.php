@@ -58,6 +58,7 @@ class User extends Authenticatable
         'language' => User::LANGUAGE_DUTCH,
         'theme' => User::THEME_DARK,
         'receive_news' => true,
+        'balance' => 0,
         'active' => true
     ];
 

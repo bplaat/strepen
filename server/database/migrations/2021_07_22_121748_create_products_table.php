@@ -19,9 +19,9 @@ class CreateProductsTable extends Migration
             $table->string('description')->nullable();
             $table->string('image')->nullable();
             $table->decimal('price', 12, 2);
-            $table->integer('amount')->default(0);
-            $table->boolean('alcoholic')->default(false);
-            $table->boolean('active')->default(true);
+            $table->integer('amount');
+            $table->boolean('alcoholic');
+            $table->boolean('active');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -24,7 +24,6 @@ class DatabaseSeeder extends Seeder
         $user->lastname = 'System';
         $user->email = 'system@' . strtolower(config('app.name'));
         $user->password = Hash::make(Str::random(32));
-        $user->balance = 0;
         $user->active = false;
         $user->receive_news = false;
         $user->save();
@@ -37,7 +36,6 @@ class DatabaseSeeder extends Seeder
         $user->email = 'bastiaan.v.d.plaat@gmail.com';
         $user->password = Hash::make('admin123');
         $user->role = User::ROLE_ADMIN;
-        $user->balance = 0;
         $user->checkGravatarAvatar();
         $user->save();
 
