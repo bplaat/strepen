@@ -17,6 +17,7 @@
                                     <option value="year">@lang('leaderboards.range_chooser_year') (@lang('leaderboards.range_chooser_from') {{ date('Y-m-d', time() - 365 * 24 * 60 * 60) }})</option>
                                     <option value="two_year">@lang('leaderboards.range_chooser_two_year') (@lang('leaderboards.range_chooser_from') {{ date('Y-m-d', time() - 2 * 365 * 24 * 60 * 60) }})</option>
                                     <option value="five_year">@lang('leaderboards.range_chooser_five_year') (@lang('leaderboards.range_chooser_from') {{ date('Y-m-d', time() - 5 * 365 * 24 * 60 * 60) }})</option>
+                                    <option value="ten_year">@lang('leaderboards.range_chooser_ten_year') (@lang('leaderboards.range_chooser_from') {{ date('Y-m-d', time() - 10 * 365 * 24 * 60 * 60) }})</option>
                                     <option value="everything">@lang('leaderboards.range_chooser_everything') (@lang('leaderboards.range_chooser_from') {{ $oldestItemDate }})</option>
                                 </select>
                             </div>
@@ -62,7 +63,7 @@
                                 @if ($range == 'half_year' || $range == null || $range == 'year')
                                     <th style="width: 20%;">@lang('leaderboards.change_month')</th>
                                 @endif
-                                @if ($range == 'two_year' || $range == 'five_year' || $range == 'everything')
+                                @if ($range == 'two_year' || $range == 'five_year' || $range == 'ten_year' || $range == 'everything')
                                     <th style="width: 20%;">@lang('leaderboards.change_year')</th>
                                 @endif
                             </tr>
@@ -89,7 +90,7 @@
                                         </td>
                                     @endif
 
-                                    @if ($range == 'two_year' || $range == 'five_year' || $range == 'everything')
+                                    @if ($range == 'two_year' || $range == 'five_year' || $range == 'ten_year' || $range == 'everything')
                                         <td>
                                             <x-change-format :change="DB::table('transaction_product')
                                                 ->join('transactions', 'transactions.id', 'transaction_id')
@@ -139,7 +140,7 @@
                                 @if ($range == 'half_year' || $range == null || $range == 'year')
                                     <th style="width: 20%;">@lang('leaderboards.change_month')</th>
                                 @endif
-                                @if ($range == 'two_year' || $range == 'five_year' || $range == 'everything')
+                                @if ($range == 'two_year' || $range == 'five_year' || $range == 'ten_year' || $range == 'everything')
                                     <th style="width: 20%;">@lang('leaderboards.change_year')</th>
                                 @endif
                             </tr>
@@ -166,7 +167,7 @@
                                         </td>
                                     @endif
 
-                                    @if ($range == 'two_year' || $range == 'five_year' || $range == 'everything')
+                                    @if ($range == 'two_year' || $range == 'five_year' || $range == 'ten_year' || $range == 'everything')
                                         <td>
                                             <x-change-format :change="DB::table('transaction_product')
                                                 ->join('transactions', 'transactions.id', 'transaction_id')
@@ -218,7 +219,7 @@
                                 @if ($range == 'half_year' || $range == null || $range == 'year')
                                     <th style="width: 20%;">@lang('leaderboards.change_month')</th>
                                 @endif
-                                @if ($range == 'two_year' || $range == 'five_year' || $range == 'everything')
+                                @if ($range == 'two_year' || $range == 'five_year' || $range == 'ten_year' || $range == 'everything')
                                     <th style="width: 20%;">@lang('leaderboards.change_year')</th>
                                 @endif
                             </tr>
@@ -246,7 +247,7 @@
                                         </td>
                                     @endif
 
-                                    @if ($range == 'two_year' || $range == 'five_year' || $range == 'everything')
+                                    @if ($range == 'two_year' || $range == 'five_year' || $range == 'ten_year' || $range == 'everything')
                                         <td>
                                             <x-change-format :change="DB::table('transaction_product')
                                                 ->join('transactions', 'transactions.id', 'transaction_id')
@@ -302,7 +303,7 @@
                                 @if ($range == 'half_year' || $range == null || $range == 'year')
                                     <th style="width: 20%;">@lang('leaderboards.change_month')</th>
                                 @endif
-                                @if ($range == 'two_year' || $range == 'five_year' || $range == 'everything')
+                                @if ($range == 'two_year' || $range == 'five_year' || $range == 'ten_year' || $range == 'everything')
                                     <th style="width: 20%;">@lang('leaderboards.change_year')</th>
                                 @endif
                             </tr>
@@ -335,7 +336,7 @@
                                         </td>
                                     @endif
 
-                                    @if ($range == 'two_year' || $range == 'five_year' || $range == 'everything')
+                                    @if ($range == 'two_year' || $range == 'five_year' || $range == 'ten_year' || $range == 'everything')
                                         <td>
                                             <x-change-format :change="DB::table('transactions')
                                                 ->whereNull('deleted_at')
@@ -379,7 +380,7 @@
                                 @if ($range == 'half_year' || $range == null || $range == 'year')
                                     <th style="width: 20%;">@lang('leaderboards.change_month')</th>
                                 @endif
-                                @if ($range == 'two_year' || $range == 'five_year' || $range == 'everything')
+                                @if ($range == 'two_year' || $range == 'five_year' || $range == 'ten_year' || $range == 'everything')
                                     <th style="width: 20%;">@lang('leaderboards.change_year')</th>
                                 @endif
                             </tr>
@@ -413,7 +414,7 @@
                                         </td>
                                     @endif
 
-                                    @if ($range == 'two_year' || $range == 'five_year' || $range == 'everything')
+                                    @if ($range == 'two_year' || $range == 'five_year' || $range == 'ten_year' || $range == 'everything')
                                         <td>
                                             <x-change-format :change="DB::table('transactions')
                                                 ->whereNull('deleted_at')
@@ -458,7 +459,7 @@
                                 @if ($range == 'half_year' || $range == null || $range == 'year')
                                     <th style="width: 20%;">@lang('leaderboards.change_month')</th>
                                 @endif
-                                @if ($range == 'two_year' || $range == 'five_year' || $range == 'everything')
+                                @if ($range == 'two_year' || $range == 'five_year' || $range == 'ten_year' || $range == 'everything')
                                     <th style="width: 20%;">@lang('leaderboards.change_year')</th>
                                 @endif
                             </tr>
@@ -492,7 +493,7 @@
                                         </td>
                                     @endif
 
-                                    @if ($range == 'two_year' || $range == 'five_year' || $range == 'everything')
+                                    @if ($range == 'two_year' || $range == 'five_year' || $range == 'ten_year' || $range == 'everything')
                                         <td>
                                             <x-change-format :change="DB::table('transactions')
                                                 ->whereNull('deleted_at')

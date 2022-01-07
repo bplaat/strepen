@@ -12,6 +12,7 @@ return [
     'range_chooser_year' => 'Last year',
     'range_chooser_two_year' => 'Last two year',
     'range_chooser_five_year' => 'Last five year',
+    'range_chooser_ten_year' => 'Last ten year',
     'range_chooser_everything' => 'Everything',
     'select' => 'Select',
     'best_beer_header' => 'Most beers',

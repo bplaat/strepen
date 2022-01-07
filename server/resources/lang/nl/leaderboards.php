@@ -12,6 +12,7 @@ return [
     'range_chooser_year' => 'Laatste jaar',
     'range_chooser_two_year' => 'Laatste twee jaar',
     'range_chooser_five_year' => 'Laatste vijf jaar',
+    'range_chooser_ten_year' => 'Laatste tien jaar',
     'range_chooser_everything' => 'Altijd',
     'select' => 'Selecteren',
     'best_beer_header' => 'Meeste biertjes',

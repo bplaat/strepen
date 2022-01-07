@@ -29,7 +29,7 @@ class Leaderboards extends Component
 
         if (
             $this->range != 'month_to_date' && $this->range != 'month' && $this->range != 'half_year' && $this->range != 'year' &&
-            $this->range != 'two_year' && $this->range != 'five_year' && $this->range != 'everything'
+            $this->range != 'two_year' && $this->range != 'five_year' && $this->range != 'ten_year' && $this->range != 'everything'
         ) {
             $this->range = null;
         }
@@ -54,6 +54,9 @@ class Leaderboards extends Component
         }
         if ($this->range == 'five_year') {
             $this->startDate = date('Y-m-d', time() - 5 * 356 * 24 * 60 * 60);
+        }
+        if ($this->range == 'ten_year') {
+            $this->startDate = date('Y-m-d', time() - 10 * 356 * 24 * 60 * 60);
         }
         if ($this->range == 'everything') {
             $this->startDate = $this->oldestItemDate;
