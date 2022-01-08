@@ -23,7 +23,8 @@ class ProductResource extends JsonResource
                 'updated_at' => $this->updated_at,
             ]),
             'inventories' => InventoryResource::collection($this->whenLoaded('inventories')),
-            'transactions' => TransactionResource::collection($this->whenLoaded('transactions'))
+            'transactions' => TransactionResource::collection($this->whenLoaded('transactions')),
+            'transactions_count' => $this->transactions()->count()
         ];
         if ($this->relationLoaded('pivot')) {
             $data['amount'] = $this->pivot->amount;
