@@ -6,6 +6,7 @@ class Product {
   final double price;
   final bool alcoholic;
   final bool? active;
+  final int transactionsCount;
 
   Product({
     required this.id,
@@ -14,7 +15,8 @@ class Product {
     required this.image,
     required this.price,
     required this.alcoholic,
-    required this.active
+    required this.active,
+    required this.transactionsCount
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
@@ -25,7 +27,8 @@ class Product {
       image: json['image'],
       price: json['price'].toDouble(),
       alcoholic: json['alcoholic'],
-      active: json['active']
+      active: json['active'],
+      transactionsCount: json['transactions_count']
     );
   }
 }

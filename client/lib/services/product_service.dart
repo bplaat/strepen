@@ -28,6 +28,7 @@ class ProductsService {
       if (_products![0].active != null) {
         _products = _products!.where((Product product) => product.active!).toList();
       }
+      _products!.sort((a, b) => b.transactionsCount.compareTo(a.transactionsCount));
     }
     return _products!;
   }
