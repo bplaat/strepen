@@ -28,6 +28,7 @@ return [
     // Admin products item livewire component
     'item.alcoholic' => 'Alcoholisch',
     'item.inactive' => 'Inactief',
+    'item.no_description' => 'Dit product heeft geen omschrijving',
     'item.amount' => 'Hoeveelheid op voorraad',
     'item.show' => 'Bekijken',
     'item.edit' => 'Aanpassen',
