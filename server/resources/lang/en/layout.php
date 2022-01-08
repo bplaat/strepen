@@ -18,7 +18,6 @@ return [
     'navbar.settings' => 'Settings',
     'navbar.logout' => 'Logout',
     'navbar.login' => 'Login',
-    'navbar.in_kiosk' => 'In Kiosk Mode',
 
     // Layout footer
     'footer.authors' => 'Made by <a href="https://bastiaan.ml/" target="_blank" rel="noreferrer">Bastiaan van der Plaat</a>',

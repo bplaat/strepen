@@ -10,6 +10,8 @@ Route::view('/apps', 'apps')->name('apps');
 // Auth routes
 Route::middleware('auth')->group(function () {
     Route::get('/leaderboards', App\Http\Livewire\Leaderboards::class)->name('leaderboards');
+
+    Route::get('/auth/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('auth.logout');
 });
 
 // Normal routes
@@ -23,8 +25,6 @@ Route::middleware(['auth', 'nokiosk'])->group(function () {
     Route::get('/balance', App\Http\Livewire\Balance::class)->name('balance');
 
     Route::view('/settings', 'settings')->name('settings');
-
-    Route::get('/auth/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('auth.logout');
 });
 
 // Kiosk routes
