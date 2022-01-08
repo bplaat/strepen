@@ -34,9 +34,11 @@
                         </div>
 
                         <div class="card-content content">
-                            <h4 class="mb-5" style="font-weight: 600;">
+                            <h4 class="mb-3" style="font-weight: 600;">
                                 {{ $product->name }}: <x-money-format :money="$product->price" :isBold="false" />
                             </h4>
+
+                            <p class="mb-4"><i>{{ $product->description ?? __('admin/products.item.no_description') }}</i></p>
 
                             <div class="columns is-mobile">
                                 <div class="column">

@@ -19,6 +19,8 @@
                 {{ $product->name }}: <x-money-format :money="$product->price" :isBold="false" />
             </h4>
 
+            <p><i>{{ $product->description ?? __('admin/products.item.no_description') }}</i></p>
+
             <p>@lang('admin/products.item.amount'): <x-amount-format :amount="$product->amount" /></p>
         </div>
 

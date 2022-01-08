@@ -28,6 +28,7 @@ return [
     // Admin products item livewire component
     'item.alcoholic' => 'Alcoholic',
     'item.inactive' => 'Inactive',
+    'item.no_description' => 'This product has no description',
     'item.amount' => 'Amount in stock',
     'item.show' => 'Show',
     'item.edit' => 'Edit',
