@@ -1,5 +1,11 @@
 <div class="column is-one-third">
     <div class="card">
+        @if ($post->image != null)
+            <div class="card-image">
+                <div class="image is-widescreen" style="background-image: url(/storage/posts/{{ $post->image }});"></div>
+            </div>
+        @endif
+
         <div class="card-content content">
             <h4>{{ $post->title }}</h4>
             <p><i>@lang('admin/posts.item.written_by', ['user.name' => $post->user != null ? $post->user->name : '?', 'post.created_at' => $post->created_at->format('Y-m-d H:i')])</i></p>
@@ -56,6 +62,41 @@
                                 @error('createdAtTime') <p class="help is-danger">{{ $message }}</p> @enderror
                             </div>
                         </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label" for="image">@lang('admin/posts.item.image')</label>
+                        @if ($post->image != null)
+                            <div class="box" style="width: 50%;">
+                                <div class="image is-square is-rounded" style="background-image: url(/storage/posts/{{ $post->image }});"></div>
+                            </div>
+                        @endif
+                    </div>
+
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <div class="control">
+                                    <input class="input @error('image') is-danger @enderror" type="file" accept=".jpg,.jpeg,.png"
+                                        id="image" wire:model="image">
+                                </div>
+                                @error('image')
+                                    <p class="help is-danger">{{ $message }}</p>
+                                @else
+                                    <p class="help">@lang('admin/posts.item.image_help')</p>
+                                @enderror
+                            </div>
+                        </div>
+
+                        @if ($post->image != null)
+                            <div class="column">
+                                <div class="field">
+                                    <div class="control">
+                                        <button type="button" class="button is-danger" wire:click="deleteImage" wire:loading.attr="disabled">@lang('admin/posts.item.delete_image')</button>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                     </div>
 
                     <div class="field">

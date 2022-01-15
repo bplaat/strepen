@@ -12,6 +12,8 @@ return [
     'crud.posts' => 'posts',
     'crud.empty' => 'No posts found!',
     'crud._title' => 'Title',
+    'crud.image' => 'Image',
+    'crud.image_help' => 'You can upload an squared .jpg or .png image',
     'crud.body' => 'Body (supports :markdown_link)',
     'crud.cancel' => 'Cancel',
 
@@ -23,6 +25,9 @@ return [
     'item.title' => 'Title',
     'item.created_at_date' => 'Created at date',
     'item.created_at_time' => 'Created at time',
+    'item.image' => 'Image',
+    'item.image_help' => 'You can upload an squared .jpg or .png image',
+    'item.delete_image' => 'Delete product image',
     'item.body' => 'Body (supports :markdown_link)',
     'item.cancel' => 'Cancel',
     'item.delete_post' => 'Delete post',

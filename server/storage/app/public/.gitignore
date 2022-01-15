@@ -1,6 +1,8 @@
 *
 !avatars/
 !avatars/default.png
+!posts/
+!posts/.gitkeep
 !products/
 !products/default.png
 !thanks/

@@ -8,6 +8,7 @@ pre{white-space:pre-wrap}
 
 .image{background-size:cover;background-position:center center}
 .image.is-square{padding-top:100%}
+.image.is-widescreen{padding-top:56.25%}
 .image.is-small{width:1.5rem;height:1.5rem}
 .image.is-medium{width:1.75rem;height:1.75rem}
 .image.is-large{width:3.5rem;height:3.5rem}

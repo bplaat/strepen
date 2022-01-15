@@ -8,16 +8,22 @@ use App\Models\Setting;
 use App\Models\User;
 use App\Notifications\NewPost;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Livewire\WithFileUploads;
 
 class Crud extends PaginationComponent
 {
+    use WithFileUploads;
+
     public $user_id;
     public $userIdTemp;
     public $post;
+    public $image;
     public $isCreating;
 
     public $rules = [
         'post.title' => 'required|min:2|max:128',
+        'image' => 'nullable|image|mimes:jpg,jpeg,png|max:1024',
         'post.body' => 'required|min:2'
     ];
 
@@ -42,6 +48,7 @@ class Crud extends PaginationComponent
         }
 
         $this->post = new Post();
+        $this->image = null;
         $this->isCreating = false;
     }
 
@@ -62,6 +69,12 @@ class Crud extends PaginationComponent
     {
         $this->emit('validateComponents');
         $this->validate();
+
+        if ($this->image != null) {
+            $imageName = Post::generateImageName($this->image->extension());
+            $this->image->storeAs('public/posts', $imageName);
+            $this->post->image = $imageName;
+        }
 
         $this->post->user_id = Auth::id();
         $this->post->save();

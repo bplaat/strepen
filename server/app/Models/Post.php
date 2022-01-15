@@ -16,6 +16,19 @@ class Post extends Model
         'deleted_at'
     ];
 
+    // Generate a random image name
+    public static function generateImageName($extension)
+    {
+        if ($extension == 'jpeg') {
+            $extension = 'jpg';
+        }
+        $image = Str::random(32) . '.' . $extension;
+        if (static::where('image', $image)->count() > 0) {
+            return static::generateImageName($extension);
+        }
+        return $image;
+    }
+
     // A post belongs to a user
     public function user()
     {

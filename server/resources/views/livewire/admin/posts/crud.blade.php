@@ -53,6 +53,19 @@
                     </div>
 
                     <div class="field">
+                        <label class="label" for="image">@lang('admin/posts.crud.image')</label>
+                        <div class="control">
+                            <input class="input @error('image') is-danger @enderror" type="file" accept=".jpg,.jpeg,.png"
+                                id="image" wire:model="image">
+                        </div>
+                        @error('image')
+                            <p class="help is-danger">{{ $message }}</p>
+                        @else
+                            <p class="help">@lang('admin/posts.crud.image_help')</p>
+                        @enderror
+                    </div>
+
+                    <div class="field">
                         <label class="label" for="body">@lang('admin/posts.crud.body', ['markdown_link' => '<a href="https://en.wikipedia.org/wiki/Markdown#Example" target="_blank" tabindex="3">Markdown</a>'])</label>
                         <div class="control">
                             <textarea class="textarea is-family-monospace has-fixed-size @error('post.body') is-danger @enderror" id="body"

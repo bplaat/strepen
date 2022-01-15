@@ -12,6 +12,7 @@ class PostResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'image' => $this->image != null ? asset('/storage/posts/' . $this->image) : null,
             'body' => (new Parsedown())->text($this->body),
             'created_at' => $this->created_at,
             'updated_at' => $this->when($request->user()->manager, $this->updated_at),
