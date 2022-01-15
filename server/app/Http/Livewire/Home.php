@@ -5,7 +5,6 @@ namespace App\Http\Livewire;
 use App\Models\Post;
 use App\Models\Setting;
 use App\Models\User;
-use Parsedown;
 
 class Home extends PaginationComponent
 {
@@ -67,7 +66,6 @@ class Home extends PaginationComponent
         }
 
         return view('livewire.home', [
-            'parsedown' => new Parsedown(),
             'posts' => $posts->with('user')->paginate(Setting::get('pagination_rows'))->withQueryString()
         ])->layout('layouts.app', ['title' => __('home.title')]);
     }

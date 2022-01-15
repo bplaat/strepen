@@ -68,7 +68,7 @@
                         <label class="label" for="image">@lang('admin/posts.item.image')</label>
                         @if ($post->image != null)
                             <div class="box" style="width: 50%;">
-                                <div class="image is-square is-rounded" style="background-image: url(/storage/posts/{{ $post->image }});"></div>
+                                <div class="image is-widescreen is-rounded" style="background-image: url(/storage/posts/{{ $post->image }});"></div>
                             </div>
                         @endif
                     </div>

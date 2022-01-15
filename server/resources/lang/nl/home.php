@@ -13,6 +13,5 @@ return [
     'title_asc' => 'Titel (A - Z)',
     'title_desc' => 'Titel (Z - A)',
     'posts' => 'berichten',
-    'posts_empty' => 'Geen berichten gevonden!',
-    'posts_written_by' => 'Geschreven door :user.name op :post.created_at'
+    'posts_empty' => 'Geen berichten gevonden!'
 ];

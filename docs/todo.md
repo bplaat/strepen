@@ -3,7 +3,6 @@
 # Todo List
 
 ## High priority
-- Post show page
 - Posts likes and dislikes
 - Bug fixes / All the whishs from the Stam Bestuur
 

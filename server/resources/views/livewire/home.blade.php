@@ -22,19 +22,7 @@
 
             <div class="container is-max-desktop">
                 @foreach ($posts as $post)
-                    <div class="card my-5" wire:key="{{ $post->id }}" style="overflow: hidden;">
-                        @if ($post->image != null)
-                            <div class="card-image">
-                                <div class="image is-widescreen" style="background-image: url(/storage/posts/{{ $post->image }});"></div>
-                            </div>
-                        @endif
-
-                        <div class="card-content content">
-                            <h4>{{ $post->title }}</h4>
-                            <p><i>@lang('home.posts_written_by', ['user.name' => $post->user->name, 'post.created_at' => $post->created_at->format('Y-m-d H:i')])</i></p>
-                            {!! $parsedown->text($post->body) !!}
-                        </div>
-                    </div>
+                    <livewire:posts.item :post="$post" wire:key="{{ $post->id }}" />
                 @endforeach
             </div>
 

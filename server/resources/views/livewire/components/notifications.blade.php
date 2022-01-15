@@ -24,11 +24,11 @@
             @endif
 
             @if ($notification->type == 'App\Notifications\NewPost')
-                <a class="navbar-item is-notification" href="{{ route('home') }}" wire:key="{{ $notification->id }}"
+                @php
+                    $post = App\Models\Post::withTrashed()->find($notification->data['post_id']);
+                @endphp
+                <a class="navbar-item is-notification" href="{{ route('posts.show', $post) }}" wire:key="{{ $notification->id }}"
                     style="flex-direction: column; text-align: center; padding: .75rem 1rem;">
-                    @php
-                        $post = App\Models\Post::withTrashed()->find($notification->data['post_id']);
-                    @endphp
                     <h1 class="title is-6 mb-1" style="width: 100%; line-height: .75rem;">
                         @lang('components.notifications.new_post_header')
                         <button type="button" class="delete is-small is-pulled-right" wire:click.prevent="readNotification('{{ $notification->id }}')"></button>
