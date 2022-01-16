@@ -28,4 +28,22 @@ class PostsService {
     }
     return _posts[page]!;
   }
+
+  Future<Post> like({required int postId}) async {
+    StorageService storage = await StorageService.getInstance();
+    final response = await http.get(Uri.parse('${API_URL}/posts/${postId}/like'), headers: {
+      'X-Api-Key': API_KEY,
+      'Authorization': 'Bearer ${storage.token!}'
+    });
+    return Post.fromJson(json.decode(response.body));
+  }
+
+  Future<Post> dislike({required int postId}) async {
+    StorageService storage = await StorageService.getInstance();
+    final response = await http.get(Uri.parse('${API_URL}/posts/${postId}/dislike'), headers: {
+      'X-Api-Key': API_KEY,
+      'Authorization': 'Bearer ${storage.token!}'
+    });
+    return Post.fromJson(json.decode(response.body));
+  }
 }

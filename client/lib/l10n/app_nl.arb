@@ -17,6 +17,8 @@
     "home_posts_empty": "Er zijn geen berichten gevonden!",
     "home_posts_error": "Er is een fout opgetreden bij het laden van de berichten!",
     "home_posts_written_by": "Geschreven door {user_name} op {post_created_at}",
+    "home_posts_like": "Like",
+    "home_posts_dislike": "Dislike",
 
     "home_stripe_decrement": "Verlagen",
     "home_stripe_increment": "Verhogen",
@@ -93,7 +95,7 @@
     "settings_avatar_success_header": "Gelukt!",
     "settings_avatar_success_description": "Uw avatar is succesvol gewijzigd",
     "settings_avatar_error_header": "Gefaald!",
-    "settings_avatar_error_description": "Er is iets misgegaan tijdens het uploaden van dit plaatje, het is waarschijnlijk groter dan 1MB probeer een andere foto",
+    "settings_avatar_error_description": "Er is iets misgegaan tijdens het uploaden van deze afbeelding, het is waarschijnlijk groter dan 1MB probeer een andere foto",
     "settings_avatar_success_ok": "OKE",
 
     "settings_thanks_error": "Er is een fout opgetreden tijdens het laden van uw gebruikersinformatie!",

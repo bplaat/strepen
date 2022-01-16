@@ -1,15 +1,16 @@
+import '../services/post_service.dart';
 import 'user.dart';
 
 class Post {
   final int id;
-  final User user;
+  final User? user;
   final String title;
   final String? image;
   final String body;
-  final int likes;
-  final bool userLiked;
-  final int dislikes;
-  final bool userDisliked;
+  int likes;
+  bool userLiked;
+  int dislikes;
+  bool userDisliked;
   final DateTime created_at;
 
   Post({
@@ -28,7 +29,7 @@ class Post {
   factory Post.fromJson(Map<String, dynamic> json) {
     return Post(
       id: json['id'],
-      user: User.fromJson(json['user']),
+      user: json['user'] != null ? User.fromJson(json['user']) : null,
       title: json['title'],
       image: json['image'],
       body: json['body'],
@@ -38,5 +39,29 @@ class Post {
       userDisliked: json['user_disliked'],
       created_at: DateTime.parse(json['created_at'])
     );
+  }
+
+  Future like() async {
+    try {
+      Post updatedPost = await PostsService.getInstance().like(postId: this.id);
+      this.likes = updatedPost.likes;
+      this.userLiked = updatedPost.userLiked;
+      this.dislikes = updatedPost.dislikes;
+      this.userDisliked = updatedPost.userDisliked;
+    } catch (exception) {
+      print('LikePost error: ${exception}');
+    }
+  }
+
+  Future dislike() async {
+    try {
+      Post updatedPost = await PostsService.getInstance().dislike(postId: this.id);
+      this.likes = updatedPost.likes;
+      this.userLiked = updatedPost.userLiked;
+      this.dislikes = updatedPost.dislikes;
+      this.userDisliked = updatedPost.userDisliked;
+    } catch (exception) {
+      print('DislikePost error: ${exception}');
+    }
   }
 }

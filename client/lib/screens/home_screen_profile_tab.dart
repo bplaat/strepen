@@ -88,11 +88,9 @@ class _HomeScreenProfileTabState extends State {
                         margin: EdgeInsets.symmetric(vertical: 16),
                         child: Row(
                           children: [
-                            Spacer(),
-
                             // Settings button
-                            Container(
-                              margin: EdgeInsets.symmetric(horizontal: 8),
+                            Expanded(
+                              flex: 1,
                               child: RaisedButton(
                                 onPressed: () {
                                   Navigator.pushNamed(context, '/settings');
@@ -104,9 +102,11 @@ class _HomeScreenProfileTabState extends State {
                               )
                             ),
 
+                            SizedBox(width: 16),
+
                             // Logout button
-                            Container(
-                              margin: EdgeInsets.symmetric(horizontal: 8),
+                            Expanded(
+                              flex: 1,
                               child: RaisedButton(
                                 onPressed: _isLoading ? null : () async {
                                   setState(() => _isLoading = true);
@@ -118,9 +118,7 @@ class _HomeScreenProfileTabState extends State {
                                 padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                                 child: Text(lang.home_profile_logout, style: TextStyle(color: Colors.white, fontSize: 18))
                               )
-                            ),
-
-                            Spacer()
+                            )
                           ]
                         )
                       )

@@ -35,7 +35,7 @@ return [
     'change_avatar.header' => 'Verander avatar',
     'change_avatar.has_avatar' => 'U heeft een avatar geüpload:',
     'change_avatar.no_avatar' => 'U heeft geen avatar geüpload, dus u gebruikt de de standaard avatar:',
-    'change_avatar.avatar' => 'Avatar plaatje',
+    'change_avatar.avatar' => 'Avatar afbeelding',
     'change_avatar.avatar_help' => 'U kunt een vierkante .jpg- of .png-afbeelding uploaden',
     'change_avatar.change_button' => 'Verander avatar',
     'change_avatar.delete_button' => 'Verwijder avatar',

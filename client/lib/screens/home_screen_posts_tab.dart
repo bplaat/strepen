@@ -104,10 +104,21 @@ class _HomeScreenPostsTabState extends State {
   }
 }
 
-class PostItem extends StatelessWidget {
+class PostItem extends StatefulWidget {
   final Post post;
 
   const PostItem({Key? key, required this.post}) : super(key: key);
+
+  @override
+  State createState() {
+    return _PostItemState(post: post);
+  }
+}
+
+class _PostItemState extends State {
+  final Post post;
+
+  _PostItemState({required this.post});
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +155,7 @@ class PostItem extends StatelessWidget {
 
                   Container(
                     width: double.infinity,
-                    child: Text(lang.home_posts_written_by(post.user.name, DateFormat('yyyy-MM-dd kk:mm').format(post.created_at)), style: TextStyle(color: Colors.grey))
+                    child: Text(lang.home_posts_written_by(post.user!.name, DateFormat('yyyy-MM-dd kk:mm').format(post.created_at)), style: TextStyle(color: Colors.grey))
                   ),
 
                   Html(
@@ -155,6 +166,62 @@ class PostItem extends StatelessWidget {
                         if (await canLaunch(url as String)) await launch(url as String);
                       }
                     }
+                  ),
+
+                  Row(
+                    children: [
+                      // Like button
+                      Expanded(
+                        flex: 1,
+                        child: post.userLiked ? RaisedButton.icon(
+                          onPressed: () async {
+                            await post.like();
+                            setState(() {});
+                          },
+                          color: Colors.green,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          icon: Icon(Icons.thumb_up_alt_outlined, color: Colors.white),
+                          label: Text(post.likes > 0 ? post.likes.toString() : lang.home_posts_like, style: TextStyle(color: Colors.white))
+                        ) : OutlineButton.icon(
+                          onPressed: () async {
+                            await post.like();
+                            setState(() {});
+                          },
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          icon: Icon(Icons.thumb_up_alt_outlined),
+                          label: Text(post.likes > 0 ? post.likes.toString() : lang.home_posts_like)
+                        )
+                      ),
+
+                      SizedBox(width: 16),
+
+                      // Dislike button
+                      Expanded(
+                        flex: 1,
+                        child: post.userDisliked ? RaisedButton.icon(
+                          onPressed: () async {
+                            await post.dislike();
+                            setState(() {});
+                          },
+                          color: Colors.red,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          icon: Icon(Icons.thumb_down_alt_outlined, color: Colors.white),
+                          label: Text(post.dislikes > 0 ? post.dislikes.toString() : lang.home_posts_dislike, style: TextStyle(color: Colors.white))
+                        ) : OutlineButton.icon(
+                          onPressed: () async {
+                            await post.dislike();
+                            setState(() {});
+                          },
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          icon: Icon(Icons.thumb_down_alt_outlined),
+                          label: Text(post.dislikes > 0 ? post.dislikes.toString() : lang.home_posts_dislike)
+                        )
+                      )
+                    ]
                   )
                 ]
               )

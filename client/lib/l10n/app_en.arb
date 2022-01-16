@@ -20,6 +20,8 @@
     "home_posts_error": "An error has occurred while loading the posts!",
     "home_posts_written_by": "Written by {user_name} on {post_created_at}",
     "@home_posts_written_by": { "placeholders": { "user_name": {}, "post_created_at": {} } },
+    "home_posts_like": "Like",
+    "home_posts_dislike": "Dislike",
 
     "home_stripe_decrement": "Decrement",
     "home_stripe_increment": "Increment",
