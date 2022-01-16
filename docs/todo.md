@@ -3,7 +3,7 @@
 # Todo List
 
 ## High priority
-- Posts likes and dislikes
+- Posts image and likes and dislikes in mobile app
 - Bug fixes / All the whishs from the Stam Bestuur
 
 ## Low priority

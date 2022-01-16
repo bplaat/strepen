@@ -35,6 +35,18 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
+    // A post belongs to many users as a like
+    public function likes()
+    {
+        return $this->belongsToMany(User::class, 'post_likes')->withTimestamps();
+    }
+
+    // A post belongs to many users as a dislike
+    public function dislikes()
+    {
+        return $this->belongsToMany(User::class, 'post_dislikes')->withTimestamps();
+    }
+
     // Search by a query
     public static function search($query, $searchQuery)
     {

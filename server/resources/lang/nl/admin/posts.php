@@ -12,6 +12,8 @@ return [
     'crud.posts' => 'berichten',
     'crud.empty' => 'Geen berichten gevonden!',
     'crud._title' => 'Titel',
+    'crud.image' => 'Hoofd plaatje',
+    'crud.image_help' => 'U kunt een 16&times;9 .jpg- of .png-afbeelding uploaden',
     'crud.body' => 'Tekst (ondersteund :markdown_link)',
     'crud.cancel' => 'Annuleren',
 
@@ -23,6 +25,9 @@ return [
     'item.title' => 'Titel',
     'item.created_at_date' => 'Aanmaak datum',
     'item.created_at_time' => 'Aanmaak tijd',
+    'item.image' => 'Hoofd plaatje',
+    'item.image_help' => 'U kunt een 16&times;9 .jpg- of .png-afbeelding uploaden',
+    'item.delete_image' => 'Verwijder bericht plaatje',
     'item.body' => 'Tekst (ondersteund :markdown_link)',
     'item.cancel' => 'Annuleren',
     'item.delete_post' => 'Verwijder bericht',
