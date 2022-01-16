@@ -16,6 +16,8 @@ class PostResource extends JsonResource
             'body' => (new Parsedown())->text($this->body),
             'created_at' => $this->created_at,
             'updated_at' => $this->when($request->user()->manager, $this->updated_at),
+            'likes' => $this->likes()->count(),
+            'dislikes' => $this->dislikes()->count(),
             'user' => new UserResource($this->whenLoaded('user'))
         ];
     }

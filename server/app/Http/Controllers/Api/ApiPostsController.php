@@ -24,4 +24,18 @@ class ApiPostsController extends ApiController
         $post->user;
         return new PostResource($post);
     }
+
+    // Api posts like route
+    public function like(Request $request, Post $post)
+    {
+        $post->like($request->user());
+        return new PostResource($post);
+    }
+
+    // Api posts dislike route
+    public function dislike(Request $request, Post $post)
+    {
+        $post->dislike($request->user());
+        return new PostResource($post);
+    }
 }

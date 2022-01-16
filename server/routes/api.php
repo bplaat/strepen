@@ -51,6 +51,8 @@ Route::middleware('api_key:auth')->group(function () {
 
     Route::get('posts', [ApiPostsController::class, 'index'])->name('api.posts.index');
     Route::get('posts/{post}', [ApiPostsController::class, 'show'])->name('api.posts.show');
+    Route::get('posts/{post}/like', [ApiPostsController::class, 'like'])->name('api.posts.like');
+    Route::get('posts/{post}/dislike', [ApiPostsController::class, 'dislike'])->name('api.posts.dislike');
 
     Route::get('products', [ApiProductsController::class, 'index'])->name('api.products.index');
     Route::get('products/{product}', [ApiProductsController::class, 'show'])->name('api.products.show');

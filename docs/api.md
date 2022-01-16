@@ -39,6 +39,8 @@ GET /api/notifications/{notification}/read SELF ✅
 GET /api/posts AUTH ✅ (query: string?, page: int?, limit: int?)
 POST /api/posts MANAGER ❌
 GET /api/posts/{post} AUTH ✅
+GET /api/posts/{post}/like AUTH ✅
+GET /api/posts/{post}/dislike AUTH ✅
 POST /api/posts/{post}/edit MANAGER ❌
 GET /api/posts/{post}/delete MANAGER ❌
 

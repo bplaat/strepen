@@ -47,6 +47,30 @@ class Post extends Model
         return $this->belongsToMany(User::class, 'post_dislikes')->withTimestamps();
     }
 
+    // Like a post
+    public function like($user)
+    {
+        if ($user->id == 1) return;
+        if ($this->likes->contains($user)) {
+            $this->likes()->detach($user);
+        } else {
+            $this->dislikes()->detach($user);
+            $this->likes()->attach($user);
+        }
+    }
+
+    // Dislike a post
+    public function dislike($user)
+    {
+        if ($user->id == 1) return;
+        if ($this->dislikes->contains($user)) {
+            $this->dislikes()->detach($user);
+        } else {
+            $this->likes()->detach($user);
+            $this->dislikes()->attach($user);
+        }
+    }
+
     // Search by a query
     public static function search($query, $searchQuery)
     {

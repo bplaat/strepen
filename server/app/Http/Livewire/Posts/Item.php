@@ -12,28 +12,12 @@ class Item extends Component
 
     public function likePost()
     {
-        $user = Auth::user();
-        if ($user->id == 1) return;
-
-        if ($this->post->likes->contains($user)) {
-            $this->post->likes()->detach($user);
-        } else {
-            $this->post->dislikes()->detach($user);
-            $this->post->likes()->attach($user);
-        }
+        $this->post->like(Auth::user());
     }
 
     public function dislikePost()
     {
-        $user = Auth::user();
-        if ($user->id == 1) return;
-
-        if ($this->post->dislikes->contains($user)) {
-            $this->post->dislikes()->detach($user);
-        } else {
-            $this->post->likes()->detach($user);
-            $this->post->dislikes()->attach($user);
-        }
+        $this->post->dislike(Auth::user());
     }
 
     public function render()
