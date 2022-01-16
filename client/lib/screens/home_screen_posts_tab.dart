@@ -181,7 +181,7 @@ class _PostItemState extends State {
                           color: Colors.green,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                          icon: Icon(Icons.thumb_up_alt_outlined, color: Colors.white),
+                          icon: Icon(Icons.thumb_up_alt, color: Colors.white),
                           label: Text(post.likes > 0 ? post.likes.toString() : lang.home_posts_like, style: TextStyle(color: Colors.white))
                         ) : OutlineButton.icon(
                           onPressed: () async {
@@ -208,7 +208,7 @@ class _PostItemState extends State {
                           color: Colors.red,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                          icon: Icon(Icons.thumb_down_alt_outlined, color: Colors.white),
+                          icon: Icon(Icons.thumb_down_alt, color: Colors.white),
                           label: Text(post.dislikes > 0 ? post.dislikes.toString() : lang.home_posts_dislike, style: TextStyle(color: Colors.white))
                         ) : OutlineButton.icon(
                           onPressed: () async {
