@@ -9,10 +9,6 @@
         <div class="card-content content">
             <h4>{{ $post->title }}</h4>
             <p><i>@lang('admin/posts.item.written_by', ['user.name' => $post->user != null ? $post->user->name : '?', 'post.created_at' => $post->created_at->format('Y-m-d H:i')])</i></p>
-            <p>
-                @lang('admin/posts.item.likes'): <x-amount-format :amount="$post->likes->count()" /> -
-                @lang('admin/posts.item.dislikes'): <x-amount-format :amount="$post->dislikes->count()" />
-            </p>
             <pre>{{  Str::limit(str_replace(["\r", "\n"], '', $post->body), 240) }}</pre>
         </div>
 
@@ -47,7 +43,7 @@
                         </div>
 
                         <div class="column">
-                            <h4>@lang('admin/posts.item.likes')</h4>
+                            <h4>@lang('admin/posts.item.likes') (<x-amount-format :amount="$post->likes->count()" />)</h4>
                             @forelse ($post->likes as $user)
                                 <div class="media" style="align-items: center;">
                                     <div class="media-left">
@@ -62,7 +58,7 @@
                                 <p><i>@lang('admin/posts.item.likes_empty')</i></p>
                             @endforelse
 
-                            <h4 class="my-4">@lang('admin/posts.item.dislikes')</h4>
+                            <h4 class="mt-6">@lang('admin/posts.item.dislikes') (<x-amount-format :amount="$post->dislikes->count()" />)</h4>
                             @forelse ($post->dislikes as $user)
                                 <div class="media" style="align-items: center;">
                                     <div class="media-left">
