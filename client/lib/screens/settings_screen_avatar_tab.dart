@@ -124,12 +124,19 @@ class _SettingsChangeAvatarTabState extends State {
                         width: 256,
                         height: 256,
                         child: Card(
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                        child: CachedNetworkImage(imageUrl: user.avatar),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(128),
-                        ),
-                        elevation: 3
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: CachedNetworkImageProvider(user.avatar)
+                              )
+                            )
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(128),
+                          ),
+                          elevation: 3
                         )
                       )
                     ),

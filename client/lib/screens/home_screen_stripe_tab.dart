@@ -175,7 +175,14 @@ class _ProductsListState extends State {
                       height: 56,
                       child: Card(
                         clipBehavior: Clip.antiAliasWithSaveLayer,
-                        child: CachedNetworkImage(imageUrl: product.image),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: CachedNetworkImageProvider(product.image)
+                            )
+                          )
+                        ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(6),
                         ),
@@ -285,7 +292,14 @@ class TransactionCreatedDialog extends StatelessWidget {
                     height: 256,
                     child: Card(
                       clipBehavior: Clip.antiAliasWithSaveLayer,
-                      child: CachedNetworkImage(imageUrl: user.thanks),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: CachedNetworkImageProvider(user.thanks)
+                          )
+                        )
+                      ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
@@ -369,7 +383,14 @@ class TransactionProductsAmounts extends StatelessWidget {
                       height: 56,
                       child: Card(
                         clipBehavior: Clip.antiAliasWithSaveLayer,
-                        child: CachedNetworkImage(imageUrl: product.image),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: CachedNetworkImageProvider(product.image)
+                            )
+                          )
+                        ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(6),
                         ),

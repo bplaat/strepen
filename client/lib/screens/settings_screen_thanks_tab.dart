@@ -124,12 +124,19 @@ class _SettingsChangeThanksTabState extends State {
                         width: 256,
                         height: 256,
                         child: Card(
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                        child: CachedNetworkImage(imageUrl: user.thanks),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        elevation: 3
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: CachedNetworkImageProvider(user.thanks)
+                              )
+                            )
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          elevation: 3
                         )
                       )
                     ),

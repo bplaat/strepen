@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:html/dom.dart' as dom;
 import 'package:intl/intl.dart';
@@ -114,32 +115,51 @@ class PostItem extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 8),
       child: Card(
-        child: Padding(
-          padding: EdgeInsets.all(16),
-          child: Column(
-            children: [
-              Container(
-                width: double.infinity,
-                margin: EdgeInsets.only(bottom: 8),
-                child: Text(post.title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
-              ),
-
-              Container(
-                width: double.infinity,
-                child: Text(lang.home_posts_written_by(post.user.name, DateFormat('yyyy-MM-dd kk:mm').format(post.created_at)), style: TextStyle(color: Colors.grey))
-              ),
-
-              Html(
-                data: post.body,
-                style: { "body": Style(margin: EdgeInsets.zero, padding: EdgeInsets.zero) },
-                onLinkTap: (String? url, RenderContext context, Map<String, String> attributes, dom.Element? element) async {
-                  if (url != null) {
-                    if (await canLaunch(url as String)) await launch(url as String);
-                  }
-                }
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        child: Column(
+          children: [
+            if (post.image != null) ...[
+              AspectRatio(
+                aspectRatio: 16 / 9,
+                child: Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: CachedNetworkImageProvider(post.image!)
+                    )
+                  )
+                )
               )
-            ]
-          )
+            ],
+
+            Padding(
+              padding: EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.only(bottom: 8),
+                    child: Text(post.title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+                  ),
+
+                  Container(
+                    width: double.infinity,
+                    child: Text(lang.home_posts_written_by(post.user.name, DateFormat('yyyy-MM-dd kk:mm').format(post.created_at)), style: TextStyle(color: Colors.grey))
+                  ),
+
+                  Html(
+                    data: post.body,
+                    style: { "body": Style(margin: EdgeInsets.zero, padding: EdgeInsets.zero) },
+                    onLinkTap: (String? url, RenderContext context, Map<String, String> attributes, dom.Element? element) async {
+                      if (url != null) {
+                        if (await canLaunch(url as String)) await launch(url as String);
+                      }
+                    }
+                  )
+                ]
+              )
+            )
+          ]
         )
       )
     );

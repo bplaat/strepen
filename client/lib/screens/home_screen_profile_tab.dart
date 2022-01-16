@@ -48,7 +48,14 @@ class _HomeScreenProfileTabState extends State {
                           height: 192,
                           child: Card(
                             clipBehavior: Clip.antiAliasWithSaveLayer,
-                            child: CachedNetworkImage(imageUrl: user.avatar),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: CachedNetworkImageProvider(user.avatar)
+                                )
+                              )
+                            ),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(96),
                             ),
