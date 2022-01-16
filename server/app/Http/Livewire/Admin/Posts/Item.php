@@ -16,6 +16,7 @@ class Item extends Component
     public $image;
     public $createdAtDate;
     public $createdAtTime;
+    public $isShowing = false;
     public $isEditing = false;
     public $isDeleting = false;
 

@@ -19,8 +19,14 @@ return [
 
     // Admin posts item livewire component
     'item.written_by' => 'Written by :user.name on :post.created_at',
+    'item.show' => 'Show',
     'item.edit' => 'Edit',
     'item.delete' => 'Delete',
+    'item.show_post' => 'Show post',
+    'item.likes' => 'Likes',
+    'item.likes_empty' => 'This post has no likes yet!',
+    'item.dislikes' => 'Dislikes',
+    'item.dislikes_empty' => 'This post has no dislikes yet!',
     'item.edit_post' => 'Edit post',
     'item.title' => 'Title',
     'item.created_at_date' => 'Created at date',

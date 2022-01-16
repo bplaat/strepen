@@ -9,14 +9,79 @@
         <div class="card-content content">
             <h4>{{ $post->title }}</h4>
             <p><i>@lang('admin/posts.item.written_by', ['user.name' => $post->user != null ? $post->user->name : '?', 'post.created_at' => $post->created_at->format('Y-m-d H:i')])</i></p>
+            <p>
+                @lang('admin/posts.item.likes'): <x-amount-format :amount="$post->likes->count()" /> -
+                @lang('admin/posts.item.dislikes'): <x-amount-format :amount="$post->dislikes->count()" />
+            </p>
             <pre>{{  Str::limit(str_replace(["\r", "\n"], '', $post->body), 240) }}</pre>
         </div>
 
         <div class="card-footer">
+            <a class="card-footer-item" wire:click.prevent="$set('isShowing', true)">@lang('admin/posts.item.show')</a>
             <a class="card-footer-item" wire:click.prevent="$set('isEditing', true)">@lang('admin/posts.item.edit')</a>
             <a class="card-footer-item has-text-danger" wire:click.prevent="$set('isDeleting', true)">@lang('admin/posts.item.delete')</a>
         </div>
     </div>
+
+    @if ($isShowing)
+        <div class="modal is-active">
+            <div class="modal-background" wire:click="$set('isShowing', false)"></div>
+
+            <div class="modal-card is-large">
+                <div class="modal-card-head">
+                    <p class="modal-card-title">@lang('admin/posts.item.show_post')</p>
+                    <button type="button" class="delete" wire:click="$set('isShowing', false)"></button>
+                </div>
+
+                <div class="modal-card-body content">
+                    <div class="columns">
+                        <div class="column">
+                            @if ($post->image != null)
+                                <div class="image mb-5 is-widescreen is-rounded" style="background-image: url(/storage/posts/{{ $post->image }});"></div>
+                            @endif
+                            <h4>
+                                <a href="{{ route('posts.show', $post) }}" style="color: inherit;">{{ $post->title }}</a>
+                            </h4>
+                            <p><i>@lang('admin/posts.item.written_by', ['user.name' => $post->user->name, 'post.created_at' => $post->created_at->format('Y-m-d H:i')])</i></p>
+                            {!! (new Parsedown())->text($post->body) !!}
+                        </div>
+
+                        <div class="column">
+                            <h4>@lang('admin/posts.item.likes')</h4>
+                            @forelse ($post->likes as $user)
+                                <div class="media" style="align-items: center;">
+                                    <div class="media-left">
+                                        <div class="image is-large is-round" style="background-image: url(/storage/avatars/{{ $user->avatar ?? App\Models\Setting::get('default_user_avatar') }});"></div>
+                                    </div>
+                                    <div class="media-content">
+                                        <p class="mb-0"><b>{{ $user->name }}</b></p>
+                                        <p class="has-text-grey" style="font-size:.75rem;">{{ $user->pivot->created_at->format('Y-m-d H:i:s') }}</p>
+                                    </div>
+                                </div>
+                            @empty
+                                <p><i>@lang('admin/posts.item.likes_empty')</i></p>
+                            @endforelse
+
+                            <h4 class="my-4">@lang('admin/posts.item.dislikes')</h4>
+                            @forelse ($post->dislikes as $user)
+                                <div class="media" style="align-items: center;">
+                                    <div class="media-left">
+                                        <div class="image is-large is-round" style="background-image: url(/storage/avatars/{{ $user->avatar ?? App\Models\Setting::get('default_user_avatar') }});"></div>
+                                    </div>
+                                    <div class="media-content">
+                                        <p class="mb-0"><b>{{ $user->name }}</b></p>
+                                        <p class="has-text-grey" style="font-size:.75rem;">{{ $user->pivot->created_at->format('Y-m-d H:i:s') }}</p>
+                                    </div>
+                                </div>
+                            @empty
+                                <p><i>@lang('admin/posts.item.dislikes_empty')</i></p>
+                            @endforelse
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 
     @if ($isEditing)
         <div class="modal is-active">

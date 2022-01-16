@@ -19,8 +19,14 @@ return [
 
     // Admin posts item livewire component
     'item.written_by' => 'Geschreven door :user.name op :post.created_at',
+    'item.show' => 'Bekijken',
     'item.edit' => 'Aanpassen',
     'item.delete' => 'Verwijderen',
+    'item.show_post' => 'Bekijk bericht',
+    'item.likes' => 'Likes',
+    'item.likes_empty' => 'Dit bericht heeft nog geen likes gekregen!',
+    'item.dislikes' => 'Dislikes',
+    'item.dislikes_empty' => 'Dit bericht heeft nog geen dislikes gekregen!',
     'item.edit_post' => 'Pas bericht aan',
     'item.title' => 'Titel',
     'item.created_at_date' => 'Aanmaak datum',

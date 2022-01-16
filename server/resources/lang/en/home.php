@@ -13,6 +13,5 @@ return [
     'title_asc' => 'Title (A - Z)',
     'title_desc' => 'Title (Z - A)',
     'posts' => 'posts',
-    'posts_empty' => 'No posts found!',
-    'posts_written_by' => 'Written by :user.name on :post.created_at'
+    'posts_empty' => 'No posts found!'
 ];
