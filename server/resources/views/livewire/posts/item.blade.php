@@ -44,7 +44,7 @@
 
         <p><i>@lang('posts.item.written_by', ['user.name' => $post->user->name, 'post.created_at' => $post->created_at->format('Y-m-d H:i')])</i></p>
 
-        {!! \App\Helpers\BetterParsedown::instance()->text($post->body) !!}
+        {!! App\Helpers\BetterParsedown::instance()->text($post->body) !!}
 
         <div class="buttons is-display-touch is-hidden-desktop">
             <button class="button @if ($post->likes->contains(Auth::user())) is-success @endif" style="flex: 1;" wire:click="likePost">
