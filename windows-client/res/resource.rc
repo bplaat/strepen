@@ -2,15 +2,15 @@
 LANGUAGE 0, 0
 
 // Manifest
-1 MANIFEST "app.manifest"
+1 MANIFEST "app.min.manifest"
 
 // Icon
 1 ICON "icon.ico"
 
 // Version Information
 VS_VERSION_INFO VERSIONINFO
-FILEVERSION 1,1,0,0
-PRODUCTVERSION 1,1,0,0
+FILEVERSION 1,2,0,0
+PRODUCTVERSION 1,2,0,0
 FILEFLAGSMASK 0
 FILEFLAGS 0
 FILEOS VOS__WINDOWS32
@@ -23,12 +23,12 @@ FILESUBTYPE VFT2_UNKNOWN
         {
             VALUE "CompanyName", "PlaatSoft"
             VALUE "FileDescription", "Strepen"
-            VALUE "FileVersion", "1.1.0.0"
+            VALUE "FileVersion", "1.2.0.0"
             VALUE "InternalName", "Strepen"
             VALUE "LegalCopyright", "Copyright (c) 2021 PlaatSoft"
             VALUE "OriginalFilename", "strepen.exe"
             VALUE "ProductName", "Strepen"
-            VALUE "ProductVersion", "1.1.0.0"
+            VALUE "ProductVersion", "1.2.0.0"
         }
     }
     BLOCK "VarFileInfo"

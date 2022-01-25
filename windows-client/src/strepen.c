@@ -3,6 +3,7 @@
 #include <windows.h>
 #include <shlobj.h>
 #include <dwmapi.h>
+#define COBJMACROS
 #include "WebView2.h"
 
 #ifndef DWMWA_USE_IMMERSIVE_DARK_MODE_BEFORE_20H1
@@ -57,7 +58,7 @@ void ResizeBrowser(HWND hwnd) {
     if (!controller) return;
     RECT window_rect;
     GetClientRect(hwnd, &window_rect);
-    controller->lpVtbl->put_Bounds(controller, window_rect);
+    ICoreWebView2Controller_put_Bounds(controller, window_rect);
 }
 
 // Forward interface reference
@@ -83,7 +84,7 @@ HRESULT STDMETHODCALLTYPE EnvironmentCompletedHandler_Invoke(ICoreWebView2Create
     }
     ICoreWebView2CreateCoreWebView2ControllerCompletedHandler *controllerCompletedHandler = malloc(sizeof(ICoreWebView2CreateCoreWebView2ControllerCompletedHandler));
     controllerCompletedHandler->lpVtbl = &ControllerCompletedHandlerVtbl;
-    created_environment->lpVtbl->CreateCoreWebView2Controller(created_environment, hwnd, controllerCompletedHandler);
+    ICoreWebView2Environment_CreateCoreWebView2Controller(created_environment, hwnd, controllerCompletedHandler);
     return S_OK;
 }
 
@@ -112,10 +113,10 @@ HRESULT STDMETHODCALLTYPE ControllerCompletedHandler_Invoke(ICoreWebView2CreateC
         FatalError(TEXT("Failed to create ICoreWebView2Controller"));
     }
     controller = new_controller;
-    controller->lpVtbl->AddRef(controller);
-    controller->lpVtbl->get_CoreWebView2(controller, &webview2);
-    webview2->lpVtbl->AddRef(webview2);
-    webview2->lpVtbl->Navigate(webview2, L"https://stam.diekantankys.nl/");
+    ICoreWebView2Controller_AddRef(controller);
+    ICoreWebView2Controller_get_CoreWebView2(controller, &webview2);
+    ICoreWebView2_AddRef(webview2);
+    ICoreWebView2_Navigate(webview2, L"https://stam.diekantankys.nl/");
     ResizeBrowser(hwnd);
     return S_OK;
 }
@@ -181,12 +182,6 @@ LRESULT WINAPI WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 }
 
 INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, INT nCmdShow) {
-    // Init common controls
-    INITCOMMONCONTROLSEX icc;
-    icc.dwSize = sizeof(icc);
-    icc.dwICC = ICC_WIN95_CLASSES;
-    InitCommonControlsEx(&icc);
-
     // Register window class
     WNDCLASSEX wc = {0};
     wc.cbSize = sizeof(WNDCLASSEX);
@@ -216,8 +211,9 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     // Enable dark window decoration
     BOOL useImmersiveDarkMode = TRUE;
-    DwmSetWindowAttribute(hwnd, DWMWA_USE_IMMERSIVE_DARK_MODE_BEFORE_20H1, &useImmersiveDarkMode, sizeof(BOOL));
-    DwmSetWindowAttribute(hwnd, DWMWA_USE_IMMERSIVE_DARK_MODE, &useImmersiveDarkMode, sizeof(BOOL));
+    if (FAILED(DwmSetWindowAttribute(hwnd, DWMWA_USE_IMMERSIVE_DARK_MODE, &useImmersiveDarkMode, sizeof(BOOL)))) {
+        DwmSetWindowAttribute(hwnd, DWMWA_USE_IMMERSIVE_DARK_MODE_BEFORE_20H1, &useImmersiveDarkMode, sizeof(BOOL));
+    }
 
     // Show window
     ShowWindow(hwnd, nCmdShow);
