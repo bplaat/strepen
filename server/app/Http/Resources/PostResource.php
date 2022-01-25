@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Helpers\BetterParsedown;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Parsedown;
 
 class PostResource extends JsonResource
 {
@@ -13,7 +13,7 @@ class PostResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'image' => $this->image != null ? asset('/storage/posts/' . $this->image) : null,
-            'body' => (new Parsedown())->text($this->body),
+            'body' => BetterParsedown::instance()->text($this->body),
             'created_at' => $this->created_at,
             'updated_at' => $this->when($request->user()->manager, $this->updated_at),
             'likes' => $this->likes->count(),

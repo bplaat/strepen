@@ -47,11 +47,11 @@
                     <p class="mb-2">@lang('apps.android_description_two')</p>
 
                     <p>
-                        <a href="https://play.google.com/store/apps/details?id=nl.plaatsoft.strepen" target="_blank">
+                        <a href="https://play.google.com/store/apps/details?id=nl.plaatsoft.strepen" target="_blank" rel="noreferrer">
                             <img alt="Get it on Google Play" src="/images/google-play-download.png" style="width: 250px;">
                         </a>
 
-                        <a href="https://github.com/bplaat/strepen/releases/tag/client-v1.2.0" target="_blank">
+                        <a href="https://github.com/bplaat/strepen/releases/tag/client-v1.2.0" target="_blank" rel="noreferrer">
                             <img alt="Get it on Google Play" src="/images/direct-apk-download.png" style="width: 250px;">
                         </a>
                     </p>

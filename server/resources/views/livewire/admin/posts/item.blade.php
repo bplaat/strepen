@@ -39,7 +39,7 @@
                                 <a href="{{ route('posts.show', $post) }}" style="color: inherit;">{{ $post->title }}</a>
                             </h4>
                             <p><i>@lang('admin/posts.item.written_by', ['user.name' => $post->user->name, 'post.created_at' => $post->created_at->format('Y-m-d H:i')])</i></p>
-                            {!! (new Parsedown())->text($post->body) !!}
+                            {!! \App\Helpers\BetterParsedown::instance()->text($post->body) !!}
                         </div>
 
                         <div class="column">
@@ -161,7 +161,7 @@
                     </div>
 
                     <div class="field">
-                        <label class="label" for="body">@lang('admin/posts.item.body', ['markdown_link' => '<a href="https://en.wikipedia.org/wiki/Markdown#Example" target="_blank" tabindex="6">Markdown</a>'])</label>
+                        <label class="label" for="body">@lang('admin/posts.item.body', ['markdown_link' => '<a href="https://en.wikipedia.org/wiki/Markdown#Example" target="_blank" rel="noreferrer" tabindex="6">Markdown</a>'])</label>
                         <div class="control">
                             <textarea class="textarea is-family-monospace has-fixed-size @error('post.body') is-danger @enderror" id="postBody"
                                 wire:model.defer="post.body" rows="12" tabindex="5" required></textarea>

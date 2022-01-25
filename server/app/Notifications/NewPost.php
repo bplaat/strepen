@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Helpers\BetterParsedown;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
@@ -9,7 +10,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\HtmlString;
-use Parsedown;
 
 class NewPost extends Notification
 {
@@ -52,7 +52,7 @@ class NewPost extends Notification
             ->subject($this->post->title . ' - Een nieuw nieuws bericht op het Strepen Systeem')
             ->greeting('Beste ' . $this->user->name . ',')
             ->line('Er is een nieuw nieuws bericht op het Strepen Systeem geplaatst:')
-            ->line(new HtmlString((new Parsedown())->text($this->post->body)))
+            ->line(new HtmlString(BetterParsedown::instance()->text($this->post->body)))
             ->salutation('Groetjes, het stambestuur');
     }
 

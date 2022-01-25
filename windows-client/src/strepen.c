@@ -71,11 +71,11 @@ HRESULT STDMETHODCALLTYPE EnvironmentCompletedHandler_QueryInterface(ICoreWebVie
 }
 
 ULONG STDMETHODCALLTYPE EnvironmentCompletedHandler_AddRef(ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler *This) {
-    return S_FALSE;
+    return 0;
 }
 
 ULONG STDMETHODCALLTYPE EnvironmentCompletedHandler_Release(ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler *This) {
-    return S_FALSE;
+    return 0;
 }
 
 HRESULT STDMETHODCALLTYPE EnvironmentCompletedHandler_Invoke(ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler *This, HRESULT result, ICoreWebView2Environment *created_environment) {
@@ -101,11 +101,11 @@ HRESULT STDMETHODCALLTYPE ControllerCompletedHandler_QueryInterface(ICoreWebView
 }
 
 ULONG STDMETHODCALLTYPE ControllerCompletedHandler_AddRef(ICoreWebView2CreateCoreWebView2ControllerCompletedHandler *This) {
-    return S_FALSE;
+    return 0;
 }
 
 ULONG STDMETHODCALLTYPE ControllerCompletedHandler_Release(ICoreWebView2CreateCoreWebView2ControllerCompletedHandler *This) {
-    return S_FALSE;
+    return 0;
 }
 
 HRESULT STDMETHODCALLTYPE ControllerCompletedHandler_Invoke(ICoreWebView2CreateCoreWebView2ControllerCompletedHandler *This, HRESULT result, ICoreWebView2Controller *new_controller) {
@@ -116,6 +116,13 @@ HRESULT STDMETHODCALLTYPE ControllerCompletedHandler_Invoke(ICoreWebView2CreateC
     ICoreWebView2Controller_AddRef(controller);
     ICoreWebView2Controller_get_CoreWebView2(controller, &webview2);
     ICoreWebView2_AddRef(webview2);
+
+    ICoreWebView2Settings *settings;
+    ICoreWebView2_get_Settings(webview2, &settings);
+    ICoreWebView2Settings_put_AreDefaultContextMenusEnabled(settings, FALSE);
+    ICoreWebView2Settings_put_IsStatusBarEnabled(settings, FALSE);
+    ICoreWebView2Settings_Release(settings);
+
     ICoreWebView2_Navigate(webview2, L"https://stam.diekantankys.nl/");
     ResizeBrowser(hwnd);
     return S_OK;

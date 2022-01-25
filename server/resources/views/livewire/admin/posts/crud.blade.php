@@ -66,7 +66,7 @@
                     </div>
 
                     <div class="field">
-                        <label class="label" for="body">@lang('admin/posts.crud.body', ['markdown_link' => '<a href="https://en.wikipedia.org/wiki/Markdown#Example" target="_blank" tabindex="3">Markdown</a>'])</label>
+                        <label class="label" for="body">@lang('admin/posts.crud.body', ['markdown_link' => '<a href="https://en.wikipedia.org/wiki/Markdown#Example" target="_blank" rel="noreferrer" tabindex="3">Markdown</a>'])</label>
                         <div class="control">
                             <textarea class="textarea is-family-monospace has-fixed-size @error('post.body') is-danger @enderror" id="body"
                                 wire:model.defer="post.body" rows="12" tabindex="2" required></textarea>
