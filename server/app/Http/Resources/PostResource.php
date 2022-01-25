@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Helpers\BetterParsedown;
+use App\BetterParsedown;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class PostResource extends JsonResource

@@ -39,7 +39,7 @@
                                 <a href="{{ route('posts.show', $post) }}" style="color: inherit;">{{ $post->title }}</a>
                             </h4>
                             <p><i>@lang('admin/posts.item.written_by', ['user.name' => $post->user->name, 'post.created_at' => $post->created_at->format('Y-m-d H:i')])</i></p>
-                            {!! App\Helpers\BetterParsedown::instance()->text($post->body) !!}
+                            {!! App\BetterParsedown::instance()->text($post->body) !!}
                         </div>
 
                         <div class="column">
