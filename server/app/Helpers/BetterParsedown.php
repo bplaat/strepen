@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Helpers;
 
 use \Parsedown;
 
-class BetterParseDown extends Parsedown
+class BetterParsedown extends Parsedown
 {
     protected $markupEscaped = true;
 
