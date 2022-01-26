@@ -1,5 +1,4 @@
 #define UNICODE
-#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <shlobj.h>
 #include <dwmapi.h>
@@ -22,9 +21,6 @@
 #define WINDOW_MIN_HEIGHT 480
 #define WINDOW_STYLE WS_OVERLAPPEDWINDOW
 
-LPCTSTR window_class_name = TEXT("strepen");
-LPCTSTR window_title = TEXT("Strepen");
-
 HWND hwnd;
 int window_dpi;
 ICoreWebView2 *webview2 = NULL;
@@ -41,7 +37,7 @@ int GetPrimaryDesktopDpi(void) {
 typedef BOOL (STDMETHODCALLTYPE *_AdjustWindowRectExForDpi)(RECT *lpRect, DWORD dwStyle, BOOL bMenu, DWORD dwExStyle, UINT dpi);
 
 BOOL AdjustWindowRectExForDpi(RECT *lpRect, DWORD dwStyle, BOOL bMenu, DWORD dwExStyle, UINT dpi) {
-    HMODULE huser32 = LoadLibrary(TEXT("user32.dll"));
+    HMODULE huser32 = LoadLibrary(L"user32.dll");
     _AdjustWindowRectExForDpi AdjustWindowRectExForDpi = (_AdjustWindowRectExForDpi)GetProcAddress(huser32, "AdjustWindowRectExForDpi");
     if (AdjustWindowRectExForDpi) {
         return AdjustWindowRectExForDpi(lpRect, dwStyle, bMenu, dwExStyle, dpi);
@@ -49,8 +45,8 @@ BOOL AdjustWindowRectExForDpi(RECT *lpRect, DWORD dwStyle, BOOL bMenu, DWORD dwE
     return AdjustWindowRectEx(lpRect, dwStyle, bMenu, dwExStyle);
 }
 
-void FatalError(LPCTSTR message) {
-    MessageBox(HWND_DESKTOP, message, TEXT("Strepen Error"), MB_OK | MB_ICONSTOP);
+void FatalError(wchar_t *message) {
+    MessageBox(HWND_DESKTOP, message, L"Strepen Error", MB_OK | MB_ICONSTOP);
     ExitProcess(1);
 }
 
@@ -61,26 +57,28 @@ void ResizeBrowser(HWND hwnd) {
     ICoreWebView2Controller_put_Bounds(controller, window_rect);
 }
 
-// Forward interface reference
-ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandlerVtbl EnvironmentCompletedHandlerVtbl;
-ICoreWebView2CreateCoreWebView2ControllerCompletedHandlerVtbl ControllerCompletedHandlerVtbl;
-
-// ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler
-HRESULT STDMETHODCALLTYPE EnvironmentCompletedHandler_QueryInterface(ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler *This, REFIID riid, void **ppvObject) {
+// Default IUnknown method wrappers
+HRESULT STDMETHODCALLTYPE Unknown_QueryInterface(IUnknown *This, REFIID riid, void **ppvObject) {
     return E_NOINTERFACE;
 }
 
-ULONG STDMETHODCALLTYPE EnvironmentCompletedHandler_AddRef(ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler *This) {
+ULONG STDMETHODCALLTYPE Unknown_AddRef(IUnknown *This) {
     return 0;
 }
 
-ULONG STDMETHODCALLTYPE EnvironmentCompletedHandler_Release(ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler *This) {
+ULONG STDMETHODCALLTYPE Unknown_Release(IUnknown *This) {
     return 0;
 }
 
+// Forward interface reference
+ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandlerVtbl EnvironmentCompletedHandlerVtbl;
+ICoreWebView2NewWindowRequestedEventHandlerVtbl NewWindowRequestedHandlerVtbl;
+ICoreWebView2CreateCoreWebView2ControllerCompletedHandlerVtbl ControllerCompletedHandlerVtbl;
+
+// ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler
 HRESULT STDMETHODCALLTYPE EnvironmentCompletedHandler_Invoke(ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler *This, HRESULT result, ICoreWebView2Environment *created_environment) {
     if (FAILED(result)) {
-        FatalError(TEXT("Failed to create ICoreWebView2Environment"));
+        FatalError(L"Failed to create ICoreWebView2Environment");
     }
     ICoreWebView2CreateCoreWebView2ControllerCompletedHandler *controllerCompletedHandler = malloc(sizeof(ICoreWebView2CreateCoreWebView2ControllerCompletedHandler));
     controllerCompletedHandler->lpVtbl = &ControllerCompletedHandlerVtbl;
@@ -89,28 +87,32 @@ HRESULT STDMETHODCALLTYPE EnvironmentCompletedHandler_Invoke(ICoreWebView2Create
 }
 
 ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandlerVtbl EnvironmentCompletedHandlerVtbl = {
-    EnvironmentCompletedHandler_QueryInterface,
-    EnvironmentCompletedHandler_AddRef,
-    EnvironmentCompletedHandler_Release,
+    (HRESULT (STDMETHODCALLTYPE *)(ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler *This, REFIID riid, void **ppvObject))Unknown_QueryInterface,
+    (ULONG (STDMETHODCALLTYPE *)(ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler *This))Unknown_AddRef,
+    (ULONG (STDMETHODCALLTYPE *)(ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler *This))Unknown_Release,
     EnvironmentCompletedHandler_Invoke
 };
 
+// ICoreWebView2NewWindowRequestedEventHandler
+HRESULT STDMETHODCALLTYPE NewWindowRequestedHandler_Invoke(ICoreWebView2NewWindowRequestedEventHandler *This, ICoreWebView2 *sender, ICoreWebView2NewWindowRequestedEventArgs *args) {
+    ICoreWebView2NewWindowRequestedEventArgs_put_Handled(args, TRUE);
+    wchar_t *url;
+    ICoreWebView2NewWindowRequestedEventArgs_get_Uri(args, &url);
+    ShellExecute(hwnd, L"OPEN", url, NULL, NULL, SW_NORMAL);
+    return S_OK;
+}
+
+ICoreWebView2NewWindowRequestedEventHandlerVtbl NewWindowRequestedHandlerVtbl = {
+    (HRESULT (STDMETHODCALLTYPE *)(ICoreWebView2NewWindowRequestedEventHandler *This, REFIID riid, void **ppvObject))Unknown_QueryInterface,
+    (ULONG (STDMETHODCALLTYPE *)(ICoreWebView2NewWindowRequestedEventHandler *This))Unknown_AddRef,
+    (ULONG (STDMETHODCALLTYPE *)(ICoreWebView2NewWindowRequestedEventHandler *This))Unknown_Release,
+    NewWindowRequestedHandler_Invoke
+};
+
 // ICoreWebView2CreateCoreWebView2ControllerCompletedHandler
-HRESULT STDMETHODCALLTYPE ControllerCompletedHandler_QueryInterface(ICoreWebView2CreateCoreWebView2ControllerCompletedHandler *This, REFIID riid, void **ppvObject) {
-    return E_NOINTERFACE;
-}
-
-ULONG STDMETHODCALLTYPE ControllerCompletedHandler_AddRef(ICoreWebView2CreateCoreWebView2ControllerCompletedHandler *This) {
-    return 0;
-}
-
-ULONG STDMETHODCALLTYPE ControllerCompletedHandler_Release(ICoreWebView2CreateCoreWebView2ControllerCompletedHandler *This) {
-    return 0;
-}
-
 HRESULT STDMETHODCALLTYPE ControllerCompletedHandler_Invoke(ICoreWebView2CreateCoreWebView2ControllerCompletedHandler *This, HRESULT result, ICoreWebView2Controller *new_controller) {
     if (FAILED(result)) {
-        FatalError(TEXT("Failed to create ICoreWebView2Controller"));
+        FatalError(L"Failed to create ICoreWebView2Controller");
     }
     controller = new_controller;
     ICoreWebView2Controller_AddRef(controller);
@@ -123,15 +125,19 @@ HRESULT STDMETHODCALLTYPE ControllerCompletedHandler_Invoke(ICoreWebView2CreateC
     ICoreWebView2Settings_put_IsStatusBarEnabled(settings, FALSE);
     ICoreWebView2Settings_Release(settings);
 
+    ICoreWebView2NewWindowRequestedEventHandler *newWindowRequestedHandler = malloc(sizeof(ICoreWebView2NewWindowRequestedEventHandler));
+    newWindowRequestedHandler->lpVtbl = &NewWindowRequestedHandlerVtbl;
+    ICoreWebView2_add_NewWindowRequested(webview2, newWindowRequestedHandler, NULL);
+
     ICoreWebView2_Navigate(webview2, L"https://stam.diekantankys.nl/");
     ResizeBrowser(hwnd);
     return S_OK;
 }
 
 ICoreWebView2CreateCoreWebView2ControllerCompletedHandlerVtbl ControllerCompletedHandlerVtbl = {
-    ControllerCompletedHandler_QueryInterface,
-    ControllerCompletedHandler_AddRef,
-    ControllerCompletedHandler_Release,
+    (HRESULT (STDMETHODCALLTYPE *)(ICoreWebView2CreateCoreWebView2ControllerCompletedHandler *This, REFIID riid, void **ppvObject))Unknown_QueryInterface,
+    (ULONG (STDMETHODCALLTYPE *)(ICoreWebView2CreateCoreWebView2ControllerCompletedHandler *This))Unknown_AddRef,
+    (ULONG (STDMETHODCALLTYPE *)(ICoreWebView2CreateCoreWebView2ControllerCompletedHandler *This))Unknown_Release,
     ControllerCompletedHandler_Invoke,
 };
 
@@ -141,7 +147,7 @@ LRESULT WINAPI WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     if (msg == WM_CREATE) {
         HMENU sysMenu = GetSystemMenu(hwnd, FALSE);
         InsertMenu(sysMenu, 5, MF_BYPOSITION | MF_SEPARATOR, 0, NULL);
-        InsertMenu(sysMenu, 6, MF_BYPOSITION, ID_MENU_ABOUT, TEXT("About"));
+        InsertMenu(sysMenu, 6, MF_BYPOSITION, ID_MENU_ABOUT, L"About");
         return 0;
     }
 
@@ -149,7 +155,7 @@ LRESULT WINAPI WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     if (msg == WM_SYSCOMMAND) {
         int id = LOWORD(wParam);
         if (id == ID_MENU_ABOUT) {
-            MessageBox(hwnd, TEXT("Made by Bastiaan van der Plaat\nCopyright (c) 2021 PlaatSoft"), TEXT("About Strepen Windows App"), MB_OK | MB_ICONINFORMATION);
+            MessageBox(hwnd, L"Made by Bastiaan van der Plaat\nCopyright (c) 2021 - 2022 PlaatSoft", L"About Strepen Windows App", MB_OK | MB_ICONINFORMATION);
             return 0;
         }
     }
@@ -197,7 +203,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     wc.hIcon = (HICON)LoadImage(hInstance, MAKEINTRESOURCE(ID_ICON), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_DEFAULTCOLOR | LR_SHARED);
     wc.hCursor = LoadCursor(NULL, IDC_ARROW);
     wc.hbrBackground = CreateSolidBrush(0x00a0a0a0a);
-    wc.lpszClassName = window_class_name;
+    wc.lpszClassName = L"strepen";
     wc.hIconSm = (HICON)LoadImage(hInstance, MAKEINTRESOURCE(ID_ICON), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR | LR_SHARED);
     RegisterClassEx(&wc);
 
@@ -211,7 +217,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     window_rect.right = window_rect.left + window_width;
     window_rect.bottom = window_rect.top + window_height;
     AdjustWindowRectExForDpi(&window_rect, WINDOW_STYLE, FALSE, 0, window_dpi);
-    hwnd = CreateWindowEx(0, window_class_name, window_title,
+    hwnd = CreateWindowEx(0, wc.lpszClassName, L"Strepen",
         WINDOW_STYLE, window_rect.left, window_rect.top,
         window_rect.right - window_rect.left, window_rect.bottom - window_rect.top,
         HWND_DESKTOP, NULL, hInstance, NULL);
@@ -223,7 +229,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     }
 
     // Show window
-    ShowWindow(hwnd, nCmdShow);
+    ShowWindow(hwnd, window_width >= GetSystemMetrics(SM_CXSCREEN) ? SW_MAXIMIZE : nCmdShow);
     UpdateWindow(hwnd);
 
     // Find app data path
@@ -232,11 +238,11 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     wcscat(appDataPath, L"\\strepen");
 
     // Init webview2 stuff
-    SetEnvironmentVariable(TEXT("WEBVIEW2_DEFAULT_BACKGROUND_COLOR"), TEXT("0a0a0a"));
+    SetEnvironmentVariable(L"WEBVIEW2_DEFAULT_BACKGROUND_COLOR", L"0a0a0a");
     ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler *environmentCompletedHandler = malloc(sizeof(ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler));
     environmentCompletedHandler->lpVtbl = &EnvironmentCompletedHandlerVtbl;
     if (FAILED(CreateCoreWebView2EnvironmentWithOptions(NULL, appDataPath, NULL, environmentCompletedHandler))) {
-        FatalError(TEXT("Failed to call CreateCoreWebView2EnvironmentWithOptions"));
+        FatalError(L"Failed to call CreateCoreWebView2EnvironmentWithOptions");
     }
 
     // Main window event loop

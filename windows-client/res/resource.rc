@@ -25,7 +25,7 @@ FILESUBTYPE VFT2_UNKNOWN
             VALUE "FileDescription", "Strepen"
             VALUE "FileVersion", "1.2.0.0"
             VALUE "InternalName", "Strepen"
-            VALUE "LegalCopyright", "Copyright (c) 2021 PlaatSoft"
+            VALUE "LegalCopyright", "Copyright (c) 2021 - 2022 PlaatSoft"
             VALUE "OriginalFilename", "strepen.exe"
             VALUE "ProductName", "Strepen"
             VALUE "ProductVersion", "1.2.0.0"
