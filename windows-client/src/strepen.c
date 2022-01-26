@@ -46,6 +46,29 @@ BOOL AdjustWindowRectExForDpi(RECT *lpRect, DWORD dwStyle, BOOL bMenu, DWORD dwE
     return AdjustWindowRectEx(lpRect, dwStyle, bMenu, dwExStyle);
 }
 
+WINDOWPLACEMENT previousPlacement = { sizeof(previousPlacement) };
+
+void SetWindowFullscreen(HWND hwnd, BOOL enabled) {
+    DWORD dwStyle = GetWindowLong(hwnd, GWL_STYLE);
+    if (enabled) {
+        MONITORINFO monitorInfo = { sizeof(monitorInfo) };
+        if (
+            GetWindowPlacement(hwnd, &previousPlacement) &&
+            GetMonitorInfo(MonitorFromWindow(hwnd, MONITOR_DEFAULTTOPRIMARY), &monitorInfo)
+        ) {
+            SetWindowLong(hwnd, GWL_STYLE, dwStyle & ~WS_OVERLAPPEDWINDOW);
+            SetWindowPos(hwnd, HWND_TOP, monitorInfo.rcMonitor.left, monitorInfo.rcMonitor.top,
+                monitorInfo.rcMonitor.right - monitorInfo.rcMonitor.left,
+                monitorInfo.rcMonitor.bottom - monitorInfo.rcMonitor.top,
+                SWP_NOOWNERZORDER | SWP_FRAMECHANGED);
+        }
+    } else {
+        SetWindowLong(hwnd, GWL_STYLE, dwStyle | WS_OVERLAPPEDWINDOW);
+        SetWindowPlacement(hwnd, &previousPlacement);
+        SetWindowPos(hwnd, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_FRAMECHANGED);
+    }
+}
+
 wchar_t *GetString(UINT id) {
     wchar_t *string;
     LoadString(instance, id, (wchar_t *)&string, 0);
@@ -62,6 +85,20 @@ void ResizeBrowser(HWND hwnd) {
     RECT window_rect;
     GetClientRect(hwnd, &window_rect);
     ICoreWebView2Controller_put_Bounds(controller, window_rect);
+}
+
+BOOL HandleKeyDown(int key) {
+    if (key == VK_ESCAPE) {
+        if (!(GetWindowLong(hwnd, GWL_STYLE) & WS_OVERLAPPEDWINDOW)) {
+            SetWindowFullscreen(hwnd, FALSE);
+        }
+        return TRUE;
+    }
+    if (key == VK_F11) {
+        SetWindowFullscreen(hwnd, GetWindowLong(hwnd, GWL_STYLE) & WS_OVERLAPPEDWINDOW);
+        return TRUE;
+    }
+    return FALSE;
 }
 
 // Default IUnknown method wrappers
@@ -100,6 +137,25 @@ ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandlerVtbl EnvironmentComple
     EnvironmentCompletedHandler_Invoke
 };
 
+// ICoreWebView2AcceleratorKeyPressedEventHandler
+HRESULT STDMETHODCALLTYPE AcceleratorKeyPressedHandler_Invoke(ICoreWebView2AcceleratorKeyPressedEventHandler *This, ICoreWebView2Controller *sender, ICoreWebView2AcceleratorKeyPressedEventArgs *args) {
+    COREWEBVIEW2_KEY_EVENT_KIND state;
+    ICoreWebView2AcceleratorKeyPressedEventArgs_get_KeyEventKind(args, &state);
+    int key;
+    ICoreWebView2AcceleratorKeyPressedEventArgs_get_VirtualKey(args, &key);
+    if (state == COREWEBVIEW2_KEY_EVENT_KIND_KEY_DOWN && HandleKeyDown(key)) {
+        ICoreWebView2AcceleratorKeyPressedEventArgs_put_Handled(args, TRUE);
+    }
+    return S_OK;
+}
+
+ICoreWebView2AcceleratorKeyPressedEventHandlerVtbl AcceleratorKeyPressedHandlerVtbl = {
+    (HRESULT (STDMETHODCALLTYPE *)(ICoreWebView2AcceleratorKeyPressedEventHandler *This, REFIID riid, void **ppvObject))Unknown_QueryInterface,
+    (ULONG (STDMETHODCALLTYPE *)(ICoreWebView2AcceleratorKeyPressedEventHandler *This))Unknown_AddRef,
+    (ULONG (STDMETHODCALLTYPE *)(ICoreWebView2AcceleratorKeyPressedEventHandler *This))Unknown_Release,
+    AcceleratorKeyPressedHandler_Invoke
+};
+
 // ICoreWebView2NewWindowRequestedEventHandler
 HRESULT STDMETHODCALLTYPE NewWindowRequestedHandler_Invoke(ICoreWebView2NewWindowRequestedEventHandler *This, ICoreWebView2 *sender, ICoreWebView2NewWindowRequestedEventArgs *args) {
     ICoreWebView2NewWindowRequestedEventArgs_put_Handled(args, TRUE);
@@ -123,6 +179,11 @@ HRESULT STDMETHODCALLTYPE ControllerCompletedHandler_Invoke(ICoreWebView2CreateC
     }
     controller = new_controller;
     ICoreWebView2Controller_AddRef(controller);
+
+    ICoreWebView2AcceleratorKeyPressedEventHandler *newAcceleratorKeyPressedHandler = malloc(sizeof(ICoreWebView2AcceleratorKeyPressedEventHandler));
+    newAcceleratorKeyPressedHandler->lpVtbl = &AcceleratorKeyPressedHandlerVtbl;
+    ICoreWebView2Controller_add_AcceleratorKeyPressed(controller, newAcceleratorKeyPressedHandler, NULL);
+
     ICoreWebView2Controller_get_CoreWebView2(controller, &webview2);
     ICoreWebView2_AddRef(webview2);
 
@@ -179,6 +240,12 @@ LRESULT WINAPI WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     // Resize browser
     if (msg == WM_SIZE) {
         ResizeBrowser(hwnd);
+        return 0;
+    }
+
+    // Handle keydown messages
+    if (msg == WM_KEYDOWN) {
+        HandleKeyDown(wParam);
         return 0;
     }
 
