@@ -4,6 +4,7 @@
 #include <dwmapi.h>
 #define COBJMACROS
 #include "WebView2.h"
+#include "../res/resource.h"
 
 #ifndef DWMWA_USE_IMMERSIVE_DARK_MODE_BEFORE_20H1
     #define DWMWA_USE_IMMERSIVE_DARK_MODE_BEFORE_20H1 19
@@ -12,7 +13,6 @@
     #define DWMWA_USE_IMMERSIVE_DARK_MODE 20
 #endif
 
-#define ID_ICON 1
 #define ID_MENU_ABOUT 1001
 
 #define WINDOW_WIDTH 1280
@@ -22,6 +22,7 @@
 #define WINDOW_STYLE WS_OVERLAPPEDWINDOW
 
 HWND hwnd;
+HINSTANCE instance;
 int window_dpi;
 ICoreWebView2 *webview2 = NULL;
 ICoreWebView2Controller *controller = NULL;
@@ -43,6 +44,12 @@ BOOL AdjustWindowRectExForDpi(RECT *lpRect, DWORD dwStyle, BOOL bMenu, DWORD dwE
         return AdjustWindowRectExForDpi(lpRect, dwStyle, bMenu, dwExStyle, dpi);
     }
     return AdjustWindowRectEx(lpRect, dwStyle, bMenu, dwExStyle);
+}
+
+wchar_t *GetString(UINT id) {
+    wchar_t *string;
+    LoadString(instance, id, (wchar_t *)&string, 0);
+    return string;
 }
 
 void FatalError(wchar_t *message) {
@@ -129,7 +136,7 @@ HRESULT STDMETHODCALLTYPE ControllerCompletedHandler_Invoke(ICoreWebView2CreateC
     newWindowRequestedHandler->lpVtbl = &NewWindowRequestedHandlerVtbl;
     ICoreWebView2_add_NewWindowRequested(webview2, newWindowRequestedHandler, NULL);
 
-    ICoreWebView2_Navigate(webview2, L"https://stam.diekantankys.nl/");
+    ICoreWebView2_Navigate(webview2, GetString(ID_STRING_WEBVIEW_URL));
     ResizeBrowser(hwnd);
     return S_OK;
 }
@@ -147,7 +154,7 @@ LRESULT WINAPI WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     if (msg == WM_CREATE) {
         HMENU sysMenu = GetSystemMenu(hwnd, FALSE);
         InsertMenu(sysMenu, 5, MF_BYPOSITION | MF_SEPARATOR, 0, NULL);
-        InsertMenu(sysMenu, 6, MF_BYPOSITION, ID_MENU_ABOUT, L"About");
+        InsertMenu(sysMenu, 6, MF_BYPOSITION, ID_MENU_ABOUT, GetString(ID_STRING_ABOUT_MENU));
         return 0;
     }
 
@@ -155,7 +162,7 @@ LRESULT WINAPI WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     if (msg == WM_SYSCOMMAND) {
         int id = LOWORD(wParam);
         if (id == ID_MENU_ABOUT) {
-            MessageBox(hwnd, L"Made by Bastiaan van der Plaat\nCopyright (c) 2021 - 2022 PlaatSoft", L"About Strepen Windows App", MB_OK | MB_ICONINFORMATION);
+            MessageBox(hwnd, GetString(ID_STRING_ABOUT_TEXT), GetString(ID_STRING_ABOUT_TITLE), MB_OK | MB_ICONINFORMATION);
             return 0;
         }
     }
@@ -200,14 +207,15 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     wc.cbSize = sizeof(WNDCLASSEX);
     wc.lpfnWndProc = WndProc;
     wc.hInstance = hInstance;
-    wc.hIcon = (HICON)LoadImage(hInstance, MAKEINTRESOURCE(ID_ICON), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_DEFAULTCOLOR | LR_SHARED);
+    wc.hIcon = (HICON)LoadImage(hInstance, MAKEINTRESOURCE(ID_ICON_APP), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_DEFAULTCOLOR | LR_SHARED);
     wc.hCursor = LoadCursor(NULL, IDC_ARROW);
     wc.hbrBackground = CreateSolidBrush(0x00a0a0a0a);
     wc.lpszClassName = L"strepen";
-    wc.hIconSm = (HICON)LoadImage(hInstance, MAKEINTRESOURCE(ID_ICON), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR | LR_SHARED);
+    wc.hIconSm = (HICON)LoadImage(hInstance, MAKEINTRESOURCE(ID_ICON_APP), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR | LR_SHARED);
     RegisterClassEx(&wc);
 
     // Create centered window
+    instance = hInstance;
     window_dpi = GetPrimaryDesktopDpi();
     int window_width = MulDiv(WINDOW_WIDTH, window_dpi, 96);
     int window_height = MulDiv(WINDOW_HEIGHT, window_dpi, 96);
@@ -217,7 +225,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     window_rect.right = window_rect.left + window_width;
     window_rect.bottom = window_rect.top + window_height;
     AdjustWindowRectExForDpi(&window_rect, WINDOW_STYLE, FALSE, 0, window_dpi);
-    hwnd = CreateWindowEx(0, wc.lpszClassName, L"Strepen",
+    hwnd = CreateWindowEx(0, wc.lpszClassName, GetString(ID_STRING_APP_NAME),
         WINDOW_STYLE, window_rect.left, window_rect.top,
         window_rect.right - window_rect.left, window_rect.bottom - window_rect.top,
         HWND_DESKTOP, NULL, hInstance, NULL);

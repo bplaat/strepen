@@ -1,11 +1,32 @@
+#include <winnt.h>
 #include <winver.h>
-LANGUAGE 0, 0
+#include "resource.h"
 
 // Manifest
 1 MANIFEST "app.min.manifest"
 
 // Icon
 1 ICON "icon.ico"
+
+// English Strings
+STRINGTABLE LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+{
+    ID_STRING_APP_NAME "Strepen\x00"
+    ID_STRING_WEBVIEW_URL "https://stam.diekantankys.nl/\x00"
+    ID_STRING_ABOUT_MENU "About\x00"
+    ID_STRING_ABOUT_TITLE "About Strepen Windows App\x00"
+    ID_STRING_ABOUT_TEXT "Made by Bastiaan van der Plaat\nCopyright \xA9 2021 - 2022 PlaatSoft\x00"
+}
+
+// Dutch Strings
+STRINGTABLE LANGUAGE LANG_DUTCH, SUBLANG_DUTCH
+{
+    ID_STRING_APP_NAME "Strepen\x00"
+    ID_STRING_WEBVIEW_URL "https://stam.diekantankys.nl/\x00"
+    ID_STRING_ABOUT_MENU "Over\x00"
+    ID_STRING_ABOUT_TITLE "Over Strepen Windows App\x00"
+    ID_STRING_ABOUT_TEXT "Gemaakt door Bastiaan van der Plaat\nCopyright \xA9 2021 - 2022 PlaatSoft\x00"
+}
 
 // Version Information
 VS_VERSION_INFO VERSIONINFO
@@ -25,7 +46,7 @@ FILESUBTYPE VFT2_UNKNOWN
             VALUE "FileDescription", "Strepen"
             VALUE "FileVersion", "1.2.0.0"
             VALUE "InternalName", "Strepen"
-            VALUE "LegalCopyright", "Copyright (c) 2021 - 2022 PlaatSoft"
+            VALUE "LegalCopyright", "Copyright \xA9 2021 - 2022 PlaatSoft"
             VALUE "OriginalFilename", "strepen.exe"
             VALUE "ProductName", "Strepen"
             VALUE "ProductVersion", "1.2.0.0"
