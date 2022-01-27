@@ -3,10 +3,10 @@
 #include "resource.h"
 
 // Manifest
-1 MANIFEST "app.min.manifest"
+ID_MANIFEST MANIFEST "app.min.manifest"
 
 // Icon
-1 ICON "icon.ico"
+ID_ICON_APP ICON "icon.ico"
 
 // English Strings
 STRINGTABLE LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
