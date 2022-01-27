@@ -6,10 +6,12 @@ mkdir build
 
 windres res/resource.rc -o build/resource.o
 
-gcc -s -Os src/strepen.c build/resource.o -IWebView2/include -LWebView2/x64 -lWebView2Loader \
-    -lgdi32 -ldwmapi -Wl,--subsystem,windows -o build/strepen.exe
+gcc -c -Os -IWebView2/include src/strepen.c -o build/strepen.o
 
-rm build/resource.o
+ld -s --subsystem windows build/strepen.o build/resource.o -e _start \
+    -L"C:\\Windows\\System32" -lkernel32 -luser32 -lgdi32 -lshell32 -o build/strepen.exe
+
+rm build/strepen.o build/resource.o
 
 cp WebView2/x64/WebView2Loader.dll build
 

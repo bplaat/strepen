@@ -30,8 +30,8 @@ STRINGTABLE LANGUAGE LANG_DUTCH, SUBLANG_DUTCH
 
 // Version Information
 VS_VERSION_INFO VERSIONINFO
-FILEVERSION 1,2,0,0
-PRODUCTVERSION 1,2,0,0
+FILEVERSION 1,3,0,0
+PRODUCTVERSION 1,3,0,0
 FILEFLAGSMASK 0
 FILEFLAGS 0
 FILEOS VOS__WINDOWS32
@@ -44,12 +44,12 @@ FILESUBTYPE VFT2_UNKNOWN
         {
             VALUE "CompanyName", "PlaatSoft"
             VALUE "FileDescription", "Strepen"
-            VALUE "FileVersion", "1.2.0.0"
+            VALUE "FileVersion", "1.3.0.0"
             VALUE "InternalName", "Strepen"
             VALUE "LegalCopyright", "Copyright \xA9 2021 - 2022 PlaatSoft"
             VALUE "OriginalFilename", "strepen.exe"
             VALUE "ProductName", "Strepen"
-            VALUE "ProductVersion", "1.2.0.0"
+            VALUE "ProductVersion", "1.3.0.0"
         }
     }
     BLOCK "VarFileInfo"

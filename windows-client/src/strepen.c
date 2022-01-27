@@ -1,17 +1,9 @@
 #define UNICODE
 #include <windows.h>
 #include <shlobj.h>
-#include <dwmapi.h>
 #define COBJMACROS
 #include "WebView2.h"
 #include "../res/resource.h"
-
-#ifndef DWMWA_USE_IMMERSIVE_DARK_MODE_BEFORE_20H1
-    #define DWMWA_USE_IMMERSIVE_DARK_MODE_BEFORE_20H1 19
-#endif
-#ifndef DWMWA_USE_IMMERSIVE_DARK_MODE
-    #define DWMWA_USE_IMMERSIVE_DARK_MODE 20
-#endif
 
 #define ID_MENU_ABOUT 1001
 
@@ -27,7 +19,31 @@ int window_dpi;
 ICoreWebView2 *webview2 = NULL;
 ICoreWebView2Controller *controller = NULL;
 
+// Standard C Library wrapper functions
+void *malloc(size_t size) {
+    return HeapAlloc(GetProcessHeap(), 0, size);
+}
+
+wchar_t *wcscpy(wchar_t *dest, const wchar_t *src) {
+    wchar_t *start = dest;
+    while ((*dest++ = *src++) != '\0');
+    return start;
+}
+
+wchar_t *wcscat(wchar_t *dest, const wchar_t *src) {
+    wchar_t *start = dest;
+    while (*dest != '\0') dest++;
+    wcscpy(dest, src);
+    return start;
+}
+
 // Helper functions
+#define DWMWA_USE_IMMERSIVE_DARK_MODE_BEFORE_20H1 19
+#define DWMWA_USE_IMMERSIVE_DARK_MODE 20
+typedef HRESULT (STDMETHODCALLTYPE *_DwmSetWindowAttribute)(HWND hwnd, DWORD dwAttribute, LPCVOID pvAttribute, DWORD cbAttribute);
+
+typedef HRESULT (STDMETHODCALLTYPE *_CreateCoreWebView2EnvironmentWithOptions)(PCWSTR browserExecutableFolder, PCWSTR userDataFolder, ICoreWebView2EnvironmentOptions *environmentOptions, ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler *environmentCreatedHandler);
+
 int GetPrimaryDesktopDpi(void) {
     HDC hdc = GetDC(HWND_DESKTOP);
     int dpi = GetDeviceCaps(hdc, LOGPIXELSY);
@@ -161,7 +177,7 @@ HRESULT STDMETHODCALLTYPE NewWindowRequestedHandler_Invoke(ICoreWebView2NewWindo
     ICoreWebView2NewWindowRequestedEventArgs_put_Handled(args, TRUE);
     wchar_t *url;
     ICoreWebView2NewWindowRequestedEventArgs_get_Uri(args, &url);
-    ShellExecute(hwnd, L"OPEN", url, NULL, NULL, SW_NORMAL);
+    ShellExecute(hwnd, L"OPEN", url, NULL, NULL, SW_SHOWNORMAL);
     return S_OK;
 }
 
@@ -268,21 +284,23 @@ LRESULT WINAPI WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
-INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, INT nCmdShow) {
+void _start(void) {
+    // Get instance
+    instance = GetModuleHandle(NULL);
+
     // Register window class
     WNDCLASSEX wc = {0};
     wc.cbSize = sizeof(WNDCLASSEX);
     wc.lpfnWndProc = WndProc;
-    wc.hInstance = hInstance;
-    wc.hIcon = (HICON)LoadImage(hInstance, MAKEINTRESOURCE(ID_ICON_APP), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_DEFAULTCOLOR | LR_SHARED);
+    wc.hInstance = instance;
+    wc.hIcon = (HICON)LoadImage(instance, MAKEINTRESOURCE(ID_ICON_APP), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_DEFAULTCOLOR | LR_SHARED);
     wc.hCursor = LoadCursor(NULL, IDC_ARROW);
     wc.hbrBackground = CreateSolidBrush(0x00a0a0a0a);
     wc.lpszClassName = L"strepen";
-    wc.hIconSm = (HICON)LoadImage(hInstance, MAKEINTRESOURCE(ID_ICON_APP), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR | LR_SHARED);
+    wc.hIconSm = (HICON)LoadImage(instance, MAKEINTRESOURCE(ID_ICON_APP), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR | LR_SHARED);
     RegisterClassEx(&wc);
 
     // Create centered window
-    instance = hInstance;
     window_dpi = GetPrimaryDesktopDpi();
     int window_width = MulDiv(WINDOW_WIDTH, window_dpi, 96);
     int window_height = MulDiv(WINDOW_HEIGHT, window_dpi, 96);
@@ -295,29 +313,41 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     hwnd = CreateWindowEx(0, wc.lpszClassName, GetString(ID_STRING_APP_NAME),
         WINDOW_STYLE, window_rect.left, window_rect.top,
         window_rect.right - window_rect.left, window_rect.bottom - window_rect.top,
-        HWND_DESKTOP, NULL, hInstance, NULL);
+        HWND_DESKTOP, NULL, instance, NULL);
 
     // Enable dark window decoration
-    BOOL useImmersiveDarkMode = TRUE;
-    if (FAILED(DwmSetWindowAttribute(hwnd, DWMWA_USE_IMMERSIVE_DARK_MODE, &useImmersiveDarkMode, sizeof(BOOL)))) {
-        DwmSetWindowAttribute(hwnd, DWMWA_USE_IMMERSIVE_DARK_MODE_BEFORE_20H1, &useImmersiveDarkMode, sizeof(BOOL));
+    HMODULE hdwmapi = LoadLibrary(L"dwmapi.dll");
+    _DwmSetWindowAttribute DwmSetWindowAttribute = (_DwmSetWindowAttribute)GetProcAddress(hdwmapi, "DwmSetWindowAttribute");
+    if (DwmSetWindowAttribute != NULL) {
+        BOOL enabled = TRUE;
+        if (FAILED(DwmSetWindowAttribute(hwnd, DWMWA_USE_IMMERSIVE_DARK_MODE, &enabled, sizeof(BOOL)))) {
+            DwmSetWindowAttribute(hwnd, DWMWA_USE_IMMERSIVE_DARK_MODE_BEFORE_20H1, &enabled, sizeof(BOOL));
+        }
     }
 
     // Show window
-    ShowWindow(hwnd, window_width >= GetSystemMetrics(SM_CXSCREEN) ? SW_MAXIMIZE : nCmdShow);
+    ShowWindow(hwnd, window_width >= GetSystemMetrics(SM_CXSCREEN) ? SW_SHOWMAXIMIZED : SW_SHOWDEFAULT);
     UpdateWindow(hwnd);
 
-    // Find app data path
-    wchar_t appDataPath[MAX_PATH];
-    SHGetFolderPath(NULL, CSIDL_LOCAL_APPDATA, NULL, 0, appDataPath);
-    wcscat(appDataPath, L"\\strepen");
+    // Load webview2 laoder
+    HMODULE hWebview2Loader = LoadLibrary(L"WebView2Loader.dll");
+    _CreateCoreWebView2EnvironmentWithOptions __CreateCoreWebView2EnvironmentWithOptions =
+        (_CreateCoreWebView2EnvironmentWithOptions)GetProcAddress(hWebview2Loader, "CreateCoreWebView2EnvironmentWithOptions");
+    if (__CreateCoreWebView2EnvironmentWithOptions != NULL) {
+        // Find app data path
+        wchar_t appDataPath[MAX_PATH];
+        SHGetFolderPath(NULL, CSIDL_LOCAL_APPDATA, NULL, 0, appDataPath);
+        wcscat(appDataPath, L"\\strepen");
 
-    // Init webview2 stuff
-    SetEnvironmentVariable(L"WEBVIEW2_DEFAULT_BACKGROUND_COLOR", L"0a0a0a");
-    ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler *environmentCompletedHandler = malloc(sizeof(ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler));
-    environmentCompletedHandler->lpVtbl = &EnvironmentCompletedHandlerVtbl;
-    if (FAILED(CreateCoreWebView2EnvironmentWithOptions(NULL, appDataPath, NULL, environmentCompletedHandler))) {
-        FatalError(L"Failed to call CreateCoreWebView2EnvironmentWithOptions");
+        // Init webview2 stuff
+        SetEnvironmentVariable(L"WEBVIEW2_DEFAULT_BACKGROUND_COLOR", L"0a0a0a");
+        ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler *environmentCompletedHandler = malloc(sizeof(ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler));
+        environmentCompletedHandler->lpVtbl = &EnvironmentCompletedHandlerVtbl;
+        if (FAILED(__CreateCoreWebView2EnvironmentWithOptions(NULL, appDataPath, NULL, environmentCompletedHandler))) {
+            FatalError(L"Failed to call CreateCoreWebView2EnvironmentWithOptions");
+        }
+    } else {
+        FatalError(L"Failed to load WebView2Loader.dll");
     }
 
     // Main window event loop
@@ -326,5 +356,5 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         TranslateMessage(&message);
         DispatchMessage(&message);
     }
-    return message.wParam;
+    ExitProcess(message.wParam);
 }
