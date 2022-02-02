@@ -60,7 +60,7 @@
 
                         @if (Auth::user()->manager)
                             <div class="navbar-item has-dropdown is-hoverable">
-                                <a @class(['navbar-link', 'is-active' => Route::is('admin.home'), 'is-arrowless'])
+                                <a @class(['navbar-link', 'is-active' => Route::is('admin.*'), 'is-arrowless'])
                                     href="{{ route('admin.home') }}">@lang('layout.navbar.admin_home')</a>
                                 <div class="navbar-dropdown">
                                     @if (Auth::user()->admin)
