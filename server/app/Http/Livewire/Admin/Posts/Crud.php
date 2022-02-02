@@ -67,7 +67,6 @@ class Crud extends PaginationComponent
 
     public function createPost()
     {
-        $this->emit('validateComponents');
         $this->validate();
 
         if ($this->image != null) {
