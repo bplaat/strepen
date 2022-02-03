@@ -21,13 +21,13 @@ class Inventory extends Model
     // A inventory belongs to a user
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withTrashed();
     }
 
     // A inventory belongs to many products
     public function products()
     {
-        return $this->belongsToMany(Product::class)->withPivot('amount')->withTimestamps();
+        return $this->belongsToMany(Product::class)->withPivot('amount')->withTimestamps()->withTrashed();
     }
 
     // Search by a query

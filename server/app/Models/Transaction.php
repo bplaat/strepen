@@ -28,13 +28,13 @@ class Transaction extends Model
     // A transaction belongs to a user
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withTrashed();
     }
 
     // A transaction belongs to many products
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'transaction_product')->withPivot('amount')->withTimestamps();
+        return $this->belongsToMany(Product::class, 'transaction_product')->withPivot('amount')->withTimestamps()->withTrashed();
     }
 
     // Search by a query

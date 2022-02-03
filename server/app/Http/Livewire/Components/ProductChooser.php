@@ -92,6 +92,9 @@ class ProductChooser extends InputComponent
     public function selectProduct($productId)
     {
         $this->product = $this->products->firstWhere('id', $productId);
+        if ($this->product == null) {
+            $this->product = Product::withTrashed()->find($productId);
+        }
         $this->productName = $this->product->name;
         $this->emitValue();
         $this->filterProducts();

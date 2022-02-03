@@ -32,7 +32,7 @@ class Post extends Model
     // A post belongs to a user
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withTrashed();
     }
 
     // A post belongs to many users as a like

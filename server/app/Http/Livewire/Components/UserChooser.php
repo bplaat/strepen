@@ -106,6 +106,9 @@ class UserChooser extends InputComponent
     public function selectUser($userId)
     {
         $this->user = $this->users->firstWhere('id', $userId);
+        if ($this->user == null) {
+            $this->user = User::withTrashed()->find($userId);
+        }
         $this->userName = $this->user->name;
         $this->emitValue();
         $this->filterUsers();
