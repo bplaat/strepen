@@ -22,8 +22,7 @@ class Transaction extends Model
     ];
 
     protected $casts = [
-        'price' => 'double',
-        'active' => 'boolean'
+        'price' => 'double'
     ];
 
     // A transaction belongs to a user

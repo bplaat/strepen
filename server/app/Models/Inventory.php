@@ -15,12 +15,7 @@ class Inventory extends Model
     ];
 
     protected $casts = [
-        'price' => 'double',
-        'active' => 'boolean'
-    ];
-
-    protected $attributes = [
-        'active' => true
+        'price' => 'double'
     ];
 
     // A inventory belongs to a user
