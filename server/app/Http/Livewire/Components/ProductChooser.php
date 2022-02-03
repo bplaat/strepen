@@ -26,7 +26,7 @@ class ProductChooser extends InputComponent
         if (!$this->includeInactive) {
             $products = $products->where('active', true);
         }
-        $this->products = $products->orderByRaw('LOWER(name)')->get();
+        $this->products = $products->withCount('transactions')->orderBy('transactions_count', 'DESC')->get();
         $this->filterProducts();
 
         if ($this->productId != null) {
