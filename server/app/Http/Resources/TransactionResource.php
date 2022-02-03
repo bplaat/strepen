@@ -9,7 +9,7 @@ class TransactionResource extends JsonResource
 {
     public function toArray($request)
     {
-        $type = 'unkown';
+        $type = 'unknown';
         if ($this->type == Transaction::TYPE_TRANSACTION) {
             $type = 'transaction';
         }

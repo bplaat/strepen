@@ -10,7 +10,7 @@ class NotificationResource extends JsonResource
 {
     public function toArray($request)
     {
-        $type = 'unkown';
+        $type = 'unknown';
         if ($this->type == 'App\Notifications\NewDeposit') {
             $type = 'new_deposit';
         }

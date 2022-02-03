@@ -21,7 +21,7 @@ class UserResource extends JsonResource
             $gender = 'other';
         }
 
-        $role = 'unkown';
+        $role = 'unknown';
         if ($this->role == User::ROLE_NORMAL) {
             $role = 'normal';
         }
@@ -32,7 +32,7 @@ class UserResource extends JsonResource
             $role = 'admin';
         }
 
-        $language = 'unkown';
+        $language = 'unknown';
         if ($this->language == User::LANGUAGE_ENGLISH) {
             $language = 'en';
         }
@@ -40,7 +40,7 @@ class UserResource extends JsonResource
             $language = 'nl';
         }
 
-        $theme = 'unkown';
+        $theme = 'unknown';
         if ($this->theme == User::THEME_LIGHT) {
             $theme = 'light';
         }

@@ -35,7 +35,7 @@ return [
     'item.delete' => 'Verwijderen',
     'item.show_product' => 'Bekijk product',
     'item.general_info' => 'Algemene informatie',
-    'item.description_unkown' => 'Descriptie onbekend',
+    'item.description_unknown' => 'Descriptie onbekend',
     'item.amount_info' => 'Hoeveelheid informatie',
     'item.edit_product' => 'Pas product aan',
     'item.name' => 'Naam',

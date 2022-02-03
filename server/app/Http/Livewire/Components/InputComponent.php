@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\Components;
 
-use App\Models\Artist;
 use Livewire\Component;
 
 abstract class InputComponent extends Component

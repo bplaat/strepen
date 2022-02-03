@@ -79,7 +79,7 @@
                             @if ($product->description != null)
                                 <p>@lang('admin/products.item.description'): <i>{{ $product->description }}</i></p>
                             @else
-                                <p>@lang('admin/products.item.description'): @lang('admin/products.item.description_unkown')</p>
+                                <p>@lang('admin/products.item.description'): @lang('admin/products.item.description_unknown')</p>
                             @endif
                         </div>
 

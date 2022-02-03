@@ -122,12 +122,12 @@
                                     <p>@lang('admin/users.item.gender'): @lang('admin/users.item.gender_other')</p>
                                 @endif
                             @else
-                                <p>@lang('admin/users.item.gender'): @lang('admin/users.item.gender_unkown')</p>
+                                <p>@lang('admin/users.item.gender'): @lang('admin/users.item.gender_unknown')</p>
                             @endif
                             @if ($user->birthday != null)
                                 <p>@lang('admin/users.item.birthday'): {{ $user->birthday->format('Y-m-d') }}</p>
                             @else
-                                <p>@lang('admin/users.item.birthday'): @lang('admin/users.item.birthday_unkown')</p>
+                                <p>@lang('admin/users.item.birthday'): @lang('admin/users.item.birthday_unknown')</p>
                             @endif
                         </div>
 
@@ -137,7 +137,7 @@
                             @if ($user->phone != null)
                                 <p>@lang('admin/users.item.phone'): <a href="tel:{{ $user->phone }}">{{ $user->phone }}</a></p>
                             @else
-                                <p>@lang('admin/users.item.phone'): @lang('admin/users.item.phone_unkown')</p>
+                                <p>@lang('admin/users.item.phone'): @lang('admin/users.item.phone_unknown')</p>
                             @endif
 
                             <h2 class="subtitle is-5">@lang('admin/users.item.address_info')</h2>
@@ -145,7 +145,7 @@
                                 <p>{{ $user->address }}</p>
                                 <p>{{ $user->postcode }}, {{ $user->city }}</p>
                             @else
-                                <p>@lang('admin/users.item.address_unkown') </p>
+                                <p>@lang('admin/users.item.address_unknown') </p>
                             @endif
 
                             <h2 class="subtitle is-5">@lang('admin/users.item.balance_info')</h2>

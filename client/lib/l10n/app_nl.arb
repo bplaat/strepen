@@ -7,7 +7,7 @@
     "home_new_deposit": "Nieuwe storting van \u20ac {transaction_amount}",
     "home_new_post": "Nieuw nieuws bericht gepost",
     "home_low_balance": "Te lage balans van \u20ac {user_balance}",
-    "home_unkown_notification": "Onbekend notificatie type",
+    "home_unknown_notification": "Onbekend notificatie type",
     "home_unread_notifications_empty": "Geen ongelezen notificaties",
     "home_posts_short": "Berichten",
     "home_stripe_short": "Strepen",

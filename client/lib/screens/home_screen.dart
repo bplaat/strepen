@@ -149,7 +149,7 @@ class _NotificationsButtonState extends State {
                       await AuthService.getInstance().readNotification(notificationId: notification.id);
                       setState(() => forceReload = true);
                     },
-                    child: Text(lang.home_unkown_notification),
+                    child: Text(lang.home_unknown_notification),
                   );
                 }).toList();
               } else {

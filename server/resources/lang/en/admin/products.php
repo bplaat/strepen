@@ -35,7 +35,7 @@ return [
     'item.delete' => 'Delete',
     'item.show_product' => 'Show product',
     'item.general_info' => 'General information',
-    'item.description_unkown' => 'Description unkown',
+    'item.description_unknown' => 'Description unknown',
     'item.amount_info' => 'Amount information',
     'item.edit_product' => 'Edit product',
     'item.name' => 'Name',

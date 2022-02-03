@@ -9,7 +9,7 @@
     "home_new_post": "New news post posted",
     "home_low_balance": "Low balance of \u20ac {user_balance}",
     "@home_low_balance": { "placeholders": { "user_balance": {} } },
-    "home_unkown_notification": "Unkown notification type",
+    "home_unknown_notification": "Unknown notification type",
     "home_unread_notifications_empty": "No unread notifications",
     "home_posts_short": "Posts",
     "home_stripe_short": "Stripe",
