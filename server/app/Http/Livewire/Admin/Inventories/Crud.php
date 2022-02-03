@@ -108,7 +108,7 @@ class Crud extends PaginationComponent
             $this->inventory->products()->attach($product, [
                 'amount' => $product->selectedAmount
             ]);
-            $product->amount -= $product->selectedAmount;
+            $product->amount += $product->selectedAmount;
             unset($product->selectedAmount);
             $product->save();
         }
