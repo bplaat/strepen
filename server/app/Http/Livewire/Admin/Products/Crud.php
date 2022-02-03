@@ -59,6 +59,14 @@ class Crud extends PaginationComponent
         $this->mount();
     }
 
+    public function recalculateAmounts()
+    {
+        foreach (Product::all() as $product) {
+            $product->recalculateAmount();
+            $product->save();
+        }
+    }
+
     public function render()
     {
         $products = Product::search(Product::select(), $this->query);

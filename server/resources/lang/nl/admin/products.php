@@ -5,6 +5,7 @@ return [
     'crud.title' => 'Producten - Admin',
     'crud.header' => 'Producten',
     'crud.create_product' => 'Maak nieuw product',
+    'crud.recalculate_amounts' => 'Hertel hoeveelheden',
     'crud.name_asc' => 'Naam (A - Z)',
     'crud.name_desc' => 'Naam (Z - A)',
     'crud.created_at_desc' => 'Gemaakt op (nieuw - oud)',

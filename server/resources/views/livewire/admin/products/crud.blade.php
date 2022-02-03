@@ -4,6 +4,7 @@
     <x-search-header :itemName="__('admin/products.crud.products')">
         <div class="buttons">
             <button class="button is-link" wire:click="$set('isCreating', true)" wire:loading.attr="disabled">@lang('admin/products.crud.create_product')</button>
+            <button class="button is-link" wire:click="recalculateAmounts()" wire:loading.attr="disabled">@lang('admin/products.crud.recalculate_amounts')</button>
         </div>
 
         <x-slot name="sorters">

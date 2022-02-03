@@ -5,6 +5,7 @@ return [
     'crud.title' => 'Products - Admin',
     'crud.header' => 'Products',
     'crud.create_product' => 'Create new product',
+    'crud.recalculate_amounts' => 'Recalculate amounts',
     'crud.name_asc' => 'Name (A - Z)',
     'crud.name_desc' => 'Name (Z - A)',
     'crud.created_at_desc' => 'Created at (new - old)',

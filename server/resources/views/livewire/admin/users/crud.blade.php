@@ -4,7 +4,8 @@
     <x-search-header :itemName="__('admin/users.crud.users')">
         <div class="buttons">
             <button class="button is-link" wire:click="$set('isCreating', true)" wire:loading.attr="disabled">@lang('admin/users.crud.create_user')</button>
-            <button class="button is-link" wire:click="checkBalances()" wire:loading.attr="disabled">@lang('admin/users.crud.check_balances')</button>
+            <button class="button is-link" wire:click="recalculateBalances()" wire:loading.attr="disabled">@lang('admin/users.crud.recalculate_balances')</button>
+            <button class="button is-link" wire:click="$set('isChecking', true)" wire:loading.attr="disabled">@lang('admin/users.crud.check_balances')</button>
         </div>
 
         <x-slot name="sorters">
@@ -300,6 +301,28 @@
                     <button type="button" class="button" wire:click="$set('isCreating', false)" wire:loading.attr="disabled">@lang('admin/users.crud.cancel')</button>
                 </div>
             </form>
+        </div>
+    @endif
+
+    @if ($isChecking)
+        <div class="modal is-active">
+            <div class="modal-background" wire:click="$set('isChecking', false)"></div>
+
+            <div class="modal-card">
+                <div class="modal-card-head">
+                    <p class="modal-card-title">@lang('admin/users.crud.check_users')</p>
+                    <button type="button" class="delete" wire:click="$set('isChecking', false)"></button>
+                </div>
+
+                <div class="modal-card-body">
+                    <p>@lang('admin/users.crud.check_description')</p>
+                </div>
+
+                <div class="modal-card-foot">
+                    <button class="button is-link" wire:click="checkBalances()" wire:loading.attr="disabled">@lang('admin/users.crud.check_users')</button>
+                    <button class="button" wire:click="$set('isChecking', false)" wire:loading.attr="disabled">@lang('admin/users.crud.cancel')</button>
+                </div>
+            </div>
         </div>
     @endif
 </div>

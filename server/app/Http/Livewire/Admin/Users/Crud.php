@@ -19,6 +19,7 @@ class Crud extends PaginationComponent
     public $avatar;
     public $thanks;
     public $isCreating;
+    public $isChecking;
 
     public function rules()
     {
@@ -74,6 +75,7 @@ class Crud extends PaginationComponent
         $this->avatar = null;
         $this->thanks = null;
         $this->isCreating = false;
+        $this->isChecking = false;
     }
 
     public function search()
@@ -108,9 +110,18 @@ class Crud extends PaginationComponent
         $this->mount();
     }
 
+    public function recalculateBalances()
+    {
+        foreach (User::all() as $user) {
+            $user->recalculateBalance();
+            $user->save();
+        }
+    }
+
     public function checkBalances()
     {
         User::checkBalances();
+        $this->isChecking = false;
     }
 
     public function render()

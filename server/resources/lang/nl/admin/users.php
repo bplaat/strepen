@@ -5,7 +5,8 @@ return [
     'crud.title' => 'Gebruikers - Admin',
     'crud.header' => 'Gebruikers',
     'crud.create_user' => 'Maak nieuwe gebruiker',
-    'crud.check_balances' => 'Check balansen',
+    'crud.recalculate_balances' => 'Hertel',
+    'crud.check_balances' => 'Check',
     'crud.lastname_asc' => 'Achternaam (A - Z)',
     'crud.lastname_desc' => 'Achternaam (Z - A)',
     'crud.firstname_asc' => 'Voornaam (A - Z)',
@@ -50,6 +51,8 @@ return [
     'crud.theme_dark' => 'Donker',
     'crud.receive_news' => 'Ontvang nieuws',
     'crud.receive_news_user' => 'Ontvang meldingen wanneer een nieuwe nieuwsberichten zijn geplaatst',
+    'crud.check_users' => 'Check gebruikers balansen',
+    'crud.check_description' => 'Weet u zeker dat u alle gebruikers balansen wilt controleren, er kunnen e-mailmeldingen verzonden worden?',
     'crud.cancel' => 'Annuleren',
 
     // Admin users item livewire component
