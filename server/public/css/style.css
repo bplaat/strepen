@@ -1,7 +1,5 @@
 pre{white-space:pre-wrap}
 
-.logo{width:1.5rem;height:1.5rem;margin-right:.75rem}
-
 .column>.box:not(.not-fullheight){height:100%}
 .column>.card{display:flex;flex-direction:column;height:100%;margin-bottom:0;overflow:hidden}
 .column>.card>.card-content{flex:1;margin-bottom:0}

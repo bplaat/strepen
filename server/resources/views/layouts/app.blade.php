@@ -9,7 +9,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/images/icon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/images/icon-32x32.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-    <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#111">
+    <link rel="mask-icon" href="/images/safari-pinned-tab.svg">
     <meta name="theme-color" content="#242424">
     <link rel="manifest" href="/manifest.json">
     @if (Auth::check() && Auth::user()->theme == App\Models\User::THEME_LIGHT)
