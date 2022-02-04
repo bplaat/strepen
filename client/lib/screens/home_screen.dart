@@ -59,19 +59,19 @@ class _HomeScreenState extends State {
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.email),
-            title: Text(lang.home_posts_short)
+            label: lang.home_posts_short
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.edit),
-            title: Text(lang.home_stripe_short)
+            label: lang.home_stripe_short
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.history),
-            title: Text(lang.home_history_short)
+            label: lang.home_history_short
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            title: Text(lang.home_profile_short)
+            label: lang.home_profile_short
           )
         ]
       )
