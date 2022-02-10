@@ -15,7 +15,7 @@
             <h2 class="title" style="margin-bottom: 1.5rem; text-align: center;">@lang('components.transaction_created_modal_thx')</h2>
 
             <div style="max-width: 24rem; margin-left: auto; margin-right: auto; margin-bottom: 1rem;">
-                <x-products-amounts :products="$transaction->products()->orderByRaw('LOWER(name)')->get()" :totalPrice="$transaction->price" />
+                <x-products-amounts :products="$transaction->products()->orderByRaw('LOWER(name)')->get()" :totalPrice="$transaction->price" :createdAt="$transaction->created_at" />
             </div>
         </div>
 
