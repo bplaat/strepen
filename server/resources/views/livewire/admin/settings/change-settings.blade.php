@@ -65,6 +65,24 @@
         </div>
 
         <div class="field">
+            <label class="label" for="bankAccountIban">@lang('admin/settings.change_settings.bank_account_iban')</label>
+            <div class="control">
+                <input class="input @error('bankAccountIban') is-danger @enderror" type="text" id="bankAccountIban"
+                    wire:model.defer="bankAccountIban">
+            </div>
+            @error('bankAccountIban') <p class="help is-danger">{{ $message }}</p> @enderror
+        </div>
+
+        <div class="field">
+            <label class="label" for="bankAccountHolder">@lang('admin/settings.change_settings.bank_account_holder')</label>
+            <div class="control">
+                <input class="input @error('bankAccountHolder') is-danger @enderror" type="text" id="bankAccountHolder"
+                    wire:model.defer="bankAccountHolder">
+            </div>
+            @error('bankAccountHolder') <p class="help is-danger">{{ $message }}</p> @enderror
+        </div>
+
+        <div class="field">
             <div class="control">
                 <button class="button is-link" type="submit">@lang('admin/settings.change_settings.button')</button>
             </div>

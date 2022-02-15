@@ -48,7 +48,7 @@ class LowBalance extends Notification
             ->subject('Te lage krediet op het Strepen Systeem')
             ->greeting('Beste ' . $this->user->name . ',')
             ->line('Na het invoeren van uw laatst gekochte producten op de stam is gebleken dat uw krediet lager dan ' . number_format(Setting::get('min_user_balance'), 2, ',', '.') . ' euro is. Uw balans is op dit moment nu ' . number_format($this->user->balance, 2, ',', '.') . ' euro.')
-            ->line('Dit is volgens het stambestuur te weinig! We willen u dan ook vragen om zo snel mogelijk te verhogen! Dit kan door geld over te maken naar rekening NL69INGB0668679239 o.v.v. Hr BM Wielaard.')
+            ->line('Dit is volgens het stambestuur te weinig! We willen u dan ook vragen om zo snel mogelijk te verhogen! Dit kan door geld over te maken naar rekening ' . Setting::get('bank_account_iban') . ' o.v.v. ' . Setting::get('bank_account_holder') . '.')
             ->line('Mocht u nog vragen hebben of denk u dat er iets niet klopt beantwoord dan dit mailtje.')
             ->salutation('Groetjes, het stambestuur');
     }

@@ -14,6 +14,8 @@ return [
     'change_settings.kiosk_ip_whitelist' => 'Kioskmodus IP-whitelist (voor toegang tot de kioskmodus zonder inlog)',
     'change_settings.leaderboards_enabled' => 'Leaderboards pagina inschakelen',
     'change_settings.leaderboards_enabled_info' => 'Schakel de leaderboards pagina in zodat iedereen deze kan zien',
+    'change_settings.bank_account_iban' => 'Algemene bankrekening IBAN',
+    'change_settings.bank_account_holder' => 'Algemene bankrekeninghouder naam',
     'change_settings.button' => 'Wijzig instellingen',
     'change_settings.success_message' => 'Uw algemene instellingen zijn gewijzigd',
 

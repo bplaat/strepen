@@ -14,6 +14,8 @@ return [
     'change_settings.kiosk_ip_whitelist' => 'Kiosk mode IP whitelist (to access kiosk mode without admin login)',
     'change_settings.leaderboards_enabled' => 'Enable leaderboards page',
     'change_settings.leaderboards_enabled_info' => 'Enable the leaderboards page for anyone to see',
+    'change_settings.bank_account_iban' => 'General bank account IBAN',
+    'change_settings.bank_account_holder' => 'General bank account holder name',
     'change_settings.button' => 'Change settings',
     'change_settings.success_message' => 'Your global settings has changed',
 

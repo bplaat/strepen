@@ -77,6 +77,16 @@ class DatabaseSeeder extends Seeder
         $setting->save();
 
         $setting = new Setting();
+        $setting->key = 'bank_account_iban';
+        $setting->value = '?';
+        $setting->save();
+
+        $setting = new Setting();
+        $setting->key = 'bank_account_holder';
+        $setting->value = '?';
+        $setting->save();
+
+        $setting = new Setting();
         $setting->key = 'default_user_avatar';
         $setting->value = 'default.png';
         $setting->save();
