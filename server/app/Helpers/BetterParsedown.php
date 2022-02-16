@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-use \Parsedown;
+use Parsedown;
 
 class BetterParsedown extends Parsedown
 {

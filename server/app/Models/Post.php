@@ -50,7 +50,10 @@ class Post extends Model
     // Like a post
     public function like($user)
     {
-        if ($user->id == 1) return;
+        if ($user->id == 1) {
+            return;
+        }
+
         if ($this->likes->contains($user)) {
             $this->likes()->detach($user);
         } else {
@@ -62,7 +65,10 @@ class Post extends Model
     // Dislike a post
     public function dislike($user)
     {
-        if ($user->id == 1) return;
+        if ($user->id == 1) {
+            return;
+        }
+
         if ($this->dislikes->contains($user)) {
             $this->dislikes()->detach($user);
         } else {
