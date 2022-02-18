@@ -112,10 +112,12 @@ class Crud extends PaginationComponent
 
     public function recalculateBalances()
     {
-        foreach (User::all() as $user) {
-            $user->recalculateBalance();
-            $user->save();
-        }
+        User::withTrashed()->chunk(50, function ($users) {
+            foreach ($users as $user) {
+                $user->recalculateBalance();
+                $user->save();
+            }
+        });
     }
 
     public function checkBalances()

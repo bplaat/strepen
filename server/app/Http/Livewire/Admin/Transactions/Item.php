@@ -98,10 +98,12 @@ class Item extends Component
             }
 
             // Recalculate amounts of all products (Very slow)
-            foreach (Product::all() as $product) {
-                $product->recalculateAmount();
-                $product->save();
-            }
+            Product::chunk(50, function ($products) {
+                foreach ($products as $product) {
+                    $product->recalculateAmount();
+                    $product->save();
+                }
+            });
         }
 
         if ($this->transaction->type == Transaction::TYPE_DEPOSIT || $this->transaction->type == Transaction::TYPE_FOOD) {

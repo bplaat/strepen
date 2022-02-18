@@ -40,19 +40,23 @@ class Recalculate extends Command
     public function handle()
     {
         echo "Recalculate user balances...\n";
-        foreach (User::all() as $user) {
-            $user->recalculateBalance();
-            $user->save();
-            echo $user->name . ': $ ' . $user->balance . "\n";
-        }
+        User::withTrashed()->chunk(50, function ($users) {
+            foreach ($users as $user) {
+                $user->recalculateBalance();
+                $user->save();
+                echo $user->name . ': $ ' . $user->balance . "\n";
+            }
+        });
         echo "Recalculate user balances done\n\n";
 
         echo "Recalculate product amounts...\n";
-        foreach (Product::all() as $product) {
-            $product->recalculateAmount();
-            $product->save();
-            echo $product->name . ': ' . $product->amount . " x\n";
-        }
+        Product::withTrashed()->chunk(50, function ($products) {
+            foreach ($products as $product) {
+                $product->recalculateAmount();
+                $product->save();
+                echo $product->name . ': ' . $product->amount . " x\n";
+            }
+        });
         echo "Recalculate product amounts done\n";
     }
 }

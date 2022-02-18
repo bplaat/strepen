@@ -61,10 +61,12 @@ class Crud extends PaginationComponent
 
     public function recalculateAmounts()
     {
-        foreach (Product::all() as $product) {
-            $product->recalculateAmount();
-            $product->save();
-        }
+        Product::withTrashed()->chunk(50, function ($products) {
+            foreach ($products as $product) {
+                $product->recalculateAmount();
+                $product->save();
+            }
+        });
     }
 
     public function render()
