@@ -7,15 +7,17 @@ return [
 
     // Change settings form
     'change_settings.header' => 'Algemene instellingen wijzigen',
-    'change_settings.min_user_balance' => 'Minimaal gebruikerssaldo (voor saldo-te-laag-melding)',
-    'change_settings.max_stripe_amount' => 'Maximale hoeveelheid gebruikers product strepen',
+    'change_settings.currency_symbol' => 'Geldeenheid symbool',
+    'change_settings.currency_name' => 'Geldeenheid naam',
+    'change_settings.min_user_balance' => 'Minimaal gebruikerssaldo<br />(voor saldo-te-laag-melding)',
+    'change_settings.max_stripe_amount' => 'Maximale hoeveelheid voor<br />normaal product strepen',
     'change_settings.minor_age' => 'Minderjarige leeftijd (in jaren)',
     'change_settings.pagination_rows' => 'Paginatie hoeveel regels',
-    'change_settings.kiosk_ip_whitelist' => 'Kioskmodus IP-whitelist (voor toegang tot de kioskmodus zonder inlog)',
+    'change_settings.kiosk_ip_whitelist' => 'Kioskmodus IP-whitelist<br />(voor toegang zonder admin login)',
     'change_settings.leaderboards_enabled' => 'Leaderboards pagina inschakelen',
     'change_settings.leaderboards_enabled_info' => 'Schakel de leaderboards pagina in zodat iedereen deze kan zien',
-    'change_settings.bank_account_iban' => 'Algemene bankrekening IBAN',
-    'change_settings.bank_account_holder' => 'Algemene bankrekeninghouder naam',
+    'change_settings.bank_account_iban' => 'Bankrekening IBAN',
+    'change_settings.bank_account_holder' => 'Bankrekeninghouder naam',
     'change_settings.button' => 'Wijzig instellingen',
     'change_settings.success_message' => 'Uw algemene instellingen zijn gewijzigd',
 

@@ -28,7 +28,7 @@
             type: 'line',
             data: {
                 datasets: [{
-                    label: 'Balance (\u20ac)',
+                    label: 'Balance ({{ App\Models\Setting::get('currency_symbol') }})',
                     data: @json($balanceChart),
                     borderColor: getComputedStyle(document.querySelector('.is-link')).backgroundColor,
                     tension: 0.1
@@ -45,7 +45,7 @@
                 type: 'line',
                 data: {
                     datasets: [{
-                        label: 'Balance (\u20ac)',
+                        label: 'Balance ({{ App\Models\Setting::get('currency_symbol') }})',
                         data: data,
                         borderColor: getComputedStyle(document.querySelector('.is-link')).backgroundColor,
                         tension: 0.1

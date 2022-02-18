@@ -6,11 +6,11 @@
         <livewire:settings.change-details />
 
         <div class="columns">
-            <div class="column">
+            <div class="column is-half">
                 <livewire:settings.change-avatar />
             </div>
 
-            <div class="column">
+            <div class="column is-half">
                 <livewire:settings.change-thanks />
             </div>
         </div>

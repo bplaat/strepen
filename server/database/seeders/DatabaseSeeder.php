@@ -47,6 +47,16 @@ class DatabaseSeeder extends Seeder
 
         // Create settings key values pares
         $setting = new Setting();
+        $setting->key = 'currency_symbol';
+        $setting->value = '€';
+        $setting->save();
+
+        $setting = new Setting();
+        $setting->key = 'currency_name';
+        $setting->value = 'euro';
+        $setting->save();
+
+        $setting = new Setting();
         $setting->key = 'min_user_balance';
         $setting->value = 20;
         $setting->save();

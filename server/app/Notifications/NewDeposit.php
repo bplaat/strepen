@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Transaction;
+use App\Models\Setting;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -46,8 +47,8 @@ class NewDeposit extends Notification
         return (new MailMessage())
             ->subject('Nieuwe storting op het Strepen Systeem')
             ->greeting('Beste ' . $this->transaction->user->name . ',')
-            ->line('Er is een storting van ' . number_format($this->transaction->price, 2, ',', '.') . ' euro op uw account gezet!')
-            ->line('Uw balans is op dit moment nu ' . number_format($this->transaction->user->balance, 2, ',', '.') . ' euro.')
+            ->line('Er is een storting van ' . Setting::get('currency_symbol') . ' ' . number_format($this->transaction->price, 2, ',', '.') . ' op uw account gezet!')
+            ->line('Uw balans is op dit moment nu ' . Setting::get('currency_symbol') . ' ' . number_format($this->transaction->user->balance, 2, ',', '.') . '.')
             ->salutation('Groetjes, het stambestuur');
     }
 

@@ -31,7 +31,7 @@
 
                 <div class="modal-card-body content">
                     <div class="columns">
-                        <div class="column">
+                        <div class="column is-half">
                             @if ($post->image != null)
                                 <div class="image mb-5 is-widescreen is-rounded" style="background-image: url(/storage/posts/{{ $post->image }});"></div>
                             @endif
@@ -42,7 +42,7 @@
                             {!! App\Helpers\BetterParsedown::instance()->text($post->body) !!}
                         </div>
 
-                        <div class="column">
+                        <div class="column is-half">
                             <h4>@lang('admin/posts.item.likes') (<x-amount-format :amount="$post->likes->count()" />)</h4>
                             @forelse ($post->likes as $user)
                                 <div class="media" style="align-items: center;">

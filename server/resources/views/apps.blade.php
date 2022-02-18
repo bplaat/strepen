@@ -4,7 +4,7 @@
         <h1 class="title">@lang('apps.header')</h1>
 
         <div class="columns">
-            <div class="column">
+            <div class="column is-half">
                 <div class="box content">
                     <h2 class="title is-4">
                         <svg xmlns="http://www.w3.org/2000/svg" class="image is-small is-inline" viewBox="0 0 24 24" style="transform: translateY(2px);">
@@ -34,7 +34,7 @@
                 </div>
             </div>
 
-            <div class="column">
+            <div class="column is-half">
                 <div class="box content">
                     <h2 class="title is-4">
                         <svg xmlns="http://www.w3.org/2000/svg" class="image is-small is-inline" viewBox="0 0 24 24" style="transform: translateY(2px);">

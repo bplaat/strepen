@@ -7,6 +7,8 @@ use Livewire\Component;
 
 class ChangeSettings extends Component
 {
+    public $currencySymbol;
+    public $currencyName;
     public $minUserBalance;
     public $maxStripeAmount;
     public $minorAge;
@@ -18,18 +20,22 @@ class ChangeSettings extends Component
     public $isChanged = false;
 
     public $rules = [
+        'currencySymbol' => 'required|min:1|max:1',
+        'currencyName' => 'required|min:2|max:24',
         'minUserBalance' => 'required|numeric',
         'maxStripeAmount' => 'required|integer|min:1',
         'minorAge' => 'required|integer|min:1',
         'paginationRows' => 'required|integer|min:1|max:10',
-        'kioskIpWhitelist' => 'nullable|min:7',
+        'kioskIpWhitelist' => 'nullable|min:7|max:255',
         'leaderboardsEnabled' => 'nullable|boolean',
-        'bankAccountIban' => 'nullable|min:8',
-        'bankAccountHolder' => 'nullable|min:2'
+        'bankAccountIban' => 'nullable|min:8|max:48',
+        'bankAccountHolder' => 'nullable|min:2|max:48'
     ];
 
     public function mount()
     {
+        $this->currencySymbol = Setting::get('currency_symbol');
+        $this->currencyName = Setting::get('currency_name');
         $this->minUserBalance = Setting::get('min_user_balance');
         $this->maxStripeAmount = Setting::get('max_stripe_amount');
         $this->minorAge = Setting::get('minor_age');
@@ -43,6 +49,8 @@ class ChangeSettings extends Component
     public function changeDetails()
     {
         $this->validate();
+        Setting::set('currency_symbol', $this->currencySymbol);
+        Setting::set('currency_name', $this->currencyName);
         Setting::set('min_user_balance', $this->minUserBalance);
         Setting::set('max_stripe_amount', $this->maxStripeAmount);
         Setting::set('minor_age', $this->minorAge);

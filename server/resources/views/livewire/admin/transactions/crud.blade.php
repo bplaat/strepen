@@ -112,7 +112,7 @@
                             <div class="control has-icons-left">
                                 <input class="input @error('transaction.price') is-danger @enderror" type="number" step="0.01" id="amount"
                                     wire:model.defer="transaction.price" required>
-                                <span class="icon is-small is-left">&euro;</span>
+                                <span class="icon is-small is-left">{{ App\Models\Setting::get('currency_symbol') }}</span>
                             </div>
                             @error('transaction.price') <p class="help is-danger">{{ $message }}</p> @enderror
                         </div>
@@ -137,7 +137,7 @@
                                             <div class="control has-icons-left">
                                                 <input class="input @error('transaction.price') is-danger @enderror" type="number" step="0.01" id="user-amount-{{ $index }}"
                                                     wire:model.defer="userAmounts.{{ $index }}">
-                                                <span class="icon is-small is-left">&euro;</span>
+                                                <span class="icon is-small is-left">{{ App\Models\Setting::get('currency_symbol') }}</span>
                                             </div>
                                         </td>
                                     </tr>
@@ -194,7 +194,7 @@
                             <div class="control has-icons-left">
                                 <input class="input @error('transaction.price') is-danger @enderror" type="number" step="0.01" id="amount"
                                     wire:model.defer="transaction.price" required>
-                                <span class="icon is-small is-left">&euro;</span>
+                                <span class="icon is-small is-left">{{ App\Models\Setting::get('currency_symbol') }}</span>
                             </div>
                             @error('transaction.price') <p class="help is-danger">{{ $message }}</p> @enderror
                         </div>
@@ -219,7 +219,7 @@
                                             <div class="control has-icons-left">
                                                 <input class="input @error('transaction.price') is-danger @enderror" type="number" step="0.01" id="user-amount-{{ $index }}"
                                                     wire:model.defer="userAmounts.{{ $index }}">
-                                                <span class="icon is-small is-left">&euro;</span>
+                                                <span class="icon is-small is-left">{{ App\Models\Setting::get('currency_symbol') }}</span>
                                             </div>
                                         </td>
                                     </tr>

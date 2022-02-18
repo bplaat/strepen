@@ -35,7 +35,7 @@
                     </div>
 
                     <div class="columns">
-                        <div class="column">
+                        <div class="column is-half">
                             <div class="field">
                                 <label class="label" for="created_at_date">@lang('admin/inventories.item.created_at_date')</label>
                                 <div class="control">
@@ -46,7 +46,7 @@
                             </div>
                         </div>
 
-                        <div class="column">
+                        <div class="column is-half">
                             <div class="field">
                                 <label class="label" for="created_at_time">@lang('admin/inventories.item.created_at_time')</label>
                                 <div class="control">

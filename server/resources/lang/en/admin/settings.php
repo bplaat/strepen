@@ -7,11 +7,13 @@ return [
 
     // Change settings form
     'change_settings.header' => 'Change global settings',
-    'change_settings.min_user_balance' => 'Minimal user balance (for balance to low notification)',
-    'change_settings.max_stripe_amount' => 'Maximal user product stripe amount',
+    'change_settings.currency_symbol' => 'Currency symbol',
+    'change_settings.currency_name' => 'Currency name',
+    'change_settings.min_user_balance' => 'Minimal user balance<br />(for balance to low notification)',
+    'change_settings.max_stripe_amount' => 'Maximal amount for normal<br />product stripe',
     'change_settings.minor_age' => 'Minor age (in years)',
     'change_settings.pagination_rows' => 'Pagination how many rows',
-    'change_settings.kiosk_ip_whitelist' => 'Kiosk mode IP whitelist (to access kiosk mode without admin login)',
+    'change_settings.kiosk_ip_whitelist' => 'Kiosk mode IP whitelist<br />(to access without admin login)',
     'change_settings.leaderboards_enabled' => 'Enable leaderboards page',
     'change_settings.leaderboards_enabled_info' => 'Enable the leaderboards page for anyone to see',
     'change_settings.bank_account_iban' => 'General bank account IBAN',
