@@ -3,9 +3,10 @@
 
     <x-search-header :itemName="__('admin/users.crud.users')">
         <div class="buttons">
-            <button class="button is-link" wire:click="$set('isCreating', true)" wire:loading.attr="disabled">@lang('admin/users.crud.create_user')</button>
-            <button class="button is-link" wire:click="recalculateBalances()" wire:loading.attr="disabled">@lang('admin/users.crud.recalculate_balances')</button>
-            <button class="button is-link" wire:click="$set('isChecking', true)" wire:loading.attr="disabled">@lang('admin/users.crud.check_balances')</button>
+            <button class="button is-link" wire:click="$set('isCreating', true)" wire:loading.attr="disabled">@lang('admin/users.crud.create')</button>
+            <button class="button is-link" wire:click="recalculateBalances()" wire:loading.attr="disabled">@lang('admin/users.crud.recalculate')</button>
+            <button class="button is-link" wire:click="$set('isChecking', true)" wire:loading.attr="disabled">@lang('admin/users.crud.check')</button>
+            <button class="button is-link" wire:click="$set('isExporting', true)" wire:loading.attr="disabled">@lang('admin/users.crud.export')</button>
         </div>
 
         <x-slot name="sorters">
@@ -310,7 +311,7 @@
 
             <div class="modal-card">
                 <div class="modal-card-head">
-                    <p class="modal-card-title">@lang('admin/users.crud.check_users')</p>
+                    <p class="modal-card-title">@lang('admin/users.crud.check_balances')</p>
                     <button type="button" class="delete" wire:click="$set('isChecking', false)"></button>
                 </div>
 
@@ -319,8 +320,27 @@
                 </div>
 
                 <div class="modal-card-foot">
-                    <button class="button is-link" wire:click="checkBalances()" wire:loading.attr="disabled">@lang('admin/users.crud.check_users')</button>
+                    <button class="button is-link" wire:click="checkBalances()" wire:loading.attr="disabled">@lang('admin/users.crud.check_balances')</button>
                     <button class="button" wire:click="$set('isChecking', false)" wire:loading.attr="disabled">@lang('admin/users.crud.cancel')</button>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    @if ($isExporting)
+        <div class="modal is-active">
+            <div class="modal-background" wire:click="$set('isExporting', false)"></div>
+
+            <div class="modal-card">
+                <div class="modal-card-head">
+                    <p class="modal-card-title">@lang('admin/users.crud.export_balances')</p>
+                    <button type="button" class="delete" wire:click="$set('isExporting', false)"></button>
+                </div>
+
+                <div class="modal-card-body">
+                    @foreach (App\Models\User::where('active', true)->orderBy('balance')->get() as $user)
+                        <p>{{ $user->name }}: <x-money-format :money="$user->balance" /></p>
+                    @endforeach
                 </div>
             </div>
         </div>

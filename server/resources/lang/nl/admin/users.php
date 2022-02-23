@@ -4,9 +4,10 @@ return [
     // Admin users crud livewire component
     'crud.title' => 'Gebruikers - Admin',
     'crud.header' => 'Gebruikers',
-    'crud.create_user' => 'Maak nieuwe gebruiker',
-    'crud.recalculate_balances' => 'Hertel',
-    'crud.check_balances' => 'Check',
+    'crud.create' => 'Maak',
+    'crud.recalculate' => 'Hertel',
+    'crud.check' => 'Check',
+    'crud.export' => 'Exporteer',
     'crud.lastname_asc' => 'Achternaam (A - Z)',
     'crud.lastname_desc' => 'Achternaam (Z - A)',
     'crud.firstname_asc' => 'Voornaam (A - Z)',
@@ -21,6 +22,7 @@ return [
     'crud.role_chooser_manager' => 'Managers alleen',
     'crud.role_chooser_admin' => 'Admins alleen',
     'crud.empty' => 'Geen gebruikers gevonden!',
+    'crud.create_user' => 'Maak nieuwe gebruiker',
     'crud.firstname' => 'Voornaam',
     'crud.insertion' => 'Tussenvoegsel',
     'crud.lastname' => 'Achternaam',
@@ -51,8 +53,9 @@ return [
     'crud.theme_dark' => 'Donker',
     'crud.receive_news' => 'Ontvang nieuws',
     'crud.receive_news_user' => 'Ontvang meldingen wanneer een nieuwe nieuwsberichten zijn geplaatst',
-    'crud.check_users' => 'Check gebruikers balansen',
+    'crud.check_balances' => 'Check gebruikers balansen',
     'crud.check_description' => 'Weet u zeker dat u alle gebruikers balansen wilt controleren, er kunnen e-mailmeldingen verzonden worden?',
+    'crud.export_balances' => 'Exporteer gebruikers balansen',
     'crud.cancel' => 'Annuleren',
 
     // Admin users item livewire component

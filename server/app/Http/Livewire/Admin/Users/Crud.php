@@ -20,6 +20,7 @@ class Crud extends PaginationComponent
     public $thanks;
     public $isCreating;
     public $isChecking;
+    public $isExporting;
 
     public function rules()
     {
@@ -76,6 +77,7 @@ class Crud extends PaginationComponent
         $this->thanks = null;
         $this->isCreating = false;
         $this->isChecking = false;
+        $this->isExporting = false;
     }
 
     public function search()

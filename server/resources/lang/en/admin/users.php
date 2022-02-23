@@ -4,9 +4,10 @@ return [
     // Admin users crud livewire component
     'crud.title' => 'Users - Admin',
     'crud.header' => 'Users',
-    'crud.create_user' => 'Create new user',
-    'crud.recalculate_balances' => 'Recalculate',
-    'crud.check_balances' => 'Check',
+    'crud.create' => 'Create',
+    'crud.recalculate' => 'Recalculate',
+    'crud.check' => 'Check',
+    'crud.export' => 'Export',
     'crud.lastname_asc' => 'Lastname (A - Z)',
     'crud.lastname_desc' => 'Lastname (Z - A)',
     'crud.firstname_asc' => 'Firstname (A - Z)',
@@ -21,6 +22,7 @@ return [
     'crud.role_chooser_manager' => 'Managers only',
     'crud.role_chooser_admin' => 'Admins only',
     'crud.empty' => 'No users found!',
+    'crud.create_user' => 'Create new user',
     'crud.firstname' => 'First name',
     'crud.insertion' => 'Insertion',
     'crud.lastname' => 'Last name',
@@ -51,8 +53,9 @@ return [
     'crud.theme_dark' => 'Dark',
     'crud.receive_news' => 'Receive news',
     'crud.receive_news_user' => 'Receive news notifications when a new news posts are placed',
-    'crud.check_users' => 'Check users balances',
+    'crud.check_balances' => 'Check users balances',
     'crud.check_description' => 'Are you sure you want to check all the user balances, this can send out notification emails?',
+    'crud.export_balances' => 'Export users balances',
     'crud.cancel' => 'Cancel',
 
     // Admin users item livewire component
