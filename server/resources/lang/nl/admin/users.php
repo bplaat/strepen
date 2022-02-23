@@ -56,6 +56,8 @@ return [
     'crud.check_balances' => 'Check gebruikers balansen',
     'crud.check_description' => 'Weet u zeker dat u alle gebruikers balansen wilt controleren, er kunnen e-mailmeldingen verzonden worden?',
     'crud.export_balances' => 'Exporteer gebruikers balansen',
+    'crud.export_everyone' => 'Iedereen',
+    'crud.export_debtors' => 'Alleen Schuldenaren',
     'crud.cancel' => 'Annuleren',
 
     // Admin users item livewire component

@@ -56,6 +56,8 @@ return [
     'crud.check_balances' => 'Check users balances',
     'crud.check_description' => 'Are you sure you want to check all the user balances, this can send out notification emails?',
     'crud.export_balances' => 'Export users balances',
+    'crud.export_everyone' => 'Everyone',
+    'crud.export_debtors' => 'Only Debtors',
     'crud.cancel' => 'Cancel',
 
     // Admin users item livewire component

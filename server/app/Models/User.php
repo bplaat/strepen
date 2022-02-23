@@ -268,12 +268,9 @@ class User extends Authenticatable
     // Send all users that have a to low balance an low balance notification
     public static function checkBalances()
     {
-        $users = User::where('active', true)->get();
-        $minUserBalance = Setting::get('min_user_balance');
+        $users = User::where('active', true)->where('balance', '<', Setting::get('min_user_balance'))->get();
         foreach ($users as $user) {
-            if ($user->balance < $minUserBalance) {
-                $user->notify(new LowBalance($user));
-            }
+            $user->notify(new LowBalance($user));
         }
     }
 }

@@ -338,9 +338,28 @@
                 </div>
 
                 <div class="modal-card-body">
-                    @foreach (App\Models\User::where('active', true)->orderBy('balance')->get() as $user)
-                        <p>{{ $user->name }}: <x-money-format :money="$user->balance" /></p>
-                    @endforeach
+                    <div class="tabs is-fullwidth">
+                        <ul>
+                            <li @class(['is-active' => $exportTab == 'everyone'])>
+                                <a wire:click.prevent="$set('exportTab', 'everyone')">@lang('admin/users.crud.export_everyone')</a>
+                            </li>
+                            <li @class(['is-active' => $exportTab == 'debtors'])>
+                                <a wire:click.prevent="$set('exportTab', 'debtors')">@lang('admin/users.crud.export_debtors')</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    @if ($exportTab == 'everyone')
+                        @foreach (App\Models\User::where('active', true)->orderBy('balance')->get() as $user)
+                            <p>{{ $user->name }}: <x-money-format :money="$user->balance" /></p>
+                        @endforeach
+                    @endif
+
+                    @if ($exportTab == 'debtors')
+                        @foreach (App\Models\User::where('active', true)->where('balance', '<', App\Models\Setting::get('min_user_balance'))->orderBy('balance')->get() as $user)
+                            <p>{{ $user->name }}: <x-money-format :money="$user->balance" /></p>
+                        @endforeach
+                    @endif
                 </div>
             </div>
         </div>
