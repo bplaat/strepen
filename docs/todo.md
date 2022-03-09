@@ -4,7 +4,6 @@
 
 ## High priority
 - Products old price table
-- Settings currency name and symbol in mobile app
 - Mail queues limit on webserver
 - Bug fixes / All the whishs from the Stam Bestuur
 

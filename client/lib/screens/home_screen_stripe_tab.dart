@@ -190,7 +190,7 @@ class _ProductsListState extends State {
                       )
                     ),
                     title: Text(product.name),
-                    subtitle: Text('\u20ac ${product.price.toStringAsFixed(2)}'),
+                    subtitle: Text('${settings['currency_symbol']} ${product.price.toStringAsFixed(2)}'),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -412,13 +412,13 @@ class TransactionProductsAmounts extends StatelessWidget {
                         ),
                         SizedBox(
                           width: double.infinity,
-                          child: Text('${amount}x    \u20ac ${totalPrice != null && totalPrice != realTotalPrice ? '?' : product.price.toStringAsFixed(2)}', style: TextStyle(color: Colors.grey))
+                          child: Text('${amount}x    ${settings['currency_symbol']} ${totalPrice != null && totalPrice != realTotalPrice ? '?' : product.price.toStringAsFixed(2)}', style: TextStyle(color: Colors.grey))
                         )
                       ]
                     )
                   ),
 
-                  Text('\u20ac ${totalPrice != null && totalPrice != realTotalPrice ? '?' : (product.price * amount).toStringAsFixed(2)}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500))
+                  Text('${settings['currency_symbol']} ${totalPrice != null && totalPrice != realTotalPrice ? '?' : (product.price * amount).toStringAsFixed(2)}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500))
                 ]
               )
             );
@@ -442,7 +442,7 @@ class TransactionProductsAmounts extends StatelessWidget {
               child: Text('${totalAmount}x', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))
             ),
 
-            Text('\u20ac ${(totalPrice ?? realTotalPrice).toStringAsFixed(2)}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500))
+            Text('${settings['currency_symbol']} ${(totalPrice ?? realTotalPrice).toStringAsFixed(2)}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500))
           ]
         )
       ]

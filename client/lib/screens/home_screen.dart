@@ -6,6 +6,7 @@ import 'home_screen_history_tab.dart';
 import 'home_screen_profile_tab.dart';
 import '../models/notification.dart';
 import '../services/auth_service.dart';
+import '../services/settings_service.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -93,18 +94,22 @@ class NotificationsButton extends StatefulWidget {
 class _NotificationsButtonState extends State {
   final PageController pageController;
 
-  bool forceReload = false;
+  bool _forceReload = false;
 
   _NotificationsButtonState({required this.pageController});
 
   @override
   Widget build(BuildContext context) {
     final lang = AppLocalizations.of(context)!;
-    return FutureBuilder<List<NotificationData>>(
-      future: AuthService.getInstance().unreadNotifications(forceReload: forceReload),
+    return FutureBuilder<List<dynamic>>(
+      future: Future.wait([
+        AuthService.getInstance().unreadNotifications(forceReload: _forceReload),
+        SettingsService.getInstance().settings()
+      ]),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<NotificationData> notifications = snapshot.data!;
+          List<NotificationData> notifications = snapshot.data![0]!;
+          Map<String, dynamic> settings = snapshot.data![1]!;
           return PopupMenuButton(
             icon: Icon(notifications.length > 0 ? Icons.notifications_on : Icons.notifications_sharp),
             tooltip: lang.home_notifications,
@@ -115,10 +120,10 @@ class _NotificationsButtonState extends State {
                     return PopupMenuItem(
                       onTap: () async {
                         await AuthService.getInstance().readNotification(notificationId: notification.id);
-                        setState(() => forceReload = true);
+                        setState(() => _forceReload = true);
                         pageController.animateToPage(3, duration: Duration(milliseconds: 300), curve: Curves.ease);
                       },
-                      child: Text(lang.home_new_deposit(notification.data['amount'].toStringAsFixed(2))),
+                      child: Text(lang.home_new_deposit('${settings['currency_symbol']} ${notification.data['amount'].toStringAsFixed(2)}')),
                     );
                   }
 
@@ -126,7 +131,7 @@ class _NotificationsButtonState extends State {
                     return PopupMenuItem(
                       onTap: () async {
                         await AuthService.getInstance().readNotification(notificationId: notification.id);
-                        setState(() => forceReload = true);
+                        setState(() => _forceReload = true);
                         pageController.animateToPage(0, duration: Duration(milliseconds: 300), curve: Curves.ease);
                       },
                       child: Text(lang.home_new_post),
@@ -137,17 +142,17 @@ class _NotificationsButtonState extends State {
                     return PopupMenuItem(
                       onTap: () async {
                         await AuthService.getInstance().readNotification(notificationId: notification.id);
-                        setState(() => forceReload = true);
+                        setState(() => _forceReload = true);
                         pageController.animateToPage(3, duration: Duration(milliseconds: 300), curve: Curves.ease);
                       },
-                      child: Text(lang.home_low_balance(notification.data['balance'].toStringAsFixed(2))),
+                      child: Text(lang.home_low_balance('${settings['currency_symbol']} ${notification.data['balance'].toStringAsFixed(2)}')),
                     );
                   }
 
                   return PopupMenuItem(
                     onTap: () async {
                       await AuthService.getInstance().readNotification(notificationId: notification.id);
-                      setState(() => forceReload = true);
+                      setState(() => _forceReload = true);
                     },
                     child: Text(lang.home_unknown_notification),
                   );
@@ -156,7 +161,7 @@ class _NotificationsButtonState extends State {
                 return [
                   PopupMenuItem(
                     onTap: () async {
-                      setState(() => forceReload = true);
+                      setState(() => _forceReload = true);
                     },
                     child: Text(lang.home_unread_notifications_empty, style: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic)),
                   )
@@ -175,7 +180,7 @@ class _NotificationsButtonState extends State {
               return [
                 PopupMenuItem(
                   onTap: () async {
-                    setState(() => forceReload = true);
+                    setState(() => _forceReload = true);
                   },
                   child: Text(lang.home_unread_notifications_empty, style: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic)),
                 )

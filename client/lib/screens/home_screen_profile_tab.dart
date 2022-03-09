@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../models/user.dart';
 import '../services/auth_service.dart';
+import '../services/settings_service.dart';
 
 class HomeScreenProfileTab extends StatefulWidget {
   @override
@@ -19,8 +20,11 @@ class _HomeScreenProfileTabState extends State {
   @override
   Widget build(BuildContext context) {
     final lang = AppLocalizations.of(context)!;
-    return FutureBuilder<User?>(
-      future: AuthService.getInstance().user(forceReload: _forceReload),
+    return FutureBuilder<List<dynamic>>(
+      future: Future.wait([
+        AuthService.getInstance().user(forceReload: _forceReload),
+        SettingsService.getInstance().settings()
+      ]),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           print('HomeScreenProfileTab error: ${snapshot.error}');
@@ -28,7 +32,8 @@ class _HomeScreenProfileTabState extends State {
             child: Text(lang.home_profile_error),
           );
         } else if (snapshot.hasData) {
-          User user = snapshot.data!;
+          User user = snapshot.data![0]!;
+          Map<String, dynamic> settings = snapshot.data![1]!;
           return RefreshIndicator(
             onRefresh: () async {
               setState(() => _forceReload = true);
@@ -77,7 +82,7 @@ class _HomeScreenProfileTabState extends State {
                           width: double.infinity,
                           margin: EdgeInsets.symmetric(vertical: 8),
                           child: Text(
-                            '\u20ac ${user.balance!.toStringAsFixed(2)}',
+                            '${settings['currency_symbol']} ${user.balance!.toStringAsFixed(2)}',
                             style: TextStyle(fontSize: 24, color: user.balance! < 0 ? Colors.red : null, fontWeight: FontWeight.w500),
                             textAlign: TextAlign.center
                           )

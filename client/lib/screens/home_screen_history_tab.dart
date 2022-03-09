@@ -166,7 +166,7 @@ class TransactionItem extends StatelessWidget {
 
                 Container(
                   width: double.infinity,
-                  child: Text('${lang.home_history_amount}: \u20ac ${transaction.price.toStringAsFixed(2)}')
+                  child: Text('${lang.home_history_amount}: ${settings['currency_symbol']} ${transaction.price.toStringAsFixed(2)}')
                 )
               ],
 
@@ -179,7 +179,7 @@ class TransactionItem extends StatelessWidget {
 
                 Container(
                   width: double.infinity,
-                  child: Text('${lang.home_history_amount}: \u20ac ${transaction.price.toStringAsFixed(2)}')
+                  child: Text('${lang.home_history_amount}: ${settings['currency_symbol']} ${transaction.price.toStringAsFixed(2)}')
                 )
               ]
             ]
