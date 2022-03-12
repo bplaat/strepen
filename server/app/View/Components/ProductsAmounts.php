@@ -20,7 +20,7 @@ class ProductsAmounts extends Component
         $realTotalPrice = round($products->reduce(
             fn ($price, $product) => $price + $product->pivot->amount * $product->price
         ), 3);
-        if ($this->totalPrice == $realTotalPrice) {
+        if ((string)$this->totalPrice == (string)$realTotalPrice) { // Do a string compare to fix some weird bug
             foreach ($this->products as $product) {
                 $product->pivot->price = $product->price;
             }

@@ -5,6 +5,7 @@
 ## High priority
 - Products old price table
 - Mail queues limit on webserver
+- Fix flutter black start screen
 - Bug fixes / All the whishs from the Stam Bestuur
 
 ## Low priority
