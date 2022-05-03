@@ -58,6 +58,7 @@ return [
     'crud.export_balances' => 'Export users balances',
     'crud.export_everyone' => 'Everyone',
     'crud.export_debtors' => 'Only Debtors',
+    'crud.total' => 'Total',
     'crud.cancel' => 'Cancel',
 
     // Admin users item livewire component

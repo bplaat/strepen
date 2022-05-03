@@ -350,15 +350,23 @@
                     </div>
 
                     @if ($exportTab == 'everyone')
-                        @foreach (App\Models\User::where('active', true)->orderBy('balance')->get() as $user)
+                        @php
+                            $users = App\Models\User::where('active', true)->orderBy('balance')->get();
+                        @endphp
+                        @foreach ($users as $user)
                             <p>{{ $user->name }}: <x-money-format :money="$user->balance" /></p>
                         @endforeach
+                        <p class="mt-1"><b>@lang('admin/users.crud.total')</b>: <x-money-format :money="$users->map(fn ($user) => $user->balance)->sum()" /></p>
                     @endif
 
                     @if ($exportTab == 'debtors')
-                        @foreach (App\Models\User::where('active', true)->where('balance', '<', App\Models\Setting::get('min_user_balance'))->orderBy('balance')->get() as $user)
+                        @php
+                            $users = App\Models\User::where('active', true)->where('balance', '<', App\Models\Setting::get('min_user_balance'))->orderBy('balance')->get();
+                        @endphp
+                        @foreach ($users as $user)
                             <p>{{ $user->name }}: <x-money-format :money="$user->balance" /></p>
                         @endforeach
+                        <p class="mt-1"><b>@lang('admin/users.crud.total')</b>: <x-money-format :money="$users->map(fn ($user) => $user->balance)->sum()" /></p>
                     @endif
                 </div>
             </div>
