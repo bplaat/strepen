@@ -3,7 +3,7 @@
 #include "resource.h"
 
 // Manifest
-ID_MANIFEST MANIFEST "app.min.manifest"
+ID_MANIFEST MANIFEST "../build/app.min.manifest"
 
 // Icon
 ID_ICON_APP ICON "icon.ico"
@@ -15,7 +15,9 @@ STRINGTABLE LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
     ID_STRING_WEBVIEW_URL "https://stam.diekantankys.nl/\x00"
     ID_STRING_ABOUT_MENU "About\x00"
     ID_STRING_ABOUT_TITLE "About Strepen Windows App\x00"
-    ID_STRING_ABOUT_TEXT "Made by Bastiaan van der Plaat\nCopyright \xA9 2021 - 2022 PlaatSoft\x00"
+    ID_STRING_ABOUT_TEXT_FORMAT "Strepen Windows App v%d.%d.%d.%d\n"
+        "Made by Bastiaan van der Plaat\n"
+        "Copyright \xA9 2021 - 2022 PlaatSoft\x00"
 }
 
 // Dutch Strings
@@ -25,7 +27,9 @@ STRINGTABLE LANGUAGE LANG_DUTCH, SUBLANG_DUTCH
     ID_STRING_WEBVIEW_URL "https://stam.diekantankys.nl/\x00"
     ID_STRING_ABOUT_MENU "Over\x00"
     ID_STRING_ABOUT_TITLE "Over Strepen Windows App\x00"
-    ID_STRING_ABOUT_TEXT "Gemaakt door Bastiaan van der Plaat\nCopyright \xA9 2021 - 2022 PlaatSoft\x00"
+    ID_STRING_ABOUT_TEXT_FORMAT "Strepen Windows App v%d.%d.%d.%d\n"
+        "Gemaakt door Bastiaan van der Plaat\n"
+        "Copyright \xA9 2021 - 2022 PlaatSoft\x00"
 }
 
 // Version Information

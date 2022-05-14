@@ -5,7 +5,7 @@
 #include "WebView2.h"
 #include "../res/resource.h"
 
-#define ID_MENU_ABOUT 1001
+#define ID_MENU_ABOUT 1
 
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720
@@ -15,13 +15,17 @@
 
 HWND hwnd;
 HINSTANCE instance;
-int window_dpi;
+UINT window_dpi;
 ICoreWebView2 *webview2 = NULL;
 ICoreWebView2Controller *controller = NULL;
 
 // Standard C Library wrapper functions
 void *malloc(size_t size) {
     return HeapAlloc(GetProcessHeap(), 0, size);
+}
+
+void free(void *ptr) {
+    HeapFree(GetProcessHeap(), 0, ptr);
 }
 
 wchar_t *wcscpy(wchar_t *dest, const wchar_t *src) {
@@ -44,9 +48,9 @@ typedef HRESULT (STDMETHODCALLTYPE *_DwmSetWindowAttribute)(HWND hwnd, DWORD dwA
 
 typedef HRESULT (STDMETHODCALLTYPE *_CreateCoreWebView2EnvironmentWithOptions)(PCWSTR browserExecutableFolder, PCWSTR userDataFolder, ICoreWebView2EnvironmentOptions *environmentOptions, ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler *environmentCreatedHandler);
 
-int GetPrimaryDesktopDpi(void) {
+UINT GetPrimaryDesktopDpi(void) {
     HDC hdc = GetDC(HWND_DESKTOP);
-    int dpi = GetDeviceCaps(hdc, LOGPIXELSY);
+    UINT dpi = GetDeviceCaps(hdc, LOGPIXELSY);
     ReleaseDC(HWND_DESKTOP, hdc);
     return dpi;
 }
@@ -96,6 +100,26 @@ void FatalError(wchar_t *message) {
     ExitProcess(1);
 }
 
+void GetAppVersion(UINT *version) {
+    wchar_t file_name[MAX_PATH];
+    GetModuleFileName(NULL, file_name, sizeof(file_name) / sizeof(wchar_t));
+    DWORD version_info_size = GetFileVersionInfoSize(file_name, NULL);
+    BYTE *version_info = malloc(version_info_size);
+    GetFileVersionInfo(file_name, 0, version_info_size, version_info);
+
+    VS_FIXEDFILEINFO *file_info;
+    UINT file_info_size;
+    VerQueryValue(version_info, L"\\", (LPVOID *)&file_info, &file_info_size);
+
+    version[0] = HIWORD(file_info->dwProductVersionMS);
+    version[1] = LOWORD(file_info->dwProductVersionMS);
+    version[2] = HIWORD(file_info->dwProductVersionLS);
+    version[3] = LOWORD(file_info->dwProductVersionLS);
+
+    free(version_info);
+}
+
+// Browser functionality
 void ResizeBrowser(HWND hwnd) {
     if (!controller) return;
     RECT window_rect;
@@ -103,7 +127,7 @@ void ResizeBrowser(HWND hwnd) {
     ICoreWebView2Controller_put_Bounds(controller, window_rect);
 }
 
-BOOL HandleKeyDown(int key) {
+BOOL HandleKeyDown(UINT key) {
     if (key == VK_ESCAPE) {
         if (!(GetWindowLong(hwnd, GWL_STYLE) & WS_OVERLAPPEDWINDOW)) {
             SetWindowFullscreen(hwnd, FALSE);
@@ -157,7 +181,7 @@ ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandlerVtbl EnvironmentComple
 HRESULT STDMETHODCALLTYPE AcceleratorKeyPressedHandler_Invoke(ICoreWebView2AcceleratorKeyPressedEventHandler *This, ICoreWebView2Controller *sender, ICoreWebView2AcceleratorKeyPressedEventArgs *args) {
     COREWEBVIEW2_KEY_EVENT_KIND state;
     ICoreWebView2AcceleratorKeyPressedEventArgs_get_KeyEventKind(args, &state);
-    int key;
+    UINT key;
     ICoreWebView2AcceleratorKeyPressedEventArgs_get_VirtualKey(args, &key);
     if (state == COREWEBVIEW2_KEY_EVENT_KIND_KEY_DOWN && HandleKeyDown(key)) {
         ICoreWebView2AcceleratorKeyPressedEventArgs_put_Handled(args, TRUE);
@@ -237,9 +261,13 @@ LRESULT WINAPI WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 
     // Menu commands
     if (msg == WM_SYSCOMMAND) {
-        int id = LOWORD(wParam);
+        UINT id = LOWORD(wParam);
         if (id == ID_MENU_ABOUT) {
-            MessageBox(hwnd, GetString(ID_STRING_ABOUT_TEXT), GetString(ID_STRING_ABOUT_TITLE), MB_OK | MB_ICONINFORMATION);
+            UINT app_version[4];
+            GetAppVersion(app_version);
+            wchar_t about_text[512];
+            wsprintf(about_text, GetString(ID_STRING_ABOUT_TEXT_FORMAT), app_version[0], app_version[1], app_version[2], app_version[3]);
+            MessageBox(hwnd, about_text, GetString(ID_STRING_ABOUT_TITLE), MB_OK | MB_ICONINFORMATION);
             return 0;
         }
     }
@@ -302,8 +330,8 @@ void _start(void) {
 
     // Create centered window
     window_dpi = GetPrimaryDesktopDpi();
-    int window_width = MulDiv(WINDOW_WIDTH, window_dpi, 96);
-    int window_height = MulDiv(WINDOW_HEIGHT, window_dpi, 96);
+    UINT window_width = MulDiv(WINDOW_WIDTH, window_dpi, 96);
+    UINT window_height = MulDiv(WINDOW_HEIGHT, window_dpi, 96);
     RECT window_rect;
     window_rect.left = (GetSystemMetrics(SM_CXSCREEN) - window_width) / 2;
     window_rect.top = (GetSystemMetrics(SM_CYSCREEN) - window_height) / 2;
