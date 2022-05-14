@@ -17,14 +17,14 @@
                     <p class="mb-5">@lang('apps.windows_description_two')</p>
 
                     <div class="buttons">
-                        <a class="button is-link p-5" href="https://github.com/bplaat/strepen/releases/download/windows-client-v1.2.0/strepen-win64.zip">
+                        <a class="button is-link p-5" href="https://github.com/bplaat/strepen/releases/download/windows-client-v1.3.0/strepen-win64.zip">
                             <svg xmlns="http://www.w3.org/2000/svg" class="image is-small is-inline" viewBox="0 0 24 24" style="transform: translateY(1px);">
                                 <path fill="currentColor" d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z" />
                             </svg>
                             @lang('apps.windows_download_app')
                         </a>
 
-                        <a class="button is-link p-5" href="https://github.com/bplaat/strepen/releases/download/windows-client-v1.2.0/MicrosoftEdgeWebview2Setup.exe">
+                        <a class="button is-link p-5" href="https://github.com/bplaat/strepen/releases/download/windows-client-v1.3.0/MicrosoftEdgeWebview2Setup.exe">
                             <svg xmlns="http://www.w3.org/2000/svg" class="image is-small is-inline" viewBox="0 0 24 24" style="transform: translateY(1px);">
                                 <path fill="currentColor" d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z" />
                             </svg>
