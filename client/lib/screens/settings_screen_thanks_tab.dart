@@ -147,12 +147,14 @@ class _SettingsChangeThanksTabState extends State {
                         margin: EdgeInsets.only(bottom: 16),
                         child: SizedBox(
                           width: double.infinity,
-                          child: RaisedButton(
-                          onPressed: _isLoading ? null : searchThanks,
-                          color: Colors.pink,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                          child: Text(lang.settings_thanks_search_button, style: TextStyle(color: Colors.white, fontSize: 18))
+                          child: ElevatedButton(
+                            onPressed: _isLoading ? null : searchThanks,
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.pink,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16)
+                            ),
+                            child: Text(lang.settings_thanks_search_button, style: TextStyle(color: Colors.white, fontSize: 18))
                           )
                         )
                       )
@@ -162,12 +164,14 @@ class _SettingsChangeThanksTabState extends State {
                     if (!user.thanks.contains('default.gif')) ... [
                       SizedBox(
                         width: double.infinity,
-                        child: RaisedButton(
-                        onPressed: _isLoading ? null : deleteThanks,
-                        color: Colors.red,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                        child: Text(lang.settings_thanks_delete_button, style: TextStyle(color: Colors.white, fontSize: 18))
+                        child: ElevatedButton(
+                          onPressed: _isLoading ? null : deleteThanks,
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.red,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16)
+                          ),
+                          child: Text(lang.settings_thanks_delete_button, style: TextStyle(color: Colors.white, fontSize: 18))
                         )
                       )
                     ]

@@ -123,6 +123,7 @@ class _PostItemState extends State {
   @override
   Widget build(BuildContext context) {
     final lang = AppLocalizations.of(context)!;
+    final brightness = MediaQuery.of(context).platformBrightness;
     return Container(
       margin: EdgeInsets.symmetric(vertical: 8),
       child: Card(
@@ -173,23 +174,28 @@ class _PostItemState extends State {
                       // Like button
                       Expanded(
                         flex: 1,
-                        child: post.userLiked ? RaisedButton.icon(
+                        child: post.userLiked ? ElevatedButton.icon(
                           onPressed: () async {
                             await post.like();
                             setState(() {});
                           },
-                          color: Colors.green,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.green,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12)
+                          ),
                           icon: Icon(Icons.thumb_up_alt, color: Colors.white),
                           label: Text(post.likes > 0 ? post.likes.toString() : lang.home_posts_like, style: TextStyle(color: Colors.white))
-                        ) : OutlineButton.icon(
+                        ) : OutlinedButton.icon(
                           onPressed: () async {
                             await post.like();
                             setState(() {});
                           },
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          style: OutlinedButton.styleFrom(
+                            primary: brightness == Brightness.light ? Colors.black : Colors.white,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12)
+                          ),
                           icon: Icon(Icons.thumb_up_alt_outlined),
                           label: Text(post.likes > 0 ? post.likes.toString() : lang.home_posts_like)
                         )
@@ -200,23 +206,28 @@ class _PostItemState extends State {
                       // Dislike button
                       Expanded(
                         flex: 1,
-                        child: post.userDisliked ? RaisedButton.icon(
+                        child: post.userDisliked ? ElevatedButton.icon(
                           onPressed: () async {
                             await post.dislike();
                             setState(() {});
                           },
-                          color: Colors.red,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.red,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12)
+                          ),
                           icon: Icon(Icons.thumb_down_alt, color: Colors.white),
                           label: Text(post.dislikes > 0 ? post.dislikes.toString() : lang.home_posts_dislike, style: TextStyle(color: Colors.white))
-                        ) : OutlineButton.icon(
+                        ) : OutlinedButton.icon(
                           onPressed: () async {
                             await post.dislike();
                             setState(() {});
                           },
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          style: OutlinedButton.styleFrom(
+                            primary: brightness == Brightness.light ? Colors.black : Colors.white,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12)
+                          ),
                           icon: Icon(Icons.thumb_down_alt_outlined),
                           label: Text(post.dislikes > 0 ? post.dislikes.toString() : lang.home_posts_dislike)
                         )

@@ -146,12 +146,14 @@ class _SettingsChangeAvatarTabState extends State {
                       margin: EdgeInsets.only(bottom: 16),
                       child: SizedBox(
                         width: double.infinity,
-                        child: RaisedButton(
-                        onPressed: _isLoading ? null : uploadAvatar,
-                        color: Colors.pink,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                        child: Text(lang.settings_avatar_upload_button, style: TextStyle(color: Colors.white, fontSize: 18))
+                        child: ElevatedButton(
+                          onPressed: _isLoading ? null : uploadAvatar,
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.pink,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16)
+                          ),
+                          child: Text(lang.settings_avatar_upload_button, style: TextStyle(color: Colors.white, fontSize: 18))
                         )
                       )
                     ),
@@ -160,12 +162,14 @@ class _SettingsChangeAvatarTabState extends State {
                     if (!user.avatar.contains('default.png')) ... [
                       SizedBox(
                         width: double.infinity,
-                        child: RaisedButton(
-                        onPressed: _isLoading ? null : deleteAvatar,
-                        color: Colors.red,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                        child: Text(lang.settings_avatar_delete_button, style: TextStyle(color: Colors.white, fontSize: 18))
+                        child: ElevatedButton(
+                          onPressed: _isLoading ? null : deleteAvatar,
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.red,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16)
+                          ),
+                          child: Text(lang.settings_avatar_delete_button, style: TextStyle(color: Colors.white, fontSize: 18))
                         )
                       )
                     ]

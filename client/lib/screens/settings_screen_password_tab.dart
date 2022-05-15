@@ -116,11 +116,13 @@ class _SettingsChangePasswordTabState extends State {
 
               SizedBox(
                 width: double.infinity,
-                child: RaisedButton(
+                child: ElevatedButton(
                   onPressed: _isLoading ? null : changePassword,
-                  color: Colors.pink,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.pink,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16)
+                  ),
                   child: Text(lang.settings_password_header, style: TextStyle(color: Colors.white, fontSize: 18))
                 )
               )

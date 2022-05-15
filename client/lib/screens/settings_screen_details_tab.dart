@@ -383,11 +383,13 @@ class _SettingsChangeDetailsTabState extends State {
                     // Change details button
                     SizedBox(
                       width: double.infinity,
-                      child: RaisedButton(
+                      child: ElevatedButton(
                         onPressed: _isLoading ? null : changeDetails,
-                        color: Colors.pink,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.pink,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16)
+                        ),
                         child: Text(lang.settings_details_header, style: TextStyle(color: Colors.white, fontSize: 18))
                       )
                     )

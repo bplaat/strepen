@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../services/auth_service.dart';
@@ -43,13 +44,14 @@ class _LoginScreenState extends State {
   @override
   Widget build(BuildContext context) {
     final lang = AppLocalizations.of(context)!;
+    final isMobile = defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.android;
     return Scaffold(
         body: Center(
           child: SingleChildScrollView(
-            child: Padding(
+            child: Container(
+              constraints: BoxConstraints(maxWidth: !isMobile ? 480 : double.infinity),
               padding: EdgeInsets.all(16),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 8),
@@ -108,11 +110,13 @@ class _LoginScreenState extends State {
                     margin: EdgeInsets.symmetric(vertical: 8),
                     child: SizedBox(
                       width: double.infinity,
-                      child: RaisedButton(
+                      child: ElevatedButton(
                         onPressed: _isLoading ? null : login,
-                        color: Colors.pink,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(48)),
-                        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.pink,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(48)),
+                          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16)
+                        ),
                         child: Text(lang.login_login, style: TextStyle(color: Colors.white, fontSize: 18))
                       )
                     )

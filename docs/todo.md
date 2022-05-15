@@ -2,10 +2,11 @@
 
 # Todo List
 
-- Products old price table
-- User selector controllable with arrow keys and enter
-- Mail queues limit on webserver
 - Fix flutter black start screen
+- Update flutter mobile app in Play Store with new key
+- User selector controllable with arrow keys and enter
+- Products old price table
+- Mail queues limit on webserver
 - Better admin user charts
 - Better admin product charts
 - Finish the admin part of the REST API

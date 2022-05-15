@@ -243,11 +243,13 @@ class _ProductsListState extends State {
               margin: EdgeInsets.all(16),
               child: SizedBox(
                 width: double.infinity,
-                child: RaisedButton(
+                child: ElevatedButton(
                   onPressed: _isLoading ? null : createTransaction,
-                  color: Colors.pink,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(48)),
-                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.pink,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(48)),
+                    padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16)
+                  ),
                   child: Text(lang.home_stripe_stripe, style: TextStyle(color: Colors.white, fontSize: 18))
                 )
               )
@@ -319,11 +321,13 @@ class TransactionCreatedDialog extends StatelessWidget {
                   margin: EdgeInsets.only(top: 8),
                   child: SizedBox(
                     width: double.infinity,
-                    child: RaisedButton(
+                    child: ElevatedButton(
                       onPressed: () => Navigator.pop(context),
-                      color: Colors.pink,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(48)),
-                      padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.pink,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(48)),
+                        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16)
+                      ),
                       child: Text(lang.home_stripe_close, style: TextStyle(color: Colors.white, fontSize: 18))
                     )
                   )

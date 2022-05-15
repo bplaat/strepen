@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -34,6 +35,7 @@ class _HomeScreenProfileTabState extends State {
         } else if (snapshot.hasData) {
           User user = snapshot.data![0]!;
           Map<String, dynamic> settings = snapshot.data![1]!;
+          final isMobile = defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.android;
           return RefreshIndicator(
             onRefresh: () async {
               setState(() => _forceReload = true);
@@ -41,7 +43,8 @@ class _HomeScreenProfileTabState extends State {
             child: Center(
               child: SingleChildScrollView(
                 physics: AlwaysScrollableScrollPhysics(),
-                child: Padding(
+                child: Container(
+                  constraints: BoxConstraints(maxWidth: !isMobile ? 480 : double.infinity),
                   padding: EdgeInsets.all(16),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -96,13 +99,15 @@ class _HomeScreenProfileTabState extends State {
                             // Settings button
                             Expanded(
                               flex: 1,
-                              child: RaisedButton(
+                              child: ElevatedButton(
                                 onPressed: () {
                                   Navigator.pushNamed(context, '/settings');
                                 },
-                                color: Colors.pink,
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(48)),
-                                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.pink,
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(48)),
+                                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16)
+                                ),
                                 child: Text(lang.home_profile_settings, style: TextStyle(color: Colors.white, fontSize: 18))
                               )
                             ),
@@ -112,15 +117,17 @@ class _HomeScreenProfileTabState extends State {
                             // Logout button
                             Expanded(
                               flex: 1,
-                              child: RaisedButton(
+                              child: ElevatedButton(
                                 onPressed: _isLoading ? null : () async {
                                   setState(() => _isLoading = true);
                                   await AuthService.getInstance().logout();
                                   Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
                                 },
-                                color: Colors.pink,
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(48)),
-                                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.pink,
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(48)),
+                                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16)
+                                ),
                                 child: Text(lang.home_profile_logout, style: TextStyle(color: Colors.white, fontSize: 18))
                               )
                             )
