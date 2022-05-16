@@ -31,8 +31,8 @@ class User {
   final String? postcode;
   final String? city;
   final bool? receiveNews;
-  String avatar;
-  String thanks;
+  final String avatar;
+  final String thanks;
   double? balance;
   final bool? minor;
 
