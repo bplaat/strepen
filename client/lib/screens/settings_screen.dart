@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'settings_screen_avatar_tab.dart';
@@ -11,6 +12,7 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final lang = AppLocalizations.of(context)!;
+    final isMobile = defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.android;
     return DefaultTabController(
       length: 4,
       child: Scaffold(
@@ -30,30 +32,42 @@ class SettingsScreen extends StatelessWidget {
         body: TabBarView(
           children: [
             SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: SettingsChangeDetailsTab()
+              child: Center(
+                child: Container(
+                  constraints: BoxConstraints(maxWidth: !isMobile ? 560 : double.infinity),
+                  padding: EdgeInsets.all(16),
+                  child: SettingsChangeDetailsTab()
+                )
               )
             ),
 
             SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: SettingsChangeAvatarTab()
+              child: Center(
+                child: Container(
+                  constraints: BoxConstraints(maxWidth: !isMobile ? 560 : double.infinity),
+                  padding: EdgeInsets.all(16),
+                  child: SettingsChangeAvatarTab()
+                )
               )
             ),
 
             SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: SettingsChangeThanksTab()
+              child: Center(
+                child: Container(
+                  constraints: BoxConstraints(maxWidth: !isMobile ? 560 : double.infinity),
+                  padding: EdgeInsets.all(16),
+                  child: SettingsChangeThanksTab()
+                )
               )
             ),
 
             SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: SettingsChangePasswordTab()
+              child: Center(
+                child: Container(
+                  constraints: BoxConstraints(maxWidth: !isMobile ? 560 : double.infinity),
+                  padding: EdgeInsets.all(16),
+                  child: SettingsChangePasswordTab()
+                )
               )
             )
           ]

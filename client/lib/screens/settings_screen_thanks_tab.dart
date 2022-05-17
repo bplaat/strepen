@@ -96,85 +96,82 @@ class _SettingsChangeThanksTabState extends State {
           );
         } else if (snapshot.hasData) {
           User user = snapshot.data!;
-          return Container(
-            margin: EdgeInsets.only(bottom: 16),
-            child: Card(
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      margin: EdgeInsets.only(bottom: 16),
-                      child: Text(lang.settings_thanks_header, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
-                    ),
+          return Card(
+            child: Padding(
+              padding: EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.only(bottom: 16),
+                    child: Text(lang.settings_thanks_header, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
+                  ),
 
-                    Container(
-                      width: double.infinity,
-                      margin: EdgeInsets.only(bottom: 16),
-                      child: Text(!user.thanks.contains('default.gif') ? lang.settings_thanks_has_thanks : lang.settings_thanks_no_thanks, style: TextStyle(fontSize: 16)),
-                    ),
+                  Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.only(bottom: 16),
+                    child: Text(!user.thanks.contains('default.gif') ? lang.settings_thanks_has_thanks : lang.settings_thanks_no_thanks, style: TextStyle(fontSize: 16)),
+                  ),
 
-                    // User thanks
+                  // User thanks
+                  Container(
+                    margin: EdgeInsets.only(bottom: 16),
+                    child: SizedBox(
+                      width: 256,
+                      height: 256,
+                      child: Card(
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: CachedNetworkImageProvider(user.thanks)
+                            )
+                          )
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        elevation: 3
+                      )
+                    )
+                  ),
+
+                  // Search thanks button
+                  if (GIPHY_API_KEY != null) ...[
                     Container(
                       margin: EdgeInsets.only(bottom: 16),
                       child: SizedBox(
-                        width: 256,
-                        height: 256,
-                        child: Card(
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: CachedNetworkImageProvider(user.thanks)
-                              )
-                            )
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          elevation: 3
-                        )
-                      )
-                    ),
-
-                    // Search thanks button
-                    if (GIPHY_API_KEY != null) ...[
-                      Container(
-                        margin: EdgeInsets.only(bottom: 16),
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: _isLoading ? null : searchThanks,
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.pink,
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16)
-                            ),
-                            child: Text(lang.settings_thanks_search_button, style: TextStyle(color: Colors.white, fontSize: 18))
-                          )
-                        )
-                      )
-                    ],
-
-                    // Delete thanks button
-                    if (!user.thanks.contains('default.gif')) ... [
-                      SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: _isLoading ? null : deleteThanks,
+                          onPressed: _isLoading ? null : searchThanks,
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.red,
+                            primary: Colors.pink,
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                             padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16)
                           ),
-                          child: Text(lang.settings_thanks_delete_button, style: TextStyle(color: Colors.white, fontSize: 18))
+                          child: Text(lang.settings_thanks_search_button, style: TextStyle(color: Colors.white, fontSize: 18))
                         )
                       )
-                    ]
+                    )
+                  ],
+
+                  // Delete thanks button
+                  if (!user.thanks.contains('default.gif')) ... [
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: _isLoading ? null : deleteThanks,
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.red,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16)
+                        ),
+                        child: Text(lang.settings_thanks_delete_button, style: TextStyle(color: Colors.white, fontSize: 18))
+                      )
+                    )
                   ]
-                )
+                ]
               )
             )
           );

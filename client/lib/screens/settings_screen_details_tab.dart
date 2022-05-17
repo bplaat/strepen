@@ -183,218 +183,215 @@ class _SettingsChangeDetailsTabState extends State {
             _receiveNews = user.receiveNews!;
           }
 
-          return Container(
-            margin: EdgeInsets.only(bottom: 16),
-            child: Card(
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      margin: EdgeInsets.only(bottom: 16),
-                      child: Text(lang.settings_details_header, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
-                    ),
+          return Card(
+            child: Padding(
+              padding: EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.only(bottom: 16),
+                    child: Text(lang.settings_details_header, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
+                  ),
 
-                    // Personal information
-                    Container(
-                      width: double.infinity,
-                      margin: EdgeInsets.only(bottom: 16),
-                      child: Text(lang.settings_details_personal_info, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey)),
-                    ),
+                  // Personal information
+                  Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.only(bottom: 16),
+                    child: Text(lang.settings_details_personal_info, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey)),
+                  ),
 
-                    InputField(
-                      controller: _firstnameController,
-                      label: lang.settings_details_firstname,
-                      error: _firstnameError
-                    ),
+                  InputField(
+                    controller: _firstnameController,
+                    label: lang.settings_details_firstname,
+                    error: _firstnameError
+                  ),
 
-                    InputField(
-                      controller: _insertionController,
-                      label: lang.settings_details_insertion,
-                      error: _insertionError
-                    ),
+                  InputField(
+                    controller: _insertionController,
+                    label: lang.settings_details_insertion,
+                    error: _insertionError
+                  ),
 
-                    InputField(
-                      controller: _lastnameController,
-                      label: lang.settings_details_lastname,
-                      error: _lastnameError
-                    ),
+                  InputField(
+                    controller: _lastnameController,
+                    label: lang.settings_details_lastname,
+                    error: _lastnameError
+                  ),
 
-                    InputField(
-                      controller: _genderController,
-                      label: lang.settings_details_gender,
-                      enabled: false,
-                      onTap: () async {
-                        showDialog(context: context, builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text(lang.settings_details_gender),
-                            content: Container(
-                              width: double.minPositive,
-                              child: ListView(
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                children: [
-                                  ListTile(
-                                    leading: Icon(Icons.person),
-                                    title: Text(lang.settings_details_gender_null),
-                                    onTap: () {
-                                      setGender(gender: null);
-                                      Navigator.of(context).pop();
-                                    }
-                                  ),
+                  InputField(
+                    controller: _genderController,
+                    label: lang.settings_details_gender,
+                    enabled: false,
+                    onTap: () async {
+                      showDialog(context: context, builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text(lang.settings_details_gender),
+                          content: Container(
+                            width: double.minPositive,
+                            child: ListView(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              children: [
+                                ListTile(
+                                  leading: Icon(Icons.person),
+                                  title: Text(lang.settings_details_gender_null),
+                                  onTap: () {
+                                    setGender(gender: null);
+                                    Navigator.of(context).pop();
+                                  }
+                                ),
 
-                                  ListTile(
-                                    leading: Icon(Icons.male),
-                                    title: Text(lang.settings_details_gender_male),
-                                    onTap: () {
-                                      setGender(gender: Gender.male);
-                                      Navigator.of(context).pop();
-                                    }
-                                  ),
+                                ListTile(
+                                  leading: Icon(Icons.male),
+                                  title: Text(lang.settings_details_gender_male),
+                                  onTap: () {
+                                    setGender(gender: Gender.male);
+                                    Navigator.of(context).pop();
+                                  }
+                                ),
 
-                                  ListTile(
-                                    leading: Icon(Icons.female),
-                                    title: Text(lang.settings_details_gender_female),
-                                    onTap: () {
-                                      setGender(gender: Gender.female);
-                                      Navigator.of(context).pop();
-                                    }
-                                  ),
+                                ListTile(
+                                  leading: Icon(Icons.female),
+                                  title: Text(lang.settings_details_gender_female),
+                                  onTap: () {
+                                    setGender(gender: Gender.female);
+                                    Navigator.of(context).pop();
+                                  }
+                                ),
 
-                                  ListTile(
-                                    leading: Icon(Icons.transgender),
-                                    title: Text(lang.settings_details_gender_other),
-                                    onTap: () {
-                                      setGender(gender: Gender.other);
-                                      Navigator.of(context).pop();
-                                    }
-                                  )
-                                ]
-                              )
-                            ),
-                            actions: [
-                              TextButton(
-                                child: Text(lang.settings_details_gender_cancel),
-                                onPressed: () => Navigator.of(context).pop()
-                              )
-                            ]
-                          );
-                        });
-                      }
-                    ),
-
-                    InputField(
-                      controller: _birthdayController,
-                      label: lang.settings_details_birthday,
-                      enabled: false,
-                      margin: EdgeInsets.only(bottom: 8),
-                      onTap: !user.minor! ? () async {
-                        _birthday = await showDatePicker(
-                          context: context,
-                          initialDate: _birthday != null ? _birthday! : DateTime.now(),
-                          initialDatePickerMode: DatePickerMode.day,
-                          firstDate: DateTime(1900),
-                          lastDate: DateTime.now()
+                                ListTile(
+                                  leading: Icon(Icons.transgender),
+                                  title: Text(lang.settings_details_gender_other),
+                                  onTap: () {
+                                    setGender(gender: Gender.other);
+                                    Navigator.of(context).pop();
+                                  }
+                                )
+                              ]
+                            )
+                          ),
+                          actions: [
+                            TextButton(
+                              child: Text(lang.settings_details_gender_cancel),
+                              onPressed: () => Navigator.of(context).pop()
+                            )
+                          ]
                         );
-                        setState(() => _birthdayController.text = _birthday != null ? DateFormat('yyyy-MM-dd').format(_birthday!) : '');
-                      } : null
-                    ),
-                    if (user.minor!) ... [
-                      Container(
-                        width: double.infinity,
-                        margin: EdgeInsets.only(bottom: 16),
-                        child: Text(lang.settings_details_birthday_minor, style: TextStyle(fontSize: 14, color: Colors.grey)),
-                      )
-                    ],
+                      });
+                    }
+                  ),
 
-                    // Contact information
+                  InputField(
+                    controller: _birthdayController,
+                    label: lang.settings_details_birthday,
+                    enabled: false,
+                    margin: EdgeInsets.only(bottom: 8),
+                    onTap: !user.minor! ? () async {
+                      _birthday = await showDatePicker(
+                        context: context,
+                        initialDate: _birthday != null ? _birthday! : DateTime.now(),
+                        initialDatePickerMode: DatePickerMode.day,
+                        firstDate: DateTime(1900),
+                        lastDate: DateTime.now()
+                      );
+                      setState(() => _birthdayController.text = _birthday != null ? DateFormat('yyyy-MM-dd').format(_birthday!) : '');
+                    } : null
+                  ),
+                  if (user.minor!) ... [
                     Container(
                       width: double.infinity,
-                      margin: EdgeInsets.only(top: 8, bottom: 16),
-                      child: Text(lang.settings_details_contact_info, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey)),
-                    ),
-
-                    InputField(
-                      controller: _emailController,
-                      label: lang.settings_details_email,
-                      error: _emailError,
-                      autocorrect: false
-                    ),
-
-                    InputField(
-                      controller: _phoneController,
-                      label: lang.settings_details_phone,
-                      error: _phoneError,
-                      autocorrect: false
-                    ),
-
-                    // Address information
-                    Container(
-                      width: double.infinity,
-                      margin: EdgeInsets.only(top: 8, bottom: 16),
-                      child: Text(lang.settings_details_address_info, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.grey)),
-                    ),
-
-                    InputField(
-                      controller: _addressController,
-                      label: lang.settings_details_address,
-                      error: _addressError
-                    ),
-
-                    InputField(
-                      controller: _postcodeController,
-                      label: lang.settings_details_postcode,
-                      error: _postcodeError
-                    ),
-
-                    InputField(
-                      controller: _cityController,
-                      label: lang.settings_details_city,
-                      error: _cityError
-                    ),
-
-                    // Email notifications
-                    Container(
-                      width: double.infinity,
-                      margin: EdgeInsets.only(top: 8, bottom: 16),
-                      child: Text(lang.settings_details_email_notifications, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.grey)),
-                    ),
-
-                    Container(
                       margin: EdgeInsets.only(bottom: 16),
-                      child: Row(
-                        children: [
-                        Text(lang.settings_details_receive_news, style: TextStyle(fontSize: 14)),
-
-                        Spacer(),
-
-                        Switch(
-                          activeColor: Colors.pink,
-                          value: _receiveNews,
-                          onChanged: (bool value) {
-                            setState(() => _receiveNews = value);
-                          }
-                        ),
-                        ]
-                      )
-                    ),
-
-                    // Change details button
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: _isLoading ? null : changeDetails,
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.pink,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16)
-                        ),
-                        child: Text(lang.settings_details_header, style: TextStyle(color: Colors.white, fontSize: 18))
-                      )
+                      child: Text(lang.settings_details_birthday_minor, style: TextStyle(fontSize: 14, color: Colors.grey)),
                     )
-                  ]
-                )
+                  ],
+
+                  // Contact information
+                  Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.only(top: 8, bottom: 16),
+                    child: Text(lang.settings_details_contact_info, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey)),
+                  ),
+
+                  InputField(
+                    controller: _emailController,
+                    label: lang.settings_details_email,
+                    error: _emailError,
+                    autocorrect: false
+                  ),
+
+                  InputField(
+                    controller: _phoneController,
+                    label: lang.settings_details_phone,
+                    error: _phoneError,
+                    autocorrect: false
+                  ),
+
+                  // Address information
+                  Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.only(top: 8, bottom: 16),
+                    child: Text(lang.settings_details_address_info, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.grey)),
+                  ),
+
+                  InputField(
+                    controller: _addressController,
+                    label: lang.settings_details_address,
+                    error: _addressError
+                  ),
+
+                  InputField(
+                    controller: _postcodeController,
+                    label: lang.settings_details_postcode,
+                    error: _postcodeError
+                  ),
+
+                  InputField(
+                    controller: _cityController,
+                    label: lang.settings_details_city,
+                    error: _cityError
+                  ),
+
+                  // Email notifications
+                  Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.only(top: 8, bottom: 16),
+                    child: Text(lang.settings_details_email_notifications, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.grey)),
+                  ),
+
+                  Container(
+                    margin: EdgeInsets.only(bottom: 16),
+                    child: Row(
+                      children: [
+                      Text(lang.settings_details_receive_news, style: TextStyle(fontSize: 14)),
+
+                      Spacer(),
+
+                      Switch(
+                        activeColor: Colors.pink,
+                        value: _receiveNews,
+                        onChanged: (bool value) {
+                          setState(() => _receiveNews = value);
+                        }
+                      ),
+                      ]
+                    )
+                  ),
+
+                  // Change details button
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: _isLoading ? null : changeDetails,
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.pink,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16)
+                      ),
+                      child: Text(lang.settings_details_header, style: TextStyle(color: Colors.white, fontSize: 18))
+                    )
+                  )
+                ]
               )
             )
           );

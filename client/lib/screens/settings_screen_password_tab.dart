@@ -77,57 +77,54 @@ class _SettingsChangePasswordTabState extends State {
   @override
   Widget build(BuildContext context) {
     final lang = AppLocalizations.of(context)!;
-    return Container(
-      margin: EdgeInsets.only(bottom: 16),
-      child: Card(
-        child: Padding(
-          padding: EdgeInsets.all(16),
-          child: Column(
-            children: [
-              Container(
-                width: double.infinity,
-                margin: EdgeInsets.only(bottom: 16),
-                child: Text(lang.settings_password_header, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
-              ),
+    return Card(
+      child: Padding(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          children: [
+            Container(
+              width: double.infinity,
+              margin: EdgeInsets.only(bottom: 16),
+              child: Text(lang.settings_password_header, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
+            ),
 
-              InputField(
-                controller: _currentPasswordController,
-                label: lang.settings_password_current_password,
-                error: _currentPasswordError,
-                autocorrect: false,
-                obscureText: true
-              ),
+            InputField(
+              controller: _currentPasswordController,
+              label: lang.settings_password_current_password,
+              error: _currentPasswordError,
+              autocorrect: false,
+              obscureText: true
+            ),
 
-              InputField(
-                controller: _passwordController,
-                label: lang.settings_password_password,
-                error: _passwordError,
-                autocorrect: false,
-                obscureText: true
-              ),
+            InputField(
+              controller: _passwordController,
+              label: lang.settings_password_password,
+              error: _passwordError,
+              autocorrect: false,
+              obscureText: true
+            ),
 
-              InputField(
-                controller: _passwordConfirmationController,
-                label: lang.settings_password_password_confirmation,
-                error: _passwordConfirmationError,
-                autocorrect: false,
-                obscureText: true
-              ),
+            InputField(
+              controller: _passwordConfirmationController,
+              label: lang.settings_password_password_confirmation,
+              error: _passwordConfirmationError,
+              autocorrect: false,
+              obscureText: true
+            ),
 
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: _isLoading ? null : changePassword,
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.pink,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                    padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16)
-                  ),
-                  child: Text(lang.settings_password_header, style: TextStyle(color: Colors.white, fontSize: 18))
-                )
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: _isLoading ? null : changePassword,
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.pink,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16)
+                ),
+                child: Text(lang.settings_password_header, style: TextStyle(color: Colors.white, fontSize: 18))
               )
-            ]
-          )
+            )
+          ]
         )
       )
     );

@@ -96,83 +96,80 @@ class _SettingsChangeAvatarTabState extends State {
           );
         } else if (snapshot.hasData) {
           User user = snapshot.data!;
-          return Container(
-            margin: EdgeInsets.only(bottom: 16),
-            child: Card(
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      margin: EdgeInsets.only(bottom: 16),
-                      child: Text(lang.settings_avatar_header, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
-                    ),
+          return Card(
+            child: Padding(
+              padding: EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.only(bottom: 16),
+                    child: Text(lang.settings_avatar_header, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
+                  ),
 
-                    Container(
-                      width: double.infinity,
-                      margin: EdgeInsets.only(bottom: 16),
-                      child: Text(!user.avatar.contains('default.png') ? lang.settings_avatar_has_avatar : lang.settings_avatar_no_avatar, style: TextStyle(fontSize: 16)),
-                    ),
+                  Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.only(bottom: 16),
+                    child: Text(!user.avatar.contains('default.png') ? lang.settings_avatar_has_avatar : lang.settings_avatar_no_avatar, style: TextStyle(fontSize: 16)),
+                  ),
 
-                    // User avatar
-                    Container(
-                      margin: EdgeInsets.only(bottom: 16),
-                      child: SizedBox(
-                        width: 256,
-                        height: 256,
-                        child: Card(
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: CachedNetworkImageProvider(user.avatar)
-                              )
+                  // User avatar
+                  Container(
+                    margin: EdgeInsets.only(bottom: 16),
+                    child: SizedBox(
+                      width: 256,
+                      height: 256,
+                      child: Card(
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: CachedNetworkImageProvider(user.avatar)
                             )
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(128),
-                          ),
-                          elevation: 3
-                        )
+                          )
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(128),
+                        ),
+                        elevation: 3
                       )
-                    ),
+                    )
+                  ),
 
-                    // Upload avatar button
-                    Container(
-                      margin: EdgeInsets.only(bottom: 16),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: _isLoading ? null : uploadAvatar,
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.pink,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16)
-                          ),
-                          child: Text(lang.settings_avatar_upload_button, style: TextStyle(color: Colors.white, fontSize: 18))
-                        )
+                  // Upload avatar button
+                  Container(
+                    margin: EdgeInsets.only(bottom: 16),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: _isLoading ? null : uploadAvatar,
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.pink,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16)
+                        ),
+                        child: Text(lang.settings_avatar_upload_button, style: TextStyle(color: Colors.white, fontSize: 18))
                       )
-                    ),
+                    )
+                  ),
 
-                    // Delete avatar button
-                    if (!user.avatar.contains('default.png')) ... [
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: _isLoading ? null : deleteAvatar,
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.red,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16)
-                          ),
-                          child: Text(lang.settings_avatar_delete_button, style: TextStyle(color: Colors.white, fontSize: 18))
-                        )
+                  // Delete avatar button
+                  if (!user.avatar.contains('default.png')) ... [
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: _isLoading ? null : deleteAvatar,
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.red,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16)
+                        ),
+                        child: Text(lang.settings_avatar_delete_button, style: TextStyle(color: Colors.white, fontSize: 18))
                       )
-                    ]
+                    )
                   ]
-                )
+                ]
               )
             )
           );
