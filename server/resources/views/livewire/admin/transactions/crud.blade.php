@@ -51,7 +51,7 @@
                 </div>
 
                 <div class="modal-card-body">
-                    <livewire:components.user-chooser name="user" includeInactive="true" />
+                    <livewire:components.user-chooser name="user" includeInactive="true" sortBy="last_transaction" />
 
                     <div class="field">
                         <label class="label" for="name">@lang('admin/transactions.crud.name')</label>
