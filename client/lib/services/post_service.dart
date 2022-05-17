@@ -19,8 +19,8 @@ class PostsService {
   Future<List<Post>> posts({int page = 1, bool forceReload = false}) async {
     if (!_posts.containsKey(page) || forceReload) {
       StorageService storage = await StorageService.getInstance();
-      final response = await http.get(Uri.parse('${API_URL}/posts?page=${page}'), headers: {
-        'X-Api-Key': API_KEY,
+      final response = await http.get(Uri.parse('${storage.organisation.apiUrl}/posts?page=${page}'), headers: {
+        'X-Api-Key': storage.organisation.apiKey,
         'Authorization': 'Bearer ${storage.token!}'
       });
       final postsJson = json.decode(response.body)['data'];
@@ -31,8 +31,8 @@ class PostsService {
 
   Future<Post> like({required int postId}) async {
     StorageService storage = await StorageService.getInstance();
-    final response = await http.get(Uri.parse('${API_URL}/posts/${postId}/like'), headers: {
-      'X-Api-Key': API_KEY,
+    final response = await http.get(Uri.parse('${storage.organisation.apiUrl}/posts/${postId}/like'), headers: {
+      'X-Api-Key': storage.organisation.apiKey,
       'Authorization': 'Bearer ${storage.token!}'
     });
     return Post.fromJson(json.decode(response.body));
@@ -40,8 +40,8 @@ class PostsService {
 
   Future<Post> dislike({required int postId}) async {
     StorageService storage = await StorageService.getInstance();
-    final response = await http.get(Uri.parse('${API_URL}/posts/${postId}/dislike'), headers: {
-      'X-Api-Key': API_KEY,
+    final response = await http.get(Uri.parse('${storage.organisation.apiUrl}/posts/${postId}/dislike'), headers: {
+      'X-Api-Key': storage.organisation.apiKey,
       'Authorization': 'Bearer ${storage.token!}'
     });
     return Post.fromJson(json.decode(response.body));

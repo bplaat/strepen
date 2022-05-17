@@ -16,25 +16,25 @@ class _SettingsChangeDetailsTabState extends State {
   bool _isInitialized = false;
   bool _isLoading = false;
 
-  TextEditingController _firstnameController = TextEditingController();
-  TextEditingController _insertionController = TextEditingController();
-  TextEditingController _lastnameController = TextEditingController();
+  final _firstnameController = TextEditingController();
+  final _insertionController = TextEditingController();
+  final _lastnameController = TextEditingController();
   String? _firstnameError;
   String? _insertionError;
   String? _lastnameError;
-  TextEditingController _genderController = TextEditingController();
+  final _genderController = TextEditingController();
   Gender? _gender;
-  TextEditingController _birthdayController = TextEditingController();
+  final _birthdayController = TextEditingController();
   DateTime? _birthday;
 
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _phoneController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
   String? _emailError;
   String? _phoneError;
 
-  TextEditingController _addressController = TextEditingController();
-  TextEditingController _postcodeController = TextEditingController();
-  TextEditingController _cityController = TextEditingController();
+  final _addressController = TextEditingController();
+  final _postcodeController = TextEditingController();
+  final _cityController = TextEditingController();
   String? _addressError;
   String? _postcodeError;
   String? _cityError;
@@ -228,7 +228,7 @@ class _SettingsChangeDetailsTabState extends State {
                         return AlertDialog(
                           title: Text(lang.settings_details_gender),
                           content: Container(
-                            width: double.minPositive,
+                            width: 320,
                             child: ListView(
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),

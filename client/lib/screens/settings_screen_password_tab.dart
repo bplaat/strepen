@@ -13,9 +13,9 @@ class SettingsChangePasswordTab extends StatefulWidget {
 
 class _SettingsChangePasswordTabState extends State {
   bool _isLoading = false;
-  TextEditingController _currentPasswordController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  TextEditingController _passwordConfirmationController = TextEditingController();
+  final _currentPasswordController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _passwordConfirmationController = TextEditingController();
   String? _currentPasswordError;
   String? _passwordError;
   String? _passwordConfirmationError;

@@ -33,8 +33,9 @@ class AuthService {
     required String email,
     required String password
   }) async {
-    final response = await http.post(Uri.parse('${API_URL}/auth/login'), headers: {
-      'X-Api-Key': API_KEY
+    StorageService storage = await StorageService.getInstance();
+    final response = await http.post(Uri.parse('${storage.organisation.apiUrl}/auth/login'), headers: {
+      'X-Api-Key': storage.organisation.apiKey
     }, body: {
       'email': email,
       'password': password
@@ -44,7 +45,6 @@ class AuthService {
       return false;
     }
 
-    StorageService storage = await StorageService.getInstance();
     await storage.setToken(data['token']);
     _user = User.fromJson(data['user']);
     await storage.setUserId(_user!.id);
@@ -53,8 +53,8 @@ class AuthService {
 
   Future logout() async {
     StorageService storage = await StorageService.getInstance();
-    await http.get(Uri.parse('${API_URL}/auth/logout'), headers: {
-      'X-Api-Key': API_KEY,
+    await http.get(Uri.parse('${storage.organisation.apiUrl}/auth/logout'), headers: {
+      'X-Api-Key': storage.organisation.apiKey,
       'Authorization': 'Bearer ${storage.token!}'
     });
     await storage.setToken(null);
@@ -67,8 +67,8 @@ class AuthService {
       if (storage.token == null || storage.userId == null) {
         return false;
       }
-      final response = await http.get(Uri.parse('${API_URL}/users/${storage.userId!}'), headers: {
-        'X-Api-Key': API_KEY,
+      final response = await http.get(Uri.parse('${storage.organisation.apiUrl}/users/${storage.userId!}'), headers: {
+        'X-Api-Key': storage.organisation.apiKey,
         'Authorization': 'Bearer ${storage.token!}'
       });
       try {
@@ -85,8 +85,8 @@ class AuthService {
   Future<User?> user({bool forceReload = false}) async {
     if (_user == null || forceReload) {
       StorageService storage = await StorageService.getInstance();
-      final response = await http.get(Uri.parse('${API_URL}/users/${storage.userId!}'), headers: {
-        'X-Api-Key': API_KEY,
+      final response = await http.get(Uri.parse('${storage.organisation.apiUrl}/users/${storage.userId!}'), headers: {
+        'X-Api-Key': storage.organisation.apiKey,
         'Authorization': 'Bearer ${storage.token!}'
       });
       try {
@@ -101,8 +101,8 @@ class AuthService {
   Future<List<NotificationData>> unreadNotifications({bool forceReload = false}) async {
     if (_unreadNotifications == null || forceReload) {
       StorageService storage = await StorageService.getInstance();
-      final response = await http.get(Uri.parse('${API_URL}/users/${storage.userId!}/notifications/unread'), headers: {
-        'X-Api-Key': API_KEY,
+      final response = await http.get(Uri.parse('${storage.organisation.apiUrl}/users/${storage.userId!}/notifications/unread'), headers: {
+        'X-Api-Key': storage.organisation.apiKey,
         'Authorization': 'Bearer ${storage.token!}'
       });
       final notificationsJson = json.decode(response.body)['data'];
@@ -113,8 +113,8 @@ class AuthService {
 
   Future readNotification({required String notificationId}) async {
     StorageService storage = await StorageService.getInstance();
-    await http.get(Uri.parse('${API_URL}/notifications/${notificationId}/read'), headers: {
-      'X-Api-Key': API_KEY,
+    await http.get(Uri.parse('${storage.organisation.apiUrl}/notifications/${notificationId}/read'), headers: {
+      'X-Api-Key': storage.organisation.apiKey,
       'Authorization': 'Bearer ${storage.token!}'
     });
   }
@@ -122,8 +122,8 @@ class AuthService {
   Future<List<Transaction>> transactions({int page = 1, bool forceReload = false}) async {
     if (!_transactions.containsKey(page) || forceReload) {
       StorageService storage = await StorageService.getInstance();
-      final response = await http.get(Uri.parse('${API_URL}/users/${storage.userId!}/transactions?page=${page}'), headers: {
-        'X-Api-Key': API_KEY,
+      final response = await http.get(Uri.parse('${storage.organisation.apiUrl}/users/${storage.userId!}/transactions?page=${page}'), headers: {
+        'X-Api-Key': storage.organisation.apiKey,
         'Authorization': 'Bearer ${storage.token!}'
       });
       final transactionsJson = json.decode(response.body)['data'];
@@ -149,8 +149,8 @@ class AuthService {
     }
 
     StorageService storage = await StorageService.getInstance();
-    final response = await http.post(Uri.parse('${API_URL}/transactions'), headers: {
-      'X-Api-Key': API_KEY,
+    final response = await http.post(Uri.parse('${storage.organisation.apiUrl}/transactions'), headers: {
+      'X-Api-Key': storage.organisation.apiKey,
       'Authorization': 'Bearer ${storage.token!}'
     }, body: body);
 
@@ -182,8 +182,8 @@ class AuthService {
     required bool receiveNews
   }) async {
     StorageService storage = await StorageService.getInstance();
-    final response = await http.post(Uri.parse('${API_URL}/users/${storage.userId!}/edit'), headers: {
-      'X-Api-Key': API_KEY,
+    final response = await http.post(Uri.parse('${storage.organisation.apiUrl}/users/${storage.userId!}/edit'), headers: {
+      'X-Api-Key': storage.organisation.apiKey,
       'Authorization': 'Bearer ${storage.token!}'
     }, body: {
       'firstname': firstname,
@@ -212,8 +212,8 @@ class AuthService {
 
   Future<bool> changeAvatar({required XFile? avatar}) async {
     StorageService storage = await StorageService.getInstance();
-    final request = http.MultipartRequest('POST', Uri.parse('${API_URL}/users/${storage.userId!}/edit'));
-    request.headers['X-Api-Key'] = API_KEY;
+    final request = http.MultipartRequest('POST', Uri.parse('${storage.organisation.apiUrl}/users/${storage.userId!}/edit'));
+    request.headers['X-Api-Key'] = storage.organisation.apiKey;
     request.headers['Authorization'] = 'Bearer ${storage.token!}';
     if (avatar != null) {
       // Load and resize image
@@ -240,8 +240,8 @@ class AuthService {
 
   Future<bool> changeThanks({required GiphyGif? thanks}) async {
     StorageService storage = await StorageService.getInstance();
-    final request = http.MultipartRequest('POST', Uri.parse('${API_URL}/users/${storage.userId!}/edit'));
-    request.headers['X-Api-Key'] = API_KEY;
+    final request = http.MultipartRequest('POST', Uri.parse('${storage.organisation.apiUrl}/users/${storage.userId!}/edit'));
+    request.headers['X-Api-Key'] = storage.organisation.apiKey;
     request.headers['Authorization'] = 'Bearer ${storage.token!}';
     if (thanks != null) {
       // Download gif image
@@ -271,8 +271,8 @@ class AuthService {
     required String passwordConfirmation
   }) async {
     StorageService storage = await StorageService.getInstance();
-    final response = await http.post(Uri.parse('${API_URL}/users/${storage.userId!}/edit'), headers: {
-      'X-Api-Key': API_KEY,
+    final response = await http.post(Uri.parse('${storage.organisation.apiUrl}/users/${storage.userId!}/edit'), headers: {
+      'X-Api-Key': storage.organisation.apiKey,
       'Authorization': 'Bearer ${storage.token!}'
     }, body: {
       'current_password': currentPassword,

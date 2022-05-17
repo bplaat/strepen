@@ -106,6 +106,9 @@ class InputField extends StatelessWidget {
       child: onTap != null ?
         InkWell(
           onTap: onTap,
+          customBorder: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8)
+          ),
           child: TextField(
             controller: controller,
             autocorrect: autocorrect,

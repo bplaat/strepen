@@ -18,7 +18,7 @@ class NotificationData {
   final DateTime? read_at;
   final DateTime created_at;
 
-  NotificationData({
+  const NotificationData({
     required this.id,
     required this.type,
     required this.data,

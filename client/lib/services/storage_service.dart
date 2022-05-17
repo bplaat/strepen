@@ -1,4 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import '../models/organisation.dart';
+import '../config.dart';
 
 class StorageService {
   static StorageService? _instance;
@@ -9,8 +11,27 @@ class StorageService {
     if (_instance == null) {
       _instance = StorageService();
       _instance!._prefs = await SharedPreferences.getInstance();
+      if (_instance!.organisationId == null) {
+        _instance!.setOrganisationId(organisations[0].id);
+      }
     }
     return _instance!;
+  }
+
+  int? get organisationId {
+    return _prefs.getInt('organisation_id');
+  }
+
+  Organisation get organisation {
+    return organisations.firstWhere((organisation) => organisation.id == organisationId)!;
+  }
+
+  Future setOrganisationId(int? organisationId) async {
+    if (organisationId != null) {
+      await _prefs.setInt('organisation_id', organisationId);
+    } else {
+      await _prefs.remove('organisation_id');
+    }
   }
 
   String? get token {

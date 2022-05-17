@@ -21,7 +21,7 @@ class Transaction {
   final Map<Product, int>? products;
   final DateTime created_at;
 
-  Transaction({
+  const Transaction({
     required this.id,
     required this.type,
     required this.name,

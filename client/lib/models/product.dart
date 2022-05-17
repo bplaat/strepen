@@ -8,7 +8,7 @@ class Product {
   final bool? active;
   final int transactionsCount;
 
-  Product({
+  const Product({
     required this.id,
     required this.name,
     required this.description,

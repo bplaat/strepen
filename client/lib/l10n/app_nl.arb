@@ -2,6 +2,17 @@
     "loading_header": "Strepen",
     "loading_error": "Er is een fout opgetreden bij het laden van uw gebruikersinformatie!",
 
+    "login_header": "Login op Strepen",
+    "login_info": "Welkom bij het Strepen Systeem login met uw persoonlijke account om deze applicatie te gebruiken ",
+    "login_loading_error": "Er is een fout opgetreden bij het laden van uw gebruikersinformatie!",
+    "login_auth_error": "Fout email of wachtwoord!",
+    "login_organisation": "Organisatie",
+    "login_email": "Email",
+    "login_password": "Wachtwoord",
+    "login_login": "Login",
+    "login_reset_password": "Ga naar de Strepen website om uw wachtwoord te resetten",
+    "login_footer": "Gemaakt door Bastiaan van der Plaat",
+
     "home_posts": "Nieuws berichten",
     "home_stripe": "Strepen",
     "home_history": "Jouw strepen geschiedenis",
@@ -46,15 +57,6 @@
     "home_profile_error": "Er is een fout opgetreden tijdens het laden van uw gebruikersinformatie!",
     "home_profile_settings": "Instellingen",
     "home_profile_logout": "Uitloggen",
-
-    "login_header": "Login op Strepen",
-    "login_info": "Welkom bij het Strepen Systeem login met uw persoonlijke account om deze applicatie te gebruiken ",
-    "login_error": "Fout email of wachtwoord!",
-    "login_email": "Email",
-    "login_password": "Wachtwoord",
-    "login_login": "Login",
-    "login_reset_password": "Ga naar de Strepen website om uw wachtwoord te resetten",
-    "login_footer": "Gemaakt door Bastiaan van der Plaat",
 
     "settings_header": "Instellingen",
     "settings_details_tab": "Gegevens",

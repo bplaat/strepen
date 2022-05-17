@@ -20,7 +20,7 @@ class _SettingsChangeThanksTabState extends State {
     final lang = AppLocalizations.of(context)!;
 
     // Show giphy picker
-    GiphyGif? thanksGif = await GiphyPicker.pickGif(context: context, apiKey: GIPHY_API_KEY!);
+    GiphyGif? thanksGif = await GiphyPicker.pickGif(context: context, apiKey: giphyApiKey!);
     if (thanksGif == null) {
       setState(() => _isLoading = false);
       return;
@@ -138,7 +138,7 @@ class _SettingsChangeThanksTabState extends State {
                   ),
 
                   // Search thanks button
-                  if (GIPHY_API_KEY != null) ...[
+                  if (giphyApiKey != null) ...[
                     Container(
                       margin: EdgeInsets.only(bottom: 16),
                       child: SizedBox(

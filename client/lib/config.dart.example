@@ -1,4 +1,12 @@
-const String WEBSITE_URL = 'https://stam.diekantankys.nl'; // Insert website url here
-const String API_URL = '${WEBSITE_URL}/api';
-const String API_KEY = ''; // Insert api key here
-const String? GIPHY_API_KEY = null; // Optional: insert Giphy api key here
+import 'models/organisation.dart';
+
+const String? giphyApiKey = ''; // Optional: insert Giphy api key here
+
+const List<Organisation> organisations = [
+  const Organisation(
+    id: 1,
+    name: 'Die Kantanky\'s', // Insert your organisation name
+    url: 'https://stam.diekantankys.nl/', // Insert website url here
+    apiKey: '' // Insert api key here
+  )
+];

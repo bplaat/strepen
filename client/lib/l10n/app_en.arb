@@ -2,6 +2,17 @@
     "loading_header": "Strepen",
     "loading_error": "An error has occurred while loading your user information!",
 
+    "login_header": "Login to Strepen",
+    "login_info": "Welcome at the Strepen Systeem login with your personal account to use this application",
+    "login_loading_error": "An error has occurred while loading your user information!",
+    "login_auth_error": "Wrong email or password!",
+    "login_organisation": "Organisation",
+    "login_email": "Email",
+    "login_password": "Password",
+    "login_login": "Login",
+    "login_reset_password": "Go to the Strepen website to reset your password",
+    "login_footer": "Made by Bastiaan van der Plaat",
+
     "home_posts": "News posts",
     "home_stripe": "Stripe",
     "home_history": "Your stripe history",
@@ -49,15 +60,6 @@
     "home_profile_error": "An error has occurred while loading your user information!",
     "home_profile_settings": "Settings",
     "home_profile_logout": "Logout",
-
-    "login_header": "Login to Strepen",
-    "login_info": "Welcome at the Strepen Systeem login with your personal account to use this application",
-    "login_error": "Wrong email or password!",
-    "login_email": "Email",
-    "login_password": "Password",
-    "login_login": "Login",
-    "login_reset_password": "Go to the Strepen website to reset your password",
-    "login_footer": "Made by Bastiaan van der Plaat",
 
     "settings_header": "Settings",
     "settings_details_tab": "Details",
