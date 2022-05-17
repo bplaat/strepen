@@ -53,7 +53,7 @@
                                 <label class="label" for="created_at_date">@lang('admin/transactions.item.created_at_date')</label>
                                 <div class="control">
                                     <input class="input @error('createdAtDate') is-danger @enderror" type="date" id="created_at_date"
-                                        wire:model.defer="createdAtDate" tabindex="3" required>
+                                        wire:model.defer="createdAtDate" required>
                                 </div>
                                 @error('createdAtDate') <p class="help is-danger">{{ $message }}</p> @enderror
                             </div>
@@ -64,7 +64,7 @@
                                 <label class="label" for="created_at_time">@lang('admin/transactions.item.created_at_time')</label>
                                 <div class="control">
                                     <input class="input @error('createdAtTime') is-danger @enderror" type="time" step="1" id="created_at_time"
-                                        wire:model.defer="createdAtTime" tabindex="4" required>
+                                        wire:model.defer="createdAtTime" required>
                                 </div>
                                 @error('createdAtTime') <p class="help is-danger">{{ $message }}</p> @enderror
                             </div>

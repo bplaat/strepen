@@ -4,15 +4,15 @@
 @endif
     <div @class(['dropdown', 'is-active' => $isOpen, 'control']) style="width: 100%;">
         <div class="dropdown-trigger control has-icons-left" style="width: 100%;">
-            <input @class(['input', 'is-danger' => !$valid]) type="text" placeholder="@lang($relationship ? 'components.user_chooser.search_by_user' : 'components.user_chooser.search_user')"
-                wire:model="userName" id="userName" autocomplete="off" wire:keydown.enter.prevent="selectFirstUser"
-                wire:focus="$set('isOpen', true)" wire:blur.debounce.100ms="$set('isOpen', false)">
+            <input id="user-chooser-input-{{ $htmlInputId }}" @class(['input', 'is-danger' => !$valid]) type="text"
+                placeholder="@lang($relationship ? 'components.user_chooser.search_by_user' : 'components.user_chooser.search_user')"
+                id="userName" autocomplete="off" wire:model="userName" wire:focus="$set('isOpen', true)">
             <span class="icon is-small is-left">
                 <div class="image is-small is-round" style="background-image: url(/storage/avatars/{{ $user != null && $user->avatar != null ? $user->avatar : App\Models\Setting::get('default_user_avatar') }});"></div>
             </span>
         </div>
         <div class="dropdown-menu" style="width: 100%;">
-            <div class="dropdown-content">
+            <div id="user-chooser-dropdown-{{ $htmlInputId }}" class="dropdown-content">
                 @forelse ($filteredUsers as $user)
                     <a wire:click.prevent="selectUser({{ $user->id }})" class="dropdown-item" wire:key="{{ $user->id }}">
                         <div class="image is-small is-round is-inline" style="background-image: url(/storage/avatars/{{ $user->avatar ?? App\Models\Setting::get('default_user_avatar') }});"></div>
@@ -23,6 +23,52 @@
                 @endforelse
             </div>
         </div>
+
+        <script>
+            (function () {
+                const userChooserInput = document.getElementById('user-chooser-input-{{ $htmlInputId }}');
+                const userChooserDropdown = document.getElementById('user-chooser-dropdown-{{ $htmlInputId }}');
+                let selectedItem = -1;
+                userChooserInput.addEventListener('keydown', event => {
+                    const items = userChooserDropdown.children;
+                    if (event.key == 'Enter' || event.key == 'Tab') {
+                        event.preventDefault();
+                        if (selectedItem != -1) {
+                            @this.selectUser(items[selectedItem].getAttribute('wire:key'));
+                        } else {
+                            @this.selectFirstUser();
+                        }
+                    }
+                    else if (event.key == 'ArrowUp') {
+                        event.preventDefault();
+                        if (selectedItem != -1) items[selectedItem].classList.remove('is-active');
+                        if (selectedItem > -1) {
+                            selectedItem--;
+                        } else {
+                            selectedItem = items.length - 1;
+                        }
+                        if (selectedItem != -1) items[selectedItem].classList.add('is-active');
+                    }
+                    else if (event.key == 'ArrowDown') {
+                        event.preventDefault();
+                        if (selectedItem != -1) items[selectedItem].classList.remove('is-active');
+                        if (selectedItem < items.length - 1) {
+                            selectedItem++;
+                        } else {
+                            selectedItem = -1;
+                        }
+                        if (selectedItem != -1) items[selectedItem].classList.add('is-active');
+                    }
+                    else {
+                        selectedItem = -1;
+                    }
+                });
+                userChooserInput.addEventListener('blur', () => {
+                    @this.$set('isOpen', false);
+                    selectedItem = -1;
+                });
+            })();
+        </script>
     </div>
 @if (!$inline)
     @if (!$valid) <p class="help is-danger">@lang('components.user_chooser.empty_error')</p> @endif

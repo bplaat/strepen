@@ -3,7 +3,6 @@
 # Todo List
 
 - Update flutter mobile app in Play Store with new key
-- User selector controllable with arrow keys and enter
 - Products old price table
 - Mail queues limit on webserver
 - Better admin user charts

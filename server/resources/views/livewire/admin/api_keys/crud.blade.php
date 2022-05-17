@@ -43,7 +43,7 @@
                         <label class="label" for="name">@lang('admin/api_keys.crud.name')</label>
                         <div class="control">
                             <input class="input @error('apiKey.name') is-danger @enderror" type="text" id="name"
-                                wire:model.defer="apiKey.name" tabindex="1" required>
+                                wire:model.defer="apiKey.name" required>
                         </div>
                         @error('apiKey.name') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>

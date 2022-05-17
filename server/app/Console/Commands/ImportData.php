@@ -232,7 +232,7 @@ class ImportData extends Command
                                     $inventory->save();
                                 }
 
-                                $product = $products->firstWhere('id', $oldProductIds[$otherInventoryJson->old_product_id]);
+                                $product = $products->find($oldProductIds[$otherInventoryJson->old_product_id]);
                                 $inventory->price += $product->price * $otherInventoryJson->amount;
 
                                 $inventoryProduct = InventoryProduct::where('inventory_id', $inventory->id)
@@ -276,7 +276,7 @@ class ImportData extends Command
                                 }
 
                                 $otherInventoryJson->amount = -$otherInventoryJson->amount;
-                                $product = $products->firstWhere('id', $oldProductIds[$otherInventoryJson->old_product_id]);
+                                $product = $products->find($oldProductIds[$otherInventoryJson->old_product_id]);
                                 $transaction->price += $product->price * $otherInventoryJson->amount;
 
                                 $transactionProduct = TransactionProduct::where('transaction_id', $transaction->id)

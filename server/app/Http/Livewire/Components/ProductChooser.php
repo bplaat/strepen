@@ -14,6 +14,7 @@ class ProductChooser extends InputComponent
     public $sortBy = 'name';
 
     // State
+    public $htmlInputId;
     public $products;
     public $filteredProducts;
     public $productName;
@@ -23,6 +24,8 @@ class ProductChooser extends InputComponent
     // Lifecycle
     public function mount()
     {
+        $this->htmlInputId = uniqid();
+
         $products = Product::select();
         if (!$this->includeInactive) {
             $products = $products->where('active', true);
@@ -98,7 +101,7 @@ class ProductChooser extends InputComponent
 
     public function selectProduct($productId)
     {
-        $this->product = $this->products->firstWhere('id', $productId);
+        $this->product = $this->products->find($productId);
         if ($this->product == null) {
             $this->product = Product::withTrashed()->find($productId);
         }

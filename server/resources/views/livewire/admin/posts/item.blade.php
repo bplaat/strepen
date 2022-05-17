@@ -96,7 +96,7 @@
                         <label class="label" for="title">@lang('admin/posts.item.title')</label>
                         <div class="control">
                             <input class="input @error('post.title') is-danger @enderror" type="text" id="title"
-                                wire:model.defer="post.title" tabindex="2" required>
+                                wire:model.defer="post.title" required>
                         </div>
                         @error('post.title') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
@@ -107,7 +107,7 @@
                                 <label class="label" for="created_at_date">@lang('admin/posts.item.created_at_date')</label>
                                 <div class="control">
                                     <input class="input @error('createdAtDate') is-danger @enderror" type="date" id="created_at_date"
-                                        wire:model.defer="createdAtDate" tabindex="3" required>
+                                        wire:model.defer="createdAtDate" required>
                                 </div>
                                 @error('createdAtDate') <p class="help is-danger">{{ $message }}</p> @enderror
                             </div>
@@ -118,7 +118,7 @@
                                 <label class="label" for="created_at_time">@lang('admin/posts.item.created_at_time')</label>
                                 <div class="control">
                                     <input class="input @error('createdAtTime') is-danger @enderror" type="time" step="1" id="created_at_time"
-                                        wire:model.defer="createdAtTime" tabindex="4" required>
+                                        wire:model.defer="createdAtTime" required>
                                 </div>
                                 @error('createdAtTime') <p class="help is-danger">{{ $message }}</p> @enderror
                             </div>
@@ -161,10 +161,10 @@
                     </div>
 
                     <div class="field">
-                        <label class="label" for="body">@lang('admin/posts.item.body', ['markdown_link' => '<a href="https://en.wikipedia.org/wiki/Markdown#Example" target="_blank" rel="noreferrer" tabindex="6">Markdown</a>'])</label>
+                        <label class="label" for="body">@lang('admin/posts.item.body', ['markdown_link' => '<a href="https://en.wikipedia.org/wiki/Markdown#Example" target="_blank" rel="noreferrer">Markdown</a>'])</label>
                         <div class="control">
                             <textarea class="textarea is-family-monospace has-fixed-size @error('post.body') is-danger @enderror" id="postBody"
-                                wire:model.defer="post.body" rows="12" tabindex="5" required></textarea>
+                                wire:model.defer="post.body" rows="12" required></textarea>
                         </div>
                         @error('post.body') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>

@@ -16,6 +16,7 @@ class ProductsChooser extends InputComponent
     public $sortBy = 'transactions_count';
 
     // State
+    public $htmlInputId;
     public $products;
     public $filteredProducts;
     public $productName;
@@ -25,6 +26,8 @@ class ProductsChooser extends InputComponent
     // Lifecycle
     public function mount()
     {
+        $this->htmlInputId = uniqid();
+
         // Select all products
         $products = Product::select();
         if (!$this->includeInactive) {
@@ -53,8 +56,8 @@ class ProductsChooser extends InputComponent
     public function sortSelectedProducts()
     {
         $this->selectedProducts = $this->selectedProducts->sort(function ($a, $b) {
-            $productA = $this->products->firstWhere('id', $a['product_id']);
-            $productB = $this->products->firstWhere('id', $b['product_id']);
+            $productA = $this->products->find($a['product_id']);
+            $productB = $this->products->find($b['product_id']);
             return strcasecmp($productA->name, $productB->name);
         })->values();
     }
@@ -115,7 +118,7 @@ class ProductsChooser extends InputComponent
 
             if ($this->minor) {
                 $this->selectedProducts = $this->selectedProducts
-                    ->filter(fn ($selectedProduct) => !$this->products->firstWhere('id', $selectedProduct['product_id'])->alcoholic);
+                    ->filter(fn ($selectedProduct) => !$this->products->find($selectedProduct['product_id'])->alcoholic);
                 $this->emitValue();
             }
 

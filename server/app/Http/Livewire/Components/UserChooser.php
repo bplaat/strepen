@@ -18,6 +18,7 @@ class UserChooser extends InputComponent
     public $sortBy = 'lastname';
 
     // State
+    public $htmlInputId;
     public $users;
     public $filteredUsers;
     public $userName;
@@ -27,6 +28,8 @@ class UserChooser extends InputComponent
     // Lifecycle
     public function mount()
     {
+        $this->htmlInputId = uniqid();
+
         $users = User::select();
         if (!$this->includeInactive) {
             if ($this->includeStrepenUser) {
@@ -127,7 +130,7 @@ class UserChooser extends InputComponent
 
     public function selectUser($userId)
     {
-        $this->user = $this->users->firstWhere('id', $userId);
+        $this->user = $this->users->find($userId);
         if ($this->user == null) {
             $this->user = User::withTrashed()->find($userId);
         }

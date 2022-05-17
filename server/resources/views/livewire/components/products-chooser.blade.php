@@ -62,7 +62,7 @@
 
             @forelse ($selectedProducts as $index => $selectedProduct)
                 @php
-                    $product = $products->firstWhere('id', $selectedProduct['product_id']);
+                    $product = $products->find($selectedProduct['product_id']);
                 @endphp
 
                 <div class="media" style="align-items: center;" wire:key="fields-{{ $product->id }}">
@@ -89,12 +89,12 @@
         <div class="field">
             <div @class(['dropdown', 'is-active' => $isOpen, 'control']) style="width: 100%;">
                 <div class="dropdown-trigger control" style="width: 100%;">
-                    <input @class(['input', 'is-danger' => !$valid]) type="text" placeholder="@lang('components.products_chooser.search_product')"
-                        wire:model="productName" id="productName" autocomplete="off" wire:keydown.enter.prevent="addFirstProduct"
-                        wire:focus="$set('isOpen', true)" wire:blur.debounce.100ms="$set('isOpen', false)">
+                    <input id="products-chooser-input-{{ $htmlInputId }}" @class(['input', 'is-danger' => !$valid]) type="text"
+                        placeholder="@lang('components.products_chooser.search_product')"
+                        id="productName" autocomplete="off" wire:model="productName" wire:focus="$set('isOpen', true)">
                 </div>
                 <div class="dropdown-menu" style="width: 100%;">
-                    <div class="dropdown-content">
+                    <div id="products-chooser-dropdown-{{ $htmlInputId }}" class="dropdown-content">
                         @forelse ($filteredProducts as $product)
                             <a wire:click.prevent="addProduct({{ $product->id }})" class="dropdown-item" wire:key="dropdown-{{ $product->id }}">
                                 <div class="image is-small is-rounded is-inline" style="background-image: url(/storage/products/{{ $product->image ?? 'default.png' }});"></div>
@@ -114,6 +114,52 @@
             @if (!$valid)
                 <p class="help is-danger">@lang('components.products_chooser.empty_error')</p>
             @endif
+
+            <script>
+                (function () {
+                    const productChooserInput = document.getElementById('products-chooser-input-{{ $htmlInputId }}');
+                    const productChooserDropdown = document.getElementById('products-chooser-dropdown-{{ $htmlInputId }}');
+                    let selectedItem = -1;
+                    productChooserInput.addEventListener('keydown', event => {
+                        const items = productChooserDropdown.children;
+                        if (event.key == 'Enter' || event.key == 'Tab') {
+                            event.preventDefault();
+                            if (selectedItem != -1) {
+                                @this.addProduct(items[selectedItem].getAttribute('wire:key').replace('dropdown-', ''));
+                            } else {
+                                @this.addFirstProduct();
+                            }
+                        }
+                        else if (event.key == 'ArrowUp') {
+                            event.preventDefault();
+                            if (selectedItem != -1) items[selectedItem].classList.remove('is-active');
+                            if (selectedItem > -1) {
+                                selectedItem--;
+                            } else {
+                                selectedItem = items.length - 1;
+                            }
+                            if (selectedItem != -1) items[selectedItem].classList.add('is-active');
+                        }
+                        else if (event.key == 'ArrowDown') {
+                            event.preventDefault();
+                            if (selectedItem != -1) items[selectedItem].classList.remove('is-active');
+                            if (selectedItem < items.length - 1) {
+                                selectedItem++;
+                            } else {
+                                selectedItem = -1;
+                            }
+                            if (selectedItem != -1) items[selectedItem].classList.add('is-active');
+                        }
+                        else {
+                            selectedItem = -1;
+                        }
+                    });
+                    productChooserInput.addEventListener('blur', () => {
+                        @this.$set('isOpen', false);
+                        selectedItem = -1;
+                    });
+                })();
+            </script>
         </div>
     @endif
 </div>

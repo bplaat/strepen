@@ -23,7 +23,7 @@
     <canvas id="balance_chart_canvas" wire:ignore></canvas>
 
     <script>
-    document.addEventListener('livewire:load', function () {
+    document.addEventListener('livewire:load', () => {
         let chart = new Chart(document.getElementById('balance_chart_canvas').getContext('2d'), {
             type: 'line',
             data: {
