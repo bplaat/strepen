@@ -11,6 +11,7 @@ class ProductChooser extends InputComponent
     public $inline = false;
     public $relationship = false;
     public $includeInactive = false;
+    public $sortBy = 'name';
 
     // State
     public $products;
@@ -26,7 +27,13 @@ class ProductChooser extends InputComponent
         if (!$this->includeInactive) {
             $products = $products->where('active', true);
         }
-        $this->products = $products->withCount('transactions')->orderBy('transactions_count', 'DESC')->get();
+        if ($this->sortBy == 'name') {
+            $products = $products->orderByRaw('active DESC, name');
+        }
+        if ($this->sortBy == 'transactions_count') {
+            $products = $products->withCount('transactions')->orderBy('transactions_count', 'DESC');
+        }
+        $this->products = $products->get();
         $this->filterProducts();
 
         if ($this->productId != null) {

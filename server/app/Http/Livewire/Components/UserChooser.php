@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Components;
 
 use App\Models\User;
+use App\Models\Transaction;
 
 class UserChooser extends InputComponent
 {
@@ -14,6 +15,7 @@ class UserChooser extends InputComponent
     public $includeStrepenUser = false;
     public $postsRequired = false;
     public $inventoriesRequired = false;
+    public $sortBy = 'lastname';
 
     // State
     public $users;
@@ -33,7 +35,14 @@ class UserChooser extends InputComponent
                 $users = $users->where('active', true);
             }
         }
-        $this->users = $users->orderBy('balance', 'DESC')->withCount(['posts', 'inventories'])->get();
+        if ($this->sortBy == 'lastname') {
+            $users = $users->orderByRaw('active DESC, lastname');
+        }
+        if ($this->sortBy == 'balance_desc') {
+            $users = $users->orderBy('balance', 'DESC');
+        }
+        $this->users = $users->withCount(['posts', 'inventories'])->get();
+        $this->sortUsers();
 
         if ($this->postsRequired) {
             $this->users = $this->users->filter(fn ($user) => $user->posts_count > 0);
@@ -45,6 +54,18 @@ class UserChooser extends InputComponent
 
         if ($this->userId != null) {
             $this->selectUser($this->userId);
+        }
+    }
+
+    public function sortUsers() {
+        if ($this->sortBy == 'last_transaction') {
+            $this->users = $this->users->map(function ($user) { // Very slow
+                $lastTransaction = $user->transactions()
+                    ->where('type', Transaction::TYPE_TRANSACTION)
+                    ->orderBy('created_at', 'DESC')->first();
+                $user->lastTransactionCreatedAt = $lastTransaction != null ? $lastTransaction->created_at : null;
+                return $user;
+            })->sortByDesc('lastTransactionCreatedAt')->values();
         }
     }
 
@@ -79,6 +100,7 @@ class UserChooser extends InputComponent
             $this->userName = '';
             $this->user = null;
             $this->emitValue();
+            $this->sortUsers();
             $this->filterUsers();
             $this->isOpen = false;
         }

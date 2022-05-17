@@ -2,7 +2,7 @@
     <h1 class="title">@lang('kiosk.header')</h1>
 
     <form class="box" wire:submit.prevent="createTransaction">
-        <livewire:components.user-chooser name="user" />
+        <livewire:components.user-chooser name="user" sortBy="last_transaction" />
 
         <div class="field">
             <label class="label" for="name">@lang('kiosk.name')</label>
@@ -13,7 +13,7 @@
             @error('transaction.name') <p class="help is-danger">{{ $message }}</p> @enderror
         </div>
 
-        <livewire:components.products-chooser name="products" bigMode="true" />
+        <livewire:components.products-chooser name="products" bigMode="true" sortBy="transactions_count" />
 
         <div class="field">
             <div class="control">

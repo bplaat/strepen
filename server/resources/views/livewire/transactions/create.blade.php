@@ -11,7 +11,7 @@
             @error('transaction.name') <p class="help is-danger">{{ $message }}</p> @enderror
         </div>
 
-        <livewire:components.products-chooser name="products" :minor="Auth::user()->minor" bigMode="true" />
+        <livewire:components.products-chooser name="products" :minor="Auth::user()->minor" bigMode="true" sortBy="transactions_count" />
 
         <div class="field">
             <div class="control">
