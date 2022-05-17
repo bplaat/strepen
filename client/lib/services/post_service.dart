@@ -16,6 +16,10 @@ class PostsService {
     return _instance!;
   }
 
+  void clearCache() {
+    _posts = {};
+  }
+
   Future<List<Post>> posts({int page = 1, bool forceReload = false}) async {
     if (!_posts.containsKey(page) || forceReload) {
       StorageService storage = await StorageService.getInstance();

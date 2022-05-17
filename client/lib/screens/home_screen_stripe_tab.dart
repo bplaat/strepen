@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'dart:math';
 import '../models/product.dart';
 import '../models/user.dart';
 import '../services/auth_service.dart';
@@ -165,7 +166,7 @@ class _ProductsListState extends State {
           child: Column(
             children: [
               Container(
-                margin: EdgeInsets.only(top: 8),
+                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 12),
                 child: ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
@@ -173,61 +174,87 @@ class _ProductsListState extends State {
                   itemBuilder: (context, index) {
                     Product product = products[index];
                     int amount = _amounts[index];
-                    return ListTile(
-                      leading: SizedBox(
-                        width: 56,
-                        height: 56,
-                        child: Card(
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: CachedNetworkImageProvider(product.image)
+                    return Container(
+                      margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      child: Row(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(right: 16),
+                            child: SizedBox(
+                              width: 56,
+                              height: 56,
+                              child: Card(
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: CachedNetworkImageProvider(product.image)
+                                    )
+                                  )
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                elevation: 2
                               )
                             )
                           ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          elevation: 2
-                        )
-                      ),
-                      title: Text(product.name),
-                      subtitle: Text('${settings['currency_symbol']} ${product.price.toStringAsFixed(2)}'),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              setState(() {
-                                if (_amounts[index] > 0) {
-                                  _amounts[index]--;
-                                }
-                              });
-                            },
-                            icon: Icon(Icons.remove),
-                            tooltip: lang.home_stripe_decrement
-                          ),
 
-                          Container(
-                            margin: EdgeInsets.symmetric(horizontal: 16),
-                            child: SizedBox(
-                              width: 16,
-                              child: Text(amount.toString(), style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500), textAlign: TextAlign.center)
+                          Expanded(
+                            flex: 1,
+                            child: Column(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(bottom: 4),
+                                  child: SizedBox(
+                                    width: double.infinity,
+                                    child: Text(product.name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))
+                                  )
+                                ),
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: Text('${settings['currency_symbol']} ${product.price.toStringAsFixed(2)}', style: TextStyle(color: Colors.grey))
+                                )
+                              ]
                             )
                           ),
 
-                          IconButton(
-                            onPressed: () {
-                              setState(() {
-                                if (_amounts[index] < settings['max_stripe_amount']) {
-                                  _amounts[index]++;
-                                }
-                              });
-                            },
-                            icon: Icon(Icons.add),
-                            tooltip: lang.home_stripe_increment
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    if (_amounts[index] > 0) {
+                                      _amounts[index]--;
+                                    }
+                                  });
+                                },
+                                icon: Icon(Icons.remove),
+                                tooltip: lang.home_stripe_decrement
+                              ),
+
+                              Container(
+                                margin: EdgeInsets.symmetric(horizontal: 16),
+                                child: SizedBox(
+                                  width: 16,
+                                  child: Text(amount.toString(), style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500), textAlign: TextAlign.center)
+                                )
+                              ),
+
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    if (_amounts[index] < settings['max_stripe_amount']) {
+                                      _amounts[index]++;
+                                    }
+                                  });
+                                },
+                                icon: Icon(Icons.add),
+                                tooltip: lang.home_stripe_increment
+                              )
+                            ]
                           )
                         ]
                       )
@@ -238,13 +265,13 @@ class _ProductsListState extends State {
 
               if (user.minor!) ...[
                 Container(
-                  margin: EdgeInsets.only(top: 16, bottom: 8),
+                  margin: EdgeInsets.only(bottom: 16),
                   child: Text(lang.home_stripe_minor, style: TextStyle(fontSize: 16, color: Colors.grey, fontStyle: FontStyle.italic), textAlign: TextAlign.center)
                 )
               ],
 
               Container(
-                margin: EdgeInsets.all(16),
+                margin: EdgeInsets.only(left: 16, right: 16, bottom: 16),
                 child: SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
@@ -283,10 +310,11 @@ class TransactionCreatedDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final lang = AppLocalizations.of(context)!;
+    final isMobile = defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.android;
     return AlertDialog(
       title: Text(lang.home_stripe_created),
       content: Container(
-        width: MediaQuery.of(context).size.width * 0.9,
+        width: !isMobile ? min(320, MediaQuery.of(context).size.width * 0.9) : MediaQuery.of(context).size.width * 0.9,
         height: MediaQuery.of(context).size.height * 0.9,
         child: Center(
           child: SingleChildScrollView(
@@ -416,7 +444,7 @@ class TransactionProductsAmounts extends StatelessWidget {
                           margin: EdgeInsets.only(bottom: 4),
                           child: SizedBox(
                             width: double.infinity,
-                            child: Text('${product.name}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))
+                            child: Text(product.name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))
                           )
                         ),
                         SizedBox(

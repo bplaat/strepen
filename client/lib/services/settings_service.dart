@@ -15,6 +15,10 @@ class SettingsService {
     return _instance!;
   }
 
+  void clearCache() {
+    _settings = null;
+  }
+
   Future<Map<String, dynamic>> settings({bool forceReload = false}) async {
     if (_settings == null || forceReload) {
       StorageService storage = await StorageService.getInstance();

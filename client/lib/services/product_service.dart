@@ -16,6 +16,10 @@ class ProductsService {
     return _instance!;
   }
 
+  void clearCache() {
+    _products = null;
+  }
+
   Future<List<Product>> activeProducts({bool forceReload = false}) async {
     if (_products == null || forceReload) {
       StorageService storage = await StorageService.getInstance();

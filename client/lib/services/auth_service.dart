@@ -11,6 +11,9 @@ import '../models/user.dart';
 import '../models/product.dart';
 import '../models/transaction.dart';
 import '../models/notification.dart';
+import 'post_service.dart';
+import 'product_service.dart';
+import 'settings_service.dart';
 import 'storage_service.dart';
 
 class AuthService {
@@ -27,6 +30,12 @@ class AuthService {
       _instance = AuthService();
     }
     return _instance!;
+  }
+
+  void clearCache() {
+    _user = null;
+    _unreadNotifications = null;
+    _transactions = {};
   }
 
   Future<bool> login({
@@ -59,6 +68,10 @@ class AuthService {
     });
     await storage.setToken(null);
     await storage.setUserId(null);
+    clearCache();
+    PostsService.getInstance().clearCache();
+    ProductsService.getInstance().clearCache();
+    SettingsService.getInstance().clearCache();
   }
 
   Future<bool> check() async {
@@ -74,8 +87,8 @@ class AuthService {
       try {
         _user = User.fromJson(json.decode(response.body));
       } catch (exception) {
-        storage.setToken(null);
-        storage.setUserId(null);
+        await storage.setToken(null);
+        await storage.setUserId(null);
         return false;
       }
     }
