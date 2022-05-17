@@ -116,7 +116,7 @@ class _NotificationsButtonState extends State {
             itemBuilder: (BuildContext context) {
               if (notifications.length > 0) {
                 return notifications.take(5).map((NotificationData notification) {
-                  if (notification.type == 'new_deposit') {
+                  if (notification.type == NotificationType.newDeposit) {
                     return PopupMenuItem(
                       onTap: () async {
                         await AuthService.getInstance().readNotification(notificationId: notification.id);
@@ -127,7 +127,7 @@ class _NotificationsButtonState extends State {
                     );
                   }
 
-                  if (notification.type == 'new_post') {
+                  if (notification.type == NotificationType.newPost) {
                     return PopupMenuItem(
                       onTap: () async {
                         await AuthService.getInstance().readNotification(notificationId: notification.id);
@@ -138,7 +138,7 @@ class _NotificationsButtonState extends State {
                     );
                   }
 
-                  if (notification.type == 'low_balance') {
+                  if (notification.type == NotificationType.lowBalance) {
                     return PopupMenuItem(
                       onTap: () async {
                         await AuthService.getInstance().readNotification(notificationId: notification.id);

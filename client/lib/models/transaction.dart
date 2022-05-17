@@ -1,8 +1,21 @@
 import 'product.dart';
 
+enum TransactionType {
+  transaction,
+  deposit,
+  payment
+}
+
+TransactionType? transactionTypeFromString(String type) {
+  if (type == 'transaction') return TransactionType.transaction;
+  if (type == 'deposit') return TransactionType.deposit;
+  if (type == 'food' || type == 'payment') return TransactionType.payment; // For backwards compatability
+  return null;
+}
+
 class Transaction {
   final int id;
-  final String type;
+  final TransactionType type;
   final String name;
   final double price;
   final Map<Product, int>? products;
@@ -28,7 +41,7 @@ class Transaction {
 
     return Transaction(
       id: json['id'],
-      type: json['type'],
+      type: transactionTypeFromString(json['type'])!,
       name: json['name'],
       price: json['price'].toDouble(),
       products: products,

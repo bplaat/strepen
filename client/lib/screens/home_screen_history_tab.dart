@@ -151,7 +151,7 @@ class TransactionItem extends StatelessWidget {
                   child: Text(transaction.name, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
                 ),
 
-                if (transaction.type == 'transaction') ...[
+                if (transaction.type == TransactionType.transaction) ...[
                   Container(
                     width: double.infinity,
                     margin: EdgeInsets.only(bottom: 16),
@@ -161,7 +161,7 @@ class TransactionItem extends StatelessWidget {
                   TransactionProductsAmounts(products: transaction.products!, totalPrice: transaction.price, settings: settings)
                 ],
 
-                if (transaction.type == 'deposit') ...[
+                if (transaction.type == TransactionType.deposit) ...[
                   Container(
                     width: double.infinity,
                     margin: EdgeInsets.only(bottom: 8),
@@ -174,7 +174,7 @@ class TransactionItem extends StatelessWidget {
                   )
                 ],
 
-                if (transaction.type == 'food' || transaction.type == 'payment') ...[ // For backwards compatability
+                if (transaction.type == TransactionType.payment) ...[
                   Container(
                     width: double.infinity,
                     margin: EdgeInsets.only(bottom: 8),
