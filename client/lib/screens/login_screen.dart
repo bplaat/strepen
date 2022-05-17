@@ -49,7 +49,7 @@ class _LoginScreenState extends State {
         body: Center(
           child: SingleChildScrollView(
             child: Container(
-              constraints: BoxConstraints(maxWidth: !isMobile ? 480 : double.infinity),
+              constraints: BoxConstraints(maxWidth: !isMobile ? 560 : double.infinity),
               padding: EdgeInsets.all(16),
               child: Column(
                 children: [
@@ -73,8 +73,11 @@ class _LoginScreenState extends State {
                   // Email input
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 8),
-                    child: TextField(
+                    child: TextFormField(
                       controller: _emailController,
+                      onFieldSubmitted: (value) {
+                        if (!_isLoading) login();
+                      },
                       autocorrect: false,
                       style: TextStyle(fontSize: 18),
                       decoration: InputDecoration(
@@ -90,8 +93,11 @@ class _LoginScreenState extends State {
                   // Password input
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 8),
-                    child: TextField(
+                    child: TextFormField(
                       controller: _passwordController,
+                      onFieldSubmitted: (value) {
+                        if (!_isLoading) login();
+                      },
                       autocorrect: false,
                       obscureText: true,
                       style: TextStyle(fontSize: 18),

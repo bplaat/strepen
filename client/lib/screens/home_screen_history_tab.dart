@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -134,55 +135,59 @@ class TransactionItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final lang = AppLocalizations.of(context)!;
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 8),
-      child: Card(
-        child: Padding(
-          padding: EdgeInsets.all(16),
-          child: Column(
-            children: [
-              Container(
-                width: double.infinity,
-                margin: EdgeInsets.only(bottom: 8),
-                child: Text(transaction.name, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
-              ),
-
-              if (transaction.type == 'transaction') ...[
-                Container(
-                  width: double.infinity,
-                  margin: EdgeInsets.only(bottom: 16),
-                  child: Text(lang.home_history_transaction_on(DateFormat('yyyy-MM-dd kk:mm').format(transaction.created_at)), style: TextStyle(color: Colors.grey))
-                ),
-
-                TransactionProductsAmounts(products: transaction.products!, totalPrice: transaction.price, settings: settings)
-              ],
-
-              if (transaction.type == 'deposit') ...[
+    final isMobile = defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.android;
+    return Center(
+      child: Container(
+        constraints: BoxConstraints(maxWidth: !isMobile ? 560 : double.infinity),
+        padding: EdgeInsets.symmetric(vertical: 8),
+        child: Card(
+          child: Padding(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              children: [
                 Container(
                   width: double.infinity,
                   margin: EdgeInsets.only(bottom: 8),
-                  child: Text(lang.home_history_deposit_on(DateFormat('yyyy-MM-dd kk:mm').format(transaction.created_at)), style: TextStyle(color: Colors.grey))
+                  child: Text(transaction.name, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
                 ),
 
-                Container(
-                  width: double.infinity,
-                  child: Text('${lang.home_history_amount}: ${settings['currency_symbol']} ${transaction.price.toStringAsFixed(2)}')
-                )
-              ],
+                if (transaction.type == 'transaction') ...[
+                  Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.only(bottom: 16),
+                    child: Text(lang.home_history_transaction_on(DateFormat('yyyy-MM-dd kk:mm').format(transaction.created_at)), style: TextStyle(color: Colors.grey))
+                  ),
 
-              if (transaction.type == 'food') ...[
-                Container(
-                  width: double.infinity,
-                  margin: EdgeInsets.only(bottom: 8),
-                  child: Text(lang.home_history_food_on(DateFormat('yyyy-MM-dd kk:mm').format(transaction.created_at)), style: TextStyle(color: Colors.grey))
-                ),
+                  TransactionProductsAmounts(products: transaction.products!, totalPrice: transaction.price, settings: settings)
+                ],
 
-                Container(
-                  width: double.infinity,
-                  child: Text('${lang.home_history_amount}: ${settings['currency_symbol']} ${transaction.price.toStringAsFixed(2)}')
-                )
+                if (transaction.type == 'deposit') ...[
+                  Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.only(bottom: 8),
+                    child: Text(lang.home_history_deposit_on(DateFormat('yyyy-MM-dd kk:mm').format(transaction.created_at)), style: TextStyle(color: Colors.grey))
+                  ),
+
+                  Container(
+                    width: double.infinity,
+                    child: Text('${lang.home_history_amount}: ${settings['currency_symbol']} ${transaction.price.toStringAsFixed(2)}')
+                  )
+                ],
+
+                if (transaction.type == 'food') ...[
+                  Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.only(bottom: 8),
+                    child: Text(lang.home_history_food_on(DateFormat('yyyy-MM-dd kk:mm').format(transaction.created_at)), style: TextStyle(color: Colors.grey))
+                  ),
+
+                  Container(
+                    width: double.infinity,
+                    child: Text('${lang.home_history_amount}: ${settings['currency_symbol']} ${transaction.price.toStringAsFixed(2)}')
+                  )
+                ]
               ]
-            ]
+            )
           )
         )
       )

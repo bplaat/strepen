@@ -44,7 +44,7 @@ class _HomeScreenProfileTabState extends State {
               child: SingleChildScrollView(
                 physics: AlwaysScrollableScrollPhysics(),
                 child: Container(
-                  constraints: BoxConstraints(maxWidth: !isMobile ? 480 : double.infinity),
+                  constraints: BoxConstraints(maxWidth: !isMobile ? 560 : double.infinity),
                   padding: EdgeInsets.all(16),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

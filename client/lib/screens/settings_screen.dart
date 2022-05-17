@@ -31,8 +31,8 @@ class SettingsScreen extends StatelessWidget {
 
         body: TabBarView(
           children: [
-            SingleChildScrollView(
-              child: Center(
+            Center(
+              child: SingleChildScrollView(
                 child: Container(
                   constraints: BoxConstraints(maxWidth: !isMobile ? 560 : double.infinity),
                   padding: EdgeInsets.all(16),
@@ -41,8 +41,8 @@ class SettingsScreen extends StatelessWidget {
               )
             ),
 
-            SingleChildScrollView(
-              child: Center(
+            Center(
+              child: SingleChildScrollView(
                 child: Container(
                   constraints: BoxConstraints(maxWidth: !isMobile ? 560 : double.infinity),
                   padding: EdgeInsets.all(16),
@@ -51,8 +51,8 @@ class SettingsScreen extends StatelessWidget {
               )
             ),
 
-            SingleChildScrollView(
-              child: Center(
+            Center(
+              child: SingleChildScrollView(
                 child: Container(
                   constraints: BoxConstraints(maxWidth: !isMobile ? 560 : double.infinity),
                   padding: EdgeInsets.all(16),
@@ -61,8 +61,8 @@ class SettingsScreen extends StatelessWidget {
               )
             ),
 
-            SingleChildScrollView(
-              child: Center(
+            Center(
+              child: SingleChildScrollView(
                 child: Container(
                   constraints: BoxConstraints(maxWidth: !isMobile ? 560 : double.infinity),
                   padding: EdgeInsets.all(16),

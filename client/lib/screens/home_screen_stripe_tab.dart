@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -155,106 +156,110 @@ class _ProductsListState extends State {
   @override
   Widget build(BuildContext context) {
     final lang = AppLocalizations.of(context)!;
+    final isMobile = defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.android;
     return Center(
       child: SingleChildScrollView(
         controller: _scrollController,
-        child: Column(
-          children: [
-            Container(
-              margin: EdgeInsets.only(top: 8),
-              child: ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: products.length,
-                itemBuilder: (context, index) {
-                  Product product = products[index];
-                  int amount = _amounts[index];
-                  return ListTile(
-                    leading: SizedBox(
-                      width: 56,
-                      height: 56,
-                      child: Card(
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: CachedNetworkImageProvider(product.image)
-                            )
-                          )
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        elevation: 2
-                      )
-                    ),
-                    title: Text(product.name),
-                    subtitle: Text('${settings['currency_symbol']} ${product.price.toStringAsFixed(2)}'),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            setState(() {
-                              if (_amounts[index] > 0) {
-                                _amounts[index]--;
-                              }
-                            });
-                          },
-                          icon: Icon(Icons.remove),
-                          tooltip: lang.home_stripe_decrement
-                        ),
-
-                        Container(
-                          margin: EdgeInsets.symmetric(horizontal: 16),
-                          child: SizedBox(
-                            width: 16,
-                            child: Text(amount.toString(), style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500), textAlign: TextAlign.center)
-                          )
-                        ),
-
-                        IconButton(
-                          onPressed: () {
-                            setState(() {
-                              if (_amounts[index] < settings['max_stripe_amount']) {
-                                _amounts[index]++;
-                              }
-                            });
-                          },
-                          icon: Icon(Icons.add),
-                          tooltip: lang.home_stripe_increment
-                        )
-                      ]
-                    )
-                  );
-                }
-              )
-            ),
-
-            if (user.minor!) ...[
+        child: Container(
+          constraints: BoxConstraints(maxWidth: !isMobile ? 560 : double.infinity),
+          child: Column(
+            children: [
               Container(
-                margin: EdgeInsets.only(top: 16, bottom: 8),
-                child: Text(lang.home_stripe_minor, style: TextStyle(fontSize: 16, color: Colors.grey, fontStyle: FontStyle.italic), textAlign: TextAlign.center)
-              )
-            ],
+                margin: EdgeInsets.only(top: 8),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: products.length,
+                  itemBuilder: (context, index) {
+                    Product product = products[index];
+                    int amount = _amounts[index];
+                    return ListTile(
+                      leading: SizedBox(
+                        width: 56,
+                        height: 56,
+                        child: Card(
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: CachedNetworkImageProvider(product.image)
+                              )
+                            )
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          elevation: 2
+                        )
+                      ),
+                      title: Text(product.name),
+                      subtitle: Text('${settings['currency_symbol']} ${product.price.toStringAsFixed(2)}'),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              setState(() {
+                                if (_amounts[index] > 0) {
+                                  _amounts[index]--;
+                                }
+                              });
+                            },
+                            icon: Icon(Icons.remove),
+                            tooltip: lang.home_stripe_decrement
+                          ),
 
-            Container(
-              margin: EdgeInsets.all(16),
-              child: SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: _isLoading ? null : createTransaction,
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.pink,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(48)),
-                    padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16)
-                  ),
-                  child: Text(lang.home_stripe_stripe, style: TextStyle(color: Colors.white, fontSize: 18))
+                          Container(
+                            margin: EdgeInsets.symmetric(horizontal: 16),
+                            child: SizedBox(
+                              width: 16,
+                              child: Text(amount.toString(), style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500), textAlign: TextAlign.center)
+                            )
+                          ),
+
+                          IconButton(
+                            onPressed: () {
+                              setState(() {
+                                if (_amounts[index] < settings['max_stripe_amount']) {
+                                  _amounts[index]++;
+                                }
+                              });
+                            },
+                            icon: Icon(Icons.add),
+                            tooltip: lang.home_stripe_increment
+                          )
+                        ]
+                      )
+                    );
+                  }
+                )
+              ),
+
+              if (user.minor!) ...[
+                Container(
+                  margin: EdgeInsets.only(top: 16, bottom: 8),
+                  child: Text(lang.home_stripe_minor, style: TextStyle(fontSize: 16, color: Colors.grey, fontStyle: FontStyle.italic), textAlign: TextAlign.center)
+                )
+              ],
+
+              Container(
+                margin: EdgeInsets.all(16),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: _isLoading ? null : createTransaction,
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.pink,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(48)),
+                      padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16)
+                    ),
+                    child: Text(lang.home_stripe_stripe, style: TextStyle(color: Colors.white, fontSize: 18))
+                  )
                 )
               )
-            )
-          ]
+            ]
+          )
         )
       )
     );
