@@ -2,7 +2,6 @@
 
 # Todo List
 
-- Fix flutter black start screen
 - Update flutter mobile app in Play Store with new key
 - User selector controllable with arrow keys and enter
 - Products old price table

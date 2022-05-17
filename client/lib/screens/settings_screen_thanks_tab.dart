@@ -37,8 +37,8 @@ class _SettingsChangeThanksTabState extends State {
           content: Text(lang.settings_thanks_success_description),
           actions: [
             TextButton(
-            child: Text(lang.settings_thanks_success_ok),
-            onPressed: () => Navigator.of(context).pop()
+              child: Text(lang.settings_thanks_success_ok),
+              onPressed: () => Navigator.of(context).pop()
             )
           ]
         );
@@ -52,8 +52,8 @@ class _SettingsChangeThanksTabState extends State {
           content: Text(lang.settings_thanks_error_description),
           actions: [
             TextButton(
-            child: Text(lang.settings_thanks_success_ok),
-            onPressed: () => Navigator.of(context).pop()
+              child: Text(lang.settings_thanks_success_ok),
+              onPressed: () => Navigator.of(context).pop()
             )
           ]
         );
@@ -74,10 +74,8 @@ class _SettingsChangeThanksTabState extends State {
           content: Text(lang.settings_thanks_success_description),
           actions: [
             TextButton(
-            child: Text(lang.settings_thanks_success_ok),
-            onPressed: () {
-              Navigator.of(context).pop();
-            }
+              child: Text(lang.settings_thanks_success_ok),
+              onPressed: () => Navigator.of(context).pop()
             )
           ]
         );

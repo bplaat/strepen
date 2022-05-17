@@ -61,6 +61,27 @@ class AuthService {
     await storage.setUserId(null);
   }
 
+  Future<bool> check() async {
+    if (_user == null) {
+      StorageService storage = await StorageService.getInstance();
+      if (storage.token == null || storage.userId == null) {
+        return false;
+      }
+      final response = await http.get(Uri.parse('${API_URL}/users/${storage.userId!}'), headers: {
+        'X-Api-Key': API_KEY,
+        'Authorization': 'Bearer ${storage.token!}'
+      });
+      try {
+        _user = User.fromJson(json.decode(response.body));
+      } catch (exception) {
+        storage.setToken(null);
+        storage.setUserId(null);
+        return false;
+      }
+    }
+    return true;
+  }
+
   Future<User?> user({bool forceReload = false}) async {
     if (_user == null || forceReload) {
       StorageService storage = await StorageService.getInstance();
@@ -74,7 +95,7 @@ class AuthService {
         return null;
       }
     }
-    return _user!;
+    return _user;
   }
 
   Future<List<NotificationData>> unreadNotifications({bool forceReload = false}) async {

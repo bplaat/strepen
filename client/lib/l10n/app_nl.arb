@@ -1,4 +1,7 @@
 {
+    "loading_header": "Strepen",
+    "loading_error": "Er is een fout opgetreden bij het laden van uw gebruikersinformatie!",
+
     "home_posts": "Nieuws berichten",
     "home_stripe": "Strepen",
     "home_history": "Jouw strepen geschiedenis",

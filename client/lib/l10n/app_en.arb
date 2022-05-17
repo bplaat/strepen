@@ -1,4 +1,7 @@
 {
+    "loading_header": "Strepen",
+    "loading_error": "An error has occurred while loading your user information!",
+
     "home_posts": "News posts",
     "home_stripe": "Stripe",
     "home_history": "Your stripe history",
