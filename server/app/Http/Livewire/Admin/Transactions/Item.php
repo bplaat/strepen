@@ -106,7 +106,7 @@ class Item extends Component
             });
         }
 
-        if ($this->transaction->type == Transaction::TYPE_DEPOSIT || $this->transaction->type == Transaction::TYPE_FOOD) {
+        if ($this->transaction->type == Transaction::TYPE_DEPOSIT || $this->transaction->type == Transaction::TYPE_PAYMENT) {
             // Validate input
             $this->validateOnly('transaction.price');
         }

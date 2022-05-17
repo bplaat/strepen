@@ -23,8 +23,8 @@ class Crud extends PaginationComponent
     public $isCreatingTransaction = false;
     public $isCreatingDeposit = false;
     public $creatingDepositTab = 'single';
-    public $isCreatingFood = false;
-    public $creatingFoodTab = 'single';
+    public $isCreatingPayment = false;
+    public $creatingPaymentTab = 'single';
 
     public $rules = [
         'transaction.user_id' => 'required|integer|exists:users,id',
@@ -53,7 +53,7 @@ class Crud extends PaginationComponent
             $this->sort_by = null;
         }
 
-        if ($this->type != 'transaction' && $this->type != 'deposit' && $this->type != 'food') {
+        if ($this->type != 'transaction' && $this->type != 'deposit' && $this->type != 'payment') {
             $this->type = null;
         }
 
@@ -94,7 +94,7 @@ class Crud extends PaginationComponent
 
     public function search()
     {
-        if ($this->type != 'transaction' && $this->type != 'deposit' && $this->type != 'food') {
+        if ($this->type != 'transaction' && $this->type != 'deposit' && $this->type != 'payment') {
             $this->type = null;
         }
 
@@ -200,7 +200,7 @@ class Crud extends PaginationComponent
             foreach ($this->users as $index => $user) {
                 $userAmount = $this->userAmounts[$index];
                 if ($userAmount != '') {
-                    // Create food transaciton for user
+                    // Create payment transaction for user
                     $transaction = new Transaction();
                     $transaction->user_id = $user->id;
                     $transaction->type = Transaction::TYPE_DEPOSIT;
@@ -223,24 +223,24 @@ class Crud extends PaginationComponent
         $this->isCreatingDeposit = false;
     }
 
-    // Create food model
-    public function openCreateFood()
+    // Create payment model
+    public function openCreatePayment()
     {
-        $this->transaction->name = __('admin/transactions.crud.name_default_food') . ' ' . date('Y-m-d H:i:s');
-        $this->isCreatingFood = true;
+        $this->transaction->name = __('admin/transactions.crud.name_default_payment') . ' ' . date('Y-m-d H:i:s');
+        $this->isCreatingPayment = true;
     }
 
-    public function createFood()
+    public function createPayment()
     {
         // Create single deposit
-        if ($this->creatingFoodTab == 'single') {
+        if ($this->creatingPaymentTab == 'single') {
             $this->emit('inputValidate', 'user');
             $this->validateOnly('transaction.name');
             $this->validateOnly('transaction.user_id');
             $this->validateOnly('transaction.price');
 
             // Create transaction
-            $this->transaction->type = Transaction::TYPE_FOOD;
+            $this->transaction->type = Transaction::TYPE_PAYMENT;
             $this->transaction->save();
 
             // Recalculate balance of user
@@ -250,7 +250,7 @@ class Crud extends PaginationComponent
         }
 
         // Create multiple deposits
-        if ($this->creatingFoodTab == 'multiple') {
+        if ($this->creatingPaymentTab == 'multiple') {
             $this->validateOnly('transaction.name');
             $this->validateOnly('userAmounts.*');
 
@@ -258,10 +258,10 @@ class Crud extends PaginationComponent
             foreach ($this->users as $index => $user) {
                 $userAmount = $this->userAmounts[$index];
                 if ($userAmount != '') {
-                    // Create food transaciton for user
+                    // Create payment transaction for user
                     $transaction = new Transaction();
                     $transaction->user_id = $user->id;
-                    $transaction->type = Transaction::TYPE_FOOD;
+                    $transaction->type = Transaction::TYPE_PAYMENT;
                     $transaction->name = $this->transaction->name;
                     $transaction->price = $userAmount;
                     $transaction->save();
@@ -275,7 +275,7 @@ class Crud extends PaginationComponent
 
         $this->emit('inputClear', 'user');
         $this->mount();
-        $this->isCreatingFood = false;
+        $this->isCreatingPayment = false;
     }
 
     public function render()
@@ -288,8 +288,8 @@ class Crud extends PaginationComponent
             if ($this->type == 'deposit') {
                 $type = Transaction::TYPE_DEPOSIT;
             }
-            if ($this->type == 'food') {
-                $type = Transaction::TYPE_FOOD;
+            if ($this->type == 'payment') {
+                $type = Transaction::TYPE_PAYMENT;
             }
             $transactions = $transactions->where('type', $type);
         }

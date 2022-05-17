@@ -282,7 +282,7 @@
                                     + DB::table('transactions')
                                     ->whereNull('deleted_at')
                                     ->where('user_id', $user->id)
-                                    ->where('type', App\Models\Transaction::TYPE_FOOD)
+                                    ->where('type', App\Models\Transaction::TYPE_PAYMENT)
                                     ->where('price', '>', 0)
                                     ->where('transactions.created_at', '>=', $startDate)
                                     ->sum('price');
@@ -329,7 +329,7 @@
                                                 + DB::table('transactions')
                                                 ->whereNull('deleted_at')
                                                 ->where('user_id', $user->id)
-                                                ->where('type', App\Models\Transaction::TYPE_FOOD)
+                                                ->where('type', App\Models\Transaction::TYPE_PAYMENT)
                                                 ->where('price', '>', 0)
                                                 ->where('created_at', '>=', date('Y-m-d', time() - 30 * 24 * 60 * 60))
                                                 ->sum('price')" isMoney="true" />
@@ -347,7 +347,7 @@
                                                 + DB::table('transactions')
                                                 ->whereNull('deleted_at')
                                                 ->where('user_id', $user->id)
-                                                ->where('type', App\Models\Transaction::TYPE_FOOD)
+                                                ->where('type', App\Models\Transaction::TYPE_PAYMENT)
                                                 ->where('price', '>', 0)
                                                 ->where('created_at', '>=', date('Y-m-d', time() - 365 * 24 * 60 * 60))
                                                 ->sum('price')" isMoney="true" />
@@ -407,7 +407,7 @@
                                                 ->whereNull('deleted_at')
                                                 ->where('user_id', $user->id)
                                                 ->where(fn ($query) => $query->where('type', App\Models\Transaction::TYPE_TRANSACTION)
-                                                    ->orWhere('type', App\Models\Transaction::TYPE_FOOD))
+                                                    ->orWhere('type', App\Models\Transaction::TYPE_PAYMENT))
                                                 ->where('created_at', '>=', date('Y-m-d', time() - 30 * 24 * 60 * 60))
                                                 ->sum('price')" isMoney="true" />
                                         </td>
@@ -426,7 +426,7 @@
                                                 ->whereNull('deleted_at')
                                                 ->where('user_id', $user->id)
                                                 ->where(fn ($query) => $query->where('type', App\Models\Transaction::TYPE_TRANSACTION)
-                                                    ->orWhere('type', App\Models\Transaction::TYPE_FOOD))
+                                                    ->orWhere('type', App\Models\Transaction::TYPE_PAYMENT))
                                                 ->where('created_at', '>=', date('Y-m-d', time() - 365 * 24 * 60 * 60))
                                                 ->sum('price')" isMoney="true" />
                                         </td>
@@ -485,7 +485,7 @@
                                                 ->whereNull('deleted_at')
                                                 ->where('user_id', $user->id)
                                                 ->where(fn ($query) => $query->where('type', App\Models\Transaction::TYPE_TRANSACTION)
-                                                    ->orWhere('type', App\Models\Transaction::TYPE_FOOD))
+                                                    ->orWhere('type', App\Models\Transaction::TYPE_PAYMENT))
                                                 ->where('created_at', '>=', date('Y-m-d', time() - 30 * 24 * 60 * 60))
                                                 ->sum('price')" isMoney="true" />
                                         </td>
@@ -504,7 +504,7 @@
                                                 ->whereNull('deleted_at')
                                                 ->where('user_id', $user->id)
                                                 ->where(fn ($query) => $query->where('type', App\Models\Transaction::TYPE_TRANSACTION)
-                                                    ->orWhere('type', App\Models\Transaction::TYPE_FOOD))
+                                                    ->orWhere('type', App\Models\Transaction::TYPE_PAYMENT))
                                                 ->where('created_at', '>=', date('Y-m-d', time() - 365 * 24 * 60 * 60))
                                                 ->sum('price')" isMoney="true" />
                                         </td>

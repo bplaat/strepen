@@ -374,8 +374,8 @@ class ImportData extends Command
                         if ($transactionJson->price != 0) {
                             createTransaction([
                                 'user_id' => $oldUserIds[$transactionJson->old_user_id],
-                                'type' => Transaction::TYPE_FOOD,
-                                'name' => 'Imported food transaction on ' . $transactionJson->created_at,
+                                'type' => Transaction::TYPE_PAYMENT,
+                                'name' => 'Imported food payment transaction on ' . $transactionJson->created_at,
                                 'price' => $transactionJson->price,
                                 'created_at' => $transactionJson->created_at
                             ]);

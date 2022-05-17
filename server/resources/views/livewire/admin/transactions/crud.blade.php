@@ -5,7 +5,7 @@
         <div class="buttons">
             <button class="button is-link" wire:click="openCreateTransaction" wire:loading.attr="disabled">@lang('admin/transactions.crud.create_transaction')</button>
             <button class="button is-link" wire:click="openCreateDeposit" wire:loading.attr="disabled">@lang('admin/transactions.crud.create_deposit_small')</button>
-            <button class="button is-link" wire:click="openCreateFood" wire:loading.attr="disabled">@lang('admin/transactions.crud.create_food_small')</button>
+            <button class="button is-link" wire:click="openCreatePayment" wire:loading.attr="disabled">@lang('admin/transactions.crud.create_payment_small')</button>
         </div>
 
         <x-slot name="sorters">
@@ -155,14 +155,14 @@
         </div>
     @endif
 
-    @if ($isCreatingFood)
+    @if ($isCreatingPayment)
         <div class="modal is-active">
-            <div class="modal-background" wire:click="$set('isCreatingFood', false)"></div>
+            <div class="modal-background" wire:click="$set('isCreatingPayment', false)"></div>
 
-            <form wire:submit.prevent="createFood" class="modal-card">
+            <form wire:submit.prevent="createPayment" class="modal-card">
                 <div class="modal-card-head">
-                    <p class="modal-card-title">@lang('admin/transactions.crud.create_food')</p>
-                    <button type="button" class="delete" wire:click="$set('isCreatingFood', false)"></button>
+                    <p class="modal-card-title">@lang('admin/transactions.crud.create_payment')</p>
+                    <button type="button" class="delete" wire:click="$set('isCreatingPayment', false)"></button>
                 </div>
 
                 <div class="modal-card-body">
@@ -177,16 +177,16 @@
 
                     <div class="tabs is-fullwidth">
                         <ul>
-                            <li @class(['is-active' => $creatingFoodTab == 'single'])>
-                                <a wire:click.prevent="$set('creatingFoodTab', 'single')">@lang('admin/transactions.crud.single')</a>
+                            <li @class(['is-active' => $creatingPaymentTab == 'single'])>
+                                <a wire:click.prevent="$set('creatingPaymentTab', 'single')">@lang('admin/transactions.crud.single')</a>
                             </li>
-                            <li @class(['is-active' => $creatingFoodTab == 'multiple'])>
-                                <a wire:click.prevent="$set('creatingFoodTab', 'multiple')">@lang('admin/transactions.crud.multiple')</a>
+                            <li @class(['is-active' => $creatingPaymentTab == 'multiple'])>
+                                <a wire:click.prevent="$set('creatingPaymentTab', 'multiple')">@lang('admin/transactions.crud.multiple')</a>
                             </li>
                         </ul>
                     </div>
 
-                    @if ($creatingFoodTab == 'single')
+                    @if ($creatingPaymentTab == 'single')
                         <livewire:components.user-chooser name="user" includeInactive="true" />
 
                         <div class="field">
@@ -200,7 +200,7 @@
                         </div>
                     @endif
 
-                    @if ($creatingFoodTab == 'multiple')
+                    @if ($creatingPaymentTab == 'multiple')
                         <table class="table is-fullwidth">
                             <thead>
                                 <tr>
@@ -230,8 +230,8 @@
                 </div>
 
                 <div class="modal-card-foot">
-                    <button type="submit" class="button is-link">@lang('admin/transactions.crud.create_food')</button>
-                    <button type="button" class="button" wire:click="$set('isCreatingFood', false)" wire:loading.attr="disabled">@lang('admin/transactions.crud.cancel')</button>
+                    <button type="submit" class="button is-link">@lang('admin/transactions.crud.create_payment')</button>
+                    <button type="button" class="button" wire:click="$set('isCreatingPayment', false)" wire:loading.attr="disabled">@lang('admin/transactions.crud.cancel')</button>
                 </div>
             </form>
         </div>

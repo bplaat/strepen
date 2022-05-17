@@ -47,7 +47,7 @@ return [
     'transaction_type_chooser_all' => 'Alle transacties',
     'transaction_type_chooser_transaction' => 'Transacties alleen',
     'transaction_type_chooser_deposit' => 'Stortingen alleen',
-    'transaction_type_chooser_food' => 'Eten transacties alleen',
+    'transaction_type_chooser_payment' => 'Betalingen alleen',
 
     // Transaction Created Modal blade component
     'transaction_created_modal_header' => 'Uw transactie is opgeslagen',

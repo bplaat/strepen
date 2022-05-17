@@ -31,7 +31,7 @@ class History extends PaginationComponent
             $this->sort_by = null;
         }
 
-        if ($this->type != 'transaction' && $this->type != 'deposit' && $this->type != 'food') {
+        if ($this->type != 'transaction' && $this->type != 'deposit' && $this->type != 'payment') {
             $this->type = null;
         }
 
@@ -49,7 +49,7 @@ class History extends PaginationComponent
 
     public function search()
     {
-        if ($this->type != 'transaction' && $this->type != 'deposit' && $this->type != 'food') {
+        if ($this->type != 'transaction' && $this->type != 'deposit' && $this->type != 'payment') {
             $this->type = null;
         }
 
@@ -67,8 +67,8 @@ class History extends PaginationComponent
             if ($this->type == 'deposit') {
                 $type = Transaction::TYPE_DEPOSIT;
             }
-            if ($this->type == 'food') {
-                $type = Transaction::TYPE_FOOD;
+            if ($this->type == 'payment') {
+                $type = Transaction::TYPE_PAYMENT;
             }
             $transactions = $transactions->where('type', $type);
         }

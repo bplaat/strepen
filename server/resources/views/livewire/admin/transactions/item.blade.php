@@ -13,8 +13,8 @@
                 <p>@lang('admin/transactions.item.amount'): <x-money-format :money="$transaction->price" /></p>
             @endif
 
-            @if ($transaction->type == App\Models\Transaction::TYPE_FOOD)
-                <p><i>@lang('admin/transactions.item.food_for', ['user.name' => $transaction->user != null ? $transaction->user->name : '?', 'transaction.created_at' => $transaction->created_at->format('Y-m-d H:i')])</i></p>
+            @if ($transaction->type == App\Models\Transaction::TYPE_PAYMENT)
+                <p><i>@lang('admin/transactions.item.payment_for', ['user.name' => $transaction->user != null ? $transaction->user->name : '?', 'transaction.created_at' => $transaction->created_at->format('Y-m-d H:i')])</i></p>
                 <p>@lang('admin/transactions.item.amount'): <x-money-format :money="$transaction->price" /></p>
             @endif
         </div>
@@ -75,7 +75,7 @@
                         <livewire:components.products-chooser name="item_products" :initialProducts="$transaction->products" noMax="true" includeInactive="true" />
                     @endif
 
-                    @if ($transaction->type == App\Models\Transaction::TYPE_DEPOSIT || $transaction->type == App\Models\Transaction::TYPE_FOOD)
+                    @if ($transaction->type == App\Models\Transaction::TYPE_DEPOSIT || $transaction->type == App\Models\Transaction::TYPE_PAYMENT)
                         <div class="field">
                             <label class="label" for="amount">@lang('admin/transactions.item.amount')</label>
                             <div class="control has-icons-left">

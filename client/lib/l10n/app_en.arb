@@ -42,8 +42,8 @@
     "@home_history_transaction_on": { "placeholders": { "transaction_created_at": {} } },
     "home_history_deposit_on": "Deposit on {transaction_created_at}",
     "@home_history_deposit_on": { "placeholders": { "transaction_created_at": {} } },
-    "home_history_food_on": "Food on {transaction_created_at}",
-    "@home_history_food_on": { "placeholders": { "transaction_created_at": {} } },
+    "home_history_payment_on": "Payment on {transaction_created_at}",
+    "@home_history_payment_on": { "placeholders": { "transaction_created_at": {} } },
     "home_history_amount": "Amount",
 
     "home_profile_error": "An error has occurred while loading your user information!",

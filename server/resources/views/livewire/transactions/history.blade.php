@@ -38,8 +38,8 @@
                                 <p>@lang('transactions.history.amount'): <x-money-format :money="$transaction->price" /></p>
                             @endif
 
-                            @if ($transaction->type == App\Models\Transaction::TYPE_FOOD)
-                                <p><i>@lang('transactions.history.food_on', ['transaction.created_at' => $transaction->created_at->format('Y-m-d H:i')])</i></p>
+                            @if ($transaction->type == App\Models\Transaction::TYPE_PAYMENT)
+                                <p><i>@lang('transactions.history.payment_on', ['transaction.created_at' => $transaction->created_at->format('Y-m-d H:i')])</i></p>
                                 <p>@lang('transactions.history.amount'): <x-money-format :money="$transaction->price" /></p>
                             @endif
                         </div>

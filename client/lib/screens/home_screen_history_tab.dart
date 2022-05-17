@@ -174,11 +174,11 @@ class TransactionItem extends StatelessWidget {
                   )
                 ],
 
-                if (transaction.type == 'food') ...[
+                if (transaction.type == 'food' || transaction.type == 'payment') ...[ // For backwards compatability
                   Container(
                     width: double.infinity,
                     margin: EdgeInsets.only(bottom: 8),
-                    child: Text(lang.home_history_food_on(DateFormat('yyyy-MM-dd kk:mm').format(transaction.created_at)), style: TextStyle(color: Colors.grey))
+                    child: Text(lang.home_history_payment_on(DateFormat('yyyy-MM-dd kk:mm').format(transaction.created_at)), style: TextStyle(color: Colors.grey))
                   ),
 
                   Container(

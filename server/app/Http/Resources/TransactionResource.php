@@ -16,8 +16,8 @@ class TransactionResource extends JsonResource
         if ($this->type == Transaction::TYPE_DEPOSIT) {
             $type = 'deposit';
         }
-        if ($this->type == Transaction::TYPE_FOOD) {
-            $type = 'food';
+        if ($this->type == Transaction::TYPE_PAYMENT) {
+            $type = 'food'; // For backwards compatability
         }
 
         return [

@@ -109,7 +109,7 @@ class User extends Authenticatable
                 if ($transaction->type == Transaction::TYPE_DEPOSIT) {
                     $this->balance += $transaction->price;
                 }
-                if ($transaction->type == Transaction::TYPE_FOOD) {
+                if ($transaction->type == Transaction::TYPE_PAYMENT) {
                     $this->balance -= $transaction->price;
                 }
             }
@@ -210,7 +210,7 @@ class User extends Authenticatable
             ->where('user_id', $this->id)
             ->whereNull('deleted_at')
             ->where(fn ($query) => $query->where('type', Transaction::TYPE_TRANSACTION)
-                ->orWhere('type', Transaction::TYPE_FOOD))
+                ->orWhere('type', Transaction::TYPE_PAYMENT))
             ->where('created_at', '<', date('Y-m-d H:i:s', $startDate))
             ->sum('price');
 
@@ -239,7 +239,7 @@ class User extends Authenticatable
                 if ($transactions[$index]->type == Transaction::TYPE_DEPOSIT) {
                     $balance += $transactions[$index]->price;
                 }
-                if ($transactions[$index]->type == Transaction::TYPE_FOOD) {
+                if ($transactions[$index]->type == Transaction::TYPE_PAYMENT) {
                     $balance -= $transactions[$index]->price;
                 }
                 $index++;

@@ -12,10 +12,10 @@ class Transaction extends Model
     use HasFactory;
     use SoftDeletes;
 
-    // A transaction can be a normal transaction, a deposit or a food transaction
+    // A transaction can be a normal transaction, a deposit or a payment
     public const TYPE_TRANSACTION = 0;
     public const TYPE_DEPOSIT = 1;
-    public const TYPE_FOOD = 2;
+    public const TYPE_PAYMENT = 2;
 
     protected $hidden = [
         'deleted_at'

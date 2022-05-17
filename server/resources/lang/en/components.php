@@ -47,7 +47,7 @@ return [
     'transaction_type_chooser_all' => 'All transactions',
     'transaction_type_chooser_transaction' => 'Transactions only',
     'transaction_type_chooser_deposit' => 'Deposits only',
-    'transaction_type_chooser_food' => 'Food transactions only',
+    'transaction_type_chooser_payment' => 'Payments only',
 
     // Transaction Created Modal blade component
     'transaction_created_modal_header' => 'Your transaction has been saved',
