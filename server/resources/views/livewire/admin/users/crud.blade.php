@@ -352,21 +352,35 @@
                     @if ($exportTab == 'everyone')
                         @php
                             $users = App\Models\User::where('active', true)->orderBy('balance')->get();
+                            $notActiveUsersTotal = DB::table('users')->where('active', false)->whereNull('deleted_at')->sum('balance');
+                            $deletedUsersTotal = DB::table('users')->whereNotNull('deleted_at')->sum('balance');
                         @endphp
                         @foreach ($users as $user)
                             <p>{{ $user->name }}: <x-money-format :money="$user->balance" /></p>
                         @endforeach
-                        <p class="mt-1"><b>@lang('admin/users.crud.total')</b>: <x-money-format :money="$users->map(fn ($user) => $user->balance)->sum()" /></p>
+                        <hr class="my-2" />
+                        <p><b>@lang('admin/users.crud.not_active_total')</b>: <x-money-format :money="$notActiveUsersTotal" /></p>
+                        <p><b>@lang('admin/users.crud.deleted_total')</b>: <x-money-format :money="$deletedUsersTotal" /></p>
+                        <hr class="my-2" />
+                        <p><b>@lang('admin/users.crud.total')</b>: <x-money-format :money="$users->map(fn ($user) => $user->balance)->sum() + $notActiveUsersTotal + $deletedUsersTotal" /></p>
                     @endif
 
                     @if ($exportTab == 'debtors')
                         @php
                             $users = App\Models\User::where('active', true)->where('balance', '<', App\Models\Setting::get('min_user_balance'))->orderBy('balance')->get();
+                            $notDebtorUsersTotal = DB::table('users')->where('active', true)->where('balance', '>=', App\Models\Setting::get('min_user_balance'))->whereNull('deleted_at')->sum('balance');
+                            $notActiveUsersTotal = DB::table('users')->where('active', false)->whereNull('deleted_at')->sum('balance');
+                            $deletedUsersTotal = DB::table('users')->whereNotNull('deleted_at')->sum('balance');
                         @endphp
                         @foreach ($users as $user)
                             <p>{{ $user->name }}: <x-money-format :money="$user->balance" /></p>
                         @endforeach
-                        <p class="mt-1"><b>@lang('admin/users.crud.total')</b>: <x-money-format :money="$users->map(fn ($user) => $user->balance)->sum()" /></p>
+                        <hr class="my-2" />
+                        <p><b>@lang('admin/users.crud.not_debtor_total')</b>: <x-money-format :money="$notDebtorUsersTotal" /></p>
+                        <p><b>@lang('admin/users.crud.not_active_total')</b>: <x-money-format :money="$notActiveUsersTotal" /></p>
+                        <p><b>@lang('admin/users.crud.deleted_total')</b>: <x-money-format :money="$deletedUsersTotal" /></p>
+                        <hr class="my-2" />
+                        <p><b>@lang('admin/users.crud.total')</b>: <x-money-format :money="$users->map(fn ($user) => $user->balance)->sum() + $notDebtorUsersTotal + $notActiveUsersTotal + $deletedUsersTotal" /></p>
                     @endif
                 </div>
             </div>
