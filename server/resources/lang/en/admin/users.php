@@ -58,6 +58,8 @@ return [
     'crud.export_balances' => 'Export users balances',
     'crud.export_everyone' => 'Everyone',
     'crud.export_debtors' => 'Only Debtors',
+    'crud.everyone_total' => 'Everyone total',
+    'crud.debtor_total' => 'Debtors total',
     'crud.not_active_total' => 'Not active users total',
     'crud.deleted_total' => 'Deleted users total',
     'crud.total' => 'Total',
