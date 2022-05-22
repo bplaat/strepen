@@ -59,7 +59,7 @@ return [
     'crud.export_everyone' => 'Iedereen',
     'crud.export_debtors' => 'Alleen Schuldenaren',
     'crud.everyone_total' => 'Iedereen totaal',
-    'crud.debtor_total' => 'Alleen schuldenaren totaal',
+    'crud.debtor_total' => 'Schuldenaren totaal',
     'crud.not_active_total' => 'Niet actieve gebruikers totaal',
     'crud.deleted_total' => 'Verwijderde gebruikers totaal',
     'crud.total' => 'Totaal',
