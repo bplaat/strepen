@@ -155,8 +155,10 @@
                         }
                     });
                     productChooserInput.addEventListener('blur', () => {
-                        @this.$set('isOpen', false);
-                        selectedItem = -1;
+                        setTimeout(() => {
+                            @this.$set('isOpen', false);
+                            selectedItem = -1;
+                        }, 100);
                     });
                 })();
             </script>
