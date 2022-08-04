@@ -25,4 +25,15 @@
     @if ($isCreated)
         <x-transaction-created-modal :transaction="$transaction" />
     @endif
+
+    <script>
+        document.addEventListener('livewire:load', () => {
+            window.addEventListener('keydown', event => {
+                event.preventDefault();
+                if (event.key == 'Enter') {
+                    @this.createTransaction();
+                }
+            });
+        });
+    </script>
 </div>

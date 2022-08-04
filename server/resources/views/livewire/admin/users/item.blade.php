@@ -157,20 +157,22 @@
                     </div>
 
                     <script>
-                    new Chart(document.getElementById('balance_chart_canvas').getContext('2d'), {
-                        type: 'line',
-                        data: {
-                            datasets: [{
-                                label: 'Balance ({{ App\Models\Setting::get('currency_symbol') }})',
-                                data: @json($user->getBalanceChart($startDate, date('Y-m-d'))),
-                                borderColor: getComputedStyle(document.querySelector('.is-link')).backgroundColor,
-                                tension: 0.1
-                            }]
-                        },
-                        options: {
-                            animation: false
-                        }
-                    });
+                        (function () {
+                            const chart = new Chart(document.getElementById('balance_chart_canvas').getContext('2d'), {
+                                type: 'line',
+                                data: {
+                                    datasets: [{
+                                        label: 'Balance ({{ App\Models\Setting::get('currency_symbol') }})',
+                                        data: @json($user->getBalanceChart($startDate, date('Y-m-d'))),
+                                        borderColor: getComputedStyle(document.querySelector('.is-link')).backgroundColor,
+                                        tension: 0.1
+                                    }]
+                                },
+                                options: {
+                                    animation: false
+                                }
+                            });
+                        })();
                     </script>
                 </div>
             </div>

@@ -93,20 +93,22 @@
                     </div>
 
                     <script>
-                    new Chart(document.getElementById('amount_chart_canvas').getContext('2d'), {
-                        type: 'line',
-                        data: {
-                            datasets: [{
-                                label: 'Amount',
-                                data: @json($product->getAmountChart($startDate, date('Y-m-d'))),
-                                borderColor: getComputedStyle(document.querySelector('.is-link')).backgroundColor,
-                                tension: 0.1
-                            }]
-                        },
-                        options: {
-                            animation: false
-                        }
-                    });
+                        (function () {
+                            const chart = new Chart(document.getElementById('amount_chart_canvas').getContext('2d'), {
+                                type: 'line',
+                                data: {
+                                    datasets: [{
+                                        label: 'Amount',
+                                        data: @json($product->getAmountChart($startDate, date('Y-m-d'))),
+                                        borderColor: getComputedStyle(document.querySelector('.is-link')).backgroundColor,
+                                        tension: 0.1
+                                    }]
+                                },
+                                options: {
+                                    animation: false
+                                }
+                            });
+                        })();
                     </script>
                 </div>
             </div>

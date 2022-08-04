@@ -23,30 +23,13 @@
     <canvas id="balance_chart_canvas" wire:ignore></canvas>
 
     <script>
-    document.addEventListener('livewire:load', () => {
-        let chart = new Chart(document.getElementById('balance_chart_canvas').getContext('2d'), {
-            type: 'line',
-            data: {
-                datasets: [{
-                    label: 'Balance ({{ App\Models\Setting::get('currency_symbol') }})',
-                    data: @json($balanceChart),
-                    borderColor: getComputedStyle(document.querySelector('.is-link')).backgroundColor,
-                    tension: 0.1
-                }]
-            },
-            options: {
-                animation: false
-            }
-        });
-
-        @this.on('refreshChart', (data) => {
-            chart.destroy();
-            chart = new Chart(document.getElementById('balance_chart_canvas').getContext('2d'), {
+        document.addEventListener('livewire:load', () => {
+            let chart = new Chart(document.getElementById('balance_chart_canvas').getContext('2d'), {
                 type: 'line',
                 data: {
                     datasets: [{
                         label: 'Balance ({{ App\Models\Setting::get('currency_symbol') }})',
-                        data: data,
+                        data: @json($balanceChart),
                         borderColor: getComputedStyle(document.querySelector('.is-link')).backgroundColor,
                         tension: 0.1
                     }]
@@ -55,7 +38,24 @@
                     animation: false
                 }
             });
+
+            @this.on('refreshChart', (data) => {
+                chart.destroy();
+                chart = new Chart(document.getElementById('balance_chart_canvas').getContext('2d'), {
+                    type: 'line',
+                    data: {
+                        datasets: [{
+                            label: 'Balance ({{ App\Models\Setting::get('currency_symbol') }})',
+                            data: data,
+                            borderColor: getComputedStyle(document.querySelector('.is-link')).backgroundColor,
+                            tension: 0.1
+                        }]
+                    },
+                    options: {
+                        animation: false
+                    }
+                });
+            });
         });
-    });
     </script>
 </div>
