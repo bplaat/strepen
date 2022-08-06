@@ -29,7 +29,7 @@
     <script>
         document.addEventListener('livewire:load', () => {
             window.addEventListener('keydown', event => {
-                if (event.key == 'Enter') {
+                if (event.key == 'Enter' && !@this.isCreated) {
                     event.preventDefault();
                     @this.createTransaction();
                 }

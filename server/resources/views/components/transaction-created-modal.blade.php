@@ -24,5 +24,15 @@
         </div>
     </div>
 
-    <script>window.scrollTo({top: 0, behavior: 'smooth'});</script>
+    <script>
+        function keydownListener(event) {
+            if (event.key == 'Enter') {
+                event.preventDefault();
+                @this.closeCreated();
+                window.removeEventListener('keydown', keydownListener);
+            }
+        }
+        window.addEventListener('keydown', keydownListener);
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    </script>
 </div>
