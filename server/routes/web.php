@@ -7,6 +7,8 @@ Route::get('/', App\Http\Livewire\Home::class)->name('home');
 
 Route::view('/apps', 'apps')->name('apps');
 
+Route::view('/release-notes', 'release-notes')->name('release-notes');
+
 // Auth routes
 Route::middleware('auth')->group(function () {
     Route::get('/posts/{post}', App\Http\Livewire\Posts\Show::class)->name('posts.show');

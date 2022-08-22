@@ -33,7 +33,7 @@
     <div class="footer">
         <div class="content has-text-centered">
             <p>@lang('layout.footer.authors')</p>
-            <p><span class="tag mr-1">v{{ config('app.version') }}</span> @lang('layout.footer.source')</p>
+            <p><a href="{{ route('release-notes') }}" class="tag mr-1">v{{ config('app.version') }}</a> @lang('layout.footer.source')</p>
         </div>
     </div>
 

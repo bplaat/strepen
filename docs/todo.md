@@ -2,7 +2,6 @@
 
 # Todo List
 
-- Birthday calendar
 - Products old price table
 - Mail queues limit on webserver
 - Better admin user charts
