@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use App\Models\Setting;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class VerifyCanKiosk
@@ -15,7 +14,7 @@ class VerifyCanKiosk
             return $next($request);
         }
 
-        // Or verify if the authed user is a manager or an admin
+        // Verify if the authed user is at least a manager
         if (Auth::check() && Auth::user()->manager) {
             return $next($request);
         }

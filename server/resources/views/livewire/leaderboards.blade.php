@@ -1,5 +1,4 @@
-<div class="container content">
-    @if ($enabled || Auth::user()->manager)
+<div class="container">
         <div class="columns">
             <div class="column is-two-thirds">
                 <h2 class="title is-4">@lang('leaderboards.header')</h2>
@@ -516,10 +515,4 @@
                 </div>
             </div>
         </div>
-    @else
-        <div class="container content">
-            <h1 class="title">@lang('leaderboards.disabled_header')</h1>
-            <p>@lang('leaderboards.disabled_info')</p>
-        </div>
-    @endif
 </div>

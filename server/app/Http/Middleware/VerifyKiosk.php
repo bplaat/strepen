@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class VerifyKiosk
@@ -10,7 +9,7 @@ class VerifyKiosk
     public function handle($request, $next)
     {
         // Verify if the authed user is the kiosk user
-        if (Auth::check() && Auth::id() == 1) {
+        if (Auth::id() == 1) {
             return $next($request);
         }
 

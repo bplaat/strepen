@@ -16,6 +16,8 @@ return [
     'change_settings.kiosk_ip_whitelist' => 'Kioskmodus IP-whitelist<br />(voor toegang zonder admin login)',
     'change_settings.leaderboards_enabled' => 'Leaderboards pagina inschakelen',
     'change_settings.leaderboards_enabled_info' => 'Schakel de leaderboards pagina in zodat iedereen deze kan zien',
+    'change_settings.casino_enabled' => 'Casino pagina inschakelen',
+    'change_settings.casino_enabled_info' => 'Schakel de casino pagina in zodat iedereen deze kan zien en gebruiken',
     'change_settings.bank_account_iban' => 'Bankrekening IBAN',
     'change_settings.bank_account_holder' => 'Bankrekeninghouder naam',
     'change_settings.button' => 'Wijzig instellingen',

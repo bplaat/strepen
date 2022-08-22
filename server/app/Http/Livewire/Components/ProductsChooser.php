@@ -66,7 +66,8 @@ class ProductsChooser extends InputComponent
     {
         $filteredProducts = $this->products;
         if (!$this->bigMode) {
-            $filteredProducts = $filteredProducts->filter(fn ($product) =>
+            $filteredProducts = $filteredProducts->filter(
+                fn ($product) =>
                 !$this->selectedProducts->pluck('product_id')->contains($product->id) &&
                 (strlen($this->productName) == 0 || stripos($product->name, $this->productName) !== false)
             );

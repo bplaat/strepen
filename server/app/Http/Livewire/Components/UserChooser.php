@@ -60,7 +60,8 @@ class UserChooser extends InputComponent
         }
     }
 
-    public function sortUsers() {
+    public function sortUsers()
+    {
         if ($this->sortBy == 'last_transaction') {
             $this->users = $this->users->map(function ($user) { // Very slow
                 $lastTransaction = $user->transactions()

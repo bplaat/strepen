@@ -83,24 +83,32 @@
             </div>
         </div>
 
-        <div class="columns">
-            <div class="column">
-                <div class="field">
-                    <label class="label" for="kioskIpWhitelist">@lang('admin/settings.change_settings.kiosk_ip_whitelist')</label>
-                    <div class="control">
-                        <input class="input @error('kioskIpWhitelist') is-danger @enderror" type="text" id="kioskIpWhitelist"
-                            wire:model.defer="kioskIpWhitelist">
-                    </div>
-                    @error('kioskIpWhitelist') <p class="help is-danger">{{ $message }}</p> @enderror
-                </div>
+        <div class="field mb-5">
+            <label class="label" for="kioskIpWhitelist">@lang('admin/settings.change_settings.kiosk_ip_whitelist')</label>
+            <div class="control">
+                <input class="input @error('kioskIpWhitelist') is-danger @enderror" type="text" id="kioskIpWhitelist"
+                    wire:model.defer="kioskIpWhitelist">
             </div>
+            @error('kioskIpWhitelist') <p class="help is-danger">{{ $message }}</p> @enderror
+        </div>
 
+        <div class="columns">
             <div class="column">
                 <div class="field">
                     <label class="label" for="leaderboardsEnabled">@lang('admin/settings.change_settings.leaderboards_enabled')</label>
                     <label class="checkbox" for="leaderboardsEnabled">
                         <input type="checkbox" id="leaderboardsEnabled" wire:model.defer="leaderboardsEnabled">
                         @lang('admin/settings.change_settings.leaderboards_enabled_info')
+                    </label>
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="field">
+                    <label class="label" for="casinoEnabled">@lang('admin/settings.change_settings.casino_enabled')</label>
+                    <label class="checkbox" for="casinoEnabled">
+                        <input type="checkbox" id="casinoEnabled" wire:model.defer="casinoEnabled">
+                        @lang('admin/settings.change_settings.casino_enabled_info')
                     </label>
                 </div>
             </div>

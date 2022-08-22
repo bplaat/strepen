@@ -8,6 +8,8 @@
             <p><i>In development</i></p>
             <ul>
                 <li>Added release notes page</li>
+                <li>Refactor small portions of the codebase</li>
+                <li>Added casino page</li>
                 <li>Fixed many bugs</li>
             </ul>
         </div>

@@ -9,7 +9,6 @@ use Livewire\Component;
 
 class Leaderboards extends Component
 {
-    public $enabled;
     public $range;
     public $oldestItemDate;
     public $startDate;
@@ -18,8 +17,6 @@ class Leaderboards extends Component
 
     public function mount()
     {
-        $this->enabled = Setting::get('leaderboards_enabled') == 'true';
-
         $firstTransaction = Transaction::orderBy('created_at')->first();
         $firstInventory = Inventory::orderBy('created_at')->first();
         $this->oldestItemDate = date('Y-m-d', min(

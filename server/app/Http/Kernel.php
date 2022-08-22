@@ -67,11 +67,13 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
 
         // Custom middleware
-        'admin' => \App\Http\Middleware\VerifyAdmin::class,
-        'manager' => \App\Http\Middleware\VerifyManager::class,
+        'api_key' => \App\Http\Middleware\VerifyApiKey::class,
         'cankiosk' => \App\Http\Middleware\VerifyCanKiosk::class,
-        'nokiosk' => \App\Http\Middleware\VerifyNoKiosk::class,
+        'manager' => \App\Http\Middleware\VerifyManager::class,
+        'admin' => \App\Http\Middleware\VerifyAdmin::class,
         'kiosk' => \App\Http\Middleware\VerifyKiosk::class,
-        'api_key' => \App\Http\Middleware\VerifyApiKey::class
+        'nokiosk' => \App\Http\Middleware\VerifyNoKiosk::class,
+        'leaderboards' => \App\Http\Middleware\VerifyLeaderboards::class,
+        'casino' => \App\Http\Middleware\VerifyCasino::class
     ];
 }

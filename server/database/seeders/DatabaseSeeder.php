@@ -87,6 +87,11 @@ class DatabaseSeeder extends Seeder
         $setting->save();
 
         $setting = new Setting();
+        $setting->key = 'casino_enabled';
+        $setting->value = 'false';
+        $setting->save();
+
+        $setting = new Setting();
         $setting->key = 'bank_account_iban';
         $setting->value = '?';
         $setting->save();

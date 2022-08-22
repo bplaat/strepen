@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use App\Models\ApiKey;
-use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 
 class VerifyApiKey

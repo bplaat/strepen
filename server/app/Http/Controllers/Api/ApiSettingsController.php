@@ -18,6 +18,7 @@ class ApiSettingsController extends Controller
             'minor_age' => (int)Setting::get('minor_age'),
             'pagination_rows' => (int)Setting::get('pagination_rows'),
             'leaderboards_enabled' => Setting::get('leaderboards_enabled') == 'true',
+            'casino_enabled' => Setting::get('casino_enabled') == 'true',
             'bank_account_iban' => Setting::get('bank_account_iban'),
             'bank_account_holder' => Setting::get('bank_account_holder'),
             'default_user_avatar' => asset('/storage/avatars/' . Setting::get('default_user_avatar')),

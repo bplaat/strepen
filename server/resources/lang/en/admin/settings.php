@@ -16,6 +16,8 @@ return [
     'change_settings.kiosk_ip_whitelist' => 'Kiosk mode IP whitelist<br />(to access without admin login)',
     'change_settings.leaderboards_enabled' => 'Enable leaderboards page',
     'change_settings.leaderboards_enabled_info' => 'Enable the leaderboards page for anyone to see',
+    'change_settings.casino_enabled' => 'Enable casino page',
+    'change_settings.casino_enabled_info' => 'Enable the casino page for anyone to see and use',
     'change_settings.bank_account_iban' => 'General bank account IBAN',
     'change_settings.bank_account_holder' => 'General bank account holder name',
     'change_settings.button' => 'Change settings',

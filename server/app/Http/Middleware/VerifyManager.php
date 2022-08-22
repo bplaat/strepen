@@ -2,15 +2,14 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class VerifyManager
 {
     public function handle($request, $next)
     {
-        // Verify if the authed user is a manager or an admin
-        if (Auth::check() && Auth::user()->manager) {
+        // Verify if the authed user is at least a manager
+        if (Auth::user()->manager) {
             return $next($request);
         }
 
