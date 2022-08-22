@@ -26,14 +26,14 @@ class KioskTest extends TestCase
     public function test_open_kiosk_direct_on_whitelist()
     {
         Setting::set('kiosk_ip_whitelist', '127.0.0.1');
-        $this->get(route('kiosk'))->assertStatus(403);
+        $this->get(route('kiosk'))->assertRedirect(route('auth.login'));
     }
 
     // Test to go to kiosk page wrong url not whitelisted
     public function test_open_kiosk_direct_not_on_whitelist()
     {
         Setting::set('kiosk_ip_whitelist', '');
-        $this->get(route('kiosk'))->assertStatus(403);
+        $this->get(route('kiosk'))->assertRedirect(route('auth.login'));
     }
 
     // Test to go to kiosk page when authed normal

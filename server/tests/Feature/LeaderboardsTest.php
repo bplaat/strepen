@@ -36,7 +36,6 @@ class LeaderboardsTest extends TestCase
         $user = User::factory()->create();
         $this->actingAs($user);
 
-        Livewire::test(Leaderboards::class)
-            ->assertSee('Leaderboards zijn uitgeschakeld');
+        $this->get(route('leaderboards'))->assertStatus(403);
     }
 }
