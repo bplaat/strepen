@@ -8,9 +8,9 @@ class VerifyNoKiosk
 {
     public function handle($request, $next)
     {
-        // Verify if the authed user is not the kiosk user if so redirect to kiosk page
+        // Verify if the authed user is not the kiosk user if so redirect to stripe page
         if (Auth::id() == 1) {
-            return redirect('kiosk');
+            return redirect('transactions.create');
         }
 
         return $next($request);

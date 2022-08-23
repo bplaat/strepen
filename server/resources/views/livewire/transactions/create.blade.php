@@ -1,7 +1,15 @@
 <div class="container">
-    <h1 class="title">@lang('transactions.create.header')</h1>
+    @if (Auth::id() == 1)
+        <h1 class="title">@lang('transactions.create.header_kiosk')</h1>
+    @else
+        <h1 class="title">@lang('transactions.create.header_no_kiosk')</h1>
+    @endif
 
     <form class="box" wire:submit.prevent="createTransaction">
+        @if (Auth::id() == 1)
+            <livewire:components.user-chooser name="user" sortBy="last_transaction" />
+        @endif
+
         <div class="field">
             <label class="label" for="name">@lang('transactions.create.name')</label>
             <div class="control">

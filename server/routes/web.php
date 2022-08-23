@@ -12,6 +12,8 @@ Route::view('/release-notes', 'release-notes')->name('release-notes');
 Route::middleware('auth')->group(function () {
     Route::get('/posts/{post}', App\Http\Livewire\Posts\Show::class)->name('posts.show');
 
+    Route::get('/stripe', App\Http\Livewire\Transactions\Create::class)->name('transactions.create');
+
     Route::middleware('leaderboards')->group(function () {
         Route::get('/leaderboards', App\Http\Livewire\Leaderboards::class)->name('leaderboards');
     });
@@ -22,15 +24,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/auth/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('auth.logout');
 
-    // Kiosk routes
-    Route::middleware('kiosk')->group(function () {
-        Route::get('/kiosk', App\Http\Livewire\Kiosk::class)->name('kiosk');
-    });
-
     // No kiosk routes
     Route::middleware('nokiosk')->group(function () {
-        Route::get('/stripe', App\Http\Livewire\Transactions\Create::class)->name('transactions.create');
-
         Route::get('/transactions', App\Http\Livewire\Transactions\History::class)->name('transactions.history');
 
         Route::get('/notifications', App\Http\Livewire\Notifications::class)->name('notifications');

@@ -3,7 +3,8 @@
 return [
     // Transactions create livewire component
     'create.title' => 'Strepen',
-    'create.header' => 'Streep producten op uw persoonlijke account',
+    'create.header_kiosk' => 'Selecteer uw naam en streep producten',
+    'create.header_no_kiosk' => 'Streep producten op uw persoonlijke account',
     'create.create_transaction' => 'Strepen',
     'create.name' => 'Naam',
     'create.name_default' => 'Transactie op',

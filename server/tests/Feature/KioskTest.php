@@ -12,7 +12,7 @@ class KioskTest extends TestCase
     public function test_open_kiosk_ip_on_whitelist()
     {
         Setting::set('kiosk_ip_whitelist', '127.0.0.1');
-        $this->get(route('admin.kiosk'))->assertRedirect(route('kiosk'));
+        $this->get(route('admin.kiosk'))->assertRedirect(route('transactions.create'));
     }
 
     // Test to go to kiosk page when ip not whitelisted
@@ -26,14 +26,14 @@ class KioskTest extends TestCase
     public function test_open_kiosk_direct_on_whitelist()
     {
         Setting::set('kiosk_ip_whitelist', '127.0.0.1');
-        $this->get(route('kiosk'))->assertRedirect(route('auth.login'));
+        $this->get(route('transactions.create'))->assertRedirect(route('auth.login'));
     }
 
     // Test to go to kiosk page wrong url not whitelisted
     public function test_open_kiosk_direct_not_on_whitelist()
     {
         Setting::set('kiosk_ip_whitelist', '');
-        $this->get(route('kiosk'))->assertRedirect(route('auth.login'));
+        $this->get(route('transactions.create'))->assertRedirect(route('auth.login'));
     }
 
     // Test to go to kiosk page when authed normal
@@ -55,7 +55,7 @@ class KioskTest extends TestCase
         $user = User::factory()->manager()->create();
         $this->actingAs($user);
 
-        $this->get(route('admin.kiosk'))->assertRedirect(route('kiosk'));
+        $this->get(route('admin.kiosk'))->assertRedirect(route('transactions.create'));
     }
 
     // Test to go to kiosk page when authed admin
@@ -66,7 +66,7 @@ class KioskTest extends TestCase
         $user = User::factory()->admin()->create();
         $this->actingAs($user);
 
-        $this->get(route('admin.kiosk'))->assertRedirect(route('kiosk'));
+        $this->get(route('admin.kiosk'))->assertRedirect(route('transactions.create'));
     }
 
     // Test kiosk / stripe page
@@ -74,6 +74,6 @@ class KioskTest extends TestCase
     {
         $this->actingAs(User::find(1));
 
-        $this->get(route('kiosk'))->assertStatus(200);
+        $this->get(route('transactions.create'))->assertStatus(200);
     }
 }

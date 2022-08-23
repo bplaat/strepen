@@ -13,7 +13,7 @@ class AdminController extends Controller
         // Login to the Kiosk user
         Auth::loginUsingId(1, true);
 
-        // Redirect to the kiosk page
-        return redirect()->route('kiosk');
+        // Redirect to the stripe page
+        return redirect()->route('transactions.create');
     }
 }

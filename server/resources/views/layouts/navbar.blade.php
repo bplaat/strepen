@@ -18,7 +18,7 @@
             @auth
                 @if (Auth::id() == 1)
                     <div class="navbar-start">
-                        <a @class(['navbar-item', 'is-active' => Route::is('kiosk')]) href="{{ route('kiosk') }}">@lang('layout.navbar.transactions_create')</a>
+                        <a @class(['navbar-item', 'is-active' => Route::is('transactions.create')]) href="{{ route('transactions.create') }}">@lang('layout.navbar.transactions_create')</a>
                         @if (App\Models\Setting::get('leaderboards_enabled') == 'true')
                             <a @class(['navbar-item', 'is-active' => Route::is('leaderboards')]) href="{{ route('leaderboards') }}">@lang('layout.navbar.leaderboards')</a>
                         @endif

@@ -2,7 +2,6 @@
 
 # Todo List
 
-- Merge kiosk page and transactions page into one
 - Products old price table
 - Mail queues limit on webserver
 - Better admin user charts
