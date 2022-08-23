@@ -21,6 +21,10 @@ class ApiSettingsController extends Controller
             'casino_enabled' => Setting::get('casino_enabled') == 'true',
             'bank_account_iban' => Setting::get('bank_account_iban'),
             'bank_account_holder' => Setting::get('bank_account_holder'),
+            'product_beer_id' => Setting::get('product_beer_id'),
+            'product_soda_id' => Setting::get('product_soda_id'),
+            'product_candybar_id' => Setting::get('product_candybar_id'),
+            'product_chips_id' => Setting::get('product_chips_id'),
             'default_user_avatar' => asset('/storage/avatars/' . Setting::get('default_user_avatar')),
             'default_user_thanks' => asset('/storage/thanks/' . Setting::get('default_user_thanks')),
             'default_product_image' => asset('/storage/products/' . Setting::get('default_product_image'))

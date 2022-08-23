@@ -138,6 +138,38 @@
             </div>
         </div>
 
+        <div class="columns">
+            <div class="column">
+                <div class="field">
+                    <label class="label">@lang('admin/settings.change_settings.product_beer_id')</label>
+                    <livewire:components.product-chooser name="product_beer" :productId="$productBeerId" inline="true" />
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="field">
+                    <label class="label">@lang('admin/settings.change_settings.product_soda_id')</label>
+                    <livewire:components.product-chooser name="product_soda" :productId="$productSodaId" inline="true" />
+                </div>
+            </div>
+        </div>
+
+        <div class="columns">
+            <div class="column">
+                <div class="field">
+                    <label class="label">@lang('admin/settings.change_settings.product_candybar_id')</label>
+                    <livewire:components.product-chooser name="product_candybar" :productId="$productCandybarId" inline="true" />
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="field">
+                    <label class="label">@lang('admin/settings.change_settings.product_chips_id')</label>
+                    <livewire:components.product-chooser name="product_chips" :productId="$productChipsId" inline="true" />
+                </div>
+            </div>
+        </div>
+
         <div class="field">
             <div class="control">
                 <button class="button is-link" type="submit">@lang('admin/settings.change_settings.button')</button>

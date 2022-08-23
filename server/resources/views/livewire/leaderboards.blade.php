@@ -35,7 +35,7 @@
                 <h2 class="title is-4 has-text-centered">@lang('leaderboards.best_beer_header')</h2>
 
                 @php
-                    $beerProductId = 1; // Weird constant
+                    $beerProductId =App\Models\Setting::get('product_beer_id');
                     $beerUsers = App\Models\User::where('active', true)->get()
                         ->map(function ($user) use ($beerProductId, $startDate) { // Very slow
                             $user->amount = DB::table('transaction_product')
@@ -112,7 +112,7 @@
                 <h2 class="title is-4 has-text-centered">@lang('leaderboards.best_soda_header')</h2>
 
                 @php
-                    $sodaProductId = 2; // Weird constant
+                    $sodaProductId =App\Models\Setting::get('product_soda_id');
                     $sodaUsers = App\Models\User::where('active', true)->get()
                         ->map(function ($user) use ($sodaProductId, $startDate) { // Very slow
                             $user->amount = DB::table('transaction_product')
@@ -189,8 +189,8 @@
                 <h2 class="title is-4 has-text-centered">@lang('leaderboards.best_snack_header')</h2>
 
                 @php
-                    $candybarProductId = 3; // Weird constant
-                    $chipsProductId = 4; // Weird constant
+                    $candybarProductId =App\Models\Setting::get('product_candybar_id');
+                    $chipsProductId =App\Models\Setting::get('product_chips_id');
                     $snackUsers = App\Models\User::where('active', true)->get()
                         ->map(function ($user) use ($candybarProductId, $chipsProductId, $startDate) { // Very slow
                             $user->amount = DB::table('transaction_product')

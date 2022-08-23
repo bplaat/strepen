@@ -86,6 +86,7 @@ class DatabaseSeeder extends Seeder
         $setting->value = 'true';
         $setting->save();
 
+        // New
         $setting = new Setting();
         $setting->key = 'casino_enabled';
         $setting->value = 'false';
@@ -99,6 +100,27 @@ class DatabaseSeeder extends Seeder
         $setting = new Setting();
         $setting->key = 'bank_account_holder';
         $setting->value = '?';
+        $setting->save();
+
+        // New
+        $setting = new Setting();
+        $setting->key = 'product_beer_id';
+        $setting->value = '1';
+        $setting->save();
+
+        $setting = new Setting();
+        $setting->key = 'product_soda_id';
+        $setting->value = '2';
+        $setting->save();
+
+        $setting = new Setting();
+        $setting->key = 'product_candybar_id';
+        $setting->value = '3';
+        $setting->save();
+
+        $setting = new Setting();
+        $setting->key = 'product_chips_id';
+        $setting->value = '4';
         $setting->save();
 
         $setting = new Setting();

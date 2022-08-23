@@ -10,6 +10,7 @@
                 <li>Added release notes page</li>
                 <li>Refactor small portions of the codebase</li>
                 <li>Added casino page</li>
+                <li>Add spinning wheel game</li>
                 <li>Fixed many bugs</li>
             </ul>
         </div>
