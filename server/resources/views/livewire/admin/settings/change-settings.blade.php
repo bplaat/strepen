@@ -117,6 +117,30 @@
         <div class="columns">
             <div class="column">
                 <div class="field">
+                    <label class="label" for="casinoSpinPrice">@lang('admin/settings.change_settings.casino_spin_price')</label>
+                    <div class="control has-icons-left">
+                        <input class="input @error('casinoSpinPrice') is-danger @enderror" type="number" id="casinoSpinPrice"
+                            step="0.01" wire:model.defer="casinoSpinPrice" required>
+                        <span class="icon is-small is-left">{{ App\Models\Setting::get('currency_symbol') }}</span>
+                    </div>
+                    @error('casinoSpinPrice') <p class="help is-danger">{{ $message }}</p> @enderror
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="field">
+                    <label class="label" for="casinoSpinPot">@lang('admin/settings.change_settings.casino_spin_pot')</label>
+                    <div class="control has-icons-left">
+                        <input class="input" type="text" id="casinoSpinPot" value="{{ App\Models\Setting::get('casino_spin_pot') }}" disabled>
+                        <span class="icon is-small is-left">{{ App\Models\Setting::get('currency_symbol') }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="columns">
+            <div class="column">
+                <div class="field">
                     <label class="label" for="bankAccountIban">@lang('admin/settings.change_settings.bank_account_iban')</label>
                     <div class="control">
                         <input class="input @error('bankAccountIban') is-danger @enderror" type="text" id="bankAccountIban"
@@ -143,6 +167,7 @@
                 <div class="field">
                     <label class="label">@lang('admin/settings.change_settings.product_beer_id')</label>
                     <livewire:components.product-chooser name="product_beer" :productId="$productBeerId" inline="true" />
+                    @error('productBeerId') <p class="help is-danger">{{ $message }}</p> @enderror
                 </div>
             </div>
 
@@ -150,6 +175,7 @@
                 <div class="field">
                     <label class="label">@lang('admin/settings.change_settings.product_soda_id')</label>
                     <livewire:components.product-chooser name="product_soda" :productId="$productSodaId" inline="true" />
+                    @error('productSodaId') <p class="help is-danger">{{ $message }}</p> @enderror
                 </div>
             </div>
         </div>
@@ -159,6 +185,7 @@
                 <div class="field">
                     <label class="label">@lang('admin/settings.change_settings.product_candybar_id')</label>
                     <livewire:components.product-chooser name="product_candybar" :productId="$productCandybarId" inline="true" />
+                    @error('productCandybarId') <p class="help is-danger">{{ $message }}</p> @enderror
                 </div>
             </div>
 
@@ -166,6 +193,7 @@
                 <div class="field">
                     <label class="label">@lang('admin/settings.change_settings.product_chips_id')</label>
                     <livewire:components.product-chooser name="product_chips" :productId="$productChipsId" inline="true" />
+                    @error('productChipsId') <p class="help is-danger">{{ $message }}</p> @enderror
                 </div>
             </div>
         </div>

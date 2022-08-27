@@ -18,6 +18,8 @@ return [
     'change_settings.leaderboards_enabled_info' => 'Schakel de leaderboards pagina in zodat iedereen deze kan zien',
     'change_settings.casino_enabled' => 'Casino pagina inschakelen',
     'change_settings.casino_enabled_info' => 'Schakel de casino pagina in zodat iedereen deze kan zien en gebruiken',
+    'change_settings.casino_spin_price' => 'Casino spin prijs',
+    'change_settings.casino_spin_pot' => 'Casino spin pot',
     'change_settings.bank_account_iban' => 'Bankrekening IBAN',
     'change_settings.bank_account_holder' => 'Bankrekeninghouder naam',
     'change_settings.product_beer_id' => 'Het bier product',

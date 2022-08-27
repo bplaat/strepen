@@ -18,6 +18,8 @@ return [
     'change_settings.leaderboards_enabled_info' => 'Enable the leaderboards page for anyone to see',
     'change_settings.casino_enabled' => 'Enable casino page',
     'change_settings.casino_enabled_info' => 'Enable the casino page for anyone to see and use',
+    'change_settings.casino_spin_price' => 'Casino spin price',
+    'change_settings.casino_spin_pot' => 'Casino spin pot',
     'change_settings.bank_account_iban' => 'General bank account IBAN',
     'change_settings.bank_account_holder' => 'General bank account holder name',
     'change_settings.product_beer_id' => 'The beer product',
