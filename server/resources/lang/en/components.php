@@ -51,6 +51,7 @@ return [
 
     // Transaction Created Modal blade component
     'transaction_created_modal_header' => 'Your transaction has been saved',
-    'transaction_created_modal_thx' => 'Done, thx!',
+    'transaction_created_modal_thanks' => ':user.firstname, thanks!',
+    'transaction_created_modal_new_balance' => 'Your new balance',
     'transaction_created_modal_close' => 'Close'
 ];

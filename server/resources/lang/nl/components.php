@@ -51,6 +51,7 @@ return [
 
     // Transaction Created Modal blade component
     'transaction_created_modal_header' => 'Uw transactie is opgeslagen',
-    'transaction_created_modal_thx' => 'Gelukt, thx!',
+    'transaction_created_modal_thanks' => ':user.firstname, bedankt!',
+    'transaction_created_modal_new_balance' => 'Jouw nieuwe balans',
     'transaction_created_modal_close' => 'Sluiten'
 ];

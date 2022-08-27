@@ -9,8 +9,8 @@
     <div class="navbar-dropdown">
         @forelse ($notifications as $notification)
             @if ($notification->type == 'App\Notifications\NewDeposit')
-                <a class="navbar-item is-notification" href="{{ route('transactions.history') }}" wire:key="{{ $notification->id }}"
-                    style="flex-direction: column; text-align: center; padding: .75rem 1rem;">
+                <a class="navbar-item is-notification has-text-centered" href="{{ route('transactions.history') }}" wire:key="{{ $notification->id }}"
+                    style="flex-direction: column; padding: .75rem 1rem;">
                     @php
                         $transaction = App\Models\Transaction::withTrashed()->find($notification->data['transaction_id']);
                     @endphp
@@ -27,8 +27,8 @@
                 @php
                     $post = App\Models\Post::withTrashed()->find($notification->data['post_id']);
                 @endphp
-                <a class="navbar-item is-notification" href="{{ route('posts.show', $post) }}" wire:key="{{ $notification->id }}"
-                    style="flex-direction: column; text-align: center; padding: .75rem 1rem;">
+                <a class="navbar-item is-notification has-text-centered" href="{{ route('posts.show', $post) }}" wire:key="{{ $notification->id }}"
+                    style="flex-direction: column; padding: .75rem 1rem;">
                     <h1 class="title is-6 mb-1" style="width: 100%; line-height: .75rem;">
                         @lang('components.notifications.new_post_header')
                         <button type="button" class="delete is-small is-pulled-right" wire:click.prevent="readNotification('{{ $notification->id }}')"></button>
@@ -38,8 +38,8 @@
             @endif
 
             @if ($notification->type == 'App\Notifications\LowBalance')
-                <a class="navbar-item is-notification" href="{{ route('balance') }}" wire:key="{{ $notification->id }}"
-                    style="flex-direction: column; text-align: center; padding: .75rem 1rem;">
+                <a class="navbar-item is-notification has-text-centered" href="{{ route('balance') }}" wire:key="{{ $notification->id }}"
+                    style="flex-direction: column; padding: .75rem 1rem;">
                     <h1 class="title is-6 mb-1" style="width: 100%; line-height: .75rem;">
                         @lang('components.notifications.low_balance_header')
                         <button type="button" class="delete is-small is-pulled-right" wire:click.prevent="readNotification('{{ $notification->id }}')"></button>

@@ -8,13 +8,14 @@
         </div>
 
         <div class="modal-card-body">
-            <div class="box" style="width: 50%; margin: 0 auto; margin-bottom: 1.5rem;">
+            <div class="box mb-5" style="width: 50%; margin: 0 auto;">
                 <div class="image is-square is-rounded" style="background-image: @if ($transaction->user->thanks != null) url(/storage/thanks/{{ $transaction->user->thanks }}) @else url(/storage/thanks/{{ App\Models\Setting::get('default_user_thanks') }}) @endif;"></div>
             </div>
 
-            <h2 class="title" style="margin-bottom: 1.5rem; text-align: center;">@lang('components.transaction_created_modal_thx')</h2>
+            <h2 class="title mb-2 has-text-centered">@lang('components.transaction_created_modal_thanks', ['user.firstname' => $transaction->user->firstname])</h2>
+            <p class="mb-5 has-text-centered">@lang('components.transaction_created_modal_new_balance'): <x-money-format :money="$transaction->user->balance"/></p>
 
-            <div style="max-width: 24rem; margin-left: auto; margin-right: auto; margin-bottom: 1rem;">
+            <div class="mb-5" style="max-width: 24rem; margin-left: auto; margin-right: auto;">
                 <x-products-amounts :products="$transaction->products()->orderByRaw('LOWER(name)')->get()" :totalPrice="$transaction->price" :createdAt="$transaction->created_at" />
             </div>
         </div>
