@@ -45,7 +45,10 @@
     "home_stripe_minor": "There are less products available because you are a minor",
     "home_stripe_stripe": "Stripe",
     "home_stripe_created": "Transaction saved",
-    "home_stripe_thx": "Done, thx!",
+    "home_stripe_thanks": "{user_firstname}, thanks!",
+    "@home_stripe_thanks": { "placeholders": { "user_firstname": {} } },
+    "home_stripe_new_balance": "Your new balance: {user_balance}",
+    "@home_stripe_new_balance": { "placeholders": { "user_balance": {} } },
 
     "home_history_empty": "You don't have striped any products!",
     "home_history_error": "An error has occurred while loading your stripe history!",
@@ -55,7 +58,8 @@
     "@home_history_deposit_on": { "placeholders": { "transaction_created_at": {} } },
     "home_history_payment_on": "Payment on {transaction_created_at}",
     "@home_history_payment_on": { "placeholders": { "transaction_created_at": {} } },
-    "home_history_amount": "Amount",
+    "home_history_amount": "Amount: {amount}",
+    "@home_history_amount": { "placeholders": { "amount": {} } },
 
     "home_profile_error": "An error has occurred while loading your user information!",
     "home_profile_settings": "Settings",

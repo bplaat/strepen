@@ -344,8 +344,12 @@ class TransactionCreatedDialog extends StatelessWidget {
                 ),
 
                 Container(
+                  margin: EdgeInsets.only(bottom: 8),
+                  child: Text(lang.home_stripe_thanks(user.firstname), style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500))
+                ),
+                Container(
                   margin: EdgeInsets.only(bottom: 24),
-                  child: Text(lang.home_stripe_thx, style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500))
+                  child: Text(lang.home_stripe_new_balance('${settings['currency_symbol']} ${user.balance!.toStringAsFixed(2)}'), style: TextStyle(fontSize: 16))
                 ),
 
                 TransactionProductsAmounts(products: productAmounts, totalPrice: null, settings: settings),

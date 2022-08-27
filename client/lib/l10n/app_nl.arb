@@ -42,7 +42,10 @@
     "home_stripe_minor": "Er zijn minder producten beschikbaar omdat je minderjarig bent",
     "home_stripe_stripe": "Strepen",
     "home_stripe_created": "Transactie opgeslagen",
-    "home_stripe_thx": "Bedankt, thx!",
+    "home_stripe_thanks": "{user_firstname}, bedankt!",
+    "@home_stripe_thanks": { "placeholders": { "user_firstname": {} } },
+    "home_stripe_new_balance": "Youw nieuwe balans: {user_balance}",
+    "@home_stripe_new_balance": { "placeholders": { "user_balance": {} } },
 
     "home_history_empty": "Uw hebt nog geen enkel product gestreept!",
     "home_history_error": "Er is een fout opgetreden bij het laden van jouw strepen geschiedenis!",
@@ -52,7 +55,8 @@
     "@home_history_deposit_on": { "placeholders": { "transaction_created_at": {} } },
     "home_history_payment_on": "Betaling op {transaction_created_at}",
     "@home_history_payment_on": { "placeholders": { "transaction_created_at": {} } },
-    "home_history_amount": "Hoeveelheid",
+    "home_history_amount": "Hoeveelheid: {amount}",
+    "@home_history_amount": { "placeholders": { "amount": {} } },
 
     "home_profile_error": "Er is een fout opgetreden tijdens het laden van uw gebruikersinformatie!",
     "home_profile_settings": "Instellingen",
