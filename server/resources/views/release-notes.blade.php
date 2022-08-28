@@ -9,9 +9,11 @@
             <ul>
                 <li>Added release notes page</li>
                 <li>Refactor small portions of the codebase</li>
+                <li>Add name and balance to transaction created modal</li>
+                <li>Moved some hard id constants to settings</li>
                 <li>Added casino page</li>
                 <li>Add spinning wheel game</li>
-                <li>Add name and balance to transaction created modal</li>
+                <li>Made leaderboards and casino page more secure</li>
                 <li>Fixed many bugs</li>
             </ul>
         </div>
