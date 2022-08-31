@@ -23,7 +23,7 @@ class ImportData extends Command
      *
      * @var string
      */
-    protected $signature = 'import-data {url} {--export}';
+    protected $signature = 'import-data {url} {--import} {--export}';
 
     /**
      * The console command description.
@@ -50,6 +50,7 @@ class ImportData extends Command
     public function handle()
     {
         $url = $this->argument('url');
+        $import = $this->option('import');
         $export = $this->option('export');
 
         if (!$export) {
@@ -87,11 +88,15 @@ class ImportData extends Command
         // Get all the user information
         echo "Importing all users...\n\n";
         $oldUserIds = [ 181 => 2 ];
-        $data = file_get_contents($url . '/bonnen/index.php?id=15&newsId=' . urlencode('0 UNION SELECT \'\', \'\', \'\', CONCAT(\'{"old_user_id":\', id, \',"name":"\', naam, \'","email":"\', email, \'","active":\', active, \',"receive_news":\', mailinglist, \'}\') FROM stamleden'), false, $http_context);
-        preg_match_all('/<p>\{([^\}]+)/m', $data, $itemsJson);
         $usersJson = [];
-        foreach ($itemsJson[1] as $itemJson) {
-            $usersJson[] = json_decode('{' . $itemJson . '}');
+        if (!$import) {
+            $data = file_get_contents($url . '/bonnen/index.php?id=15&newsId=' . urlencode('0 UNION SELECT \'\', \'\', \'\', CONCAT(\'{"old_user_id":\', id, \',"name":"\', naam, \'","email":"\', email, \'","active":\', active, \',"receive_news":\', mailinglist, \'}\') FROM stamleden'), false, $http_context);
+            preg_match_all('/<p>\{([^\}]+)/m', $data, $itemsJson);
+            foreach ($itemsJson[1] as $itemJson) {
+                $usersJson[] = json_decode('{' . $itemJson . '}');
+            }
+        } else {
+            $usersJson = json_decode(file_get_contents($url . '/users.json'));
         }
 
         if ($export) {
@@ -125,17 +130,22 @@ class ImportData extends Command
                 echo "\033[F" . ($index + 1) . ' / ' . $total . ' = ' . round(($index + 1) / $total * 100, 2) . "%\n";
             }
         }
+        $oldUserIds[48] = 1; // Cash account is now Strepen System account
         echo "Importing users done!\n";
 
         // Get all the posts information
         echo "Importing all posts...\n\n";
-        $data = file_get_contents($url . '/bonnen/index.php?id=15&newsId=' . urlencode('0 UNION SELECT \'\', \'\', id, CONCAT(\'{"title":"\', onderwerp, \'","body":"\', TO_BASE64(bericht), \'","created_at":"\', datum, \'"}\') FROM nieuws'), false, $http_context);
-        preg_match_all('/<p>\{([^\}]+)/m', $data, $itemsJson);
         $postsJson = [];
-        foreach ($itemsJson[1] as $itemJson) {
-            $postJson = json_decode('{' . str_replace("\n", '', $itemJson) . '}');
-            $postJson->body = str_replace("\r\n", "\n\n", str_replace('<br />', '', base64_decode($postJson->body)));
-            $postsJson[] = $postJson;
+        if (!$import) {
+            $data = file_get_contents($url . '/bonnen/index.php?id=15&newsId=' . urlencode('0 UNION SELECT \'\', \'\', id, CONCAT(\'{"title":"\', onderwerp, \'","body":"\', TO_BASE64(bericht), \'","created_at":"\', datum, \'"}\') FROM nieuws'), false, $http_context);
+            preg_match_all('/<p>\{([^\}]+)/m', $data, $itemsJson);
+            foreach ($itemsJson[1] as $itemJson) {
+                $postJson = json_decode('{' . str_replace("\n", '', $itemJson) . '}');
+                $postJson->body = str_replace("\r\n", "\n\n", str_replace('<br />', '', base64_decode($postJson->body)));
+                $postsJson[] = $postJson;
+            }
+        } else {
+            $postsJson = json_decode(file_get_contents($url . '/posts.json'));
         }
 
         if ($export) {
@@ -163,11 +173,15 @@ class ImportData extends Command
         // Get all the product information
         echo "Importing all products...\n\n";
         $oldProductIds = [];
-        $data = file_get_contents($url . '/bonnen/index.php?id=15&newsId=' . urlencode('0 UNION SELECT \'\', \'\', id, CONCAT(\'{"old_product_id":\', id, \',"name":"\', omschrijving, \'","price":\', prijs, \',"active":\', active, \'}\') FROM product'), false, $http_context);
-        preg_match_all('/<p>\{([^\}]+)/m', $data, $itemsJson);
         $productsJson = [];
-        foreach ($itemsJson[1] as $itemJson) {
-            $productsJson[] = json_decode('{' . $itemJson . '}');
+        if (!$import) {
+            $data = file_get_contents($url . '/bonnen/index.php?id=15&newsId=' . urlencode('0 UNION SELECT \'\', \'\', id, CONCAT(\'{"old_product_id":\', id, \',"name":"\', omschrijving, \'","price":\', prijs, \',"active":\', active, \'}\') FROM product'), false, $http_context);
+            preg_match_all('/<p>\{([^\}]+)/m', $data, $itemsJson);
+            foreach ($itemsJson[1] as $itemJson) {
+                $productsJson[] = json_decode('{' . $itemJson . '}');
+            }
+        } else {
+            $productsJson = json_decode(file_get_contents($url . '/products.json'));
         }
 
         if ($export) {
@@ -193,11 +207,15 @@ class ImportData extends Command
 
         // Get all inventory information
         echo "Importing all inventories...\n\n";
-        $data = file_get_contents($url . '/bonnen/index.php?id=15&newsId=' . urlencode('0 UNION SELECT \'\', \'\', \'\', CONCAT(\'{"old_inventory_id":\', id, \',"old_product_id":\', product_id, \',"amount":\', aantal, \',"action":"\', actie, \'","created_at":"\', datum, \'"}\') FROM inkoop'), false, $http_context);
-        preg_match_all('/<p>\{([^\}]+)/m', $data, $itemsJson);
         $inventoriesJson = [];
-        foreach ($itemsJson[1] as $itemJson) {
-            $inventoriesJson[] = json_decode('{' . $itemJson . '}');
+        if (!$import) {
+            $data = file_get_contents($url . '/bonnen/index.php?id=15&newsId=' . urlencode('0 UNION SELECT \'\', \'\', \'\', CONCAT(\'{"old_inventory_id":\', id, \',"old_product_id":\', product_id, \',"amount":\', aantal, \',"action":"\', actie, \'","created_at":"\', datum, \'"}\') FROM inkoop'), false, $http_context);
+            preg_match_all('/<p>\{([^\}]+)/m', $data, $itemsJson);
+            foreach ($itemsJson[1] as $itemJson) {
+                $inventoriesJson[] = json_decode('{' . $itemJson . '}');
+            }
+        } else {
+            $inventoriesJson = json_decode(file_get_contents($url . '/inventories.json'));
         }
 
         if ($export) {
@@ -304,11 +322,15 @@ class ImportData extends Command
 
         // Get all transactions information
         echo "Importing all transactions...\n\n";
-        $data = file_get_contents($url . '/bonnen/index.php?id=15&newsId=' . urlencode('0 UNION SELECT \'\', \'\', \'\', CONCAT(\'{"old_transaction_id":\', id, \',"old_user_id":\', lid_id, \',"old_product_id":\', product_id, \',"amount":\', aantal, \',"price":"\', prijs, \'","created_at":"\', datum, \'"}\') FROM schuld'), false, $http_context);
-        preg_match_all('/<p>\{([^\}]+)/m', $data, $itemsJson);
         $transactionsJson = [];
-        foreach ($itemsJson[1] as $itemJson) {
-            $transactionsJson[] = json_decode('{' . $itemJson . '}');
+        if (!$import) {
+            $data = file_get_contents($url . '/bonnen/index.php?id=15&newsId=' . urlencode('0 UNION SELECT \'\', \'\', \'\', CONCAT(\'{"old_transaction_id":\', id, \',"old_user_id":\', lid_id, \',"old_product_id":\', product_id, \',"amount":\', aantal, \',"price":"\', prijs, \'","created_at":"\', datum, \'"}\') FROM schuld'), false, $http_context);
+            preg_match_all('/<p>\{([^\}]+)/m', $data, $itemsJson);
+            foreach ($itemsJson[1] as $itemJson) {
+                $transactionsJson[] = json_decode('{' . $itemJson . '}');
+            }
+        } else {
+            $transactionsJson = json_decode(file_get_contents($url . '/transactions.json'));
         }
 
         function createTransactionProduct($transactionProduct)
