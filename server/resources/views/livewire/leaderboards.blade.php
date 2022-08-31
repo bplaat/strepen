@@ -364,7 +364,7 @@
                 <h2 class="title is-4 has-text-centered">@lang('leaderboards.best_balance_header')</h2>
 
                 @php
-                    $users = App\Models\User::where('active', true)->orderByDesc('balance')->limit(10)->get();
+                    $users = App\Models\User::where('active', true)->orderBy('balance', 'DESC')->limit(10)->get();
                 @endphp
 
                 <table class="table is-fullwidth">

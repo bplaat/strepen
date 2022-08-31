@@ -1,10 +1,10 @@
 [&laquo; Back to the README.md](../README.md)
 
 # Todo List
-- Casino spin wheel
-- Server database automatic backups
 - Products old price table refactor
+- Casino spin wheel
 
+- Server database automatic backups
 - Mail queues limit on webserver
 - Better admin user charts
 - Better admin product charts
