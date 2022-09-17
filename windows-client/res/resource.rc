@@ -13,6 +13,7 @@ STRINGTABLE LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 {
     ID_STRING_APP_NAME "Strepen\x00"
     ID_STRING_WEBVIEW_URL "https://stam.diekantankys.nl/\x00"
+    ID_STRING_CLEAR_DATA_MENU "Clear browser data\x00"
     ID_STRING_ABOUT_MENU "About\x00"
     ID_STRING_ABOUT_TITLE "About Strepen Windows App\x00"
     ID_STRING_ABOUT_TEXT_FORMAT "Strepen Windows App v%d.%d.%d.%d\n"
@@ -25,6 +26,7 @@ STRINGTABLE LANGUAGE LANG_DUTCH, SUBLANG_DUTCH
 {
     ID_STRING_APP_NAME "Strepen\x00"
     ID_STRING_WEBVIEW_URL "https://stam.diekantankys.nl/\x00"
+    ID_STRING_CLEAR_DATA_MENU "Verwijder browser gegevens\x00"
     ID_STRING_ABOUT_MENU "Over\x00"
     ID_STRING_ABOUT_TITLE "Over Strepen Windows App\x00"
     ID_STRING_ABOUT_TEXT_FORMAT "Strepen Windows App v%d.%d.%d.%d\n"
@@ -34,8 +36,8 @@ STRINGTABLE LANGUAGE LANG_DUTCH, SUBLANG_DUTCH
 
 // Version Information
 VS_VERSION_INFO VERSIONINFO
-FILEVERSION 1,3,0,0
-PRODUCTVERSION 1,3,0,0
+FILEVERSION 1,4,0,0
+PRODUCTVERSION 1,4,0,0
 FILEFLAGSMASK 0
 FILEFLAGS 0
 FILEOS VOS__WINDOWS32
@@ -48,12 +50,12 @@ FILESUBTYPE VFT2_UNKNOWN
         {
             VALUE "CompanyName", "PlaatSoft"
             VALUE "FileDescription", "Strepen"
-            VALUE "FileVersion", "1.3.0.0"
+            VALUE "FileVersion", "1.4.0.0"
             VALUE "InternalName", "Strepen"
             VALUE "LegalCopyright", "Copyright \xA9 2021 - 2022 PlaatSoft"
             VALUE "OriginalFilename", "strepen.exe"
             VALUE "ProductName", "Strepen"
-            VALUE "ProductVersion", "1.3.0.0"
+            VALUE "ProductVersion", "1.4.0.0"
         }
     }
     BLOCK "VarFileInfo"

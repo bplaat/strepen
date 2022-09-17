@@ -5,7 +5,8 @@
 #include "WebView2.h"
 #include "../res/resource.h"
 
-#define ID_MENU_ABOUT 1
+#define ID_MENU_CLEAR_DATA 1
+#define ID_MENU_ABOUT 2
 
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720
@@ -219,13 +220,19 @@ HRESULT STDMETHODCALLTYPE ControllerCompletedHandler_Invoke(ICoreWebView2CreateC
     }
     controller = new_controller;
     ICoreWebView2Controller_AddRef(controller);
+    ICoreWebView2Controller_get_CoreWebView2(controller, &webview2);
 
     ICoreWebView2AcceleratorKeyPressedEventHandler *newAcceleratorKeyPressedHandler = malloc(sizeof(ICoreWebView2AcceleratorKeyPressedEventHandler));
     newAcceleratorKeyPressedHandler->lpVtbl = &AcceleratorKeyPressedHandlerVtbl;
     ICoreWebView2Controller_add_AcceleratorKeyPressed(controller, newAcceleratorKeyPressedHandler, NULL);
 
-    ICoreWebView2Controller_get_CoreWebView2(controller, &webview2);
-    ICoreWebView2_AddRef(webview2);
+    ICoreWebView2_13 *webview2_13;
+    ICoreWebView2_QueryInterface(webview2, &IID_ICoreWebView2_13, (void **)&webview2_13);
+    ICoreWebView2Profile *profile;
+    ICoreWebView2_13_get_Profile(webview2_13, &profile);
+    ICoreWebView2_13_Release(webview2_13);
+    ICoreWebView2Profile_put_PreferredColorScheme(profile, COREWEBVIEW2_PREFERRED_COLOR_SCHEME_DARK);
+    ICoreWebView2Profile_Release(profile);
 
     ICoreWebView2Settings *settings;
     ICoreWebView2_get_Settings(webview2, &settings);
@@ -255,13 +262,35 @@ LRESULT WINAPI WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     if (msg == WM_CREATE) {
         HMENU sysMenu = GetSystemMenu(hwnd, FALSE);
         InsertMenu(sysMenu, 5, MF_BYPOSITION | MF_SEPARATOR, 0, NULL);
-        InsertMenu(sysMenu, 6, MF_BYPOSITION, ID_MENU_ABOUT, GetString(ID_STRING_ABOUT_MENU));
+        InsertMenu(sysMenu, 6, MF_BYPOSITION, ID_MENU_CLEAR_DATA, GetString(ID_STRING_CLEAR_DATA_MENU));
+        InsertMenu(sysMenu, 7, MF_BYPOSITION, ID_MENU_ABOUT, GetString(ID_STRING_ABOUT_MENU));
         return 0;
     }
 
     // Menu commands
     if (msg == WM_SYSCOMMAND) {
         UINT id = LOWORD(wParam);
+
+        if (id == ID_MENU_CLEAR_DATA) {
+            if (webview2 != NULL) {
+                ICoreWebView2_13 *webview2_13;
+                ICoreWebView2_QueryInterface(webview2, &IID_ICoreWebView2_13, (void **)&webview2_13);
+
+                ICoreWebView2Profile *profile;
+                ICoreWebView2_13_get_Profile(webview2_13, &profile);
+                ICoreWebView2_13_Release(webview2_13);
+
+                ICoreWebView2Profile2 *profile2;
+                ICoreWebView2Profile2_QueryInterface(profile, &IID_ICoreWebView2Profile2, (void **)&profile2);
+                ICoreWebView2Profile_Release(profile);
+                ICoreWebView2Profile2_ClearBrowsingDataAll(profile2, NULL);
+                ICoreWebView2Profile2_Release(profile2);
+
+                ICoreWebView2_2_Reload(webview2);
+            }
+            return 0;
+        }
+
         if (id == ID_MENU_ABOUT) {
             UINT app_version[4];
             GetAppVersion(app_version);
