@@ -12,8 +12,9 @@
                 <li>Add name and balance to transaction created modal</li>
                 <li>Moved some hard id constants to settings</li>
                 <li>Added casino page</li>
-                <li>Add spinning wheel game</li>
+                {{-- <li>Add spinning wheel game</li> --}}
                 <li>Made leaderboards and casino page more secure</li>
+                <li>Fixed some column width issues on smaller screens</li>
                 <li>Fixed many bugs</li>
             </ul>
         </div>

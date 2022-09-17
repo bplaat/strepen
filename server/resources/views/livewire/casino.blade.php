@@ -1,7 +1,8 @@
 <div class="container">
     <h2 class="title">@lang('casino.header')</h2>
+    <p>Work in progess...</p>
 
-    <form class="box" wire:submit.prevent="spin">
+    {{-- <form class="box" wire:submit.prevent="spin">
         <h2 class="title is-4 mb-3">@lang('casino.spin.header')</h2>
         <p class="mb-5"><i>@lang('casino.spin.description')</i></p>
 
@@ -24,5 +25,5 @@
                 <button type="submit" class="button is-link is-fullwidth p-5" wire:loading.attr="disabled">@lang('casino.spin.button')&nbsp;<x-money-format :money="$spinPrice" /></button>
             </div>
         </div>
-    </form>
+    </form> --}}
 </div>
