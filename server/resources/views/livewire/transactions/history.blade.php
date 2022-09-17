@@ -23,7 +23,7 @@
 
         <div class="columns is-multiline">
             @foreach ($transactions as $transaction)
-                <div class="column is-one-third" wire:key="{{ $transaction->id }}">
+                <div class="column is-half-tablet is-one-third-desktop" wire:key="{{ $transaction->id }}">
                     <div class="card">
                         <div class="card-content content">
                             <h4>{{ $transaction->name }}</h4>

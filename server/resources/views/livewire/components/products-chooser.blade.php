@@ -21,7 +21,7 @@
                     $selectedProduct = $selectedProducts->firstWhere('product_id', $product->id);
                 @endphp
 
-                <div class="column is-one-quarter" wire:key="columns-{{ $product->id }}">
+                <div class="column is-half-tablet is-one-third-desktop is-one-quarter-widescreen" wire:key="columns-{{ $product->id }}">
                     <div class="card">
                         <div class="card-image">
                             <div class="image is-square" style="background-image: url(/storage/products/{{ $product->image ?? App\Models\Setting::get('default_product_image') }});"></div>
@@ -35,10 +35,11 @@
 
                         <div class="card-content content">
                             <h4 class="mb-3" style="font-weight: 600;">
-                                {{ $product->name }}: <x-money-format :money="$product->price" :isBold="false" />
+                                {{ $product->name }}
+                                <span style="float: right;"><x-money-format :money="$product->price" :isBold="false" /></span>
                             </h4>
 
-                            <p class="mb-4"><i>{{ $product->description ?? __('admin/products.item.no_description') }}</i></p>
+                            <p class="mb-4 ellipsis"><i>{{ $product->description ?? __('admin/products.item.no_description') }}</i></p>
 
                             <div class="columns is-mobile">
                                 <div class="column">

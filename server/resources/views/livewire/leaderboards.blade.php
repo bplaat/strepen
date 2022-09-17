@@ -30,7 +30,7 @@
     </div>
 
     <div class="columns is-multiline">
-        <div class="column is-half">
+        <div class="column is-full-tablet is-half-desktop">
             <div class="box">
                 <h2 class="title is-4 has-text-centered">@lang('leaderboards.best_beer_header')</h2>
 
@@ -107,7 +107,7 @@
             </div>
         </div>
 
-        <div class="column is-half">
+        <div class="column is-full-tablet is-half-desktop">
             <div class="box">
                 <h2 class="title is-4 has-text-centered">@lang('leaderboards.best_soda_header')</h2>
 
@@ -184,7 +184,7 @@
             </div>
         </div>
 
-        <div class="column is-half">
+        <div class="column is-full-tablet is-half-desktop">
             <div class="box">
                 <h2 class="title is-4 has-text-centered">@lang('leaderboards.best_snack_header')</h2>
 
@@ -265,7 +265,7 @@
             </div>
         </div>
 
-        <div class="column is-half">
+        <div class="column is-full-tablet is-half-desktop">
             <div class="box">
                 <h2 class="title is-4 has-text-centered">@lang('leaderboards.best_spenders_header')</h2>
 
@@ -359,7 +359,7 @@
             </div>
         </div>
 
-        <div class="column is-half">
+        <div class="column is-full-tablet is-half-desktop">
             <div class="box">
                 <h2 class="title is-4 has-text-centered">@lang('leaderboards.best_balance_header')</h2>
 
@@ -437,7 +437,7 @@
             </div>
         </div>
 
-        <div class="column is-half">
+        <div class="column is-full-tablet is-half-desktop">
             <div class="box">
                 <h2 class="title is-4 has-text-centered">@lang('leaderboards.worst_balance_header')</h2>
 

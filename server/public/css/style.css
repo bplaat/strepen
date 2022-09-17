@@ -1,4 +1,5 @@
 pre{white-space:pre-wrap}
+.ellipsis{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 .column>.box:not(.not-fullheight){height:100%}
 .column>.card{display:flex;flex-direction:column;height:100%;margin-bottom:0;overflow:hidden}
