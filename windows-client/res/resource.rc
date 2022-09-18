@@ -5,8 +5,11 @@
 // Manifest
 ID_MANIFEST MANIFEST "../build/app.min.manifest"
 
-// Icon
+// Icons
 ID_ICON_APP ICON "icon.ico"
+
+// Images
+ID_IMAGE_ICON IMAGE "icon.png"
 
 // English Strings
 STRINGTABLE LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
