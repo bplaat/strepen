@@ -14,10 +14,10 @@ If you don't want to use the Google Play store, you can always download the late
 ## Install the Windows App
 You can download the latest `.zip` bundle of the Windows app from the [release tab](https://github.com/bplaat/strepen/releases).
 
-You need to install the [Microsoft Edge Webview2 Redistribution](https://github.com/bplaat/strepen/releases/download/windows-client-v1.3.0/MicrosoftEdgeWebview2Setup.exe) if you are running an older version of windows.
+You need to install the [Microsoft Edge Webview2 Redistribution](https://github.com/bplaat/strepen/releases/download/windows-client-v1.4.0/MicrosoftEdgeWebview2Setup.exe) if you are running an older version of windows.
 
-<a href="https://github.com/bplaat/strepen/releases/download/windows-client-v1.3.0/strepen-win64.zip"><img alt="Download Strepen App (Windows 7+ 64-bit)" src="docs/images/windows-app-download.png"></a> &nbsp; &nbsp; &nbsp;
-<a href="https://github.com/bplaat/strepen/releases/download/windows-client-v1.3.0/MicrosoftEdgeWebview2Setup.exe"><img alt="Webview2 Redistribution" src="docs/images/windows-webview2-download.png"></a>
+<a href="https://github.com/bplaat/strepen/releases/download/windows-client-v1.4.0/strepen-win64.zip"><img alt="Download Strepen App (Windows 7+ 64-bit)" src="docs/images/windows-app-download.png"></a> &nbsp; &nbsp; &nbsp;
+<a href="https://github.com/bplaat/strepen/releases/download/windows-client-v1.4.0/MicrosoftEdgeWebview2Setup.exe"><img alt="Webview2 Redistribution" src="docs/images/windows-webview2-download.png"></a>
 
 ## Documentation
 - [Installation documentation](docs/installation.md)

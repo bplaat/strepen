@@ -205,11 +205,11 @@ HRESULT STDMETHODCALLTYPE Unknown_QueryInterface(IUnknown *This, REFIID riid, vo
 }
 
 ULONG STDMETHODCALLTYPE Unknown_AddRef(IUnknown *This) {
-    return 0;
+    return E_NOTIMPL;
 }
 
 ULONG STDMETHODCALLTYPE Unknown_Release(IUnknown *This) {
-    return 0;
+    return E_NOTIMPL;
 }
 
 // Forward interface reference
