@@ -348,7 +348,7 @@ LRESULT WINAPI AboutWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
         SelectObject(hdcBuffer, bitmapBuffer);
 
         // Draw background color
-        HBRUSH brush = CreateSolidBrush(0xa0a0a0a);
+        HBRUSH brush = CreateSolidBrush(0x0a0a0a);
         RECT rect = { 0, 0, clientRect.right, clientRect.bottom };
         FillRect(hdcBuffer, &rect, brush);
         DeleteObject(brush);
@@ -543,7 +543,7 @@ void _start(void) {
     wc.hInstance = instance;
     wc.hIcon = (HICON)LoadImage(instance, MAKEINTRESOURCE(ID_ICON_APP), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_DEFAULTCOLOR | LR_SHARED);
     wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-    wc.hbrBackground = CreateSolidBrush(0xa0a0a0a);
+    wc.hbrBackground = CreateSolidBrush(0x0a0a0a);
     wc.lpszClassName = L"strepen";
     wc.hIconSm = (HICON)LoadImage(instance, MAKEINTRESOURCE(ID_ICON_APP), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR | LR_SHARED);
     RegisterClassEx(&wc);
