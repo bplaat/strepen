@@ -8,6 +8,6 @@ if [[ $1 = "release" ]]; then
 else
     clang -x objective-c strepen.m -framework Cocoa -framework WebKit -o Strepen.app/Contents/MacOS/Strepen || exit 1
 fi
-cp AppIcon.icns Strepen.app/Contents/Resources
+cp -r Resources Strepen.app/Contents
 cp Info.plist Strepen.app/Contents
 open Strepen.app

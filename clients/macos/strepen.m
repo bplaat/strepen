@@ -1,6 +1,8 @@
 #import <Cocoa/Cocoa.h>
 #import <WebKit/WebKit.h>
 
+#define LocalizedString(key) NSLocalizedString(key, nil)
+
 NSApplication *application;
 NSWindow *window;
 WKWebView *webview;
@@ -29,13 +31,13 @@ WKWebView *webview;
     NSMenu *appMenu = [[NSMenu alloc] init];
     [menuBarItem setSubmenu:appMenu];
 
-    NSMenuItem* aboutMenuItem = [[NSMenuItem alloc] initWithTitle:@"About Strepen"
+    NSMenuItem* aboutMenuItem = [[NSMenuItem alloc] initWithTitle:LocalizedString(@"menu_about")
         action:@selector(openAboutAlert:) keyEquivalent:@""];
     [appMenu addItem:aboutMenuItem];
 
     [appMenu addItem:[NSMenuItem separatorItem]];
 
-    NSMenuItem* quitMenuItem = [[NSMenuItem alloc] initWithTitle:@"Quit Strepen"
+    NSMenuItem* quitMenuItem = [[NSMenuItem alloc] initWithTitle:LocalizedString(@"menu_quit")
         action:@selector(terminate:) keyEquivalent:@"q"];
     [appMenu addItem:quitMenuItem];
 
@@ -44,7 +46,7 @@ WKWebView *webview;
         styleMask:NSWindowStyleMaskTitled | NSWindowStyleMaskClosable | NSWindowStyleMaskMiniaturizable | NSWindowStyleMaskResizable
         backing:NSBackingStoreBuffered
         defer:NO];
-    window.title = @"Strepen";
+    window.title = LocalizedString(@"app_name");
     window.titlebarAppearsTransparent = YES;
     CGFloat windowX = (NSWidth(window.screen.frame) - NSWidth(window.frame)) / 2;
     CGFloat windowY = (NSHeight(window.screen.frame) - NSHeight(window.frame)) / 2;
@@ -57,7 +59,7 @@ WKWebView *webview;
     // Create webview
     webview = [[WKWebView alloc] initWithFrame:[window.contentView bounds]];
     [webview setValue: @NO forKey: @"drawsBackground"];
-    NSURL *url = [NSURL URLWithString:@"https://stam.diekantankys.nl/"];
+    NSURL *url = [NSURL URLWithString:LocalizedString(@"webview_url")];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [webview loadRequest:request];
     [window.contentView addSubview:webview];
@@ -73,8 +75,8 @@ WKWebView *webview;
 
 - (void)openAboutAlert:(NSNotification *)aNotification {
     NSAlert *alert = [[NSAlert alloc] init];
-    [alert setMessageText:@"About Strepen macOS App"];
-    [alert setInformativeText:@"Made by Bastiaan van der Plaat\nCopyright © 2023 Bastiaan van der Plaat"];
+    [alert setMessageText:LocalizedString(@"about_title")];
+    [alert setInformativeText:LocalizedString(@"about_text")];
     [alert runModal];
 }
 @end
