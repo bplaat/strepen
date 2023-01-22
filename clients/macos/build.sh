@@ -1,3 +1,4 @@
+find . -name ".DS_Store" -delete
 mkdir -p Strepen.app/Contents/MacOS Strepen.app/Contents/Resources
 if [[ $1 = "release" ]]; then
     clang -x objective-c --target=arm64-macos -Os strepen.m -framework Cocoa -framework WebKit -o Strepen-arm64 || exit 1
@@ -10,4 +11,7 @@ else
 fi
 cp -r Resources Strepen.app/Contents
 cp Info.plist Strepen.app/Contents
+if [[ $1 = "release" ]]; then
+    zip -r Strepen.app.zip Strepen.app
+fi
 open Strepen.app
