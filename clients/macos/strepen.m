@@ -12,7 +12,7 @@ WKWebView *webview;
 
 @implementation WindowDelegate
 - (void)windowDidResize:(NSNotification *)notification {
-    [webview setFrame:[window.contentView bounds]];
+    webview.frame = [window.contentView bounds];
 }
 @end
 
@@ -23,13 +23,13 @@ WKWebView *webview;
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Create menu
     NSMenu *menubar = [[NSMenu alloc] init];
-    [application setMainMenu:menubar];
+    application.mainMenu = menubar;
 
     NSMenuItem *menuBarItem = [[NSMenuItem alloc] init];
     [menubar addItem:menuBarItem];
 
     NSMenu *appMenu = [[NSMenu alloc] init];
-    [menuBarItem setSubmenu:appMenu];
+    menuBarItem.submenu = appMenu;
 
     NSMenuItem* aboutMenuItem = [[NSMenuItem alloc] initWithTitle:LocalizedString(@"menu_about")
         action:@selector(openAboutAlert:) keyEquivalent:@""];
@@ -53,12 +53,11 @@ WKWebView *webview;
     [window setFrame:NSMakeRect(windowX, windowY, NSWidth(window.frame), NSHeight(window.frame)) display:YES];
     window.minSize = NSMakeSize(640, 480);
     window.backgroundColor = [NSColor colorWithRed:(0x0a / 255.f) green:(0x0a / 255.f) blue:(0x0a / 255.f) alpha:1];
-    WindowDelegate *delegate = [[WindowDelegate alloc] init];
-    [window setDelegate:delegate];
+    window.delegate = [[WindowDelegate alloc] init];
 
     // Create webview
     webview = [[WKWebView alloc] initWithFrame:[window.contentView bounds]];
-    [webview setValue: @NO forKey: @"drawsBackground"];
+    [webview setValue:@NO forKey:@"drawsBackground"];
     NSURL *url = [NSURL URLWithString:LocalizedString(@"webview_url")];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [webview loadRequest:request];
@@ -75,16 +74,15 @@ WKWebView *webview;
 
 - (void)openAboutAlert:(NSNotification *)aNotification {
     NSAlert *alert = [[NSAlert alloc] init];
-    [alert setMessageText:LocalizedString(@"about_title")];
-    [alert setInformativeText:LocalizedString(@"about_text")];
+    alert.messageText = LocalizedString(@"about_title");
+    alert.informativeText = LocalizedString(@"about_text");
     [alert runModal];
 }
 @end
 
 int main(void) {
     application = [NSApplication sharedApplication];
-    AppDelegate *delegate = [[AppDelegate alloc] init];
-    [application setDelegate:delegate];
+    application.delegate = [[AppDelegate alloc] init];
     [application run];
     return EXIT_SUCCESS;
 }
