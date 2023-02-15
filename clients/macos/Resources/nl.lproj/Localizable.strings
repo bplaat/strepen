@@ -3,4 +3,4 @@
 "menu_quit" = "Stop Strepen";
 "webview_url" = "https://stam.diekantankys.nl/";
 "about_title" = "Over Strepen macOS App";
-"about_text" = "Gemaakt door Bastiaan van der Plaat\nCopyright © 2023 PlaatSoft";
+"about_text" = "Versie: %@\nGemaakt door Bastiaan van der Plaat\nCopyright © 2021 - 2023 PlaatSoft";

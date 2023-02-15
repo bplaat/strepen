@@ -3,4 +3,4 @@
 "menu_quit" = "Quit Strepen";
 "webview_url" = "https://stam.diekantankys.nl/";
 "about_title" = "About Strepen macOS App";
-"about_text" = "Made by Bastiaan van der Plaat\nCopyright © 2023 PlaatSoft";
+"about_text" = "Version: %@\nMade by Bastiaan van der Plaat\nCopyright © 2021 - 2023 PlaatSoft";

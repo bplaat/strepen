@@ -6,6 +6,7 @@
 NSApplication *application;
 NSWindow *window;
 WKWebView *webview;
+NSString *appVersion;
 
 @interface WindowDelegate : NSObject <NSWindowDelegate>
 @end
@@ -21,6 +22,9 @@ WKWebView *webview;
 
 @implementation AppDelegate
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    // Get app version
+    appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+
     // Create menu
     NSMenu *menubar = [[NSMenu alloc] init];
     application.mainMenu = menubar;
@@ -53,6 +57,7 @@ WKWebView *webview;
     [window setFrame:NSMakeRect(windowX, windowY, NSWidth(window.frame), NSHeight(window.frame)) display:YES];
     window.minSize = NSMakeSize(640, 480);
     window.backgroundColor = [NSColor colorWithRed:(0x0a / 255.f) green:(0x0a / 255.f) blue:(0x0a / 255.f) alpha:1];
+    window.frameAutosaveName = @"window";
     window.delegate = [[WindowDelegate alloc] init];
 
     // Create webview
@@ -75,7 +80,7 @@ WKWebView *webview;
 - (void)openAboutAlert:(NSNotification *)aNotification {
     NSAlert *alert = [[NSAlert alloc] init];
     alert.messageText = LocalizedString(@"about_title");
-    alert.informativeText = LocalizedString(@"about_text");
+    alert.informativeText = [[NSString alloc] initWithFormat:LocalizedString(@"about_text"), appVersion];
     [alert runModal];
 }
 @end
