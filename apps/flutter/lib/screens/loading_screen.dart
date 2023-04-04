@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '../models/user.dart';
 import '../services/auth_service.dart';
 
 class LoadingScreen extends StatefulWidget {
+  const LoadingScreen({super.key});
+
   @override
   State createState() {
     return _LoadingScreenState();
@@ -15,27 +16,20 @@ class _LoadingScreenState extends State {
   Widget build(BuildContext context) {
     final lang = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(
-        title: Text(lang.loading_header)
-      ),
-      body: FutureBuilder<bool>(
-        future: AuthService.getInstance().check(),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            print('LoadingScreen error: ${snapshot.error}');
-            return Center(
-              child: Text(lang.loading_error)
-            );
-          } else if (snapshot.hasData) {
-            Future(() {
-              Navigator.pushNamedAndRemoveUntil(context, snapshot.data! ? '/home' : '/login', (route) => false);
-            });
-          }
-          return Center(
-            child: CircularProgressIndicator()
-          );
-        }
-      )
-    );
+        appBar: AppBar(title: Text(lang.loading_header)),
+        body: FutureBuilder<bool>(
+            future: AuthService.getInstance().check(),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                print('LoadingScreen error: ${snapshot.error}');
+                return Center(child: Text(lang.loading_error));
+              } else if (snapshot.hasData) {
+                Future(() {
+                  Navigator.pushNamedAndRemoveUntil(context,
+                      snapshot.data! ? '/home' : '/login', (route) => false);
+                });
+              }
+              return const Center(child: CircularProgressIndicator());
+            }));
   }
 }

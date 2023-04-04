@@ -21,7 +21,7 @@ STRINGTABLE LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
     ID_STRING_ABOUT_TITLE "About Strepen Windows App\x00"
     ID_STRING_ABOUT_TEXT_FORMAT "Strepen Windows App v%d.%d.%d.%d\n"
         "Made by Bastiaan van der Plaat\n"
-        "Copyright \xA9 2021 - 2022 PlaatSoft\x00"
+        "Copyright \xA9 2021 - 2023 PlaatSoft\x00"
 }
 
 // Dutch Strings
@@ -34,7 +34,7 @@ STRINGTABLE LANGUAGE LANG_DUTCH, SUBLANG_DUTCH
     ID_STRING_ABOUT_TITLE "Over Strepen Windows App\x00"
     ID_STRING_ABOUT_TEXT_FORMAT "Strepen Windows App v%d.%d.%d.%d\n"
         "Gemaakt door Bastiaan van der Plaat\n"
-        "Copyright \xA9 2021 - 2022 PlaatSoft\x00"
+        "Copyright \xA9 2021 - 2023 PlaatSoft\x00"
 }
 
 // Version Information
@@ -55,7 +55,7 @@ FILESUBTYPE VFT2_UNKNOWN
             VALUE "FileDescription", "Strepen"
             VALUE "FileVersion", "1.4.0.0"
             VALUE "InternalName", "Strepen"
-            VALUE "LegalCopyright", "Copyright \xA9 2021 - 2022 PlaatSoft"
+            VALUE "LegalCopyright", "Copyright \xA9 2021 - 2023 PlaatSoft. All rights reserved."
             VALUE "OriginalFilename", "strepen.exe"
             VALUE "ProductName", "Strepen"
             VALUE "ProductVersion", "1.4.0.0"
