@@ -49,6 +49,7 @@ class NewPost extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage())
+            ->from(config('mail.from.address'), config('mail.from.name'))
             ->subject($this->post->title . ' - Een nieuw nieuws bericht op het Strepen Systeem')
             ->greeting('Beste ' . $this->user->name . ',')
             ->line('Er is een nieuw nieuws bericht op het Strepen Systeem geplaatst:')
