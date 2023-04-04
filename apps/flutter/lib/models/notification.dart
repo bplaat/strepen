@@ -1,8 +1,4 @@
-enum NotificationType {
-  newDeposit,
-  newPost,
-  lowBalance
-}
+enum NotificationType { newDeposit, newPost, lowBalance }
 
 NotificationType? notificationTypeFromString(String type) {
   if (type == 'new_deposit') return NotificationType.newDeposit;
@@ -15,24 +11,23 @@ class NotificationData {
   final String id;
   final NotificationType type;
   final Map<String, dynamic> data;
-  final DateTime? read_at;
-  final DateTime created_at;
+  final DateTime? readAt;
+  final DateTime createdAt;
 
-  const NotificationData({
-    required this.id,
-    required this.type,
-    required this.data,
-    required this.read_at,
-    required this.created_at
-  });
+  const NotificationData(
+      {required this.id,
+      required this.type,
+      required this.data,
+      required this.readAt,
+      required this.createdAt});
 
   factory NotificationData.fromJson(Map<String, dynamic> json) {
     return NotificationData(
-      id: json['id'],
-      type: notificationTypeFromString(json['type'])!,
-      data: json['data'],
-      read_at: json['read_at'] != null ? DateTime.parse(json['read_at']) : null,
-      created_at: DateTime.parse(json['created_at'])
-    );
+        id: json['id'],
+        type: notificationTypeFromString(json['type'])!,
+        data: json['data'],
+        readAt:
+            json['read_at'] != null ? DateTime.parse(json['read_at']) : null,
+        createdAt: DateTime.parse(json['created_at']));
   }
 }

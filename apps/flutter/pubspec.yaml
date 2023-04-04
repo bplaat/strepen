@@ -12,13 +12,15 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # build by specifying --build-name and --build-number, respectively.
 # In Android, build-name is used as versionName while build-number used as versionCode.
 # Read more about Android versioning at https://developer.android.com/studio/publish/versioning
-# In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
+# In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+# In Windows, build-name is used as the major, minor, and patch parts
+# of the product and file versions while build-number is used as the build suffix.
 version: 1.4.0-dev+5
 
 environment:
-  sdk: ">=2.17.0 <3.0.0"
+  sdk: '>=2.19.6 <3.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -35,15 +37,17 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   # cupertino_icons: ^1.0.2
-  http: ^0.13.3
-  shared_preferences: ^2.0.8
-  cached_network_image: ^3.1.0
-  flutter_html: ^3.0.0-alpha.5
-  url_launcher: ^6.0.12
+  http: ^0.13.5
+  http_parser: ^4.0.2
+  shared_preferences: ^2.1.0
+  cached_network_image: ^3.2.3
+  flutter_html: ^3.0.0-alpha.6
+  html: ^0.15.2
+  url_launcher: ^6.1.10
   intl: ^0.17.0
-  image_picker: ^0.8.4+4
-  image: ^3.1.0
-  giphy_picker: ^2.0.0
+  image_picker: ^0.8.7+1
+  image: ^4.0.15
+  giphy_picker: ^3.0.1
 
 dev_dependencies:
   flutter_test:

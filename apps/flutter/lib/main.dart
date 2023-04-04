@@ -30,15 +30,15 @@ class StrepenApp extends StatelessWidget {
 
       initialRoute: '/loading',
       routes: {
-        '/loading': (context) => LoadingScreen(),
-        '/home': (context) => HomeScreen(),
-        '/login': (context) => LoginScreen(),
-        '/settings': (context) => SettingsScreen(),
+        '/loading': (context) => const LoadingScreen(),
+        '/home': (context) => const HomeScreen(),
+        '/login': (context) => const LoginScreen(),
+        '/settings': (context) => const SettingsScreen(),
       }
     );
   }
 }
 
 void main() {
-  runApp(StrepenApp());
+  runApp(const StrepenApp());
 }

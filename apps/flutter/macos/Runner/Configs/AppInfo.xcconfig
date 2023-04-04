@@ -11,4 +11,4 @@ PRODUCT_NAME = Strepen
 PRODUCT_BUNDLE_IDENTIFIER = nl.plaatsoft.strepen
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2021 - 2022 PlaatSoft. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2021 - 2023 PlaatSoft. All rights reserved.
