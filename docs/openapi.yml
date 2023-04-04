@@ -1,0 +1,556 @@
+openapi: 3.0.0
+info:
+  version: 0.1.0
+  title: Strepen REST API
+  description: A new modern strepen system written in Laravel with Livewire for Scouting Die Kantanky's with a Flutter "native" mobile application
+
+servers:
+  - url: "https://stam.diekantankys.nl/api"
+  - url: "http://strepen.test/api"
+
+components:
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+    TokenAuth:
+      type: http
+      scheme: bearer
+
+  parameters:
+    Query:
+      name: q
+      in: query
+      description: Search query
+      required: false
+      schema:
+        type: string
+    Page:
+      name: page
+      in: query
+      description: Page index (page size is set by limit)
+      required: false
+      schema:
+        type: integer
+    Limit:
+      name: limit
+      in: query
+      description: Item count per page
+      required: false
+      schema:
+        type: integer
+
+    UserID:
+      name: id
+      in: path
+      description: User ID
+      required: true
+      schema:
+        type: integer
+    NotificationID:
+      name: id
+      in: path
+      description: Notification ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    PostID:
+      name: id
+      in: path
+      description: Post ID
+      required: true
+      schema:
+        type: integer
+    ProductID:
+      name: id
+      in: path
+      description: Product ID
+      required: true
+      schema:
+        type: integer
+    InventoryID:
+      name: id
+      in: path
+      description: Inventory ID
+      required: true
+      schema:
+        type: integer
+    TransactionID:
+      name: id
+      in: path
+      description: Transaction ID
+      required: true
+      schema:
+        type: integer
+
+paths:
+  # Strepen
+  /:
+    get:
+      tags: [Strepen]
+      description: Get some information about this REST API
+      responses:
+        "200":
+          description: Some information about this REST API
+
+  # Auth
+  /auth/login:
+    post:
+      tags: [Auth]
+      description: Login with user credentials
+      security:
+        - ApiKey: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+              required:
+                - email
+                - password
+      responses:
+        "200":
+          description: Successfull response
+        "400":
+          description: Bad Request
+        "403":
+          description: Authorization error
+  /auth/logout:
+    get:
+      tags: [Auth]
+      description: Logout your auth token
+      security:
+        - ApiKey: []
+        - TokenAuth: []
+      responses:
+        "200":
+          description: Successfull response
+        "403":
+          description: Authorization error
+
+  # Settings
+  /settings:
+    get:
+      tags: [Settings]
+      description: Get global Strepen settings
+      security:
+        - ApiKey: []
+        - TokenAuth: []
+      responses:
+        "200":
+          description: Successfull response
+        "403":
+          description: Authorization error
+
+  # Posts
+  /posts:
+    get:
+      tags: [Posts]
+      description: Get a list of posts
+      security:
+        - ApiKey: []
+        - TokenAuth: []
+      parameters:
+        - $ref: "#/components/parameters/Query"
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Limit"
+      responses:
+        "200":
+          description: Successfull response
+        "403":
+          description: Authorization error
+  /posts/{id}:
+    get:
+      tags: [Posts]
+      description: Get a post
+      security:
+        - ApiKey: []
+        - TokenAuth: []
+      parameters:
+        - $ref: "#/components/parameters/PostID"
+      responses:
+        "200":
+          description: Successfull response
+        "403":
+          description: Authorization error
+        "404":
+          description: Post not found
+  /posts/{id}/like:
+    get:
+      tags: [Posts]
+      description: Like a post
+      security:
+        - ApiKey: []
+        - TokenAuth: []
+      parameters:
+        - $ref: "#/components/parameters/PostID"
+      responses:
+        "200":
+          description: Successfull response
+        "403":
+          description: Authorization error
+        "404":
+          description: Post not found
+  /posts/{id}/dislike:
+    get:
+      tags: [Posts]
+      description: Dislike a post
+      security:
+        - ApiKey: []
+        - TokenAuth: []
+      parameters:
+        - $ref: "#/components/parameters/PostID"
+      responses:
+        "200":
+          description: Successfull response
+        "403":
+          description: Authorization error
+        "404":
+          description: Post not found
+
+  # Products
+  /products:
+    get:
+      tags: [Products]
+      description: Get a list of products
+      security:
+        - ApiKey: []
+        - TokenAuth: []
+      parameters:
+        - $ref: "#/components/parameters/Query"
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Limit"
+      responses:
+        "200":
+          description: Successfull response
+        "403":
+          description: Authorization error
+  /products/{id}:
+    get:
+      tags: [Products]
+      description: Get a product
+      security:
+        - ApiKey: []
+        - TokenAuth: []
+      parameters:
+        - $ref: "#/components/parameters/ProductID"
+      responses:
+        "200":
+          description: Successfull response
+        "403":
+          description: Authorization error
+        "404":
+          description: Product not found
+
+  # Inventories
+  /inventories:
+    get:
+      tags: [Inventories]
+      description: Get a list of inventories
+      security:
+        - ApiKey: []
+        - TokenAuth: []
+      parameters:
+        - $ref: "#/components/parameters/Query"
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Limit"
+      responses:
+        "200":
+          description: Successfull response
+        "403":
+          description: Authorization error
+  /inventories/{id}:
+    get:
+      tags: [Inventories]
+      description: Get a inventory
+      security:
+        - ApiKey: []
+        - TokenAuth: []
+      parameters:
+        - $ref: "#/components/parameters/InventoryID"
+      responses:
+        "200":
+          description: Successfull response
+        "403":
+          description: Authorization error
+        "404":
+          description: Inventory not found
+
+  # Transactions
+  /transactions:
+    get:
+      tags: [Transactions]
+      description: Get a list of transactions
+      security:
+        - ApiKey: []
+        - TokenAuth: []
+      parameters:
+        - $ref: "#/components/parameters/Query"
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Limit"
+      responses:
+        "200":
+          description: Successfull response
+        "403":
+          description: Authorization error
+    post:
+      tags: [Transactions]
+      description: Create a new transaction
+      security:
+        - ApiKey: []
+        - TokenAuth: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+              # TODO
+              required:
+                - name
+      responses:
+        "200":
+          description: Successfull response
+        "400":
+          description: Bad Request
+        "403":
+          description: Authorization error
+  /transactions/{id}:
+    get:
+      tags: [Transactions]
+      description: Get a transaction
+      security:
+        - ApiKey: []
+        - TokenAuth: []
+      parameters:
+        - $ref: "#/components/parameters/TransactionID"
+      responses:
+        "200":
+          description: Successfull response
+        "403":
+          description: Authorization error
+        "404":
+          description: Transaction not found
+
+  # Users
+  /users:
+    get:
+      tags: [Users]
+      description: Get a list of users
+      security:
+        - ApiKey: []
+        - TokenAuth: []
+      parameters:
+        - $ref: "#/components/parameters/Query"
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Limit"
+      responses:
+        "200":
+          description: Successfull response
+        "403":
+          description: Authorization error
+  /users/check_balances:
+    get:
+      tags: [Users]
+      description: Check balances of all users
+      security:
+        - ApiKey: []
+        - TokenAuth: []
+      responses:
+        "200":
+          description: Successfull response
+        "403":
+          description: Authorization error
+  /users/{id}:
+    get:
+      tags: [Users]
+      description: Get a user
+      security:
+        - ApiKey: []
+        - TokenAuth: []
+      parameters:
+        - $ref: "#/components/parameters/UserID"
+      responses:
+        "200":
+          description: Successfull response
+        "403":
+          description: Authorization error
+        "404":
+          description: User not found
+    post:
+      tags: [Users]
+      description: Edit a user
+      security:
+        - ApiKey: []
+        - TokenAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                firstname:
+                  type: string
+                insertion:
+                  type: string
+                lastname:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                gender:
+                  type: string
+                  enum: [male, female, other]
+                birthday:
+                  type: string
+                  format: date
+                phone:
+                  type: string
+                address:
+                  type: string
+                postcode:
+                  type: string
+                city:
+                  type: string
+                language:
+                  type: string
+                  enum: [en, nl]
+                theme:
+                  type: string
+                  enum: [light, dark]
+                receive_news:
+                  type: boolean
+
+                avatar:
+                  type: string
+                  format: binary
+                thanks:
+                  type: string
+                  format: binary
+
+                current_password:
+                  type: string
+                password:
+                  type: string
+                password_confirmation:
+                  type: string
+      parameters:
+        - $ref: "#/components/parameters/UserID"
+      responses:
+        "200":
+          description: Successfull response
+        "403":
+          description: Authorization error
+        "404":
+          description: User not found
+  /users/{id}/posts:
+    get:
+      tags: [Users]
+      description: Get all user posts
+      security:
+        - ApiKey: []
+        - TokenAuth: []
+      parameters:
+        - $ref: "#/components/parameters/UserID"
+      responses:
+        "200":
+          description: Successfull response
+        "403":
+          description: Authorization error
+        "404":
+          description: User not found
+  /users/{id}/inventories:
+    get:
+      tags: [Users]
+      description: Get all user inventories
+      security:
+        - ApiKey: []
+        - TokenAuth: []
+      parameters:
+        - $ref: "#/components/parameters/UserID"
+      responses:
+        "200":
+          description: Successfull response
+        "403":
+          description: Authorization error
+        "404":
+          description: User not found
+  /users/{id}/transactions:
+    get:
+      tags: [Users]
+      description: Get all user transactions
+      security:
+        - ApiKey: []
+        - TokenAuth: []
+      parameters:
+        - $ref: "#/components/parameters/UserID"
+      responses:
+        "200":
+          description: Successfull response
+        "403":
+          description: Authorization error
+        "404":
+          description: User not found
+  /users/{id}/notifications:
+    get:
+      tags: [Users]
+      description: Get all user notifications
+      security:
+        - ApiKey: []
+        - TokenAuth: []
+      parameters:
+        - $ref: "#/components/parameters/UserID"
+      responses:
+        "200":
+          description: Successfull response
+        "403":
+          description: Authorization error
+        "404":
+          description: User not found
+  /users/{id}/notifications/unread:
+    get:
+      tags: [Users]
+      description: Get all unread user notifications
+      security:
+        - ApiKey: []
+        - TokenAuth: []
+      parameters:
+        - $ref: "#/components/parameters/UserID"
+      responses:
+        "200":
+          description: Successfull response
+        "403":
+          description: Authorization error
+        "404":
+          description: User not found
+
+  # Notifications
+  /notifications/{id}/read:
+    get:
+      tags: [Notifications]
+      description: Read a notification
+      security:
+        - ApiKey: []
+        - TokenAuth: []
+      parameters:
+        - $ref: "#/components/parameters/NotificationID"
+      responses:
+        "200":
+          description: Successfull response
+        "403":
+          description: Authorization error
+        "404":
+          description: Notification not found
