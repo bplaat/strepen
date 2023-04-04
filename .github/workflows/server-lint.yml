@@ -1,0 +1,39 @@
+name: server-lint
+run-name: ${{ github.actor }} is linting the server codebase
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "server/**"
+  pull_request:
+    branches:
+      - master
+    paths:
+      - "server/**"
+permissions:
+  contents: read
+jobs:
+  run-linters:
+    name: Run linters
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          coverage: none
+          tools: composer
+
+      - name: Install PHP dependencies
+        run: |
+          composer install --prefer-dist --no-progress --no-ansi --no-interaction
+          echo "${PWD}/vendor/bin" >> $GITHUB_PATH
+
+      - name: Run linters
+        uses: wearerequired/lint-action@v2
+        with:
+          php_codesniffer: true
