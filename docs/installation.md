@@ -52,7 +52,14 @@
     127.0.0.1 www.strepen.test
     ```
 - Start Apache and MySQL via XAMPP control panel
-- Create MySQL user and database (may be via [phpmyadmin](http://localhost/phpmyadmin/))
+- Create MySQL user and database
+
+    ```sql
+    CREATE USER 'strepen'@'localhost' IDENTIFIED BY 'strepen';
+    CREATE DATABASE `strepen` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+    GRANT ALL PRIVILEGES ON `strepen`.* TO 'strepen'@'localhost';
+    FLUSH PRIVILEGES;
+    ```
 - Fill in MySQL user, password and database information in `server/.env`
 - Create database tables
 
@@ -147,6 +154,13 @@
     127.0.0.1 www.strepen.test
     ```
 - Create MySQL user and database
+
+    ```sql
+    CREATE USER 'strepen'@'localhost' IDENTIFIED BY 'strepen';
+    CREATE DATABASE `strepen` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+    GRANT ALL PRIVILEGES ON `strepen`.* TO 'strepen'@'localhost';
+    FLUSH PRIVILEGES;
+    ```
 - Fill in MySQL user, password and database information in `server/.env`
 - Create database tables
 
@@ -265,6 +279,13 @@
     127.0.0.1 www.strepen.test
     ```
 - Create MySQL user and database
+
+    ```sql
+    CREATE USER 'strepen'@'localhost' IDENTIFIED BY 'strepen';
+    CREATE DATABASE `strepen` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+    GRANT ALL PRIVILEGES ON `strepen`.* TO 'strepen'@'localhost';
+    FLUSH PRIVILEGES;
+    ```
 - Fill in MySQL user, password and database information in `server/.env`
 - Create database tables
 
