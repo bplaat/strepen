@@ -48,11 +48,11 @@ class Casino extends Component
         // if (rand(1, 16) == 1) {
         //     // bier 2
 
-                // soda 2
+        // soda 2
 
-                // choco 2
+        // choco 2
 
-                // chips 4
+        // chips 4
 
         // if (rand(1, 4) == 1) {
         //     // bier / soda
