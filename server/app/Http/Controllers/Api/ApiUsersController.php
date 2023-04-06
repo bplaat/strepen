@@ -38,8 +38,8 @@ class ApiUsersController extends ApiController
         return new UserResource($user);
     }
 
-    // Api users show posts route
-    public function showPosts(Request $request, User $user)
+    // Api users user posts route
+    public function userPosts(Request $request, User $user)
     {
         $posts = Post::search($user->posts()->getQuery(), $request->input('query'))
             ->orderBy('created_at', 'DESC')
@@ -47,8 +47,8 @@ class ApiUsersController extends ApiController
         return PostResource::collection($posts);
     }
 
-    // Api users show inventories route
-    public function showInventories(Request $request, User $user)
+    // Api users user inventories route
+    public function userInventories(Request $request, User $user)
     {
         $inventories = Inventory::search($user->inventories()->getQuery(), $request->input('query'))
             ->with('products')
@@ -57,8 +57,8 @@ class ApiUsersController extends ApiController
         return InventoryResource::collection($inventories);
     }
 
-    // Api users show transactions route
-    public function showTransactions(Request $request, User $user)
+    // Api users user transactions route
+    public function userTransactions(Request $request, User $user)
     {
         $transactions = Transaction::search($user->transactions()->getQuery(), $request->input('query'))
             ->with(['products'])
@@ -67,16 +67,16 @@ class ApiUsersController extends ApiController
         return TransactionResource::collection($transactions);
     }
 
-    // Api users show notifcations route
-    public function showNotifications(Request $request, User $user)
+    // Api users user notifcations route
+    public function userNotifications(Request $request, User $user)
     {
         $notifications = $request->user()->notifications()
             ->paginate(ApiUtils::parseLimit($request))->withQueryString();
         return NotificationResource::collection($notifications);
     }
 
-    // Api users show unread notifcations route
-    public function showUnreadNotifications(Request $request, User $user)
+    // Api users user notifcations unread route
+    public function userNotificationsUnread(Request $request, User $user)
     {
         $notifications = $request->user()->unreadNotifications()
             ->paginate(ApiUtils::parseLimit($request))->withQueryString();

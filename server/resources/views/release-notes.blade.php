@@ -17,7 +17,7 @@
                 <li>Fixed some column width issues on smaller screens</li>
                 <li>Upgraded to Laravel 10 and also to PHP 8.2</li>
                 <li>Add more type information to PHP server codebase</li>
-                <li>Add better <a href="https://stam.diekantankys.nl/api.html" target="_blank" rel="noreferrer">REST API documentation</a></li>
+                <li>Add better <a href="/api.html" target="_blank" rel="noreferrer">REST API documentation</a></li>
                 <li>Rewrote parts of the Flutter mobile app</li>
                 <li>Fixed many bugs</li>
             </ul>

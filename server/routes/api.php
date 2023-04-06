@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('', function () {
     return [
-        'message' => 'Strepen REST API documentation: ' + asset('/api.html'),
+        'message' => 'Strepen REST API documentation: ' . asset('/api.html'),
     ];
 })->name('api.home');
 
@@ -27,7 +27,7 @@ Route::middleware('api_key:auth')->group(function () {
 
     Route::get('users', [ApiUsersController::class, 'index'])->name('api.users.index');
     Route::get('users/{user}', [ApiUsersController::class, 'show'])->name('api.users.show');
-    Route::get('users/{user}/posts', [ApiUsersController::class, 'showPosts'])->name('api.users.show_posts');
+    Route::get('users/{user}/posts', [ApiUsersController::class, 'userPosts'])->name('api.users.user_posts');
 
     Route::get('posts', [ApiPostsController::class, 'index'])->name('api.posts.index');
     Route::get('posts/{post}', [ApiPostsController::class, 'show'])->name('api.posts.show');
@@ -35,6 +35,7 @@ Route::middleware('api_key:auth')->group(function () {
     Route::get('posts/{post}/dislike', [ApiPostsController::class, 'dislike'])->name('api.posts.dislike');
 
     Route::get('products', [ApiProductsController::class, 'index'])->name('api.products.index');
+    Route::get('products/active', [ApiProductsController::class, 'indexActive'])->name('api.products.index_active');
     Route::get('products/{product}', [ApiProductsController::class, 'show'])->name('api.products.show');
 
     Route::post('transactions', [ApiTransactionsController::class, 'store'])->name('api.transactions.store');
@@ -46,9 +47,9 @@ Route::middleware('api_key:auth')->group(function () {
 
 // Api self routes
 Route::middleware('api_key:self')->group(function () {
-    Route::get('users/{user}/transactions', [ApiUsersController::class, 'showTransactions'])->name('api.users.show_transactions');
-    Route::get('users/{user}/notifications', [ApiUsersController::class, 'showNotifications'])->name('api.users.show_notifications');
-    Route::get('users/{user}/notifications/unread', [ApiUsersController::class, 'showUnreadNotifications'])->name('api.users.show_unread_notifications');
+    Route::get('users/{user}/transactions', [ApiUsersController::class, 'userTransactions'])->name('api.users.user_transactions');
+    Route::get('users/{user}/notifications', [ApiUsersController::class, 'userNotifications'])->name('api.users.user_notifications');
+    Route::get('users/{user}/notifications/unread', [ApiUsersController::class, 'userNotificationsUnread'])->name('api.users.user_notifications_unread');
     Route::post('users/{user}/edit', [ApiUsersController::class, 'edit'])->name('api.users.edit');
 
     Route::get('notifications/{notification}/read', [ApiNotificationsController::class, 'read'])->name('api.notifications.read');
@@ -59,7 +60,7 @@ Route::middleware('api_key:self')->group(function () {
 // Api manager routes
 Route::middleware('api_key:manager')->group(function () {
     Route::get('users/check_balances', [ApiUsersController::class, 'checkBalances'])->name('api.users.check_balances');
-    Route::get('users/{user}/inventories', [ApiUsersController::class, 'showInventories'])->name('api.users.show_inventories');
+    Route::get('users/{user}/inventories', [ApiUsersController::class, 'userInventories'])->name('api.users.user_inventories');
 
     Route::get('inventories', [ApiInventoriesController::class, 'index'])->name('api.inventories.index');
     Route::get('inventories/{inventory}', [ApiInventoriesController::class, 'show'])->name('api.inventories.show');

@@ -167,7 +167,7 @@ paths:
   /posts:
     get:
       tags: [Posts]
-      description: Get a list of posts
+      description: Get a list of all posts
       security:
         - ApiKey: []
         - TokenAuth: []
@@ -233,7 +233,23 @@ paths:
   /products:
     get:
       tags: [Products]
-      description: Get a list of products
+      description: Get a list of all products
+      security:
+        - ApiKey: []
+        - TokenAuth: []
+      parameters:
+        - $ref: "#/components/parameters/Query"
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Limit"
+      responses:
+        "200":
+          description: Successfull response
+        "403":
+          description: Authorization error
+  /products/active:
+    get:
+      tags: [Products]
+      description: Get a list of all active products
       security:
         - ApiKey: []
         - TokenAuth: []
@@ -267,7 +283,7 @@ paths:
   /inventories:
     get:
       tags: [Inventories]
-      description: Get a list of inventories
+      description: Get a list of all inventories
       security:
         - ApiKey: []
         - TokenAuth: []
@@ -301,7 +317,7 @@ paths:
   /transactions:
     get:
       tags: [Transactions]
-      description: Get a list of transactions
+      description: Get a list of all transactions
       security:
         - ApiKey: []
         - TokenAuth: []
@@ -360,7 +376,7 @@ paths:
   /users:
     get:
       tags: [Users]
-      description: Get a list of users
+      description: Get a list of all users
       security:
         - ApiKey: []
         - TokenAuth: []
