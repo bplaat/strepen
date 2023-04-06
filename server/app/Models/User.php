@@ -5,6 +5,9 @@ namespace App\Models;
 use App\Notifications\LowBalance;
 use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\DatabaseNotification;
@@ -22,27 +25,33 @@ class User extends Authenticatable
 
     // A user can be male, female or other
     public const GENDER_MALE = 0;
+
     public const GENDER_FEMALE = 1;
+
     public const GENDER_OTHER = 2;
 
     // A user can be normal, a manager or an admin
     public const ROLE_NORMAL = 0;
+
     public const ROLE_MANAGER = 1;
+
     public const ROLE_ADMIN = 2;
 
     // A user can select the english and the dutch language
     public const LANGUAGE_ENGLISH = 0;
+
     public const LANGUAGE_DUTCH = 1;
 
     // A user can select a light and a dark theme
     public const THEME_LIGHT = 0;
+
     public const THEME_DARK = 1;
 
     protected $hidden = [
         'email_verified_at',
         'password',
         'remember_token',
-        'deleted_at'
+        'deleted_at',
     ];
 
     protected $casts = [
@@ -50,7 +59,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'receive_news' => 'boolean',
         'balance' => 'double',
-        'active' => 'boolean'
+        'active' => 'boolean',
     ];
 
     protected $attributes = [
@@ -59,39 +68,41 @@ class User extends Authenticatable
         'theme' => User::THEME_DARK,
         'receive_news' => true,
         'balance' => 0,
-        'active' => true
+        'active' => true,
     ];
 
     protected $fillable = [
         'avatar',
-        'thanks'
+        'thanks',
     ];
 
     // Generate a random avatar name
-    public static function generateAvatarName($extension)
+    public static function generateAvatarName(string $extension): string
     {
         if ($extension == 'jpeg') {
             $extension = 'jpg';
         }
-        $avatar = Str::random(32) . '.' . $extension;
+        $avatar = Str::random(32).'.'.$extension;
         if (static::where('avatar', $avatar)->count() > 0) {
             return static::generateAvatarName($extension);
         }
+
         return $avatar;
     }
 
     // Generate a random thanks name
-    public static function generateThanksName($extension)
+    public static function generateThanksName(string $extension): string
     {
-        $thanks = Str::random(32) . '.' . $extension;
+        $thanks = Str::random(32).'.'.$extension;
         if (static::where('thanks', $thanks)->count() > 0) {
             return static::generateThanksName($extension);
         }
+
         return $thanks;
     }
 
     // Recalculate user balance
-    public function recalculateBalance()
+    public function recalculateBalance(): void
     {
         // Refresh relationships
         unset($this->transactions);
@@ -117,77 +128,81 @@ class User extends Authenticatable
     }
 
     // Get user full name (firstname insertion lastname)
-    public function getNameAttribute()
+    public function getNameAttribute(): string
     {
         if ($this->insertion != null) {
-            return $this->firstname . ' ' . $this->insertion . ' ' . $this->lastname;
+            return $this->firstname.' '.$this->insertion.' '.$this->lastname;
         } else {
-            return $this->firstname . ' ' . $this->lastname;
+            return $this->firstname.' '.$this->lastname;
         }
     }
 
     // Check if user is minor
-    public function getMinorAttribute()
+    public function getMinorAttribute(): bool
     {
         return $this->birthday != null && $this->birthday->diff(new DateTime('now'))->y < Setting::get('minor_age');
     }
 
     // Check if user is normal
-    public function getNormalAttribute()
+    public function getNormalAttribute(): bool
     {
         return $this->role == User::ROLE_NORMAL;
     }
 
     // Check if user is manager or admin
-    public function getManagerAttribute()
+    public function getManagerAttribute(): bool
     {
         return $this->role == User::ROLE_MANAGER || $this->role == User::ROLE_ADMIN;
     }
 
     // Check if user is admin
-    public function getAdminAttribute()
+    public function getAdminAttribute(): bool
     {
         return $this->role == User::ROLE_ADMIN;
     }
 
     // A user has many posts
-    public function posts()
+    public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
     }
 
     // A user has many inventories
-    public function inventories()
+    public function inventories(): HasMany
     {
         return $this->hasMany(Inventory::class);
     }
 
     // A user has many transactions
-    public function transactions()
+    public function transactions(): HasMany
     {
         return $this->hasMany(Transaction::class);
     }
 
     // A user has many notifications
-    public function notifications()
+    public function notifications(): MorphMany
     {
         return $this->morphMany(DatabaseNotification::class, 'notifiable')
-            ->orderByRaw("case when read_at IS NULL then 0 else 1 end")
+            ->orderByRaw('case when read_at IS NULL then 0 else 1 end')
             ->orderBy('created_at', 'desc');
     }
 
     // Search by a query
-    public static function search($query, $searchQuery)
+    public static function search(Builder $query, string $searchQuery): Builder
     {
-        return $query->where(fn ($query) => $query->where('firstname', 'LIKE', '%' . $searchQuery . '%')
-            ->orWhere('insertion', 'LIKE', '%' . $searchQuery . '%')
-            ->orWhere('lastname', 'LIKE', '%' . $searchQuery . '%')
-            ->orWhere('email', 'LIKE', '%' . $searchQuery . '%')
-            ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%'));
+        if ($searchQuery != '') {
+            return $query->where(fn ($query) => $query->where('firstname', 'LIKE', '%'.$searchQuery.'%')
+                ->orWhere('insertion', 'LIKE', '%'.$searchQuery.'%')
+                ->orWhere('lastname', 'LIKE', '%'.$searchQuery.'%')
+                ->orWhere('email', 'LIKE', '%'.$searchQuery.'%')
+                ->orWhere('created_at', 'LIKE', '%'.$searchQuery.'%'));
+        }
+
+        return $query;
     }
 
     // Get balance chart data
-    public function getBalanceChart($startDate, $endDate)
+    public function getBalanceChart(string $startDate, string $endDate): array
     {
         // Covert start and end date to timestamp
         $firstTransaction = $this->transactions()->orderBy('created_at')->first();
@@ -244,16 +259,16 @@ class User extends Authenticatable
                 }
                 $index++;
             }
-            $balanceData[] = [ date('Y-m-d', $dayTime), $balance ];
+            $balanceData[] = [date('Y-m-d', $dayTime), $balance];
         }
 
         return $balanceData;
     }
 
     // Check gravatar for avatar
-    public function checkGravatarAvatar()
+    public function checkGravatarAvatar(): void
     {
-        $headers = implode('\n', get_headers('https://www.gravatar.com/avatar/' . md5($this->email) . '?d=404'));
+        $headers = implode('\n', get_headers('https://www.gravatar.com/avatar/'.md5($this->email).'?d=404'));
         if (str_contains($headers, '200 OK') && (str_contains($headers, 'Content-Type: image/jpeg') || str_contains($headers, 'Content-Type: image/png'))) {
             if (str_contains($headers, 'Content-Type: image/jpeg')) {
                 $this->avatar = static::generateAvatarName('jpg');
@@ -261,12 +276,12 @@ class User extends Authenticatable
             if (str_contains($headers, 'Content-Type: image/png')) {
                 $this->avatar = static::generateAvatarName('png');
             }
-            file_put_contents(storage_path('app/public/avatars/') . $this->avatar, file_get_contents('https://www.gravatar.com/avatar/' . md5($this->email) . '?s=512'));
+            file_put_contents(storage_path('app/public/avatars/').$this->avatar, file_get_contents('https://www.gravatar.com/avatar/'.md5($this->email).'?s=512'));
         }
     }
 
     // Send all users that have a to low balance an low balance notification
-    public static function checkBalances()
+    public static function checkBalances(): void
     {
         $users = User::where('active', true)->where('balance', '<', Setting::get('min_user_balance'))->get();
         foreach ($users as $user) {

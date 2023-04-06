@@ -3,26 +3,21 @@
 namespace Database\Seeders;
 
 use App\Models\ApiKey;
-use App\Models\User;
 use App\Models\Setting;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     *
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
         // Create system / kiosk account (must by user_id=1!!!)
         $user = new User();
         $user->firstname = config('app.name');
         $user->lastname = 'System';
-        $user->email = 'system@' . strtolower(config('app.name'));
+        $user->email = 'system@'.strtolower(config('app.name'));
         $user->password = Hash::make(Str::random(32));
         $user->active = false;
         $user->receive_news = false;
@@ -30,10 +25,9 @@ class DatabaseSeeder extends Seeder
 
         // Create admin account
         $user = new User();
-        $user->firstname = 'Bastiaan';
-        $user->insertion = 'van der';
-        $user->lastname = 'Plaat';
-        $user->email = 'bastiaan.v.d.plaat@gmail.com';
+        $user->firstname = 'Admin';
+        $user->lastname = 'Admin';
+        $user->email = 'admin@strepen.test';
         $user->password = Hash::make('admin123');
         $user->role = User::ROLE_ADMIN;
         $user->checkGravatarAvatar();

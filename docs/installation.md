@@ -66,7 +66,7 @@
     ```
     php artisan migrate --seed
     ```
-- Goto http://strepen.test/ and you're done! 🎉
+- Goto http://strepen.test/ and you can login with email: **admin@strepen.test**, password: **admin123** 🎉
 - Optional: You can import all the data from the [old Strepen System](https://github.com/JohnOnline88/strepensysteem) (Doesn't work anymore)
 
     ```
@@ -75,7 +75,7 @@
 - Optional: You could run the automatic PHP linter & fixer
 
     ```
-    php artisan lint
+    ./vendor/bin/pint
     ```
 - Optional: You could run the unit and feature tests
 
@@ -167,7 +167,7 @@
     ```
     php artisan migrate --seed
     ```
-- Goto http://strepen.test/ and you're done! 🎉
+- Goto http://strepen.test/ and you can login with email: **admin@strepen.test**, password: **admin123** 🎉
 - Optional: You can import all the data from the [old Strepen System](https://github.com/JohnOnline88/strepensysteem) (Doesn't work anymore)
 
     ```
@@ -176,7 +176,7 @@
 - Optional: You could run the automatic PHP linter & fixer
 
     ```
-    php artisan lint
+    ./vendor/bin/pint
     ```
 - Optional: You could run the unit and feature tests
 
@@ -292,7 +292,7 @@
     ```
     php artisan migrate --seed
     ```
-- Goto http://strepen.test/ and you're done! 🎉
+- Goto http://strepen.test/ and you can login with email: **admin@strepen.test**, password: **admin123** 🎉
 - Optional: You can import all the data from the [old Strepen System](https://github.com/JohnOnline88/strepensysteem) (Doesn't work anymore)
 
     ```
@@ -301,7 +301,7 @@
 - Optional: You could run the automatic PHP linter & fixer
 
     ```
-    php artisan lint
+    ./vendor/bin/pint
     ```
 - Optional: You could run the unit and feature tests
 

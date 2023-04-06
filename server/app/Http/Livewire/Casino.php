@@ -2,15 +2,16 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Transaction;
 use App\Models\Setting;
+use App\Models\Transaction;
 use App\Models\User;
-use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
 
 class Casino extends Component
 {
     public $spinPrice;
+
     public $spinPot;
 
     public function mount()
@@ -25,7 +26,7 @@ class Casino extends Component
         $this->transaction = new Transaction();
         $this->transaction->type = Transaction::TYPE_PAYMENT;
         $this->transaction->user_id = Auth::id();
-        $this->transaction->name = 'Spin on the wheel of fortune in the casino on ' . date('Y-m-d H:i:s');
+        $this->transaction->name = 'Spin on the wheel of fortune in the casino on '.date('Y-m-d H:i:s');
         $this->transaction->price = 1;
         $this->transaction->save();
 

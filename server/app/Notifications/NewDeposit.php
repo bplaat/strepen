@@ -2,10 +2,9 @@
 
 namespace App\Notifications;
 
-use App\Models\Transaction;
 use App\Models\Setting;
+use App\Models\Transaction;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -13,57 +12,34 @@ class NewDeposit extends Notification
 {
     use Queueable;
 
-    public $transaction;
+    public Transaction $transaction;
 
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
     public function __construct(Transaction $transaction)
     {
         $this->transaction = $transaction;
     }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function via($notifiable)
+    public function via(object $notifiable): array
     {
         return ['database', 'mail'];
     }
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
+    public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage())
             ->from(config('mail.from.address'), config('mail.from.name'))
             ->subject('Nieuwe storting op het Strepen Systeem')
-            ->greeting('Beste ' . $this->transaction->user->name . ',')
-            ->line('Er is een storting van ' . Setting::get('currency_symbol') . ' ' . number_format($this->transaction->price, 2, ',', '.') . ' op uw account gezet!')
-            ->line('Uw balans is op dit moment nu ' . Setting::get('currency_symbol') . ' ' . number_format($this->transaction->user->balance, 2, ',', '.') . '.')
+            ->greeting('Beste '.$this->transaction->user->name.',')
+            ->line('Er is een storting van '.Setting::get('currency_symbol').' '.number_format($this->transaction->price, 2, ',', '.').' op uw account gezet!')
+            ->line('Uw balans is op dit moment nu '.Setting::get('currency_symbol').' '.number_format($this->transaction->user->balance, 2, ',', '.').'.')
             ->salutation('Groetjes, het stambestuur');
     }
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
+    public function toArray(object $notifiable): array
     {
         return [
             'transaction_id' => $this->transaction->id,
-            'amount' => $this->transaction->price
+            'amount' => $this->transaction->price,
         ];
     }
 }

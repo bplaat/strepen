@@ -6,6 +6,7 @@ use App\Http\Resources\TransactionResource;
 use App\Models\Product;
 use App\Models\Transaction;
 use App\Models\User;
+use Helpers\ApiUtils;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -14,10 +15,10 @@ class ApiTransactionsController extends ApiController
     // Api transactions index route
     public function index(Request $request)
     {
-        $transactions = $this->getItems(Transaction::class, Transaction::select(), $request)
+        $transactions = Transaction::search(Transaction::select(), $request->input('query'))
             ->with(['user', 'products'])
             ->orderBy('created_at', 'DESC')
-            ->paginate($this->getLimit($request))->withQueryString();
+            ->paginate(ApiUtils::parseLimit($request))->withQueryString();
         return TransactionResource::collection($transactions);
     }
 
@@ -36,7 +37,7 @@ class ApiTransactionsController extends ApiController
         $rules = [
             'name' => 'required|min:2|max:48',
             'products.*.product_id' => 'required|integer|exists:products,id',
-            'products.*.amount' => 'required|integer|min:1'
+            'products.*.amount' => 'required|integer|min:1',
         ];
         if ($request->user()->manager && $request->has('user_id')) {
             $rules['user_id'] = 'required|integer|exists:users,id';
@@ -49,7 +50,7 @@ class ApiTransactionsController extends ApiController
         $productsData = $request->input('products', []);
         if (count($productsData) == 0) {
             return response(['errors' => [
-                'products' => 'You need to add minimal one product to the transaction'
+                'products' => 'You need to add minimal one product to the transaction',
             ]], 400);
         }
 
@@ -69,7 +70,7 @@ class ApiTransactionsController extends ApiController
         foreach ($productsData as $productData) {
             $product = Product::find($productData['product_id']);
             $transaction->price += $product->price * $productData['amount'];
-            $transaction->products()->attach($product->id, [ 'amount' => $productData['amount'] ]);
+            $transaction->products()->attach($product->id, ['amount' => $productData['amount']]);
 
             $product->amount -= $productData['amount'];
             $product->save();
@@ -82,11 +83,10 @@ class ApiTransactionsController extends ApiController
         $user->save();
 
         // Return success message
-        $transaction->user; // For backwards compatability
         $transaction->products;
         return [
             'message' => 'Your transaction is successfully created',
-            'transaction' => new TransactionResource($transaction)
+            'transaction' => new TransactionResource($transaction),
         ];
     }
 }

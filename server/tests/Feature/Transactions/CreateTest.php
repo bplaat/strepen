@@ -4,11 +4,10 @@ namespace Tests\Feature\Transactions;
 
 use App\Http\LiveWire\Transactions\Create;
 use App\Models\Product;
-use App\Models\User;
 use App\Models\Transaction;
-use Illuminate\Support\Str;
-use Tests\TestCase;
+use App\Models\User;
 use Livewire;
+use Tests\TestCase;
 
 class CreateTest extends TestCase
 {
@@ -42,8 +41,8 @@ class CreateTest extends TestCase
             ->emit('inputValue', 'products', [
                 [
                     'product_id' => $product->id,
-                    'amount' => 0
-                ]
+                    'amount' => 0,
+                ],
             ])
             ->call('createTransaction');
 
@@ -61,8 +60,8 @@ class CreateTest extends TestCase
             ->emit('inputValue', 'products', [
                 [
                     'product_id' => $product->id,
-                    'amount' => $this->faker->numberBetween(1, 5)
-                ]
+                    'amount' => $this->faker->numberBetween(1, 5),
+                ],
             ])
             ->call('createTransaction');
 

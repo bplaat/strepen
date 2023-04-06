@@ -4,8 +4,8 @@ namespace App\Http\Livewire\Components;
 
 use App\Models\Notification;
 use App\Models\User;
-use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
 
 class Notifications extends Component
 {
@@ -28,8 +28,9 @@ class Notifications extends Component
     public function render()
     {
         unset(Auth::user()->unreadNotifications);
+
         return view('livewire.components.notifications', [
-            'notifications' => Auth::user()->unreadNotifications->slice(0, 5)
+            'notifications' => Auth::user()->unreadNotifications->slice(0, 5),
         ]);
     }
 }

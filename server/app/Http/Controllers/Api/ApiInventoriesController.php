@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Http\Resources\InventoryResource;
 use App\Models\Inventory;
+use Helpers\ApiUtils;
 use Illuminate\Http\Request;
 
-class ApiInventoriesController extends ApiController
+class ApiInventoriesController extends Controller
 {
     // Api inventories index route
     public function index(Request $request)
     {
-        $inventories = $this->getItems(Inventory::class, Inventory::select(), $request)
+        $inventories = Inventory::search(Inventory::select(), $request->input('query'))
             ->with(['user', 'products'])
             ->orderBy('created_at', 'DESC')
-            ->paginate($this->getLimit($request))->withQueryString();
+            ->paginate(ApiUtils::parseLimit($request))->withQueryString();
         return InventoryResource::collection($inventories);
     }
 

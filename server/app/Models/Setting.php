@@ -9,19 +9,20 @@ class Setting extends Model
 {
     private static $cache = [];
 
-    public static function get($key)
+    public static function get(string $key): string
     {
-        if (!isset(static::$cache[$key])) {
+        if (! isset(static::$cache[$key])) {
             $setting = static::where('key', $key)->first();
             if ($setting == null) {
-                throw new ModelNotFoundException('Setting ' . $key . ' not found');
+                throw new ModelNotFoundException('Setting '.$key.' not found');
             }
             static::$cache[$key] = $setting->value;
         }
+
         return static::$cache[$key];
     }
 
-    public static function set($key, $value)
+    public static function set(string $key, string $value): void
     {
         $setting = static::where('key', $key)->first();
         $setting->value = $value;

@@ -6,12 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateTransactionProductTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
+    public function up(): void
     {
         Schema::create('transaction_product', function (Blueprint $table) {
             $table->id();
@@ -32,12 +27,7 @@ class CreateTransactionProductTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('transaction_product');
     }

@@ -3,11 +3,10 @@
 namespace App\Http\Livewire\Admin\Users;
 
 use App\Http\Livewire\PaginationComponent;
-use App\Models\User;
 use App\Models\Setting;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 use Livewire\WithFileUploads;
 
 class Crud extends PaginationComponent
@@ -15,12 +14,19 @@ class Crud extends PaginationComponent
     use WithFileUploads;
 
     public $role;
+
     public $user;
+
     public $avatar;
+
     public $thanks;
+
     public $isCreating;
+
     public $isChecking;
+
     public $isExporting;
+
     public $exportTab;
 
     public function rules()
@@ -29,7 +35,7 @@ class Crud extends PaginationComponent
             'user.firstname' => 'required|min:2|max:48',
             'user.insertion' => 'nullable|max:16',
             'user.lastname' => 'required|min:2|max:48',
-            'user.gender' => 'nullable|integer|digits_between:' . User::GENDER_MALE . ',' . User::GENDER_OTHER,
+            'user.gender' => 'nullable|integer|digits_between:'.User::GENDER_MALE.','.User::GENDER_OTHER,
             'user.birthday' => 'nullable|date',
             'user.email' => 'required|email|max:255|unique:users,email',
             'user.phone' => 'nullable|max:255',
@@ -40,16 +46,17 @@ class Crud extends PaginationComponent
             'user.password_confirmation' => 'required|same:user._password',
             'avatar' => 'nullable|image|mimes:jpg,jpeg,png|max:1024',
             'thanks' => 'nullable|image|mimes:gif|max:2048',
-            'user.language' => 'required|integer|digits_between:' . User::LANGUAGE_ENGLISH . ',' . User::LANGUAGE_DUTCH,
-            'user.theme' => 'required|integer|digits_between:' . User::THEME_LIGHT . ',' . User::THEME_DARK,
-            'user.receive_news' => 'nullable|boolean'
+            'user.language' => 'required|integer|digits_between:'.User::LANGUAGE_ENGLISH.','.User::LANGUAGE_DUTCH,
+            'user.theme' => 'required|integer|digits_between:'.User::THEME_LIGHT.','.User::THEME_DARK,
+            'user.receive_news' => 'nullable|boolean',
         ];
         if (Auth::user()->role == User::ROLE_MANAGER) {
-            $rules['user.role'] = 'required|integer|digits_between:' . User::ROLE_NORMAL . ',' . User::ROLE_MANAGER;
+            $rules['user.role'] = 'required|integer|digits_between:'.User::ROLE_NORMAL.','.User::ROLE_MANAGER;
         }
         if (Auth::user()->role == User::ROLE_ADMIN) {
-            $rules['user.role'] = 'required|integer|digits_between:' . User::ROLE_NORMAL . ',' . User::ROLE_ADMIN;
+            $rules['user.role'] = 'required|integer|digits_between:'.User::ROLE_NORMAL.','.User::ROLE_ADMIN;
         }
+
         return $rules;
     }
 
@@ -172,7 +179,7 @@ class Crud extends PaginationComponent
         }
 
         return view('livewire.admin.users.crud', [
-            'users' => $users->paginate(Setting::get('pagination_rows') * 4)->withQueryString()
+            'users' => $users->paginate(Setting::get('pagination_rows') * 4)->withQueryString(),
         ])->layout('layouts.app', ['title' => __('admin/users.crud.title'), 'chartjs' => true]);
     }
 }

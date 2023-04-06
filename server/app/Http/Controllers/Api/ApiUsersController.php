@@ -5,14 +5,13 @@ namespace App\Http\Controllers\Api;
 use App\Http\Resources\InventoryResource;
 use App\Http\Resources\NotificationResource;
 use App\Http\Resources\PostResource;
-use App\Http\Resources\UserResource;
 use App\Http\Resources\TransactionResource;
+use App\Http\Resources\UserResource;
 use App\Models\Inventory;
-use App\Models\Notification;
 use App\Models\Post;
 use App\Models\Transaction;
 use App\Models\User;
-use App\Http\Controllers\Controller;
+use Helpers\ApiUtils;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -24,10 +23,10 @@ class ApiUsersController extends ApiController
     // Api users index route
     public function index(Request $request)
     {
-        $users = $this->getItems(User::class, User::select(), $request)
+        $users = User::search(User::select(), $request->input('query'))
             ->orderByRaw('active DESC, LOWER(lastname)')
-            ->paginate($this->getLimit($request))->withQueryString();
-        if (!$request->user()->manager) {
+            ->paginate(ApiUtils::parseLimit($request))->withQueryString();
+        if (! $request->user()->manager) {
             $users = $users->where('active', true);
         }
         return UserResource::collection($users);
@@ -39,11 +38,40 @@ class ApiUsersController extends ApiController
         return new UserResource($user);
     }
 
+    // Api users show posts route
+    public function showPosts(Request $request, User $user)
+    {
+        $posts = Post::search($user->posts()->getQuery(), $request->input('query'))
+            ->orderBy('created_at', 'DESC')
+            ->paginate(ApiUtils::parseLimit($request))->withQueryString();
+        return PostResource::collection($posts);
+    }
+
+    // Api users show inventories route
+    public function showInventories(Request $request, User $user)
+    {
+        $inventories = Inventory::search($user->inventories()->getQuery(), $request->input('query'))
+            ->with('products')
+            ->orderBy('created_at', 'DESC')
+            ->paginate(ApiUtils::parseLimit($request))->withQueryString();
+        return InventoryResource::collection($inventories);
+    }
+
+    // Api users show transactions route
+    public function showTransactions(Request $request, User $user)
+    {
+        $transactions = Transaction::search($user->transactions()->getQuery(), $request->input('query'))
+            ->with(['products'])
+            ->orderBy('created_at', 'DESC')
+            ->paginate(ApiUtils::parseLimit($request))->withQueryString();
+        return TransactionResource::collection($transactions);
+    }
+
     // Api users show notifcations route
     public function showNotifications(Request $request, User $user)
     {
         $notifications = $request->user()->notifications()
-            ->paginate($this->getLimit($request))->withQueryString();
+            ->paginate(ApiUtils::parseLimit($request))->withQueryString();
         return NotificationResource::collection($notifications);
     }
 
@@ -51,37 +79,8 @@ class ApiUsersController extends ApiController
     public function showUnreadNotifications(Request $request, User $user)
     {
         $notifications = $request->user()->unreadNotifications()
-            ->paginate($this->getLimit($request))->withQueryString();
+            ->paginate(ApiUtils::parseLimit($request))->withQueryString();
         return NotificationResource::collection($notifications);
-    }
-
-    // Api users show posts route
-    public function showPosts(Request $request, User $user)
-    {
-        $posts = $this->getItems(Post::class, $user->posts(), $request)
-            ->orderBy('created_at', 'DESC')
-            ->paginate($this->getLimit($request))->withQueryString();
-        return PostResource::collection($posts);
-    }
-
-    // Api users show inventories route
-    public function showInventories(Request $request, User $user)
-    {
-        $inventories = $this->getItems(Inventory::class, $user->inventories(), $request)
-            ->with('products')
-            ->orderBy('created_at', 'DESC')
-            ->paginate($this->getLimit($request))->withQueryString();
-        return InventoryResource::collection($inventories);
-    }
-
-    // Api users show transactions route
-    public function showTransactions(Request $request, User $user)
-    {
-        $transactions = $this->getItems(Transaction::class, $user->transactions(), $request)
-            ->with(['user', 'products']) // For backwards compatability
-            ->orderBy('created_at', 'DESC')
-            ->paginate($this->getLimit($request))->withQueryString();
-        return TransactionResource::collection($transactions);
     }
 
     // Api users check balances route
@@ -89,7 +88,7 @@ class ApiUsersController extends ApiController
     {
         User::checkBalances();
         return [
-            'message' => 'User balances are checked'
+            'message' => 'User balances are checked',
         ];
     }
 
@@ -101,7 +100,7 @@ class ApiUsersController extends ApiController
             'insertion' => 'nullable|max:16',
             'gender' => [
                 'nullable',
-                Rule::in(['', 'male', 'female', 'other'])
+                Rule::in(['', 'male', 'female', 'other']),
             ],
             'birthday' => 'nullable|date',
             'phone' => 'nullable|max:255',
@@ -110,16 +109,16 @@ class ApiUsersController extends ApiController
             'city' => 'nullable|min:2|max:255',
             'language' => [
                 'nullable',
-                Rule::in(['en', 'nl'])
+                Rule::in(['en', 'nl']),
             ],
             'theme' => [
                 'nullable',
-                Rule::in(['light', 'dark'])
+                Rule::in(['light', 'dark']),
             ],
             'receive_news' => [
                 'nullable',
-                Rule::in(['true', 'false'])
-            ]
+                Rule::in(['true', 'false']),
+            ],
         ];
         if ($request->has('firstname')) {
             $rules['firstname'] = 'required|min:2|max:48';
@@ -132,7 +131,7 @@ class ApiUsersController extends ApiController
                 'nullable',
                 'email',
                 'max:255',
-                Rule::unique('users', 'email')->ignore($user->email, 'email')
+                Rule::unique('users', 'email')->ignore($user->email, 'email'),
             ];
         }
         if ($request->has('avatar') && $request->input('avatar') != 'null') {
@@ -229,7 +228,7 @@ class ApiUsersController extends ApiController
         if ($request->has('avatar')) {
             if ($request->input('avatar') == 'null') {
                 // Delete user avatar file from storage
-                Storage::delete('public/avatars/' . $user->avatar);
+                Storage::delete('public/avatars/'.$user->avatar);
 
                 // Update user that he has no avatar
                 $user->avatar = null;
@@ -241,7 +240,7 @@ class ApiUsersController extends ApiController
 
                 // Delete old user avatar
                 if ($user->avatar != null) {
-                    Storage::delete('public/avatars/' . $user->avatar);
+                    Storage::delete('public/avatars/'.$user->avatar);
                 }
 
                 // Update user that he has an avatar
@@ -253,7 +252,7 @@ class ApiUsersController extends ApiController
         if ($request->has('thanks')) {
             if ($request->input('thanks') == 'null') {
                 // Delete user thanks file from storage
-                Storage::delete('public/thanks/' . $user->thanks);
+                Storage::delete('public/thanks/'.$user->thanks);
 
                 // Update user that he has no thanks
                 $user->thanks = null;
@@ -265,7 +264,7 @@ class ApiUsersController extends ApiController
 
                 // Delete old user thanks
                 if ($user->thanks != null) {
-                    Storage::delete('public/thanks/' . $user->thanks);
+                    Storage::delete('public/thanks/'.$user->thanks);
                 }
 
                 // Update user that he has an thanks
@@ -282,7 +281,7 @@ class ApiUsersController extends ApiController
         $user->save();
         return [
             'message' => 'All user changes are saved!',
-            'user' => new UserResource($user)
+            'user' => new UserResource($user),
         ];
     }
 }

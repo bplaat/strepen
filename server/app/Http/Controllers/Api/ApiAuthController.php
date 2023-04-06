@@ -17,25 +17,25 @@ class ApiAuthController extends Controller
         // Validate input
         $validation = Validator::make($request->all(), [
             'email' => 'required|email|exists:users,email',
-            'password' => 'required'
+            'password' => 'required',
         ]);
         if ($validation->fails()) {
             return response(['errors' => $validation->errors()], 400);
         }
 
         // Check if user is active and not deleted
-        $user = User::withTrashed()->where('email', request('email'))->first();
+        $user = User::withTrashed()->where('email', $request->input('email'))->first();
         if ($user->deleted_at != null) {
             return response(['errors' => [__('auth.login.deleted_error')]], 400);
         }
-        if (!$user->active) {
+        if (! $user->active) {
             return response(['errors' => [__('auth.login.active_error')]], 400);
         }
 
         // Try to login
-        if (!Hash::check(request('password'), $user->password)) {
+        if (! Hash::check($request->input('password'), $user->password)) {
             return response(['errors' => [
-                'email' => [__('auth.login.login_error')]
+                'email' => [__('auth.login.login_error')],
             ]], 403);
         }
 
@@ -45,8 +45,16 @@ class ApiAuthController extends Controller
         // Try to login user
         return [
             'token' => $user->createToken('API auth token for api')->plainTextToken,
-            'user_id' => $user->id, // For backwards compatability
-            'user' => new UserResource($user)
+            'user' => new UserResource($user),
+        ];
+    }
+
+    // API validate route
+    public function validate(Request $request)
+    {
+        // Return user information
+        return [
+            'user' => new UserResource($request->user()),
         ];
     }
 
@@ -58,7 +66,7 @@ class ApiAuthController extends Controller
 
         // Return success message
         return [
-            'message' => 'Your current auth token has been signed out'
+            'message' => 'Your current auth token has been signed out',
         ];
     }
 }

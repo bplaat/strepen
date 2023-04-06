@@ -2,18 +2,19 @@
 
 namespace App\Http\Livewire\Admin\ApiKeys;
 
-use App\Models\ApiKey;
 use Livewire\Component;
 
 class Item extends Component
 {
     public $apiKey;
+
     public $isEditing = false;
+
     public $isDeleting = false;
 
     public $rules = [
         'apiKey.name' => 'required|min:2|max:48',
-        'apiKey.active' => 'nullable|boolean'
+        'apiKey.active' => 'nullable|boolean',
     ];
 
     public function editApiKey()

@@ -11,7 +11,9 @@ use Illuminate\Support\Facades\Auth;
 class History extends PaginationComponent
 {
     public $type;
+
     public $product_id;
+
     public $productIdTemp;
 
     public function __construct()
@@ -59,7 +61,7 @@ class History extends PaginationComponent
 
     public function render()
     {
-        $transactions = Transaction::search(Auth::user()->transactions(), $this->query);
+        $transactions = Transaction::search(Auth::user()->transactions()->getQuery(), $this->query);
         if ($this->type != null) {
             if ($this->type == 'transaction') {
                 $type = Transaction::TYPE_TRANSACTION;
@@ -98,7 +100,7 @@ class History extends PaginationComponent
         }
 
         return view('livewire.transactions.history', [
-            'transactions' => $transactions->paginate(Setting::get('pagination_rows') * 3)->withQueryString()
+            'transactions' => $transactions->paginate(Setting::get('pagination_rows') * 3)->withQueryString(),
         ])->layout('layouts.app', ['title' => __('transactions.history.title')]);
     }
 }

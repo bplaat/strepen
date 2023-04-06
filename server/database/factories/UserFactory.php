@@ -5,13 +5,12 @@ namespace Database\Factories;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class UserFactory extends Factory
 {
     protected $model = User::class;
 
-    public function definition()
+    public function definition(): array
     {
         return [
             'firstname' => $this->faker->firstName,
@@ -27,35 +26,35 @@ class UserFactory extends Factory
             'password' => Hash::make($this->faker->password),
             'language' => $this->faker->randomElement([User::LANGUAGE_ENGLISH, User::LANGUAGE_DUTCH]),
             'theme' => $this->faker->randomElement([User::THEME_LIGHT, User::THEME_DARK]),
-            'receive_news' => $this->faker->boolean
+            'receive_news' => $this->faker->boolean,
         ];
     }
 
-    public function unverified()
+    public function unverified(): Factory
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
         ]);
     }
 
-    public function password($password)
+    public function password(string $password): Factory
     {
         return $this->state(fn (array $attributes) => [
-            'password' => Hash::make($password)
+            'password' => Hash::make($password),
         ]);
     }
 
-    public function manager()
+    public function manager(): Factory
     {
         return $this->state(fn (array $attributes) => [
-            'role' => User::ROLE_MANAGER
+            'role' => User::ROLE_MANAGER,
         ]);
     }
 
-    public function admin()
+    public function admin(): Factory
     {
         return $this->state(fn (array $attributes) => [
-            'role' => User::ROLE_ADMIN
+            'role' => User::ROLE_ADMIN,
         ]);
     }
 }

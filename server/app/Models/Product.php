@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
@@ -14,36 +16,37 @@ class Product extends Model
     use SoftDeletes;
 
     protected $hidden = [
-        'deleted_at'
+        'deleted_at',
     ];
 
     protected $casts = [
         'price' => 'double',
         'alcoholic' => 'boolean',
-        'active' => 'boolean'
+        'active' => 'boolean',
     ];
 
     protected $attributes = [
         'amount' => 0,
         'alcoholic' => false,
-        'active' => true
+        'active' => true,
     ];
 
     // Generate a random image name
-    public static function generateImageName($extension)
+    public static function generateImageName(string $extension): string
     {
         if ($extension == 'jpeg') {
             $extension = 'jpg';
         }
-        $image = Str::random(32) . '.' . $extension;
+        $image = Str::random(32).'.'.$extension;
         if (static::where('image', $image)->count() > 0) {
             return static::generateImageName($extension);
         }
+
         return $image;
     }
 
     // Recalculate product amount
-    public function recalculateAmount()
+    public function recalculateAmount(): void
     {
         $this->amount = DB::table('inventory_product')
             ->join('inventories', 'inventories.id', 'inventory_id')
@@ -59,27 +62,31 @@ class Product extends Model
     }
 
     // A product belongs to many inventories
-    public function inventories()
+    public function inventories(): BelongsToMany
     {
         return $this->belongsToMany(Inventory::class)->withPivot('amount')->withTimestamps();
     }
 
     // A product belongs to many transactions
-    public function transactions()
+    public function transactions(): BelongsToMany
     {
         return $this->belongsToMany(Transaction::class, 'transaction_product')->withPivot('amount')->withTimestamps();
     }
 
     // Search by a query
-    public static function search($query, $searchQuery)
+    public static function search(Builder $query, string $searchQuery): Builder
     {
-        return $query->where(fn ($query) => $query->where('name', 'LIKE', '%' . $searchQuery . '%')
-            ->orWhere('description', 'LIKE', '%' . $searchQuery . '%')
-            ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%'));
+        if ($searchQuery != '') {
+            return $query->where(fn ($query) => $query->where('name', 'LIKE', '%'.$searchQuery.'%')
+                ->orWhere('description', 'LIKE', '%'.$searchQuery.'%')
+                ->orWhere('created_at', 'LIKE', '%'.$searchQuery.'%'));
+        }
+
+        return $query;
     }
 
     // Get amount chart data
-    public function getAmountChart($startDate, $endDate)
+    public function getAmountChart(string $startDate, string $endDate): array
     {
         // Covert start and end date to timestamp
         $firstTransaction = $this->transactions()->orderBy('created_at')->first();
@@ -145,7 +152,7 @@ class Product extends Model
                 }
                 $index++;
             }
-            $amountData[] = [ date('Y-m-d', $dayTime), $amount ];
+            $amountData[] = [date('Y-m-d', $dayTime), $amount];
         }
 
         return $amountData;

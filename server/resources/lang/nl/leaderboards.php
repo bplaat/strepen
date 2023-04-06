@@ -26,5 +26,5 @@ return [
     'change_month' => '&#9650;\&#9660; Maand',
     'change_year' => '&#9650;\&#9660; Jaar',
     'cost' => 'Kosten',
-    'balance' => 'Balans'
+    'balance' => 'Balans',
 ];

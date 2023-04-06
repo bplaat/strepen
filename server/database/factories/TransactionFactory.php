@@ -9,12 +9,12 @@ class TransactionFactory extends Factory
 {
     protected $model = Transaction::class;
 
-    public function definition()
+    public function definition(): array
     {
         return [
             'type' => Transaction::TYPE_TRANSACTION,
-            'name' => 'Fake transaction on ' . date('Y-m-d H:i:s'),
-            'price' => $this->faker->numberBetween(1, 10)
+            'name' => 'Fake transaction on '.date('Y-m-d H:i:s'),
+            'price' => $this->faker->numberBetween(1, 10),
         ];
     }
 }

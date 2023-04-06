@@ -124,6 +124,18 @@ paths:
           description: Bad Request
         "403":
           description: Authorization error
+  /auth/validate:
+    get:
+      tags: [Auth]
+      description: Validate auth token
+      security:
+        - ApiKey: []
+        - TokenAuth: []
+      responses:
+        "200":
+          description: Successfull response
+        "403":
+          description: Authorization error
   /auth/logout:
     get:
       tags: [Auth]
@@ -465,6 +477,9 @@ paths:
         - TokenAuth: []
       parameters:
         - $ref: "#/components/parameters/UserID"
+        - $ref: "#/components/parameters/Query"
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Limit"
       responses:
         "200":
           description: Successfull response
@@ -481,6 +496,9 @@ paths:
         - TokenAuth: []
       parameters:
         - $ref: "#/components/parameters/UserID"
+        - $ref: "#/components/parameters/Query"
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Limit"
       responses:
         "200":
           description: Successfull response
@@ -497,6 +515,9 @@ paths:
         - TokenAuth: []
       parameters:
         - $ref: "#/components/parameters/UserID"
+        - $ref: "#/components/parameters/Query"
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Limit"
       responses:
         "200":
           description: Successfull response
@@ -513,6 +534,8 @@ paths:
         - TokenAuth: []
       parameters:
         - $ref: "#/components/parameters/UserID"
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Limit"
       responses:
         "200":
           description: Successfull response
@@ -529,6 +552,8 @@ paths:
         - TokenAuth: []
       parameters:
         - $ref: "#/components/parameters/UserID"
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Limit"
       responses:
         "200":
           description: Successfull response

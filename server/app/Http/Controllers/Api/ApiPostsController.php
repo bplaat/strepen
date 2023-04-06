@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
+use Helpers\ApiUtils;
 use Illuminate\Http\Request;
 
-class ApiPostsController extends ApiController
+class ApiPostsController extends Controller
 {
     // Api posts index route
     public function index(Request $request)
     {
-        $posts = $this->getItems(Post::class, Post::select(), $request)
+        $posts = Post::search(Post::select(), $request->input('query'))
             ->with('user')
             ->orderBy('created_at', 'DESC')
-            ->paginate($this->getLimit($request))->withQueryString();
+            ->paginate(ApiUtils::parseLimit($request))->withQueryString();
         return PostResource::collection($posts);
     }
 

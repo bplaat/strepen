@@ -2,11 +2,12 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class InventoryResource extends JsonResource
 {
-    public function toArray($request)
+    public function toArray(Request $request): array
     {
         return [
             'id' => $this->id,
@@ -15,7 +16,7 @@ class InventoryResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->when($request->user()->manager, $this->updated_at),
             'user' => new UserResource($this->whenLoaded('user')),
-            'products' => ProductResource::collection($this->whenLoaded('products'))
+            'products' => ProductResource::collection($this->whenLoaded('products')),
         ];
     }
 }

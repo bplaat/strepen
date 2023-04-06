@@ -9,6 +9,7 @@ use Illuminate\View\Component;
 class ProductsAmounts extends Component
 {
     public $products;
+
     public $totalPrice;
 
     public function __construct($products, $totalPrice, $createdAt)
@@ -20,16 +21,18 @@ class ProductsAmounts extends Component
         $realTotalPrice = round($products->reduce(
             fn ($price, $product) => $price + $product->pivot->amount * $product->price
         ), 3);
-        if ((string)$this->totalPrice == (string)$realTotalPrice) { // Do a string compare to fix some weird bug
+        if ((string) $this->totalPrice == (string) $realTotalPrice) { // Do a string compare to fix some weird bug
             foreach ($this->products as $product) {
                 $product->pivot->price = $product->price;
             }
+
             return;
         }
 
         // If the transaction only contains one product calculate then product price by division
         if ($this->products->count() == 1) {
             $this->products[0]->pivot->price = $this->totalPrice / $this->products[0]->pivot->amount;
+
             return;
         }
 

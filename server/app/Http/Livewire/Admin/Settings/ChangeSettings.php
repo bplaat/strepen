@@ -8,16 +8,27 @@ use Livewire\Component;
 class ChangeSettings extends Component
 {
     public $currencySymbol;
+
     public $currencyName;
+
     public $minUserBalance;
+
     public $maxStripeAmount;
+
     public $minorAge;
+
     public $paginationRows;
+
     public $kioskIpWhitelist;
+
     public $leaderboardsEnabled;
+
     public $casinoEnabled;
+
     public $bankAccountIban;
+
     public $bankAccountHolder;
+
     public $isChanged = false;
 
     public $rules = [
@@ -36,7 +47,7 @@ class ChangeSettings extends Component
         'productBeerId' => 'required|integer|exists:products,id',
         'productSodaId' => 'required|integer|exists:products,id',
         'productCandybarId' => 'required|integer|exists:products,id',
-        'productChipsId' => 'required|integer|exists:products,id'
+        'productChipsId' => 'required|integer|exists:products,id',
     ];
 
     public $listeners = ['inputValue'];

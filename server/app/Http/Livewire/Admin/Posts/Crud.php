@@ -8,7 +8,6 @@ use App\Models\Setting;
 use App\Models\User;
 use App\Notifications\NewPost;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Livewire\WithFileUploads;
 
 class Crud extends PaginationComponent
@@ -16,15 +15,19 @@ class Crud extends PaginationComponent
     use WithFileUploads;
 
     public $user_id;
+
     public $userIdTemp;
+
     public $post;
+
     public $image;
+
     public $isCreating;
 
     public $rules = [
         'post.title' => 'required|min:2|max:128',
         'image' => 'nullable|image|mimes:jpg,jpeg,png|max:1024',
-        'post.body' => 'required|min:2'
+        'post.body' => 'required|min:2',
     ];
 
     public function __construct()
@@ -109,7 +112,7 @@ class Crud extends PaginationComponent
 
         return view('livewire.admin.posts.crud', [
             'posts' => $posts->with('user')
-                ->paginate(Setting::get('pagination_rows') * 3)->withQueryString()
+                ->paginate(Setting::get('pagination_rows') * 3)->withQueryString(),
         ])->layout('layouts.app', ['title' => __('admin/posts.crud.title')]);
     }
 }

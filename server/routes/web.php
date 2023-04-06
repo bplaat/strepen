@@ -8,6 +8,15 @@ Route::view('/apps', 'apps')->name('apps');
 
 Route::view('/release-notes', 'release-notes')->name('release-notes');
 
+// Guest routes
+Route::middleware('guest')->group(function () {
+    Route::get('/auth/login', App\Http\Livewire\Auth\Login::class)->name('auth.login');
+
+    Route::get('/auth/forgot-password', App\Http\Livewire\Auth\ForgotPassword::class)->name('auth.forgot_password');
+
+    Route::get('/auth/reset-password/{token}', App\Http\Livewire\Auth\ResetPassword::class)->name('password.reset');
+});
+
 // Auth routes
 Route::middleware('auth')->group(function () {
     Route::get('/posts/{post}', App\Http\Livewire\Posts\Show::class)->name('posts.show');
@@ -61,13 +70,4 @@ Route::middleware('auth')->group(function () {
 // Can kiosk routes
 Route::middleware('cankiosk')->group(function () {
     Route::get('/admin/kiosk', [App\Http\Controllers\Admin\AdminController::class, 'kiosk'])->name('admin.kiosk');
-});
-
-// Guest routes
-Route::middleware('guest')->group(function () {
-    Route::get('/auth/login', App\Http\Livewire\Auth\Login::class)->name('auth.login');
-
-    Route::get('/auth/forgot-password', App\Http\Livewire\Auth\ForgotPassword::class)->name('auth.forgot_password');
-
-    Route::get('/auth/reset-password/{token}', App\Http\Livewire\Auth\ResetPassword::class)->name('password.reset');
 });

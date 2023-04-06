@@ -2,22 +2,23 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
-use App\Models\User;
+use Helpers\ApiUtils;
 use Illuminate\Http\Request;
 
-class ApiProductsController extends ApiController
+class ApiProductsController extends Controller
 {
     // Api products index route
     public function index(Request $request)
     {
-        $products = $this->getItems(Product::class, Product::select(), $request)
+        $products = Product::search(Product::select(), $request->input('query'))
             ->orderByRaw('active DESC, LOWER(name)');
-        if (!$request->user()->manager) {
+        if (! $request->user()->manager) {
             $products = $products->where('active', true);
         }
-        $products = $products->paginate($this->getLimit($request))->withQueryString();
+        $products = $products->paginate(ApiUtils::parseLimit($request))->withQueryString();
         return ProductResource::collection($products);
     }
 

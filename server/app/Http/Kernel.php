@@ -39,7 +39,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
 
             // Custom middleware
-            \App\Http\Middleware\Language::class
+            \App\Http\Middleware\Language::class,
         ],
 
         'api' => [
@@ -73,6 +73,6 @@ class Kernel extends HttpKernel
         'admin' => \App\Http\Middleware\VerifyAdmin::class,
         'nokiosk' => \App\Http\Middleware\VerifyNoKiosk::class,
         'leaderboards' => \App\Http\Middleware\VerifyLeaderboards::class,
-        'casino' => \App\Http\Middleware\VerifyCasino::class
+        'casino' => \App\Http\Middleware\VerifyCasino::class,
     ];
 }

@@ -9,11 +9,11 @@ class PostFactory extends Factory
 {
     protected $model = Post::class;
 
-    public function definition()
+    public function definition(): array
     {
         return [
             'title' => $this->faker->sentence,
-            'body' => $this->faker->text(1000)
+            'body' => $this->faker->text(1000),
         ];
     }
 }

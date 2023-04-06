@@ -102,7 +102,7 @@
                                 {!! $productName != '' ? str_replace(' ', '&nbsp;', preg_replace('#(' . preg_quote($productName) . ')#i', '<b>$1</b>', $product->name)) : $product->name !!}
                             </a>
                         @empty
-                            <div class="dropdown-item"><i>@lang('components.products_chooser.search_empty')</i></div>
+                            <div class="dropdown-item"><i>@lang('components.products_chooser.empty')</i></div>
                         @endforelse
                     </div>
                 </div>

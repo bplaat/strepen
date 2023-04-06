@@ -12,9 +12,8 @@ class ApiNotificationsController extends Controller
     {
         $notification->read_at = now();
         $notification->save();
-
         return [
-            'message' => 'The notification is successfully read'
+            'message' => 'The notification is successfully read',
         ];
     }
 }

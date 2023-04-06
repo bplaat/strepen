@@ -6,12 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 class CreatePostDislikesTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
+    public function up(): void
     {
         Schema::create('post_dislikes', function (Blueprint $table) {
             $table->id();
@@ -31,12 +26,7 @@ class CreatePostDislikesTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('post_dislikes');
     }

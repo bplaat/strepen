@@ -5,7 +5,6 @@ namespace App\Http\Livewire\Admin\Products;
 use App\Http\Livewire\PaginationComponent;
 use App\Models\Product;
 use App\Models\Setting;
-use Illuminate\Support\Facades\Storage;
 use Livewire\WithFileUploads;
 
 class Crud extends PaginationComponent
@@ -13,8 +12,11 @@ class Crud extends PaginationComponent
     use WithFileUploads;
 
     public $alcoholic;
+
     public $product;
+
     public $image;
+
     public $isCreating;
 
     public $rules = [
@@ -22,7 +24,7 @@ class Crud extends PaginationComponent
         'product.price' => 'required|numeric',
         'product.description' => 'nullable',
         'image' => 'nullable|image|mimes:jpg,jpeg,png|max:1024',
-        'product.alcoholic' => 'nullable|boolean'
+        'product.alcoholic' => 'nullable|boolean',
     ];
 
     public function __construct()
@@ -102,7 +104,7 @@ class Crud extends PaginationComponent
         }
 
         return view('livewire.admin.products.crud', [
-            'products' => $products->paginate(Setting::get('pagination_rows') * 4)->withQueryString()
+            'products' => $products->paginate(Setting::get('pagination_rows') * 4)->withQueryString(),
         ])->layout('layouts.app', ['title' => __('admin/products.crud.title'), 'chartjs' => true]);
     }
 }

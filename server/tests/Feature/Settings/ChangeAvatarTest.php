@@ -5,9 +5,8 @@ namespace Tests\Feature\Settings;
 use App\Http\LiveWire\Settings\ChangeAvatar;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
-use Tests\TestCase;
 use Livewire;
+use Tests\TestCase;
 
 class ChangeAvatarTest extends TestCase
 {
