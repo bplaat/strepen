@@ -8,6 +8,8 @@ Route::view('/apps', 'apps')->name('apps');
 
 Route::view('/release-notes', 'release-notes')->name('release-notes');
 
+Route::view('/account-deletion', 'account-deletion')->name('account-deletion');
+
 // Auth routes
 Route::middleware('auth')->group(function () {
     Route::get('/posts/{post}', App\Http\Livewire\Posts\Show::class)->name('posts.show');
