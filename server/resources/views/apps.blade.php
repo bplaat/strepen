@@ -21,7 +21,7 @@
                             <img alt="Get it on Google Play" src="/images/google-play-download.png" style="width: 250px;">
                         </a>
 
-                        <a href="https://github.com/bplaat/strepen/releases/tag/client-v1.3.0" target="_blank" rel="noreferrer">
+                        <a href="https://github.com/bplaat/strepen/releases/tag/client-v1.4.0" target="_blank" rel="noreferrer">
                             <img alt="Get it on Google Play" src="/images/direct-apk-download.png" style="width: 250px;">
                         </a>
                     </p>
