@@ -99,7 +99,8 @@ class _HomeScreenPostsTabState extends State {
             : (_posts.isNotEmpty
                 ? ListView.builder(
                     controller: _scrollController,
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     itemCount: _posts.length,
                     itemBuilder: (context, index) =>
                         PostItem(post: _posts[index]))
@@ -170,23 +171,21 @@ class _PostItemState extends State {
                                         .format(post.createdAt)),
                                 style: const TextStyle(color: Colors.grey))),
                         Html(
-                            data: post.body,
-                            style: {
-                              'body': Style(
-                                  margin: Margins.zero,
-                                  padding: EdgeInsets.zero)
-                            },
-                            onLinkTap: (String? url,
-                                RenderContext context,
-                                Map<String, String> attributes,
-                                dom.Element? element) async {
-                              if (url != null) {
-                                Uri uri = Uri.parse(url);
-                                if (await canLaunchUrl(uri)) {
-                                  await launchUrl(uri);
-                                }
-                              }
-                            }),
+                          data: post.body,
+                          style: {
+                            'body': Style(
+                              margin: Margins.zero,
+                              padding: HtmlPaddings.zero,
+                            )
+                          },
+                          onLinkTap: (String? url,
+                              Map<String, String> attributes,
+                              dom.Element? element) async {
+                            if (url == null) return;
+                            Uri uri = Uri.parse(url);
+                            if (await canLaunchUrl(uri)) await launchUrl(uri);
+                          },
+                        ),
                         Row(children: [
                           // Like button
                           Expanded(
@@ -210,8 +209,8 @@ class _PostItemState extends State {
                                           post.likes > 0
                                               ? post.likes.toString()
                                               : lang.home_posts_like,
-                                          style:
-                                              const TextStyle(color: Colors.white)))
+                                          style: const TextStyle(
+                                              color: Colors.white)))
                                   : OutlinedButton.icon(
                                       onPressed: () async {
                                         await post.like();
@@ -250,8 +249,8 @@ class _PostItemState extends State {
                                           post.dislikes > 0
                                               ? post.dislikes.toString()
                                               : lang.home_posts_dislike,
-                                          style:
-                                              const TextStyle(color: Colors.white)))
+                                          style: const TextStyle(
+                                              color: Colors.white)))
                                   : OutlinedButton.icon(
                                       onPressed: () async {
                                         await post.dislike();

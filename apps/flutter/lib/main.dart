@@ -13,28 +13,24 @@ class StrepenApp extends StatelessWidget {
     return MaterialApp(
       title: 'Strepen',
       debugShowCheckedModeBanner: false,
-
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-
       theme: ThemeData(
-        brightness: Brightness.light,
-        primarySwatch: Colors.pink,
-        accentColor: Colors.pink
-      ),
+          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.pink)
+              .copyWith(secondary: Colors.pink)),
       darkTheme: ThemeData(
-        brightness: Brightness.dark,
-        primarySwatch: Colors.pink,
-        accentColor: Colors.pink
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.pink)
+            .copyWith(secondary: Colors.pink, brightness: Brightness.dark),
+        appBarTheme: const AppBarTheme(
+            backgroundColor: Colors.pink, foregroundColor: Colors.white),
       ),
-
       initialRoute: '/loading',
       routes: {
         '/loading': (context) => const LoadingScreen(),
         '/home': (context) => const HomeScreen(),
         '/login': (context) => const LoginScreen(),
         '/settings': (context) => const SettingsScreen(),
-      }
+      },
     );
   }
 }
