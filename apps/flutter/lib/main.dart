@@ -16,9 +16,11 @@ class StrepenApp extends StatelessWidget {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       theme: ThemeData(
+          useMaterial3: false,
           colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.pink)
               .copyWith(secondary: Colors.pink)),
       darkTheme: ThemeData(
+        useMaterial3: false,
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.pink)
             .copyWith(secondary: Colors.pink, brightness: Brightness.dark),
         appBarTheme: const AppBarTheme(
