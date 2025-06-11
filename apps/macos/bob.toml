@@ -1,0 +1,10 @@
+[package]
+name = "Strepen"
+identifier = "nl.plaatsoft.Strepen"
+version = "0.1.0"
+
+[build]
+ldflags = "-framework Cocoa -framework WebKit"
+
+[package.metadata.bundle]
+copyright = "Copyright © 2021-2025 PlaatSoft"
