@@ -19,13 +19,14 @@ class Transaction {
   final Map<Product, int>? products;
   final DateTime createdAt;
 
-  const Transaction(
-      {required this.id,
-      required this.type,
-      required this.name,
-      required this.price,
-      required this.products,
-      required this.createdAt});
+  const Transaction({
+    required this.id,
+    required this.type,
+    required this.name,
+    required this.price,
+    required this.products,
+    required this.createdAt,
+  });
 
   factory Transaction.fromJson(Map<String, dynamic> json) {
     Map<Product, int>? products;
@@ -37,11 +38,12 @@ class Transaction {
     }
 
     return Transaction(
-        id: json['id'],
-        type: transactionTypeFromString(json['type'])!,
-        name: json['name'],
-        price: json['price'].toDouble(),
-        products: products,
-        createdAt: DateTime.parse(json['created_at']));
+      id: json['id'],
+      type: transactionTypeFromString(json['type'])!,
+      name: json['name'],
+      price: json['price'].toDouble(),
+      products: products,
+      createdAt: DateTime.parse(json['created_at']),
+    );
   }
 }

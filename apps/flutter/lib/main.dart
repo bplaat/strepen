@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'l10n/app_localizations.dart';
 import 'screens/loading_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/login_screen.dart';
@@ -16,15 +16,21 @@ class StrepenApp extends StatelessWidget {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       theme: ThemeData(
-          useMaterial3: false,
-          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.pink)
-              .copyWith(secondary: Colors.pink)),
+        useMaterial3: false,
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: Colors.pink,
+        ).copyWith(secondary: Colors.pink),
+      ),
       darkTheme: ThemeData(
         useMaterial3: false,
-        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.pink)
-            .copyWith(secondary: Colors.pink, brightness: Brightness.dark),
+        colorScheme: ColorScheme.fromSwatch(
+          brightness: Brightness.dark,
+          primarySwatch: Colors.pink,
+        ).copyWith(secondary: Colors.pink),
         appBarTheme: const AppBarTheme(
-            backgroundColor: Colors.pink, foregroundColor: Colors.white),
+          backgroundColor: Colors.pink,
+          foregroundColor: Colors.white,
+        ),
       ),
       initialRoute: '/loading',
       routes: {

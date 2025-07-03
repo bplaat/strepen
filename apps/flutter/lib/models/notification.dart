@@ -14,20 +14,21 @@ class NotificationData {
   final DateTime? readAt;
   final DateTime createdAt;
 
-  const NotificationData(
-      {required this.id,
-      required this.type,
-      required this.data,
-      required this.readAt,
-      required this.createdAt});
+  const NotificationData({
+    required this.id,
+    required this.type,
+    required this.data,
+    required this.readAt,
+    required this.createdAt,
+  });
 
   factory NotificationData.fromJson(Map<String, dynamic> json) {
     return NotificationData(
-        id: json['id'],
-        type: notificationTypeFromString(json['type'])!,
-        data: json['data'],
-        readAt:
-            json['read_at'] != null ? DateTime.parse(json['read_at']) : null,
-        createdAt: DateTime.parse(json['created_at']));
+      id: json['id'],
+      type: notificationTypeFromString(json['type'])!,
+      data: json['data'],
+      readAt: json['read_at'] != null ? DateTime.parse(json['read_at']) : null,
+      createdAt: DateTime.parse(json['created_at']),
+    );
   }
 }

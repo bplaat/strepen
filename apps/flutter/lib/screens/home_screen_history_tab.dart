@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
+import '../l10n/app_localizations.dart';
 import '../models/transaction.dart';
 import '../services/auth_service.dart';
 import '../services/settings_service.dart';
@@ -51,8 +51,10 @@ class _HomeScreenHistoryTabState extends State {
     _isLoading = true;
     List<Transaction> newTransactions;
     try {
-      newTransactions = await AuthService.getInstance()
-          .transactions(page: _page, forceReload: _loadedPages.contains(_page));
+      newTransactions = await AuthService.getInstance().transactions(
+        page: _page,
+        forceReload: _loadedPages.contains(_page),
+      );
       if (!_loadedPages.contains(_page)) {
         _loadedPages.add(_page);
       }
@@ -83,47 +85,45 @@ class _HomeScreenHistoryTabState extends State {
   Widget build(BuildContext context) {
     final lang = AppLocalizations.of(context)!;
     return FutureBuilder<Map<String, dynamic>>(
-        future: SettingsService.getInstance().settings(),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            print('HomeScreenHistoryTab error: ${snapshot.error}');
-            return Center(
-              child: Text(lang.home_history_error),
-            );
-          } else if (snapshot.hasData) {
-            Map<String, dynamic> settings = snapshot.data!;
-            return RefreshIndicator(
-                onRefresh: () async {
-                  _transactions = [];
-                  _page = 1;
-                  _isLoading = false;
-                  _isDone = false;
-                  loadNextPage();
-                },
-                child: _hasError
-                    ? Center(
-                        child: Text(lang.home_history_error),
-                      )
-                    : (_transactions.isNotEmpty
-                        ? ListView.builder(
-                            controller: _scrollController,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 8),
-                            itemCount: _transactions.length,
-                            itemBuilder: (context, index) => TransactionItem(
-                                transaction: _transactions[index],
-                                settings: settings))
-                        : (_isLoading
+      future: SettingsService.getInstance().settings(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          print('HomeScreenHistoryTab error: ${snapshot.error}');
+          return Center(child: Text(lang.home_history_error));
+        } else if (snapshot.hasData) {
+          Map<String, dynamic> settings = snapshot.data!;
+          return RefreshIndicator(
+            onRefresh: () async {
+              _transactions = [];
+              _page = 1;
+              _isLoading = false;
+              _isDone = false;
+              loadNextPage();
+            },
+            child: _hasError
+                ? Center(child: Text(lang.home_history_error))
+                : (_transactions.isNotEmpty
+                      ? ListView.builder(
+                          controller: _scrollController,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 8,
+                          ),
+                          itemCount: _transactions.length,
+                          itemBuilder: (context, index) => TransactionItem(
+                            transaction: _transactions[index],
+                            settings: settings,
+                          ),
+                        )
+                      : (_isLoading
                             ? const Center(child: CircularProgressIndicator())
-                            : Center(
-                                child: Text(lang.home_history_empty),
-                              ))));
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        });
+                            : Center(child: Text(lang.home_history_empty)))),
+          );
+        } else {
+          return const Center(child: CircularProgressIndicator());
+        }
+      },
+    );
   }
 }
 
@@ -131,73 +131,108 @@ class TransactionItem extends StatelessWidget {
   final Transaction transaction;
   final Map<String, dynamic> settings;
 
-  const TransactionItem(
-      {Key? key, required this.transaction, required this.settings})
-      : super(key: key);
+  const TransactionItem({
+    Key? key,
+    required this.transaction,
+    required this.settings,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final lang = AppLocalizations.of(context)!;
-    final isMobile = defaultTargetPlatform == TargetPlatform.iOS ||
+    final isMobile =
+        defaultTargetPlatform == TargetPlatform.iOS ||
         defaultTargetPlatform == TargetPlatform.android;
     return Center(
-        child: Container(
-            constraints:
-                BoxConstraints(maxWidth: !isMobile ? 560 : double.infinity),
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: Card(
-                child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(children: [
-                      Container(
-                        width: double.infinity,
-                        margin: const EdgeInsets.only(bottom: 8),
-                        child: Text(transaction.name,
-                            style: const TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w500)),
+      child: Container(
+        constraints: BoxConstraints(
+          maxWidth: !isMobile ? 560 : double.infinity,
+        ),
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: [
+                Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.only(bottom: 8),
+                  child: Text(
+                    transaction.name,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                if (transaction.type == TransactionType.transaction) ...[
+                  Container(
+                    width: double.infinity,
+                    margin: const EdgeInsets.only(bottom: 16),
+                    child: Text(
+                      lang.home_history_transaction_on(
+                        DateFormat(
+                          'yyyy-MM-dd kk:mm',
+                        ).format(transaction.createdAt),
                       ),
-                      if (transaction.type == TransactionType.transaction) ...[
-                        Container(
-                            width: double.infinity,
-                            margin: const EdgeInsets.only(bottom: 16),
-                            child: Text(
-                                lang.home_history_transaction_on(
-                                    DateFormat('yyyy-MM-dd kk:mm')
-                                        .format(transaction.createdAt)),
-                                style: const TextStyle(color: Colors.grey))),
-                        TransactionProductsAmounts(
-                            products: transaction.products!,
-                            totalPrice: transaction.price,
-                            settings: settings)
-                      ],
-                      if (transaction.type == TransactionType.deposit) ...[
-                        Container(
-                            width: double.infinity,
-                            margin: const EdgeInsets.only(bottom: 8),
-                            child: Text(
-                                lang.home_history_deposit_on(
-                                    DateFormat('yyyy-MM-dd kk:mm')
-                                        .format(transaction.createdAt)),
-                                style: const TextStyle(color: Colors.grey))),
-                        Container(
-                            width: double.infinity,
-                            child: Text(lang.home_history_amount(
-                                '${settings['currency_symbol']} ${transaction.price.toStringAsFixed(2)}')))
-                      ],
-                      if (transaction.type == TransactionType.payment) ...[
-                        Container(
-                            width: double.infinity,
-                            margin: const EdgeInsets.only(bottom: 8),
-                            child: Text(
-                                lang.home_history_payment_on(
-                                    DateFormat('yyyy-MM-dd kk:mm')
-                                        .format(transaction.createdAt)),
-                                style: const TextStyle(color: Colors.grey))),
-                        Container(
-                            width: double.infinity,
-                            child: Text(lang.home_history_amount(
-                                '${settings['currency_symbol']} ${transaction.price.toStringAsFixed(2)}')))
-                      ]
-                    ])))));
+                      style: const TextStyle(color: Colors.grey),
+                    ),
+                  ),
+                  TransactionProductsAmounts(
+                    products: transaction.products!,
+                    totalPrice: transaction.price,
+                    settings: settings,
+                  ),
+                ],
+                if (transaction.type == TransactionType.deposit) ...[
+                  Container(
+                    width: double.infinity,
+                    margin: const EdgeInsets.only(bottom: 8),
+                    child: Text(
+                      lang.home_history_deposit_on(
+                        DateFormat(
+                          'yyyy-MM-dd kk:mm',
+                        ).format(transaction.createdAt),
+                      ),
+                      style: const TextStyle(color: Colors.grey),
+                    ),
+                  ),
+                  Container(
+                    width: double.infinity,
+                    child: Text(
+                      lang.home_history_amount(
+                        '${settings['currency_symbol']} ${transaction.price.toStringAsFixed(2)}',
+                      ),
+                    ),
+                  ),
+                ],
+                if (transaction.type == TransactionType.payment) ...[
+                  Container(
+                    width: double.infinity,
+                    margin: const EdgeInsets.only(bottom: 8),
+                    child: Text(
+                      lang.home_history_payment_on(
+                        DateFormat(
+                          'yyyy-MM-dd kk:mm',
+                        ).format(transaction.createdAt),
+                      ),
+                      style: const TextStyle(color: Colors.grey),
+                    ),
+                  ),
+                  Container(
+                    width: double.infinity,
+                    child: Text(
+                      lang.home_history_amount(
+                        '${settings['currency_symbol']} ${transaction.price.toStringAsFixed(2)}',
+                      ),
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

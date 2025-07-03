@@ -38,9 +38,10 @@ class AuthService {
   Future<bool> login({required String email, required String password}) async {
     StorageService storage = await StorageService.getInstance();
     final response = await http.post(
-        Uri.parse('${storage.organisation.apiUrl}/auth/login'),
-        headers: {'X-Api-Key': storage.organisation.apiKey},
-        body: {'email': email, 'password': password});
+      Uri.parse('${storage.organisation.apiUrl}/auth/login'),
+      headers: {'X-Api-Key': storage.organisation.apiKey},
+      body: {'email': email, 'password': password},
+    );
     final data = json.decode(response.body);
     if (!data.containsKey('token')) {
       return false;
@@ -54,11 +55,13 @@ class AuthService {
 
   Future logout() async {
     StorageService storage = await StorageService.getInstance();
-    await http
-        .get(Uri.parse('${storage.organisation.apiUrl}/auth/logout'), headers: {
-      'X-Api-Key': storage.organisation.apiKey,
-      'Authorization': 'Bearer ${storage.token!}'
-    });
+    await http.get(
+      Uri.parse('${storage.organisation.apiUrl}/auth/logout'),
+      headers: {
+        'X-Api-Key': storage.organisation.apiKey,
+        'Authorization': 'Bearer ${storage.token!}',
+      },
+    );
     await storage.setToken(null);
     await storage.setUserId(null);
     clearCache();
@@ -74,11 +77,12 @@ class AuthService {
         return false;
       }
       final response = await http.get(
-          Uri.parse('${storage.organisation.apiUrl}/users/${storage.userId!}'),
-          headers: {
-            'X-Api-Key': storage.organisation.apiKey,
-            'Authorization': 'Bearer ${storage.token!}'
-          });
+        Uri.parse('${storage.organisation.apiUrl}/users/${storage.userId!}'),
+        headers: {
+          'X-Api-Key': storage.organisation.apiKey,
+          'Authorization': 'Bearer ${storage.token!}',
+        },
+      );
       try {
         _user = User.fromJson(json.decode(response.body));
       } catch (exception) {
@@ -94,11 +98,12 @@ class AuthService {
     if (_user == null || forceReload) {
       StorageService storage = await StorageService.getInstance();
       final response = await http.get(
-          Uri.parse('${storage.organisation.apiUrl}/users/${storage.userId!}'),
-          headers: {
-            'X-Api-Key': storage.organisation.apiKey,
-            'Authorization': 'Bearer ${storage.token!}'
-          });
+        Uri.parse('${storage.organisation.apiUrl}/users/${storage.userId!}'),
+        headers: {
+          'X-Api-Key': storage.organisation.apiKey,
+          'Authorization': 'Bearer ${storage.token!}',
+        },
+      );
       try {
         _user = User.fromJson(json.decode(response.body));
       } catch (exception) {
@@ -108,17 +113,20 @@ class AuthService {
     return _user;
   }
 
-  Future<List<NotificationData>> unreadNotifications(
-      {bool forceReload = false}) async {
+  Future<List<NotificationData>> unreadNotifications({
+    bool forceReload = false,
+  }) async {
     if (_unreadNotifications == null || forceReload) {
       StorageService storage = await StorageService.getInstance();
       final response = await http.get(
-          Uri.parse(
-              '${storage.organisation.apiUrl}/users/${storage.userId!}/notifications/unread'),
-          headers: {
-            'X-Api-Key': storage.organisation.apiKey,
-            'Authorization': 'Bearer ${storage.token!}'
-          });
+        Uri.parse(
+          '${storage.organisation.apiUrl}/users/${storage.userId!}/notifications/unread',
+        ),
+        headers: {
+          'X-Api-Key': storage.organisation.apiKey,
+          'Authorization': 'Bearer ${storage.token!}',
+        },
+      );
       final notificationsJson = json.decode(response.body)['data'];
       _unreadNotifications = notificationsJson
           .map<NotificationData>((json) => NotificationData.fromJson(json))
@@ -130,25 +138,31 @@ class AuthService {
   Future readNotification({required String notificationId}) async {
     StorageService storage = await StorageService.getInstance();
     await http.get(
-        Uri.parse(
-            '${storage.organisation.apiUrl}/notifications/$notificationId/read'),
-        headers: {
-          'X-Api-Key': storage.organisation.apiKey,
-          'Authorization': 'Bearer ${storage.token!}'
-        });
+      Uri.parse(
+        '${storage.organisation.apiUrl}/notifications/$notificationId/read',
+      ),
+      headers: {
+        'X-Api-Key': storage.organisation.apiKey,
+        'Authorization': 'Bearer ${storage.token!}',
+      },
+    );
   }
 
-  Future<List<Transaction>> transactions(
-      {int page = 1, bool forceReload = false}) async {
+  Future<List<Transaction>> transactions({
+    int page = 1,
+    bool forceReload = false,
+  }) async {
     if (!_transactions.containsKey(page) || forceReload) {
       StorageService storage = await StorageService.getInstance();
       final response = await http.get(
-          Uri.parse(
-              '${storage.organisation.apiUrl}/users/${storage.userId!}/transactions?page=$page'),
-          headers: {
-            'X-Api-Key': storage.organisation.apiKey,
-            'Authorization': 'Bearer ${storage.token!}'
-          });
+        Uri.parse(
+          '${storage.organisation.apiUrl}/users/${storage.userId!}/transactions?page=$page',
+        ),
+        headers: {
+          'X-Api-Key': storage.organisation.apiKey,
+          'Authorization': 'Bearer ${storage.token!}',
+        },
+      );
       final transactionsJson = json.decode(response.body)['data'];
       _transactions[page] = transactionsJson
           .map<Transaction>((json) => Transaction.fromJson(json))
@@ -157,11 +171,12 @@ class AuthService {
     return _transactions[page]!;
   }
 
-  Future<bool> createTransaction(
-      {required Map<Product, int> productAmounts}) async {
+  Future<bool> createTransaction({
+    required Map<Product, int> productAmounts,
+  }) async {
     final body = {
       'name':
-          'Mobile transaction on ${DateFormat('yyyy-MM-dd kk:mm:ss').format(DateTime.now())}'
+          'Mobile transaction on ${DateFormat('yyyy-MM-dd kk:mm:ss').format(DateTime.now())}',
     };
 
     int index = 0;
@@ -177,12 +192,13 @@ class AuthService {
 
     StorageService storage = await StorageService.getInstance();
     final response = await http.post(
-        Uri.parse('${storage.organisation.apiUrl}/transactions'),
-        headers: {
-          'X-Api-Key': storage.organisation.apiKey,
-          'Authorization': 'Bearer ${storage.token!}'
-        },
-        body: body);
+      Uri.parse('${storage.organisation.apiUrl}/transactions'),
+      headers: {
+        'X-Api-Key': storage.organisation.apiKey,
+        'Authorization': 'Bearer ${storage.token!}',
+      },
+      body: body,
+    );
 
     final data = json.decode(response.body);
     if (!data.containsKey('transaction')) {
@@ -195,40 +211,42 @@ class AuthService {
     return true;
   }
 
-  Future<Map<String, List<dynamic>>?> changeDetails(
-      {required String firstname,
-      required String insertion,
-      required String lastname,
-      required Gender? gender,
-      required DateTime? birthday,
-      required String email,
-      required String phone,
-      required String address,
-      required String postcode,
-      required String city,
-      required bool receiveNews}) async {
+  Future<Map<String, List<dynamic>>?> changeDetails({
+    required String firstname,
+    required String insertion,
+    required String lastname,
+    required Gender? gender,
+    required DateTime? birthday,
+    required String email,
+    required String phone,
+    required String address,
+    required String postcode,
+    required String city,
+    required bool receiveNews,
+  }) async {
     StorageService storage = await StorageService.getInstance();
     final response = await http.post(
-        Uri.parse(
-            '${storage.organisation.apiUrl}/users/${storage.userId!}/edit'),
-        headers: {
-          'X-Api-Key': storage.organisation.apiKey,
-          'Authorization': 'Bearer ${storage.token!}'
-        },
-        body: {
-          'firstname': firstname,
-          'insertion': insertion,
-          'lastname': lastname,
-          'gender': genderToString(gender),
-          'birthday':
-              birthday != null ? DateFormat('yyyy-MM-dd').format(birthday) : '',
-          'email': email,
-          'phone': phone,
-          'address': address,
-          'postcode': postcode,
-          'city': city,
-          'receive_news': receiveNews.toString()
-        });
+      Uri.parse('${storage.organisation.apiUrl}/users/${storage.userId!}/edit'),
+      headers: {
+        'X-Api-Key': storage.organisation.apiKey,
+        'Authorization': 'Bearer ${storage.token!}',
+      },
+      body: {
+        'firstname': firstname,
+        'insertion': insertion,
+        'lastname': lastname,
+        'gender': genderToString(gender),
+        'birthday': birthday != null
+            ? DateFormat('yyyy-MM-dd').format(birthday)
+            : '',
+        'email': email,
+        'phone': phone,
+        'address': address,
+        'postcode': postcode,
+        'city': city,
+        'receive_news': receiveNews.toString(),
+      },
+    );
 
     final data = json.decode(response.body);
     if (data.containsKey('user')) {
@@ -241,20 +259,27 @@ class AuthService {
   Future<bool> changeAvatar({required XFile? avatar}) async {
     StorageService storage = await StorageService.getInstance();
     final request = http.MultipartRequest(
-        'POST',
-        Uri.parse(
-            '${storage.organisation.apiUrl}/users/${storage.userId!}/edit'));
+      'POST',
+      Uri.parse('${storage.organisation.apiUrl}/users/${storage.userId!}/edit'),
+    );
     request.headers['X-Api-Key'] = storage.organisation.apiKey;
     request.headers['Authorization'] = 'Bearer ${storage.token!}';
     if (avatar != null) {
       // Load and resize image
       final avatarImage = decodeImage(File(avatar.path).readAsBytesSync())!;
-      final resizedAvatarImage =
-          copyResize(avatarImage, width: 512, height: 512);
-      request.files.add(http.MultipartFile.fromBytes(
-          'avatar', encodeJpg(resizedAvatarImage, quality: 75),
+      final resizedAvatarImage = copyResize(
+        avatarImage,
+        width: 512,
+        height: 512,
+      );
+      request.files.add(
+        http.MultipartFile.fromBytes(
+          'avatar',
+          encodeJpg(resizedAvatarImage, quality: 75),
           filename: 'avatar.jpg',
-          contentType: http_parser.MediaType('image', 'jpeg')));
+          contentType: http_parser.MediaType('image', 'jpeg'),
+        ),
+      );
     } else {
       request.fields['avatar'] = 'null';
     }
@@ -272,18 +297,22 @@ class AuthService {
   Future<bool> changeThanks({required GiphyGif? thanks}) async {
     StorageService storage = await StorageService.getInstance();
     final request = http.MultipartRequest(
-        'POST',
-        Uri.parse(
-            '${storage.organisation.apiUrl}/users/${storage.userId!}/edit'));
+      'POST',
+      Uri.parse('${storage.organisation.apiUrl}/users/${storage.userId!}/edit'),
+    );
     request.headers['X-Api-Key'] = storage.organisation.apiKey;
     request.headers['Authorization'] = 'Bearer ${storage.token!}';
     if (thanks != null) {
       // Download gif image
       final response = await http.get(Uri.parse(thanks.images.downsized!.url!));
-      request.files.add(http.MultipartFile.fromBytes(
-          'thanks', response.bodyBytes,
+      request.files.add(
+        http.MultipartFile.fromBytes(
+          'thanks',
+          response.bodyBytes,
           filename: 'thanks.gif',
-          contentType: http_parser.MediaType('image', 'gif')));
+          contentType: http_parser.MediaType('image', 'gif'),
+        ),
+      );
     } else {
       request.fields['thanks'] = 'null';
     }
@@ -298,23 +327,24 @@ class AuthService {
     return false;
   }
 
-  Future<Map<String, List<dynamic>>?> changePassword(
-      {required String currentPassword,
-      required String password,
-      required String passwordConfirmation}) async {
+  Future<Map<String, List<dynamic>>?> changePassword({
+    required String currentPassword,
+    required String password,
+    required String passwordConfirmation,
+  }) async {
     StorageService storage = await StorageService.getInstance();
     final response = await http.post(
-        Uri.parse(
-            '${storage.organisation.apiUrl}/users/${storage.userId!}/edit'),
-        headers: {
-          'X-Api-Key': storage.organisation.apiKey,
-          'Authorization': 'Bearer ${storage.token!}'
-        },
-        body: {
-          'current_password': currentPassword,
-          'password': password,
-          'password_confirmation': passwordConfirmation
-        });
+      Uri.parse('${storage.organisation.apiUrl}/users/${storage.userId!}/edit'),
+      headers: {
+        'X-Api-Key': storage.organisation.apiKey,
+        'Authorization': 'Bearer ${storage.token!}',
+      },
+      body: {
+        'current_password': currentPassword,
+        'password': password,
+        'password_confirmation': passwordConfirmation,
+      },
+    );
 
     final data = json.decode(response.body);
     if (data.containsKey('user')) {

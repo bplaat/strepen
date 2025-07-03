@@ -13,30 +13,32 @@ class Post {
   bool userDisliked;
   final DateTime createdAt;
 
-  Post(
-      {required this.id,
-      required this.user,
-      required this.title,
-      required this.image,
-      required this.body,
-      required this.likes,
-      required this.userLiked,
-      required this.dislikes,
-      required this.userDisliked,
-      required this.createdAt});
+  Post({
+    required this.id,
+    required this.user,
+    required this.title,
+    required this.image,
+    required this.body,
+    required this.likes,
+    required this.userLiked,
+    required this.dislikes,
+    required this.userDisliked,
+    required this.createdAt,
+  });
 
   factory Post.fromJson(Map<String, dynamic> json) {
     return Post(
-        id: json['id'],
-        user: json['user'] != null ? User.fromJson(json['user']) : null,
-        title: json['title'],
-        image: json['image'],
-        body: json['body'],
-        likes: json['likes'],
-        userLiked: json['user_liked'],
-        dislikes: json['dislikes'],
-        userDisliked: json['user_disliked'],
-        createdAt: DateTime.parse(json['created_at']));
+      id: json['id'],
+      user: json['user'] != null ? User.fromJson(json['user']) : null,
+      title: json['title'],
+      image: json['image'],
+      body: json['body'],
+      likes: json['likes'],
+      userLiked: json['user_liked'],
+      dislikes: json['dislikes'],
+      userDisliked: json['user_disliked'],
+      createdAt: DateTime.parse(json['created_at']),
+    );
   }
 
   Future like() async {

@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../l10n/app_localizations.dart';
 import 'settings_screen_avatar_tab.dart';
 import 'settings_screen_details_tab.dart';
 import 'settings_screen_password_tab.dart';
@@ -12,49 +12,74 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final lang = AppLocalizations.of(context)!;
-    final isMobile = defaultTargetPlatform == TargetPlatform.iOS ||
+    final isMobile =
+        defaultTargetPlatform == TargetPlatform.iOS ||
         defaultTargetPlatform == TargetPlatform.android;
     return DefaultTabController(
-        length: 4,
-        child: Scaffold(
-            appBar: AppBar(
-                title: Text(lang.settings_header),
-                bottom: TabBar(isScrollable: true, tabs: [
-                  Tab(text: lang.settings_details_tab),
-                  Tab(text: lang.settings_avatar_tab),
-                  Tab(text: lang.settings_thanks_tab),
-                  Tab(text: lang.settings_password_tab)
-                ])),
-            body: TabBarView(children: [
-              Center(
-                  child: SingleChildScrollView(
-                      child: Container(
-                          constraints: BoxConstraints(
-                              maxWidth: !isMobile ? 560 : double.infinity),
-                          padding: const EdgeInsets.all(16),
-                          child: const SettingsChangeDetailsTab()))),
-              Center(
-                  child: SingleChildScrollView(
-                      child: Container(
-                          constraints: BoxConstraints(
-                              maxWidth: !isMobile ? 560 : double.infinity),
-                          padding: const EdgeInsets.all(16),
-                          child: const SettingsChangeAvatarTab()))),
-              Center(
-                  child: SingleChildScrollView(
-                      child: Container(
-                          constraints: BoxConstraints(
-                              maxWidth: !isMobile ? 560 : double.infinity),
-                          padding: const EdgeInsets.all(16),
-                          child: const SettingsChangeThanksTab()))),
-              Center(
-                  child: SingleChildScrollView(
-                      child: Container(
-                          constraints: BoxConstraints(
-                              maxWidth: !isMobile ? 560 : double.infinity),
-                          padding: const EdgeInsets.all(16),
-                          child: const SettingsChangePasswordTab())))
-            ])));
+      length: 4,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(lang.settings_header),
+          bottom: TabBar(
+            isScrollable: true,
+            tabs: [
+              Tab(text: lang.settings_details_tab),
+              Tab(text: lang.settings_avatar_tab),
+              Tab(text: lang.settings_thanks_tab),
+              Tab(text: lang.settings_password_tab),
+            ],
+          ),
+        ),
+        body: TabBarView(
+          children: [
+            Center(
+              child: SingleChildScrollView(
+                child: Container(
+                  constraints: BoxConstraints(
+                    maxWidth: !isMobile ? 560 : double.infinity,
+                  ),
+                  padding: const EdgeInsets.all(16),
+                  child: const SettingsChangeDetailsTab(),
+                ),
+              ),
+            ),
+            Center(
+              child: SingleChildScrollView(
+                child: Container(
+                  constraints: BoxConstraints(
+                    maxWidth: !isMobile ? 560 : double.infinity,
+                  ),
+                  padding: const EdgeInsets.all(16),
+                  child: const SettingsChangeAvatarTab(),
+                ),
+              ),
+            ),
+            Center(
+              child: SingleChildScrollView(
+                child: Container(
+                  constraints: BoxConstraints(
+                    maxWidth: !isMobile ? 560 : double.infinity,
+                  ),
+                  padding: const EdgeInsets.all(16),
+                  child: const SettingsChangeThanksTab(),
+                ),
+              ),
+            ),
+            Center(
+              child: SingleChildScrollView(
+                child: Container(
+                  constraints: BoxConstraints(
+                    maxWidth: !isMobile ? 560 : double.infinity,
+                  ),
+                  padding: const EdgeInsets.all(16),
+                  child: const SettingsChangePasswordTab(),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -68,52 +93,65 @@ class InputField extends StatelessWidget {
   final void Function()? onTap;
   final EdgeInsets margin;
 
-  const InputField(
-      {required this.controller,
-      required this.label,
-      this.error = null,
-      this.autocorrect = true,
-      this.obscureText = false,
-      this.enabled = true,
-      this.onTap = null,
-      this.margin = const EdgeInsets.only(bottom: 16),
-      Key? key})
-      : super(key: key);
+  const InputField({
+    required this.controller,
+    required this.label,
+    this.error = null,
+    this.autocorrect = true,
+    this.obscureText = false,
+    this.enabled = true,
+    this.onTap = null,
+    this.margin = const EdgeInsets.only(bottom: 16),
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: margin,
-        child: onTap != null
-            ? InkWell(
-                onTap: onTap,
-                customBorder: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8)),
-                child: TextField(
-                    controller: controller,
-                    autocorrect: autocorrect,
-                    obscureText: obscureText,
-                    enabled: enabled,
-                    style: const TextStyle(fontSize: 16),
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8)),
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 24, vertical: 16),
-                        labelText: label,
-                        errorText: error)))
-            : TextField(
+      margin: margin,
+      child: onTap != null
+          ? InkWell(
+              onTap: onTap,
+              customBorder: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: TextField(
                 controller: controller,
                 autocorrect: autocorrect,
                 obscureText: obscureText,
                 enabled: enabled,
                 style: const TextStyle(fontSize: 16),
                 decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8)),
-                    contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 24, vertical: 16),
-                    labelText: label,
-                    errorText: error)));
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 16,
+                  ),
+                  labelText: label,
+                  errorText: error,
+                ),
+              ),
+            )
+          : TextField(
+              controller: controller,
+              autocorrect: autocorrect,
+              obscureText: obscureText,
+              enabled: enabled,
+              style: const TextStyle(fontSize: 16),
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 16,
+                ),
+                labelText: label,
+                errorText: error,
+              ),
+            ),
+    );
   }
 }

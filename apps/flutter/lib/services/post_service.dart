@@ -21,14 +21,16 @@ class PostsService {
     if (!_posts.containsKey(page) || forceReload) {
       StorageService storage = await StorageService.getInstance();
       final response = await http.get(
-          Uri.parse('${storage.organisation.apiUrl}/posts?page=$page'),
-          headers: {
-            'X-Api-Key': storage.organisation.apiKey,
-            'Authorization': 'Bearer ${storage.token!}'
-          });
+        Uri.parse('${storage.organisation.apiUrl}/posts?page=$page'),
+        headers: {
+          'X-Api-Key': storage.organisation.apiKey,
+          'Authorization': 'Bearer ${storage.token!}',
+        },
+      );
       final postsJson = json.decode(response.body)['data'];
-      _posts[page] =
-          postsJson.map<Post>((json) => Post.fromJson(json)).toList();
+      _posts[page] = postsJson
+          .map<Post>((json) => Post.fromJson(json))
+          .toList();
     }
     return _posts[page]!;
   }
@@ -36,22 +38,24 @@ class PostsService {
   Future<Post> like({required int postId}) async {
     StorageService storage = await StorageService.getInstance();
     final response = await http.get(
-        Uri.parse('${storage.organisation.apiUrl}/posts/$postId/like'),
-        headers: {
-          'X-Api-Key': storage.organisation.apiKey,
-          'Authorization': 'Bearer ${storage.token!}'
-        });
+      Uri.parse('${storage.organisation.apiUrl}/posts/$postId/like'),
+      headers: {
+        'X-Api-Key': storage.organisation.apiKey,
+        'Authorization': 'Bearer ${storage.token!}',
+      },
+    );
     return Post.fromJson(json.decode(response.body));
   }
 
   Future<Post> dislike({required int postId}) async {
     StorageService storage = await StorageService.getInstance();
     final response = await http.get(
-        Uri.parse('${storage.organisation.apiUrl}/posts/$postId/dislike'),
-        headers: {
-          'X-Api-Key': storage.organisation.apiKey,
-          'Authorization': 'Bearer ${storage.token!}'
-        });
+      Uri.parse('${storage.organisation.apiUrl}/posts/$postId/dislike'),
+      headers: {
+        'X-Api-Key': storage.organisation.apiKey,
+        'Authorization': 'Bearer ${storage.token!}',
+      },
+    );
     return Post.fromJson(json.decode(response.body));
   }
 }

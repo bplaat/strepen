@@ -23,8 +23,9 @@ class StorageService {
   }
 
   Organisation get organisation {
-    return organisations
-        .firstWhere((organisation) => organisation.id == organisationId);
+    return organisations.firstWhere(
+      (organisation) => organisation.id == organisationId,
+    );
   }
 
   Future setOrganisationId(int? organisationId) async {
