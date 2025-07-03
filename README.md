@@ -30,6 +30,6 @@ You need to install the [Microsoft Edge Webview2 Redistribution](https://github.
 
 ## License
 
-Copyright (c) 2021 - 2023 Bastiaan van der Plaat
+Copyright (c) 2021-2025 Bastiaan van der Plaat
 
 Licensed under the [MIT](LICENSE) license.
