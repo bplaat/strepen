@@ -1,6 +1,6 @@
 [package]
 name = "Strepen"
-identifier = "nl.plaatsoft.Strepen"
+id = "nl.plaatsoft.Strepen"
 version = "0.1.0"
 
 [build]
