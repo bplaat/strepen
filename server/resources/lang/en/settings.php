@@ -26,6 +26,7 @@ return [
     'change_details.theme' => 'Theme',
     'change_details.theme_light' => 'Light',
     'change_details.theme_dark' => 'Dark',
+    'change_details.theme_system' => 'Use system default',
     'change_details.receive_news' => 'Receive news',
     'change_details.receive_news_user' => 'Receive news notifications when a new news posts are placed',
     'change_details.button' => 'Change details',

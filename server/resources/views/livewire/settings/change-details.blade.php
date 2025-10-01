@@ -154,6 +154,7 @@
                             <select id="theme" wire:model.defer="user.theme">
                                 <option value="{{ App\Models\User::THEME_LIGHT }}">@lang('settings.change_details.theme_light')</option>
                                 <option value="{{ App\Models\User::THEME_DARK }}">@lang('settings.change_details.theme_dark')</option>
+                                <option value="{{ App\Models\User::THEME_SYSTEM }}">@lang('settings.change_details.theme_system')</option>
                             </select>
                         </div>
                     </div>

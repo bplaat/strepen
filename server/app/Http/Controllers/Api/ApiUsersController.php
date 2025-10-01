@@ -219,6 +219,9 @@ class ApiUsersController extends ApiController
             if ($request->input('theme') == 'dark') {
                 $user->theme = User::THEME_DARK;
             }
+            if ($request->input('theme') == 'system') {
+                $user->theme = User::THEME_SYSTEM;
+            }
         }
 
         if ($request->has('receive_news')) {

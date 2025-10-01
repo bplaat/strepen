@@ -48,7 +48,7 @@ class Item extends Component
             'avatar' => 'nullable|image|mimes:jpg,jpeg,png|max:1024',
             'thanks' => 'nullable|image|mimes:gif|max:2048',
             'user.language' => 'required|integer|digits_between:' . User::LANGUAGE_ENGLISH . ',' . User::LANGUAGE_DUTCH,
-            'user.theme' => 'required|integer|digits_between:' . User::THEME_LIGHT . ',' . User::THEME_DARK,
+            'user.theme' => 'required|integer|digits_between:' . User::THEME_LIGHT . ',' . User::THEME_SYSTEM,
             'user.receive_news' => 'nullable|boolean',
             'user.active' => 'nullable|boolean'
         ];

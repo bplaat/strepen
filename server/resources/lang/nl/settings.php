@@ -26,6 +26,7 @@ return [
     'change_details.theme' => 'Thema',
     'change_details.theme_light' => 'Licht',
     'change_details.theme_dark' => 'Donker',
+    'change_details.theme_system' => 'Gebruik systeem standaard',
     'change_details.receive_news' => 'Ontvang nieuws',
     'change_details.receive_news_user' => 'Ontvang meldingen wanneer een nieuwe nieuwsberichten zijn geplaatst',
     'change_details.button' => 'Verander gegevens',

@@ -37,6 +37,7 @@ class User extends Authenticatable
     // A user can select a light and a dark theme
     public const THEME_LIGHT = 0;
     public const THEME_DARK = 1;
+    public const THEME_SYSTEM = 2;
 
     protected $hidden = [
         'email_verified_at',
@@ -56,7 +57,7 @@ class User extends Authenticatable
     protected $attributes = [
         'role' => User::ROLE_NORMAL,
         'language' => User::LANGUAGE_DUTCH,
-        'theme' => User::THEME_DARK,
+        'theme' => User::THEME_SYSTEM,
         'receive_news' => true,
         'balance' => 0,
         'active' => true

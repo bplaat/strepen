@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="has-navbar-fixed-top">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" @class(['has-navbar-fixed-top', 'theme-light' => Auth::check() && Auth::user()->theme == App\Models\User::THEME_LIGHT, 'theme-dark' => Auth::check() && Auth::user()->theme == App\Models\User::THEME_DARK])>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,11 +12,7 @@
     <link rel="mask-icon" href="/images/safari-pinned-tab.svg">
     <meta name="theme-color" content="#242424">
     <link rel="manifest" href="/manifest.json">
-    @if (Auth::check() && Auth::user()->theme == App\Models\User::THEME_LIGHT)
-        <link rel="stylesheet" href="/css/bulma-light.min.css">
-    @else
-        <link rel="stylesheet" href="/css/bulma-dark.min.css">
-    @endif
+    <link rel="stylesheet" href="/css/bulma.min.css?v={{ config('app.version') }}">
     <link rel="stylesheet" href="/css/style.css?v={{ config('app.version') }}">
     @livewireStyles
     @if (isset($chartjs))

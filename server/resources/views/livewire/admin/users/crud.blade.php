@@ -278,6 +278,7 @@
                                         <select id="theme" wire:model.defer="user.theme">
                                             <option value="{{ App\Models\User::THEME_LIGHT }}">@lang('admin/users.crud.theme_light')</option>
                                             <option value="{{ App\Models\User::THEME_DARK }}">@lang('admin/users.crud.theme_dark')</option>
+                                            <option value="{{ App\Models\User::THEME_SYSTEM }}">@lang('admin/users.crud.theme_system')</option>
                                         </select>
                                     </div>
                                 </div>

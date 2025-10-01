@@ -47,6 +47,9 @@ class UserResource extends JsonResource
         if ($this->theme == User::THEME_DARK) {
             $theme = 'dark';
         }
+        if ($this->theme == User::THEME_SYSTEM) {
+            $theme = 'system';
+        }
 
         return [
             'id' => $this->id,

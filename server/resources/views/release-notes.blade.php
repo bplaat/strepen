@@ -14,6 +14,8 @@
                 <li>Made leaderboards page more secure</li>
                 <li>Fixed some column width issues on smaller screens</li>
                 <li>Upgraded to Laravel 10 and also to PHP 8.2</li>
+                <li>Updated to Bulma 1.0 with real dark theme support</li>
+                <li>Add new default theme option system</li>
                 <li>Fixed many bugs</li>
             </ul>
         </div>

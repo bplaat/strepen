@@ -9,13 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class Notifications extends Component
 {
-    public $isLight;
-
-    public function mount()
-    {
-        $this->isLight = Auth::user()->theme == User::THEME_LIGHT;
-    }
-
     public function readNotification($notificationId)
     {
         $notification = Notification::find($notificationId);
