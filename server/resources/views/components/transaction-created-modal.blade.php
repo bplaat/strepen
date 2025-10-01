@@ -21,7 +21,7 @@
         </div>
 
         <div class="modal-card-foot">
-            <button type="button" class="button is-link is-fullwidth p-5" " wire:click="closeCreated" wire:loading.attr="disabled">@lang('components.transaction_created_modal_close')</button>
+            <button type="button" class="button is-link is-fullwidth p-4" " wire:click="closeCreated" wire:loading.attr="disabled">@lang('components.transaction_created_modal_close')</button>
         </div>
     </div>
 

@@ -23,7 +23,7 @@
 
         <div class="field">
             <div class="control">
-                <button type="submit" class="button is-link is-fullwidth p-5" wire:loading.attr="disabled">@lang('transactions.create.create_transaction')</button>
+                <button type="submit" class="button is-link is-fullwidth p-4" wire:loading.attr="disabled">@lang('transactions.create.create_transaction')</button>
             </div>
         </div>
     </form>
