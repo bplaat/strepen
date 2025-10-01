@@ -30,6 +30,10 @@
                 const userChooserDropdown = document.getElementById('user-chooser-dropdown-{{ $htmlInputId }}');
                 let selectedItem = -1;
                 userChooserInput.addEventListener('keydown', event => {
+                    if (event.key == 'Enter') {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
                     const items = userChooserDropdown.children;
                     if (event.key == 'Enter' || event.key == 'Tab') {
                         event.preventDefault();

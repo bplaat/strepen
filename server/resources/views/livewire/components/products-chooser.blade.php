@@ -122,6 +122,10 @@
                     const productChooserDropdown = document.getElementById('products-chooser-dropdown-{{ $htmlInputId }}');
                     let selectedItem = -1;
                     productChooserInput.addEventListener('keydown', event => {
+                        if (event.key == 'Enter') {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
                         const items = productChooserDropdown.children;
                         if (event.key == 'Enter' || event.key == 'Tab') {
                             event.preventDefault();
