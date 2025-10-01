@@ -6,6 +6,10 @@
         <div class="box content">
             <h2 class="title is-4">Version 1.5.0-dev</h2>
             <p><i>In development</i></p>
+            <ul>
+                <li>Add live stats to leaderboards page</li>
+                <li>Add users amount input to leaderboards page</li>
+            </ul>
         </div>
 
         <div class="box content">

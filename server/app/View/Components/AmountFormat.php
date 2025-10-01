@@ -8,11 +8,13 @@ class AmountFormat extends Component
 {
     public $amount;
     public $isBold;
+    public $isPerHour;
 
-    public function __construct($amount, $isBold = true)
+    public function __construct($amount, $isBold = true, $isPerHour = false)
     {
         $this->amount = $amount;
         $this->isBold = $isBold;
+        $this->isPerHour = $isPerHour;
     }
 
     public function render()

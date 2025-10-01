@@ -1,3 +1,11 @@
+@php
+    $beerProductIds = explode(',', App\Models\Setting::get('product_beer_id'));
+    $sodaProductIds = explode(',', App\Models\Setting::get('product_soda_id'));
+    $candybarProductId = App\Models\Setting::get('product_candybar_id');
+    $chipsProductId = App\Models\Setting::get('product_chips_id');
+    $snackProductIds = [$candybarProductId, $chipsProductId];
+@endphp
+
 <div class="container">
     <div class="columns">
         <div class="column is-two-thirds">
@@ -22,6 +30,9 @@
                         </div>
                     </div>
                     <div class="control">
+                        <input class="input" type="number" wire:model.defer="amountUsers" placeholder="@lang('leaderboards.amount_users')">
+                    </div>
+                    <div class="control">
                         <button class="button is-link" type="submit" style="width: 100%;">@lang('leaderboards.select')</button>
                     </div>
                 </div>
@@ -32,23 +43,211 @@
     <div class="columns is-multiline">
         <div class="column is-full-tablet is-half-desktop">
             <div class="box">
+                <h2 class="title is-4 has-text-centered">@lang('leaderboards.live_stats')</h2>
+
+                @php
+                    function todayStats($productIds) {
+                        $amountToday = DB::table('transaction_product')
+                            ->join('transactions', 'transactions.id', 'transaction_id')
+                            ->whereNull('deleted_at')
+                            ->whereIn('product_id', $productIds)
+                            ->whereDate('transactions.created_at', date('Y-m-d'))
+                            ->sum('amount');
+                        $firstPurchaseToday = DB::table('transaction_product')
+                            ->join('transactions', 'transactions.id', 'transaction_id')
+                            ->whereNull('deleted_at')
+                            ->whereIn('product_id', $productIds)
+                            ->whereDate('transactions.created_at', date('Y-m-d'))
+                            ->orderBy('transactions.created_at', 'asc')
+                            ->value('transactions.created_at');
+                        $hoursSinceFirstPurchase = $firstPurchaseToday
+                            ? ceil((now()->diffInMinutes(\Carbon\Carbon::parse($firstPurchaseToday))) / 60)
+                            : 1;
+                        return [$amountToday, $hoursSinceFirstPurchase];
+                    }
+
+                    [$beerToday, $hoursSinceFirstBeer] = todayStats($beerProductIds);
+                    [$sodaToday, $hoursSinceFirstSoda] = todayStats($sodaProductIds);
+                    [$snackToday, $hoursSinceFirstSnack] = todayStats($snackProductIds);
+                    $maxHoursSinceFirstPurchase = max(...[$hoursSinceFirstBeer, $hoursSinceFirstSoda, $hoursSinceFirstSnack]);
+                @endphp
+                <table class="table is-fullwidth">
+                    <thead>
+                        <tr>
+                            <th>@lang('leaderboards.product')</th>
+                            <th>@lang('leaderboards.amount')</th>
+                            <th>@lang('leaderboards.per_hour')</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>@lang('leaderboards.beer')</strong></td>
+                            <td><x-amount-format :amount="$beerToday" /></td>
+                            <td>
+                                @if ($hoursSinceFirstBeer)
+                                    <x-amount-format :amount="round($beerToday / $hoursSinceFirstBeer)" isPerHour />
+                                @else
+                                    -
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>@lang('leaderboards.soda')</strong></td>
+                            <td><x-amount-format :amount="$sodaToday" /></td>
+                            <td>
+                                @if ($hoursSinceFirstSoda)
+                                    <x-amount-format :amount="round($sodaToday / $hoursSinceFirstSoda)" isPerHour />
+                                @else
+                                    -
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>@lang('leaderboards.snacks')</strong></td>
+                            <td><x-amount-format :amount="$snackToday" /></td>
+                            <td>
+                                @if ($hoursSinceFirstSnack)
+                                    <x-amount-format :amount="round($snackToday / $hoursSinceFirstSnack)" isPerHour />
+                                @else
+                                    -
+                                @endif
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                @php
+                    $totalSpend = DB::table('transactions')
+                        ->whereNull('deleted_at')
+                        ->where('type', App\Models\Transaction::TYPE_TRANSACTION)
+                        ->whereDate('transactions.created_at', date('Y-m-d'))
+                        ->sum('price')
+                        + DB::table('transactions')
+                        ->whereNull('deleted_at')
+                        ->where('type', App\Models\Transaction::TYPE_PAYMENT)
+                        ->where('price', '>', 0)
+                        ->whereDate('transactions.created_at', date('Y-m-d'))
+                        ->sum('price');
+                @endphp
+                <div style="font-size: 1.25rem;">
+                    <p>@lang("leaderboards.total_spend") <x-money-format :money="$totalSpend" /></p>
+                    <p>@lang("leaderboards.average_per_hour_spend") <x-money-format :money="round($totalSpend / $maxHoursSinceFirstPurchase, 2)" isPerHour /></p>
+                    <p>@lang("leaderboards.by_different_users")
+                        <x-amount-format :amount="DB::table('transactions')
+                            ->whereNull('deleted_at')
+                            ->where('type', App\Models\Transaction::TYPE_TRANSACTION)
+                            ->whereDate('transactions.created_at', date('Y-m-d'))
+                            ->distinct('user_id')
+                            ->count('user_id')
+                            +
+                            DB::table('transactions')
+                            ->whereNull('deleted_at')
+                            ->where('type', App\Models\Transaction::TYPE_PAYMENT)
+                            ->where('price', '>', 0)
+                            ->whereDate('transactions.created_at', date('Y-m-d'))
+                            ->distinct('user_id')
+                            ->count('user_id')" />
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="column is-full-tablet is-half-desktop">
+            <div class="box">
+                <h2 class="title is-4 has-text-centered">@lang('leaderboards.live_best_spenders')</h2>
+
+                @php
+                    $spendingUsers = App\Models\User::where('active', true)->get()
+                        ->map(function ($user) { // Very slow
+                            $user->spending = DB::table('transactions')
+                                ->whereNull('deleted_at')
+                                ->where('user_id', $user->id)
+                                ->where('type', App\Models\Transaction::TYPE_TRANSACTION)
+                                ->whereDate('transactions.created_at', date('Y-m-d'))
+                                ->sum('price')
+                                + DB::table('transactions')
+                                ->whereNull('deleted_at')
+                                ->where('user_id', $user->id)
+                                ->where('type', App\Models\Transaction::TYPE_PAYMENT)
+                                ->where('price', '>', 0)
+                                ->whereDate('transactions.created_at', date('Y-m-d'))
+                                ->sum('price');
+                            return $user;
+                        })
+                        ->sortByDesc('spending')->values()
+                        ->slice(0, $amountUsers);
+                @endphp
+
+                <table class="table is-fullwidth">
+                    <thead>
+                        <tr>
+                            <th class="medal-column">#</th>
+                            <th>@lang('leaderboards.name')</th>
+                            <th>@lang('leaderboards.beer')</th>
+                            <th>@lang('leaderboards.soda')</th>
+                            <th>@lang('leaderboards.snacks')</th>
+                            <th style="width: @if ($range != 'month_to_date' && $range != 'month') 20% @else 40% @endif;">
+                                @lang('leaderboards.cost')
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($spendingUsers as $index => $user)
+                            <tr>
+                                <td><x-index-medal :index="$index" /></td>
+                                <td style="vertical-align: middle;">
+                                    <div class="image is-small is-round is-inline" style="background-image: url(/storage/avatars/{{ $user->avatar ?? App\Models\Setting::get('default_user_avatar') }});"></div>
+                                    {{ $user->name }}
+                                </td>
+                                <td><x-amount-format :amount="DB::table('transaction_product')
+                                    ->join('transactions', 'transactions.id', 'transaction_id')
+                                    ->whereNull('deleted_at')
+                                    ->where('user_id', $user->id)
+                                    ->whereIn('product_id', $beerProductIds)
+                                    ->whereDate('transactions.created_at', date('Y-m-d'))
+                                    ->sum('amount')" /></td>
+                                <td><x-amount-format :amount="DB::table('transaction_product')
+                                    ->join('transactions', 'transactions.id', 'transaction_id')
+                                    ->whereNull('deleted_at')
+                                    ->where('user_id', $user->id)
+                                    ->whereIn('product_id', $sodaProductIds)
+                                    ->whereDate('transactions.created_at', date('Y-m-d'))
+                                    ->sum('amount')" /></td>
+                                <td><x-amount-format :amount="DB::table('transaction_product')
+                                    ->join('transactions', 'transactions.id', 'transaction_id')
+                                    ->whereNull('deleted_at')
+                                    ->where('user_id', $user->id)
+                                    ->whereIn('product_id', $snackProductIds)
+                                    ->whereDate('transactions.created_at', date('Y-m-d'))
+                                    ->sum('amount')" /></td>
+                                <td><x-money-format :money="$user->spending" /></td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="columns is-multiline">
+        <div class="column is-full-tablet is-half-desktop">
+            <div class="box">
                 <h2 class="title is-4 has-text-centered">@lang('leaderboards.best_beer_header')</h2>
 
                 @php
-                    $beerProductId =App\Models\Setting::get('product_beer_id');
                     $beerUsers = App\Models\User::where('active', true)->get()
-                        ->map(function ($user) use ($beerProductId, $startDate) { // Very slow
+                        ->map(function ($user) use ($beerProductIds, $startDate) { // Very slow
                             $user->amount = DB::table('transaction_product')
                                 ->join('transactions', 'transactions.id', 'transaction_id')
                                 ->whereNull('deleted_at')
                                 ->where('user_id', $user->id)
-                                ->where('product_id', $beerProductId)
+                                ->whereIn('product_id', $beerProductIds)
                                 ->where('transactions.created_at', '>=', $startDate)
                                 ->sum('amount');
                             return $user;
                         })
                         ->sortByDesc('amount')->values()
-                        ->slice(0, 10);
+                        ->slice(0, $amountUsers);
                 @endphp
 
                 <table class="table is-fullwidth">
@@ -83,7 +282,7 @@
                                             ->join('transactions', 'transactions.id', 'transaction_id')
                                             ->whereNull('deleted_at')
                                             ->where('user_id', $user->id)
-                                            ->where('product_id', $beerProductId)
+                                            ->whereIn('product_id', $beerProductIds)
                                             ->where('transactions.created_at', '>=', date('Y-m-d', time() - 30 * 24 * 60 * 60))
                                             ->sum('amount')" />
                                     </td>
@@ -95,7 +294,7 @@
                                             ->join('transactions', 'transactions.id', 'transaction_id')
                                             ->whereNull('deleted_at')
                                             ->where('user_id', $user->id)
-                                            ->where('product_id', $beerProductId)
+                                            ->whereIn('product_id', $beerProductIds)
                                             ->where('transactions.created_at', '>=', date('Y-m-d', time() - 365 * 24 * 60 * 60))
                                             ->sum('amount')" />
                                     </td>
@@ -112,20 +311,19 @@
                 <h2 class="title is-4 has-text-centered">@lang('leaderboards.best_soda_header')</h2>
 
                 @php
-                    $sodaProductId =App\Models\Setting::get('product_soda_id');
                     $sodaUsers = App\Models\User::where('active', true)->get()
-                        ->map(function ($user) use ($sodaProductId, $startDate) { // Very slow
+                        ->map(function ($user) use ($sodaProductIds, $startDate) { // Very slow
                             $user->amount = DB::table('transaction_product')
                                 ->join('transactions', 'transactions.id', 'transaction_id')
                                 ->whereNull('deleted_at')
                                 ->where('user_id', $user->id)
-                                ->where('product_id', $sodaProductId)
+                                ->whereIn('product_id', $sodaProductIds)
                                 ->where('transactions.created_at', '>=', $startDate)
                                 ->sum('amount');
                             return $user;
                         })
                         ->sortByDesc('amount')->values()
-                        ->slice(0, 10);
+                        ->slice(0, $amountUsers);
                 @endphp
 
                 <table class="table is-fullwidth">
@@ -160,7 +358,7 @@
                                             ->join('transactions', 'transactions.id', 'transaction_id')
                                             ->whereNull('deleted_at')
                                             ->where('user_id', $user->id)
-                                            ->where('product_id', $sodaProductId)
+                                            ->whereIn('product_id', $sodaProductIds)
                                             ->where('transactions.created_at', '>=', date('Y-m-d', time() - 30 * 24 * 60 * 60))
                                             ->sum('amount')" />
                                     </td>
@@ -172,7 +370,7 @@
                                             ->join('transactions', 'transactions.id', 'transaction_id')
                                             ->whereNull('deleted_at')
                                             ->where('user_id', $user->id)
-                                            ->where('product_id', $sodaProductId)
+                                            ->whereIn('product_id', $sodaProductIds)
                                             ->where('transactions.created_at', '>=', date('Y-m-d', time() - 365 * 24 * 60 * 60))
                                             ->sum('amount')" />
                                     </td>
@@ -189,22 +387,19 @@
                 <h2 class="title is-4 has-text-centered">@lang('leaderboards.best_snack_header')</h2>
 
                 @php
-                    $candybarProductId =App\Models\Setting::get('product_candybar_id');
-                    $chipsProductId =App\Models\Setting::get('product_chips_id');
                     $snackUsers = App\Models\User::where('active', true)->get()
-                        ->map(function ($user) use ($candybarProductId, $chipsProductId, $startDate) { // Very slow
+                        ->map(function ($user) use ($snackProductIds, $startDate) { // Very slow
                             $user->amount = DB::table('transaction_product')
                                 ->join('transactions', 'transactions.id', 'transaction_id')
                                 ->whereNull('deleted_at')
                                 ->where('user_id', $user->id)
-                                ->where(fn ($query) => $query->where('product_id', $candybarProductId)
-                                    ->orWhere('product_id', $chipsProductId))
+                                ->whereIn('product_id', $snackProductIds)
                                 ->where('transactions.created_at', '>=', $startDate)
                                 ->sum('amount');
                             return $user;
                         })
                         ->sortByDesc('amount')->values()
-                        ->slice(0, 10);
+                        ->slice(0, $amountUsers);
                 @endphp
 
                 <table class="table is-fullwidth">
@@ -239,8 +434,7 @@
                                             ->join('transactions', 'transactions.id', 'transaction_id')
                                             ->whereNull('deleted_at')
                                             ->where('user_id', $user->id)
-                                            ->where(fn ($query) => $query->where('product_id', $candybarProductId)
-                                                ->orWhere('product_id', $chipsProductId))
+                                            ->whereIn('product_id', $snackProductIds)
                                             ->where('transactions.created_at', '>=', date('Y-m-d', time() - 30 * 24 * 60 * 60))
                                             ->sum('amount')" />
                                     </td>
@@ -252,8 +446,7 @@
                                             ->join('transactions', 'transactions.id', 'transaction_id')
                                             ->whereNull('deleted_at')
                                             ->where('user_id', $user->id)
-                                            ->where(fn ($query) => $query->where('product_id', $candybarProductId)
-                                                ->orWhere('product_id', $chipsProductId))
+                                            ->whereIn('product_id', $snackProductIds)
                                             ->where('transactions.created_at', '>=', date('Y-m-d', time() - 365 * 24 * 60 * 60))
                                             ->sum('amount')" />
                                     </td>
@@ -288,7 +481,7 @@
                             return $user;
                         })
                         ->sortByDesc('spending')->values()
-                        ->slice(0, 10);
+                        ->slice(0, $amountUsers);
                 @endphp
 
                 <table class="table is-fullwidth">
@@ -364,7 +557,7 @@
                 <h2 class="title is-4 has-text-centered">@lang('leaderboards.best_balance_header')</h2>
 
                 @php
-                    $users = App\Models\User::where('active', true)->orderBy('balance', 'DESC')->limit(10)->get();
+                    $users = App\Models\User::where('active', true)->orderBy('balance', 'DESC')->limit($amountUsers)->get();
                 @endphp
 
                 <table class="table is-fullwidth">
@@ -442,7 +635,7 @@
                 <h2 class="title is-4 has-text-centered">@lang('leaderboards.worst_balance_header')</h2>
 
                 @php
-                    $users = App\Models\User::where('active', true)->orderBy('balance')->limit(10)->get();
+                    $users = App\Models\User::where('active', true)->orderBy('balance')->limit($amountUsers)->get();
                 @endphp
 
                 <table class="table is-fullwidth">
