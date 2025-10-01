@@ -65,7 +65,7 @@
                             ->orderBy('transactions.created_at', 'asc')
                             ->value('transactions.created_at');
                         $hoursSinceFirstPurchase = $firstPurchaseToday
-                            ? ceil((now()->diffInMinutes(\Carbon\Carbon::parse($firstPurchaseToday))) / 60)
+                            ? max(ceil((now()->diffInMinutes(\Carbon\Carbon::parse($firstPurchaseToday))) / 60), 1)
                             : 1;
                         return [$amountToday, $hoursSinceFirstPurchase];
                     }
