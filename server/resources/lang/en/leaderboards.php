@@ -18,6 +18,7 @@ return [
     'select' => 'Select',
     'live_stats' => 'Live stats',
     'live_best_spenders' => 'Live biggest spenders',
+    'live_best_spenders_none' => 'Today nothing has been purchased yet',
     'product' => 'Product',
     'name' => 'Name',
     'amount' => 'Amount',

@@ -160,57 +160,62 @@
                                 ->sum('price');
                             return $user;
                         })
+                        ->filter(fn($user) => $user->spending > 0)
                         ->sortByDesc('spending')->values()
                         ->slice(0, $amountUsers);
                 @endphp
 
-                <table class="table is-fullwidth">
-                    <thead>
-                        <tr>
-                            <th class="medal-column">#</th>
-                            <th>@lang('leaderboards.name')</th>
-                            <th>@lang('leaderboards.beer')</th>
-                            <th>@lang('leaderboards.soda')</th>
-                            <th>@lang('leaderboards.snacks')</th>
-                            <th style="width: @if ($range != 'month_to_date' && $range != 'month') 20% @else 40% @endif;">
-                                @lang('leaderboards.cost')
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($spendingUsers as $index => $user)
+                @if (count($spendingUsers) > 0)
+                    <table class="table is-fullwidth">
+                        <thead>
                             <tr>
-                                <td><x-index-medal :index="$index" /></td>
-                                <td style="vertical-align: middle;">
-                                    <div class="image is-small is-round is-inline" style="background-image: url(/storage/avatars/{{ $user->avatar ?? App\Models\Setting::get('default_user_avatar') }});"></div>
-                                    {{ $user->name }}
-                                </td>
-                                <td><x-amount-format :amount="DB::table('transaction_product')
-                                    ->join('transactions', 'transactions.id', 'transaction_id')
-                                    ->whereNull('deleted_at')
-                                    ->where('user_id', $user->id)
-                                    ->whereIn('product_id', $beerProductIds)
-                                    ->whereDate('transactions.created_at', date('Y-m-d'))
-                                    ->sum('amount')" /></td>
-                                <td><x-amount-format :amount="DB::table('transaction_product')
-                                    ->join('transactions', 'transactions.id', 'transaction_id')
-                                    ->whereNull('deleted_at')
-                                    ->where('user_id', $user->id)
-                                    ->whereIn('product_id', $sodaProductIds)
-                                    ->whereDate('transactions.created_at', date('Y-m-d'))
-                                    ->sum('amount')" /></td>
-                                <td><x-amount-format :amount="DB::table('transaction_product')
-                                    ->join('transactions', 'transactions.id', 'transaction_id')
-                                    ->whereNull('deleted_at')
-                                    ->where('user_id', $user->id)
-                                    ->whereIn('product_id', $snackProductIds)
-                                    ->whereDate('transactions.created_at', date('Y-m-d'))
-                                    ->sum('amount')" /></td>
-                                <td><x-money-format :money="$user->spending" /></td>
+                                <th class="medal-column">#</th>
+                                <th>@lang('leaderboards.name')</th>
+                                <th>@lang('leaderboards.beer')</th>
+                                <th>@lang('leaderboards.soda')</th>
+                                <th>@lang('leaderboards.snacks')</th>
+                                <th style="width: @if ($range != 'month_to_date' && $range != 'month') 20% @else 40% @endif;">
+                                    @lang('leaderboards.cost')
+                                </th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach ($spendingUsers as $index => $user)
+                                <tr>
+                                    <td><x-index-medal :index="$index" /></td>
+                                    <td style="vertical-align: middle;">
+                                        <div class="image is-small is-round is-inline" style="background-image: url(/storage/avatars/{{ $user->avatar ?? App\Models\Setting::get('default_user_avatar') }});"></div>
+                                        {{ $user->name }}
+                                    </td>
+                                    <td><x-amount-format :amount="DB::table('transaction_product')
+                                        ->join('transactions', 'transactions.id', 'transaction_id')
+                                        ->whereNull('deleted_at')
+                                        ->where('user_id', $user->id)
+                                        ->whereIn('product_id', $beerProductIds)
+                                        ->whereDate('transactions.created_at', date('Y-m-d'))
+                                        ->sum('amount')" /></td>
+                                    <td><x-amount-format :amount="DB::table('transaction_product')
+                                        ->join('transactions', 'transactions.id', 'transaction_id')
+                                        ->whereNull('deleted_at')
+                                        ->where('user_id', $user->id)
+                                        ->whereIn('product_id', $sodaProductIds)
+                                        ->whereDate('transactions.created_at', date('Y-m-d'))
+                                        ->sum('amount')" /></td>
+                                    <td><x-amount-format :amount="DB::table('transaction_product')
+                                        ->join('transactions', 'transactions.id', 'transaction_id')
+                                        ->whereNull('deleted_at')
+                                        ->where('user_id', $user->id)
+                                        ->whereIn('product_id', $snackProductIds)
+                                        ->whereDate('transactions.created_at', date('Y-m-d'))
+                                        ->sum('amount')" /></td>
+                                    <td><x-money-format :money="$user->spending" /></td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @else
+                    <p class="has-text-centered"><i>@lang('leaderboards.live_best_spenders_none')</i></p>
+                @endif
             </div>
         </div>
     </div>
