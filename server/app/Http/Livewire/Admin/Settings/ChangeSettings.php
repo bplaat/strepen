@@ -15,7 +15,6 @@ class ChangeSettings extends Component
     public $paginationRows;
     public $kioskIpWhitelist;
     public $leaderboardsEnabled;
-    public $casinoEnabled;
     public $bankAccountIban;
     public $bankAccountHolder;
     public $isChanged = false;
@@ -29,8 +28,6 @@ class ChangeSettings extends Component
         'paginationRows' => 'required|integer|min:1|max:10',
         'kioskIpWhitelist' => 'nullable|min:7|max:255',
         'leaderboardsEnabled' => 'nullable|boolean',
-        'casinoEnabled' => 'nullable|boolean',
-        'casinoSpinPrice' => 'required|numeric|min:1',
         'bankAccountIban' => 'nullable|min:8|max:48',
         'bankAccountHolder' => 'nullable|min:2|max:48',
         'productBeerId' => 'required|integer|exists:products,id',
@@ -51,8 +48,6 @@ class ChangeSettings extends Component
         $this->paginationRows = Setting::get('pagination_rows');
         $this->kioskIpWhitelist = Setting::get('kiosk_ip_whitelist');
         $this->leaderboardsEnabled = Setting::get('leaderboards_enabled') == 'true';
-        $this->casinoEnabled = Setting::get('casino_enabled') == 'true';
-        $this->casinoSpinPrice = Setting::get('casino_spin_price');
         $this->bankAccountIban = Setting::get('bank_account_iban');
         $this->bankAccountHolder = Setting::get('bank_account_holder');
         $this->productBeerId = Setting::get('product_beer_id');
@@ -88,8 +83,6 @@ class ChangeSettings extends Component
         Setting::set('pagination_rows', $this->paginationRows);
         Setting::set('kiosk_ip_whitelist', $this->kioskIpWhitelist);
         Setting::set('leaderboards_enabled', $this->leaderboardsEnabled == true ? 'true' : 'false');
-        Setting::set('casino_enabled', $this->casinoEnabled == true ? 'true' : 'false');
-        Setting::set('casino_spin_price', $this->casinoSpinPrice);
         Setting::set('bank_account_iban', $this->bankAccountIban);
         Setting::set('bank_account_holder', $this->bankAccountHolder);
         Setting::set('product_beer_id', $this->productBeerId);

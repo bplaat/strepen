@@ -11,9 +11,7 @@
                 <li>Refactor small portions of the codebase</li>
                 <li>Add name and balance to transaction created modal</li>
                 <li>Moved some hard id constants to settings</li>
-                <li>Added casino page</li>
-                {{-- <li>Add spinning wheel game</li> --}}
-                <li>Made leaderboards and casino page more secure</li>
+                <li>Made leaderboards page more secure</li>
                 <li>Fixed some column width issues on smaller screens</li>
                 <li>Upgraded to Laravel 10 and also to PHP 8.2</li>
                 <li>Fixed many bugs</li>

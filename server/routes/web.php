@@ -20,10 +20,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/leaderboards', App\Http\Livewire\Leaderboards::class)->name('leaderboards');
     });
 
-    Route::middleware('casino')->group(function () {
-        Route::get('/casino', App\Http\Livewire\Casino::class)->name('casino');
-    });
-
     Route::get('/auth/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('auth.logout');
 
     // No kiosk routes

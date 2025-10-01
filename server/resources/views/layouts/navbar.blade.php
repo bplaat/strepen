@@ -22,9 +22,6 @@
                         @if (App\Models\Setting::get('leaderboards_enabled') == 'true')
                             <a @class(['navbar-item', 'is-active' => Route::is('leaderboards')]) href="{{ route('leaderboards') }}">@lang('layout.navbar.leaderboards')</a>
                         @endif
-                        @if (App\Models\Setting::get('casino_enabled') == 'true')
-                            <a @class(['navbar-item', 'is-active' => Route::is('casino')]) href="{{ route('casino') }}">@lang('layout.navbar.casino')</a>
-                        @endif
                     </div>
 
                     <div class="navbar-end">
@@ -47,9 +44,6 @@
                         <a @class(['navbar-item', 'is-active' => Route::is('transactions.history')]) href="{{ route('transactions.history') }}">@lang('layout.navbar.transactions_history')</a>
                         @if (App\Models\Setting::get('leaderboards_enabled') == 'true' || Auth::user()->manager)
                             <a @class(['navbar-item', 'is-active' => Route::is('leaderboards')]) href="{{ route('leaderboards') }}">@lang('layout.navbar.leaderboards')</a>
-                        @endif
-                        @if (App\Models\Setting::get('casino_enabled') == 'true' || Auth::user()->admin)
-                            <a @class(['navbar-item', 'is-active' => Route::is('casino')]) href="{{ route('casino') }}">@lang('layout.navbar.casino')</a>
                         @endif
 
                         @if (Auth::user()->manager)

@@ -73,6 +73,5 @@ class Kernel extends HttpKernel
         'admin' => \App\Http\Middleware\VerifyAdmin::class,
         'nokiosk' => \App\Http\Middleware\VerifyNoKiosk::class,
         'leaderboards' => \App\Http\Middleware\VerifyLeaderboards::class,
-        'casino' => \App\Http\Middleware\VerifyCasino::class
     ];
 }

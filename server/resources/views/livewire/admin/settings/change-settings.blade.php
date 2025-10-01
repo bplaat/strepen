@@ -102,40 +102,6 @@
                     </label>
                 </div>
             </div>
-
-            <div class="column">
-                <div class="field">
-                    <label class="label" for="casinoEnabled">@lang('admin/settings.change_settings.casino_enabled')</label>
-                    <label class="checkbox" for="casinoEnabled">
-                        <input type="checkbox" id="casinoEnabled" wire:model.defer="casinoEnabled">
-                        @lang('admin/settings.change_settings.casino_enabled_info')
-                    </label>
-                </div>
-            </div>
-        </div>
-
-        <div class="columns">
-            <div class="column">
-                <div class="field">
-                    <label class="label" for="casinoSpinPrice">@lang('admin/settings.change_settings.casino_spin_price')</label>
-                    <div class="control has-icons-left">
-                        <input class="input @error('casinoSpinPrice') is-danger @enderror" type="number" id="casinoSpinPrice"
-                            step="0.01" wire:model.defer="casinoSpinPrice" required>
-                        <span class="icon is-small is-left">{{ App\Models\Setting::get('currency_symbol') }}</span>
-                    </div>
-                    @error('casinoSpinPrice') <p class="help is-danger">{{ $message }}</p> @enderror
-                </div>
-            </div>
-
-            <div class="column">
-                <div class="field">
-                    <label class="label" for="casinoSpinPot">@lang('admin/settings.change_settings.casino_spin_pot')</label>
-                    <div class="control has-icons-left">
-                        <input class="input" type="text" id="casinoSpinPot" value="{{ App\Models\Setting::get('casino_spin_pot') }}" disabled>
-                        <span class="icon is-small is-left">{{ App\Models\Setting::get('currency_symbol') }}</span>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <div class="columns">
