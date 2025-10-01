@@ -4,8 +4,13 @@
         <h1 class="title">@lang('release-notes.header')</h1>
 
         <div class="box content">
-            <h2 class="title is-4">Version 1.4.0-dev</h2>
+            <h2 class="title is-4">Version 1.5.0-dev</h2>
             <p><i>In development</i></p>
+        </div>
+
+        <div class="box content">
+            <h2 class="title is-4">Version 1.4.0</h2>
+            <p><i>Released at 2025-10-01 with <a href="https://github.com/bplaat/strepen/commit/000a247a4a1b195f6179c67474d61c967816505d" target="_blank" rel="noreferrer">this commit</a></i></p>
             <ul>
                 <li>Added release notes page</li>
                 <li>Refactor small portions of the codebase</li>
