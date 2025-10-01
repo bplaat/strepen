@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\ParseProductIds;
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
 
@@ -20,10 +21,9 @@ class ApiSettingsController extends Controller
             'leaderboards_enabled' => Setting::get('leaderboards_enabled') == 'true',
             'bank_account_iban' => Setting::get('bank_account_iban'),
             'bank_account_holder' => Setting::get('bank_account_holder'),
-            'product_beer_id' => (int)Setting::get('product_beer_id'),
-            'product_soda_id' => (int)Setting::get('product_soda_id'),
-            'product_candybar_id' => (int)Setting::get('product_candybar_id'),
-            'product_chips_id' => (int)Setting::get('product_chips_id'),
+            'product_beer_ids' => ParseProductIds::parse(Setting::get('product_beer_ids')),
+            'product_soda_ids' => ParseProductIds::parse(Setting::get('product_soda_ids')),
+            'product_snack_ids' => ParseProductIds::parse(Setting::get('product_snack_ids')),
             'default_user_avatar' => asset('/storage/avatars/' . Setting::get('default_user_avatar')),
             'default_user_thanks' => asset('/storage/thanks/' . Setting::get('default_user_thanks')),
             'default_product_image' => asset('/storage/products/' . Setting::get('default_product_image'))

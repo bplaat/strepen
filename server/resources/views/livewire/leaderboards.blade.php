@@ -1,9 +1,7 @@
 @php
-    $beerProductIds = explode(',', App\Models\Setting::get('product_beer_id'));
-    $sodaProductIds = explode(',', App\Models\Setting::get('product_soda_id'));
-    $candybarProductId = App\Models\Setting::get('product_candybar_id');
-    $chipsProductId = App\Models\Setting::get('product_chips_id');
-    $snackProductIds = [$candybarProductId, $chipsProductId];
+    $beerProductIds = App\Helpers\ParseProductIds::parse(App\Models\Setting::get('product_beer_ids'));
+    $sodaProductIds = App\Helpers\ParseProductIds::parse(App\Models\Setting::get('product_soda_ids'));
+    $snackProductIds = App\Helpers\ParseProductIds::parse(App\Models\Setting::get('product_snack_ids'));
 @endphp
 
 <div class="container">
@@ -39,6 +37,12 @@
             </form>
         </div>
     </div>
+
+    @if (count($beerProductIds) == 0 || count($sodaProductIds) == 0 || count($snackProductIds) == 0)
+        <div class="notification is-danger">
+            The admin has not configured all the product IDs, so this page isn't calculated correctly!
+        </div>
+    @endif
 
     <div class="columns is-multiline">
         <div class="column is-full-tablet is-half-desktop">
@@ -83,35 +87,17 @@
                         <tr>
                             <td><strong>@lang('leaderboards.beer')</strong></td>
                             <td><x-amount-format :amount="$beerToday" /></td>
-                            <td>
-                                @if ($hoursSinceFirstBeer)
-                                    <x-amount-format :amount="round($beerToday / $hoursSinceFirstBeer)" isPerHour />
-                                @else
-                                    -
-                                @endif
-                            </td>
+                            <td><x-amount-format :amount="ceil($beerToday / $hoursSinceFirstBeer)" isPerHour /></td>
                         </tr>
                         <tr>
                             <td><strong>@lang('leaderboards.soda')</strong></td>
                             <td><x-amount-format :amount="$sodaToday" /></td>
-                            <td>
-                                @if ($hoursSinceFirstSoda)
-                                    <x-amount-format :amount="round($sodaToday / $hoursSinceFirstSoda)" isPerHour />
-                                @else
-                                    -
-                                @endif
-                            </td>
+                            <td><x-amount-format :amount="ceil($sodaToday / $hoursSinceFirstSoda)" isPerHour /></td>
                         </tr>
                         <tr>
                             <td><strong>@lang('leaderboards.snacks')</strong></td>
                             <td><x-amount-format :amount="$snackToday" /></td>
-                            <td>
-                                @if ($hoursSinceFirstSnack)
-                                    <x-amount-format :amount="round($snackToday / $hoursSinceFirstSnack)" isPerHour />
-                                @else
-                                    -
-                                @endif
-                            </td>
+                            <td><x-amount-format :amount="ceil($snackToday / $hoursSinceFirstSnack)" isPerHour /></td>
                         </tr>
                     </tbody>
                 </table>

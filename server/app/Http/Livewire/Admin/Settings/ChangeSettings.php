@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Settings;
 
+use App\Helpers\ParseProductIds;
 use App\Models\Setting;
 use Livewire\Component;
 
@@ -30,10 +31,6 @@ class ChangeSettings extends Component
         'leaderboardsEnabled' => 'nullable|boolean',
         'bankAccountIban' => 'nullable|min:8|max:48',
         'bankAccountHolder' => 'nullable|min:2|max:48',
-        'productBeerId' => 'required|integer|exists:products,id',
-        'productSodaId' => 'required|integer|exists:products,id',
-        'productCandybarId' => 'required|integer|exists:products,id',
-        'productChipsId' => 'required|integer|exists:products,id'
     ];
 
     public $listeners = ['inputValue'];
@@ -50,25 +47,37 @@ class ChangeSettings extends Component
         $this->leaderboardsEnabled = Setting::get('leaderboards_enabled') == 'true';
         $this->bankAccountIban = Setting::get('bank_account_iban');
         $this->bankAccountHolder = Setting::get('bank_account_holder');
-        $this->productBeerId = Setting::get('product_beer_id');
-        $this->productSodaId = Setting::get('product_soda_id');
-        $this->productCandybarId = Setting::get('product_candybar_id');
-        $this->productChipsId = Setting::get('product_chips_id');
+        $this->productBeerIds = ParseProductIds::parse(Setting::get('product_beer_ids'));
+        $this->productSodaIds = ParseProductIds::parse(Setting::get('product_soda_ids'));
+        $this->productSnackIds = ParseProductIds::parse(Setting::get('product_snack_ids'));
     }
 
     public function inputValue($name, $value)
     {
-        if ($name == 'product_beer') {
-            $this->productBeerId = $value;
+        if ($name == 'product_beer'&& $value != null) {
+            $this->productBeerIds[] = $value;
+            $this->emit('inputClear', 'product_beer');
         }
-        if ($name == 'product_soda') {
-            $this->productSodaId = $value;
+        if ($name == 'product_soda'&& $value != null) {
+            $this->productSodaIds[] = $value;
+            $this->emit('inputClear', 'product_soda');
         }
-        if ($name == 'product_candybar') {
-            $this->productCandybarId = $value;
+        if ($name == 'product_snack' && $value != null) {
+            $this->productSnackIds[] = $value;
+            $this->emit('inputClear', 'product_snack');
         }
-        if ($name == 'product_chips') {
-            $this->productChipsId = $value;
+    }
+
+    public function removeProductId($type, $id)
+    {
+        if ($type == 'beer') {
+            $this->productBeerIds = array_filter($this->productBeerIds, fn ($item) => $item != $id);
+        }
+        if ($type == 'soda') {
+            $this->productSodaIds = array_filter($this->productSodaIds, fn ($item) => $item != $id);
+        }
+        if ($type == 'snack') {
+            $this->productSnackIds = array_filter($this->productSnackIds, fn ($item) => $item != $id);
         }
     }
 
@@ -85,10 +94,9 @@ class ChangeSettings extends Component
         Setting::set('leaderboards_enabled', $this->leaderboardsEnabled == true ? 'true' : 'false');
         Setting::set('bank_account_iban', $this->bankAccountIban);
         Setting::set('bank_account_holder', $this->bankAccountHolder);
-        Setting::set('product_beer_id', $this->productBeerId);
-        Setting::set('product_soda_id', $this->productSodaId);
-        Setting::set('product_candybar_id', $this->productCandybarId);
-        Setting::set('product_chips_id', $this->productChipsId);
+        Setting::set('product_beer_ids', join(',', $this->productBeerIds));
+        Setting::set('product_soda_ids', join(',', $this->productSodaIds));
+        Setting::set('product_snack_ids', join(',', $this->productSnackIds));
         $this->isChanged = true;
     }
 

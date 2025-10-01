@@ -9,6 +9,7 @@
             <ul>
                 <li>Add live stats to leaderboards page</li>
                 <li>Add users amount input to leaderboards page</li>
+                <li>Add admin settings multiple beer, soda and snack products chooser</li>
             </ul>
         </div>
 

@@ -11,6 +11,7 @@ class ProductChooser extends InputComponent
     public $inline = false;
     public $relationship = false;
     public $includeInactive = false;
+    public $includeDeleted = false;
     public $sortBy = 'name';
 
     // State
@@ -29,6 +30,9 @@ class ProductChooser extends InputComponent
         $products = Product::select();
         if (!$this->includeInactive) {
             $products = $products->where('active', true);
+        }
+        if ($this->includeDeleted) {
+            $products = $products->withTrashed();
         }
         if ($this->sortBy == 'name') {
             $products = $products->orderByRaw('active DESC, name');

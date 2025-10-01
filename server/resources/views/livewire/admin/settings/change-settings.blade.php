@@ -131,35 +131,55 @@
         <div class="columns">
             <div class="column">
                 <div class="field">
-                    <label class="label">@lang('admin/settings.change_settings.product_beer_id')</label>
-                    <livewire:components.product-chooser name="product_beer" :productId="$productBeerId" inline="true" />
-                    @error('productBeerId') <p class="help is-danger">{{ $message }}</p> @enderror
+                    <label class="label">@lang('admin/settings.change_settings.product_beer_ids')</label>
+                    <p class="mb-2">
+                        @forelse ($productBeerIds as $id)
+                            <span class="tag">
+                                {{ App\Models\Product::withTrashed()->find($id)?->name }}
+                                <button class="delete is-small" style="margin-left: 0.5em;" wire:click.prevent="removeProductId('beer', '{{ $id }}')"></button>
+                            </span>
+                        @empty
+                           <i>@lang('admin/settings.change_settings.no_products_selected')</i>
+                        @endforelse
+                    </p>
+                    <livewire:components.product-chooser name="product_beer" inline="true" includeInactive="true" includeDeleted="true" />
+                    @error('productBeerIds') <p class="help is-danger">{{ $message }}</p> @enderror
                 </div>
             </div>
 
             <div class="column">
                 <div class="field">
-                    <label class="label">@lang('admin/settings.change_settings.product_soda_id')</label>
-                    <livewire:components.product-chooser name="product_soda" :productId="$productSodaId" inline="true" />
-                    @error('productSodaId') <p class="help is-danger">{{ $message }}</p> @enderror
+                    <label class="label">@lang('admin/settings.change_settings.product_soda_ids')</label>
+                    <p class="mb-2">
+                        @forelse ($productSodaIds as $id)
+                            <span class="tag">
+                                {{ App\Models\Product::withTrashed()->find($id)?->name }}
+                                <button class="delete is-small" style="margin-left: 0.5em;" wire:click.prevent="removeProductId('soda', '{{ $id }}')"></button>
+                            </span>
+                        @empty
+                           <i>@lang('admin/settings.change_settings.no_products_selected')</i>
+                        @endforelse
+                    </p>
+                    <livewire:components.product-chooser name="product_soda" inline="true" includeInactive="true" includeDeleted="true"  />
+                    @error('productSodaIds') <p class="help is-danger">{{ $message }}</p> @enderror
                 </div>
             </div>
-        </div>
-
-        <div class="columns">
-            <div class="column">
-                <div class="field">
-                    <label class="label">@lang('admin/settings.change_settings.product_candybar_id')</label>
-                    <livewire:components.product-chooser name="product_candybar" :productId="$productCandybarId" inline="true" />
-                    @error('productCandybarId') <p class="help is-danger">{{ $message }}</p> @enderror
-                </div>
-            </div>
 
             <div class="column">
                 <div class="field">
-                    <label class="label">@lang('admin/settings.change_settings.product_chips_id')</label>
-                    <livewire:components.product-chooser name="product_chips" :productId="$productChipsId" inline="true" />
-                    @error('productChipsId') <p class="help is-danger">{{ $message }}</p> @enderror
+                    <label class="label">@lang('admin/settings.change_settings.product_snack_ids')</label>
+                    <p class="mb-2">
+                        @forelse ($productSnackIds as $id)
+                            <span class="tag">
+                                {{ App\Models\Product::withTrashed()->find($id)?->name }}
+                                <button class="delete is-small" style="margin-left: 0.5em;" wire:click.prevent="removeProductId('snack', '{{ $id }}')"></button>
+                            </span>
+                        @empty
+                           <i>@lang('admin/settings.change_settings.no_products_selected')</i>
+                        @endforelse
+                    </p>
+                    <livewire:components.product-chooser name="product_snack" inline="true" includeInactive="true" includeDeleted="true"  />
+                    @error('productSnackIds') <p class="help is-danger">{{ $message }}</p> @enderror
                 </div>
             </div>
         </div>

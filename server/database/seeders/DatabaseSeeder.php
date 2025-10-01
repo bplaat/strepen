@@ -97,23 +97,18 @@ class DatabaseSeeder extends Seeder
         $setting->save();
 
         $setting = new Setting();
-        $setting->key = 'product_beer_id';
-        $setting->value = '1';
+        $setting->key = 'product_beer_ids';
+        $setting->value = '';
         $setting->save();
 
         $setting = new Setting();
-        $setting->key = 'product_soda_id';
-        $setting->value = '2';
+        $setting->key = 'product_soda_ids';
+        $setting->value = '';
         $setting->save();
 
         $setting = new Setting();
-        $setting->key = 'product_candybar_id';
-        $setting->value = '3';
-        $setting->save();
-
-        $setting = new Setting();
-        $setting->key = 'product_chips_id';
-        $setting->value = '4';
+        $setting->key = 'product_snack_ids';
+        $setting->value = '';
         $setting->save();
 
         $setting = new Setting();
