@@ -18,7 +18,7 @@ return [
     'select' => 'Selecteren',
     'live_stats' => 'Live statestieken',
     'live_best_spenders' => 'Live grootste spenders',
-    'live_best_spenders_none' => 'Er is vandaag nog niets gekocht',
+    'live_best_spenders_none' => 'Er is in de afgelopen 24 uur niets gekocht',
     'product' => 'Product',
     'name' => 'Naam',
     'amount' => 'Hoeveelheid',
