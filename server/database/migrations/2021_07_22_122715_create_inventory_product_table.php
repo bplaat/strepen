@@ -17,6 +17,7 @@ class CreateInventoryProductTable extends Migration
             $table->id();
             $table->unsignedBigInteger('inventory_id');
             $table->unsignedBigInteger('product_id');
+            $table->decimal('price', 12, 2)->nullable(); // Nullable because of backwards compatibility
             $table->unsignedInteger('amount');
             $table->timestamps();
 

@@ -103,6 +103,7 @@ class Create extends Component
         // Attach products to transaction and decrement product amount
         foreach ($selectedProducts as $product) {
             $this->transaction->products()->attach($product, [
+                'price' => $product->price,
                 'amount' => $product->selectedAmount
             ]);
             $product->amount -= $product->selectedAmount;
