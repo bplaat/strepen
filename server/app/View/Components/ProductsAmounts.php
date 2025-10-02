@@ -2,8 +2,6 @@
 
 namespace App\View\Components;
 
-use App\Models\Transaction;
-use Illuminate\Support\Facades\DB;
 use Illuminate\View\Component;
 
 class ProductsAmounts extends Component

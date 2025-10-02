@@ -54,11 +54,11 @@ class ChangeSettings extends Component
 
     public function inputValue($name, $value)
     {
-        if ($name == 'product_beer'&& $value != null) {
+        if ($name == 'product_beer' && $value != null) {
             $this->productBeerIds[] = $value;
             $this->emit('inputClear', 'product_beer');
         }
-        if ($name == 'product_soda'&& $value != null) {
+        if ($name == 'product_soda' && $value != null) {
             $this->productSodaIds[] = $value;
             $this->emit('inputClear', 'product_soda');
         }

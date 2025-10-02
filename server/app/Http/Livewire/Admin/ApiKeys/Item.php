@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\Admin\ApiKeys;
 
-use App\Models\ApiKey;
 use Livewire\Component;
 
 class Item extends Component

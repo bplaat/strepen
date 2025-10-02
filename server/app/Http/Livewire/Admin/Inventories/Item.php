@@ -2,9 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Inventories;
 
-use App\Models\User;
 use App\Models\Product;
-use App\Models\InventoryProduct;
 use Livewire\Component;
 
 class Item extends Component

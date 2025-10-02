@@ -5,7 +5,6 @@ namespace App\Http\Livewire\Admin\Products;
 use App\Http\Livewire\PaginationComponent;
 use App\Models\Product;
 use App\Models\Setting;
-use Illuminate\Support\Facades\Storage;
 use Livewire\WithFileUploads;
 
 class Crud extends PaginationComponent

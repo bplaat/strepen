@@ -3,7 +3,6 @@
 namespace App\Http\Livewire\Admin\Posts;
 
 use App\Models\Post;
-use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;

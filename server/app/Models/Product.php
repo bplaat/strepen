@@ -61,13 +61,13 @@ class Product extends Model
     // A product belongs to many inventories
     public function inventories()
     {
-        return $this->belongsToMany(Inventory::class)->withPivot('price','amount')->withTimestamps();
+        return $this->belongsToMany(Inventory::class)->withPivot('price', 'amount')->withTimestamps();
     }
 
     // A product belongs to many transactions
     public function transactions()
     {
-        return $this->belongsToMany(Transaction::class, 'transaction_product')->withPivot('price','amount')->withTimestamps();
+        return $this->belongsToMany(Transaction::class, 'transaction_product')->withPivot('price', 'amount')->withTimestamps();
     }
 
     // Search by a query

@@ -6,7 +6,6 @@ use App\Http\LiveWire\Transactions\Create;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\Transaction;
-use Illuminate\Support\Str;
 use Tests\TestCase;
 use Livewire;
 

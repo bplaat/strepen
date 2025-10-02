@@ -4,7 +4,6 @@ namespace App\Http\Livewire\Admin\Transactions;
 
 use App\Models\Product;
 use App\Models\Transaction;
-use App\Models\TransactionProduct;
 use App\Models\User;
 use Livewire\Component;
 

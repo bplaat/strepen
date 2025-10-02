@@ -124,7 +124,8 @@ class FixPivotPrice extends Command
         return $oldProductPrices;
     }
 
-    private function fixInventories($oldProductPrices) {
+    private function fixInventories($oldProductPrices)
+    {
         // Fix all inventory product price with multiple products
         echo "\nFixing inventory product prices with multiple products...\n";
         Inventory::with('products')->chunk(100, function ($inventories) use ($oldProductPrices) {

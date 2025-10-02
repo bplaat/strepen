@@ -3,7 +3,6 @@
 namespace App\Http\Livewire;
 
 use App\Models\Inventory;
-use App\Models\Setting;
 use App\Models\Transaction;
 use Livewire\Component;
 

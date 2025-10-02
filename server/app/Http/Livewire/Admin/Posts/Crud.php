@@ -8,7 +8,6 @@ use App\Models\Setting;
 use App\Models\User;
 use App\Notifications\NewPost;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Livewire\WithFileUploads;
 
 class Crud extends PaginationComponent
