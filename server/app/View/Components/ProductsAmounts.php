@@ -17,7 +17,8 @@ class ProductsAmounts extends Component
         $this->totalPrice = $totalPrice;
 
         // If product pivot prices are null and current prices are correct use them
-        if ($this->products->first()->pivot->price == null) {
+        $firstProduct = $this->products->first();
+        if ($firstProduct != null && $firstProduct->pivot->price == null) {
             $realTotalPrice = $this->products->reduce(
                 fn ($price, $product) => $price + $product->price * $product->pivot->amount
             );

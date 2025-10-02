@@ -22,6 +22,7 @@ class Crud extends PaginationComponent
     public $rules = [
         'inventory.name' => 'required|min:2|max:48',
         'selectedProducts.*.product_id' => 'required|integer|exists:products,id',
+        'selectedProducts.*.price' => 'required|numeric',
         'selectedProducts.*.amount' => 'required|integer|min:1'
     ];
 
@@ -87,6 +88,7 @@ class Crud extends PaginationComponent
 
         $selectedProducts = collect($this->selectedProducts)->map(function ($selectedProduct) {
             $product = Product::find($selectedProduct['product_id']);
+            $product->selectedPrice = $selectedProduct['price'];
             $product->selectedAmount = $selectedProduct['amount'];
             return $product;
         });
@@ -99,17 +101,18 @@ class Crud extends PaginationComponent
         $this->inventory->user_id = Auth::id();
         $this->inventory->price = 0;
         foreach ($selectedProducts as $product) {
-            $this->inventory->price += $product->price * $product->selectedAmount;
+            $this->inventory->price += $product->selectedPrice * $product->selectedAmount;
         }
         $this->inventory->save();
 
         // Create product inventory pivot table items
         foreach ($selectedProducts as $product) {
             $this->inventory->products()->attach($product, [
-                'price' => $product->price,
+                'price' => $product->selectedPrice,
                 'amount' => $product->selectedAmount
             ]);
             $product->amount += $product->selectedAmount;
+            unset($product->selectedPrice);
             unset($product->selectedAmount);
             $product->save();
         }

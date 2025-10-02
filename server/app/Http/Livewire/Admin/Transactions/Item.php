@@ -24,6 +24,7 @@ class Item extends Component
         'createdAtDate' => 'required|date_format:Y-m-d',
         'createdAtTime' => 'required|date_format:H:i:s',
         'selectedProducts.*.product_id' => 'required|integer|exists:products,id',
+        'selectedProducts.*.price' => 'required|numeric',
         'selectedProducts.*.amount' => 'required|integer|min:1',
         'transaction.price' => 'required|numeric'
     ];
@@ -40,6 +41,7 @@ class Item extends Component
         foreach ($this->transaction->products as $product) {
             $selectedProduct = [];
             $selectedProduct['product_id'] = $product->id;
+            $selectedProduct['price'] = $product->pivot->price;
             $selectedProduct['amount'] = $product->pivot->amount;
             $this->selectedProducts[] = $selectedProduct;
         }
@@ -75,6 +77,7 @@ class Item extends Component
 
             $selectedProducts = collect($this->selectedProducts)->map(function ($selectedProduct) {
                 $product = Product::find($selectedProduct['product_id']);
+                $product->selectedPrice = $selectedProduct['price'];
                 $product->selectedAmount = $selectedProduct['amount'];
                 return $product;
             });
@@ -86,14 +89,14 @@ class Item extends Component
             // Edit transaction
             $this->transaction->price = 0;
             foreach ($selectedProducts as $product) {
-                $this->transaction->price += $product->price * $product->selectedAmount;
+                $this->transaction->price += $product->selectedPrice * $product->selectedAmount;
             }
 
             // Detach and attach products to transaction
             $this->transaction->products()->detach();
             foreach ($selectedProducts as $product) {
                 $this->transaction->products()->attach($product, [
-                    'price' => $product->price,
+                    'price' => $product->selectedPrice,
                     'amount' => $product->selectedAmount
                 ]);
             }

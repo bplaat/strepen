@@ -22,6 +22,7 @@ class Item extends Component
         'createdAtDate' => 'required|date_format:Y-m-d',
         'createdAtTime' => 'required|date_format:H:i:s',
         'selectedProducts.*.product_id' => 'required|integer|exists:products,id',
+        'selectedProducts.*.price' => 'required|numeric',
         'selectedProducts.*.amount' => 'required|integer|min:1'
     ];
 
@@ -35,6 +36,7 @@ class Item extends Component
         foreach ($this->inventory->products as $product) {
             $selectedProduct = [];
             $selectedProduct['product_id'] = $product->id;
+            $selectedProduct['price'] = $product->pivot->price;
             $selectedProduct['amount'] = $product->pivot->amount;
             $this->selectedProducts[] = $selectedProduct;
         }
@@ -60,6 +62,7 @@ class Item extends Component
 
         $selectedProducts = collect($this->selectedProducts)->map(function ($selectedProduct) {
             $product = Product::find($selectedProduct['product_id']);
+            $product->selectedPrice = $selectedProduct['price'];
             $product->selectedAmount = $selectedProduct['amount'];
             return $product;
         });
@@ -71,7 +74,7 @@ class Item extends Component
         // Edit inventory
         $this->inventory->price = 0;
         foreach ($selectedProducts as $product) {
-            $this->inventory->price += $product->price * $product->selectedAmount;
+            $this->inventory->price += $product->selectedPrice * $product->selectedAmount;
         }
         $this->inventory->created_at = $this->createdAtDate . ' ' . $this->createdAtTime;
         $this->inventory->save();
@@ -80,7 +83,7 @@ class Item extends Component
         $this->inventory->products()->detach();
         foreach ($selectedProducts as $product) {
             $this->inventory->products()->attach($product, [
-                'price' => $product->price,
+                'price' => $product->selectedPrice,
                 'amount' => $product->selectedAmount
             ]);
         }

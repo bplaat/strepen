@@ -46,6 +46,7 @@ class ProductsChooser extends InputComponent
         foreach ($this->initialProducts as $product) {
             $selectedProduct = [];
             $selectedProduct['product_id'] = $product->id;
+            $selectedProduct['price'] = $product->pivot->price;
             $selectedProduct['amount'] = $product->pivot->amount;
             $this->selectedProducts->push($selectedProduct);
         }
@@ -151,6 +152,7 @@ class ProductsChooser extends InputComponent
     {
         $selectedProduct = [];
         $selectedProduct['product_id'] = $productId;
+        $selectedProduct['price'] = Product::find($productId)->price;
         $selectedProduct['amount'] = 0;
         $this->selectedProducts->push($selectedProduct);
         $this->sortSelectedProducts();
@@ -194,6 +196,7 @@ class ProductsChooser extends InputComponent
         } else {
             $selectedProduct = [];
             $selectedProduct['product_id'] = $productId;
+            $selectedProduct['price'] = Product::find($productId)->price;
             $selectedProduct['amount'] = 1;
             $this->selectedProducts->push($selectedProduct);
         }

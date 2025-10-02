@@ -72,13 +72,28 @@
                     </div>
                     <div class="media-content">
                         <label class="label" for="product-amount-{{ $index }}" style="font-weight: 600;">
-                            {{ $product->name }} (<x-money-format :money="$product->price" :isBold="false" />) <span class="is-hidden-mobile">@lang('components.products_chooser.amount')</span>
+                            {{ $product->name }}
                             <button type="button" class="delete is-pulled-right" style="transform: translateY(3px);" wire:click="deleteProduct({{ $product->id }})"></button>
                         </label>
-                        <div class="control">
-                            <input @class(['input', 'is-danger' => !$valid]) type="number"
-                                min="1" @if (!$noMax) max="{{ App\Models\Setting::get('max_stripe_amount') }}" @endif id="product-amount-{{ $index }}"
-                                wire:model="selectedProducts.{{ $index }}.amount" required>
+
+                        <div class="columns">
+                            <div class="column">
+                                <div class="control has-icons-left">
+                                    <input @class(['input', 'is-danger' => !$valid]) type="number" step="0.01" placeholder="@lang('components.products_chooser.price')"
+                                        id="product-price-{{ $index }}" wire:model="selectedProducts.{{ $index }}.price" required>
+                                    <span class="icon is-small is-left">{{ App\Models\Setting::get('currency_symbol') }}</span>
+                                </div>
+                            </div>
+                            <div class="column" style="flex: 0 0 auto; align-self: center;">
+                                &times;
+                            </div>
+                            <div class="column">
+                                <div class="control">
+                                    <input @class(['input', 'is-danger' => !$valid]) type="number" placeholder="@lang('components.products_chooser.amount')"
+                                        min="1" @if (!$noMax) max="{{ App\Models\Setting::get('max_stripe_amount') }}" @endif id="product-amount-{{ $index }}"
+                                        wire:model="selectedProducts.{{ $index }}.amount" required>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

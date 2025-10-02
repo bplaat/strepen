@@ -40,7 +40,8 @@ return [
     'products_chooser.add_product' => 'Add product',
     'products_chooser.empty' => 'No products found!',
     'products_chooser.minor' => 'There are less products available because you are a minor',
-    'products_chooser.amount' => 'amount',
+    'products_chooser.price' => 'Price',
+    'products_chooser.amount' => 'Amount',
     'products_chooser.empty_error' => 'You must select at least one product',
 
     // Transaction Type Chooser blade component
