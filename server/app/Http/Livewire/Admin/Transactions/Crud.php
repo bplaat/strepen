@@ -30,6 +30,7 @@ class Crud extends PaginationComponent
         'transaction.user_id' => 'required|integer|exists:users,id',
         'transaction.name' => 'required|min:2|max:48',
         'selectedProducts.*.product_id' => 'required|integer|exists:products,id',
+        'selectedProducts.*.price' => 'required|numeric',
         'selectedProducts.*.amount' => 'required|integer|min:1',
         'transaction.price' => 'required|numeric',
         'userAmounts.*' => 'nullable|numeric'
@@ -122,6 +123,7 @@ class Crud extends PaginationComponent
 
         $selectedProducts = collect($this->selectedProducts)->map(function ($selectedProduct) {
             $product = Product::find($selectedProduct['product_id']);
+            $product->selectedPrice = $selectedProduct['price'];
             $product->selectedAmount = $selectedProduct['amount'];
             return $product;
         });
@@ -133,7 +135,7 @@ class Crud extends PaginationComponent
         // Create transaction
         $this->transaction->price = 0;
         foreach ($selectedProducts as $product) {
-            $this->transaction->price += $product->price * $product->selectedAmount;
+            $this->transaction->price += $product->selectedPrice * $product->selectedAmount;
         }
         $this->transaction->type = Transaction::TYPE_TRANSACTION;
         $this->transaction->save();
@@ -141,10 +143,11 @@ class Crud extends PaginationComponent
         // Attach products to transaction and decrement product amount
         foreach ($selectedProducts as $product) {
             $this->transaction->products()->attach($product, [
-                'price' => $product->price,
+                'price' => $product->selectedPrice,
                 'amount' => $product->selectedAmount
             ]);
             $product->amount -= $product->selectedAmount;
+            unset($product->selectedPrice);
             unset($product->selectedAmount);
             $product->save();
         }

@@ -10,6 +10,9 @@
                 <li>Add live stats to leaderboards page</li>
                 <li>Add users amount input to leaderboards page</li>
                 <li>Add admin settings multiple beer, soda and snack products chooser</li>
+                <li>Fix bug where transactions products current price was not correctly saved</li>
+                <li>Add support for admin to set custom product prices in transaction and inventory</li>
+                <li>Fixed other small bugs</li>
             </ul>
         </div>
 
