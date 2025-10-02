@@ -10,7 +10,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/images/icon-32x32.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
     <link rel="mask-icon" href="/images/safari-pinned-tab.svg">
-    <meta name="theme-color" content="#242424">
+    <meta name="theme-color" content="#1f2229">
     <link rel="manifest" href="/manifest.json">
     <link rel="stylesheet" href="/css/bulma.min.css?v={{ config('app.version') }}">
     <link rel="stylesheet" href="/css/style.css?v={{ config('app.version') }}">
