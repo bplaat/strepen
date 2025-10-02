@@ -55,13 +55,13 @@
                             ->join('transactions', 'transactions.id', 'transaction_id')
                             ->whereNull('deleted_at')
                             ->whereIn('product_id', $productIds)
-                            ->where('transactions.created_at', '>=', now()->subDay())
+                            ->where('transactions.created_at', '>=', now()->subHours(6))
                             ->sum('amount');
                         $firstPurchaseToday = DB::table('transaction_product')
                             ->join('transactions', 'transactions.id', 'transaction_id')
                             ->whereNull('deleted_at')
                             ->whereIn('product_id', $productIds)
-                            ->where('transactions.created_at', '>=', now()->subDay())
+                            ->where('transactions.created_at', '>=', now()->subHours(6))
                             ->orderBy('transactions.created_at', 'asc')
                             ->value('transactions.created_at');
                         $hoursSinceFirstPurchase = $firstPurchaseToday
@@ -106,13 +106,13 @@
                     $totalSpend = DB::table('transactions')
                         ->whereNull('deleted_at')
                         ->where('type', App\Models\Transaction::TYPE_TRANSACTION)
-                        ->where('transactions.created_at', '>=', now()->subDay())
+                        ->where('transactions.created_at', '>=', now()->subHours(6))
                         ->sum('price')
                         + DB::table('transactions')
                         ->whereNull('deleted_at')
                         ->where('type', App\Models\Transaction::TYPE_PAYMENT)
                         ->where('price', '>', 0)
-                        ->where('transactions.created_at', '>=', now()->subDay())
+                        ->where('transactions.created_at', '>=', now()->subHours(6))
                         ->sum('price');
                 @endphp
                 <div style="font-size: 1.25rem;">
@@ -122,7 +122,7 @@
                         <x-amount-format :amount="DB::table('transactions')
                             ->whereNull('deleted_at')
                             ->where('type', App\Models\Transaction::TYPE_TRANSACTION)
-                            ->where('transactions.created_at', '>=', now()->subDay())
+                            ->where('transactions.created_at', '>=', now()->subHours(6))
                             ->distinct('user_id')
                             ->count('user_id')
                             +
@@ -130,7 +130,7 @@
                             ->whereNull('deleted_at')
                             ->where('type', App\Models\Transaction::TYPE_PAYMENT)
                             ->where('price', '>', 0)
-                            ->where('transactions.created_at', '>=', now()->subDay())
+                            ->where('transactions.created_at', '>=', now()->subHours(6))
                             ->distinct('user_id')
                             ->count('user_id')" />
                     </p>
@@ -149,14 +149,14 @@
                                 ->whereNull('deleted_at')
                                 ->where('user_id', $user->id)
                                 ->where('type', App\Models\Transaction::TYPE_TRANSACTION)
-                                ->where('transactions.created_at', '>=', now()->subDay())
+                                ->where('transactions.created_at', '>=', now()->subHours(6))
                                 ->sum('price')
                                 + DB::table('transactions')
                                 ->whereNull('deleted_at')
                                 ->where('user_id', $user->id)
                                 ->where('type', App\Models\Transaction::TYPE_PAYMENT)
                                 ->where('price', '>', 0)
-                                ->where('transactions.created_at', '>=', now()->subDay())
+                                ->where('transactions.created_at', '>=', now()->subHours(6))
                                 ->sum('price');
                             return $user;
                         })
@@ -192,21 +192,21 @@
                                         ->whereNull('deleted_at')
                                         ->where('user_id', $user->id)
                                         ->whereIn('product_id', $beerProductIds)
-                                        ->where('transactions.created_at', '>=', now()->subDay())
+                                        ->where('transactions.created_at', '>=', now()->subHours(6))
                                         ->sum('amount')" /></td>
                                     <td><x-amount-format :amount="DB::table('transaction_product')
                                         ->join('transactions', 'transactions.id', 'transaction_id')
                                         ->whereNull('deleted_at')
                                         ->where('user_id', $user->id)
                                         ->whereIn('product_id', $sodaProductIds)
-                                        ->where('transactions.created_at', '>=', now()->subDay())
+                                        ->where('transactions.created_at', '>=', now()->subHours(6))
                                         ->sum('amount')" /></td>
                                     <td><x-amount-format :amount="DB::table('transaction_product')
                                         ->join('transactions', 'transactions.id', 'transaction_id')
                                         ->whereNull('deleted_at')
                                         ->where('user_id', $user->id)
                                         ->whereIn('product_id', $snackProductIds)
-                                        ->where('transactions.created_at', '>=', now()->subDay())
+                                        ->where('transactions.created_at', '>=', now()->subHours(6))
                                         ->sum('amount')" /></td>
                                     <td><x-money-format :money="$user->spending" /></td>
                                 </tr>
