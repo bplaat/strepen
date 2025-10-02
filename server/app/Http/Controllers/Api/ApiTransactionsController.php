@@ -69,7 +69,10 @@ class ApiTransactionsController extends ApiController
         foreach ($productsData as $productData) {
             $product = Product::find($productData['product_id']);
             $transaction->price += $product->price * $productData['amount'];
-            $transaction->products()->attach($product->id, [ 'amount' => $productData['amount'] ]);
+            $transaction->products()->attach($product->id, [
+                'price' => $product->price,
+                'amount' => $productData['amount']
+            ]);
 
             $product->amount -= $productData['amount'];
             $product->save();

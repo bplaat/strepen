@@ -257,10 +257,14 @@ class ImportData extends Command
                                     ->where('product_id', $product->id)->first();
                                 if ($inventoryProduct != null) {
                                     $inventory->products()->updateExistingPivot($product->id, [
+                                        'price' => $product->price,
                                         'amount' => $inventoryProduct->amount + $otherInventoryJson->amount
                                     ]);
                                 } else {
-                                    $inventory->products()->attach($product->id, [ 'amount' => $otherInventoryJson->amount ]);
+                                    $inventory->products()->attach($product->id, [
+                                        'price' => $product->price,
+                                        'amount' => $otherInventoryJson->amount
+                                    ]);
                                 }
 
                                 $doneInventories[] = $otherInventoryJson->old_inventory_id;
@@ -301,10 +305,14 @@ class ImportData extends Command
                                     ->where('product_id', $product->id)->first();
                                 if ($transactionProduct != null) {
                                     $transaction->products()->updateExistingPivot($product->id, [
+                                        'price' => $product->price,
                                         'amount' => $transactionProduct->amount + $otherInventoryJson->amount
                                     ]);
                                 } else {
-                                    $transaction->products()->attach($product->id, [ 'amount' => $otherInventoryJson->amount ]);
+                                    $transaction->products()->attach($product->id, [
+                                        'price' => $product->price,
+                                        'amount' => $otherInventoryJson->amount
+                                    ]);
                                 }
 
                                 $doneInventories[] = $otherInventoryJson->old_inventory_id;

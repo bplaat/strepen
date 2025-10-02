@@ -80,6 +80,7 @@ class Item extends Component
         $this->inventory->products()->detach();
         foreach ($selectedProducts as $product) {
             $this->inventory->products()->attach($product, [
+                'price' => $product->price,
                 'amount' => $product->selectedAmount
             ]);
         }

@@ -106,6 +106,7 @@ class Crud extends PaginationComponent
         // Create product inventory pivot table items
         foreach ($selectedProducts as $product) {
             $this->inventory->products()->attach($product, [
+                'price' => $product->price,
                 'amount' => $product->selectedAmount
             ]);
             $product->amount += $product->selectedAmount;

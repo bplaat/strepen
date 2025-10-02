@@ -27,7 +27,7 @@ class Inventory extends Model
     // A inventory belongs to many products
     public function products()
     {
-        return $this->belongsToMany(Product::class)->withPivot('amount')->withTimestamps()->withTrashed();
+        return $this->belongsToMany(Product::class)->withPivot('price', 'amount')->withTimestamps()->withTrashed();
     }
 
     // Search by a query
