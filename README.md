@@ -2,7 +2,7 @@
 
 # Strepen
 
-A new modern strepen system written in [Laravel](https://laravel.com/) with [Livewire](https://laravel-livewire.com/) for [Scouting Die Kantanky's](https://www.diekantankys.nl/) with a [Flutter](https://flutter.dev/) "native" mobile application and a native Windows Webview2 based application
+A modern strepen system written in [Laravel](https://laravel.com/) with [Livewire](https://laravel-livewire.com/) for [Scouting Die Kantanky's](https://www.diekantankys.nl/) with a [Flutter](https://flutter.dev/) "native" mobile application and a native Windows Webview2 based application
 
 ## Install the Android App
 
